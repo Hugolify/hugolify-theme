@@ -1,0 +1,44 @@
+{{ define "main" }}
+
+  {{ partial "commons/hero.html" . }}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+
+        <h1>{{ partial "PrepareHTML" .Title }}</h1>
+        
+        <div class="row row-cols-1 row-cols-md-3 gy-4" id="posts">
+          {{ $paginator := .Paginate .Pages }}
+          {{ $pageSize := $paginator.PageSize }}
+          {{ range (.Pages).ByDate.Reverse }}
+            <div class="col">
+              <article>
+                <a href="{{ .Permalink }}" class="new">
+                  {{ with .Params.image}}
+                    {{ partial "commons/image.html" (dict
+                      "src" .
+                      "class" "img-fluid"
+                      "resize" "290x200"
+                    ) }}
+                  {{ end }}
+                  <div>
+                    {{ with .Title }}
+                      <h3 class="title">{{ partial "PrepareHTML" . }}</h3>
+                    {{ end }}
+                    {{ with .Date }}
+                      <time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time>
+                    {{ end }}
+                  </div>
+                </a>
+              </article>
+            </div>
+          {{ end }}
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+
+{{ end }}

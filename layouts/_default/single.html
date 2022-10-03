@@ -1,0 +1,86 @@
+{{ define "main" }}
+
+  {{ partial "commons/hero.html" . }}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-1">
+        
+        <section>
+          {{ with .Title }}
+            <h1>{{ partial "PrepareHTML" . }}</h1>
+          {{ end }}
+          {{ with .Date }}
+            <p><time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time></p>
+          {{ end }}
+          {{ with .Content }}
+            {{ partial "PrepareHTML" . }}
+          {{ end }}
+        </section>
+
+        {{ if eq .Type "posts" }}
+          <section class="related">
+            <p class="h4">{{ i18n "news.related" }}</p>
+            <div class="row row-cols-1 row-cols-md-2 gy-4">
+              {{ range ( where (where site.RegularPages "Section" "posts") "Params.date" "!=" .Date | first 2 ) }}
+                <div class="col">
+                  <article>
+                    <a href="{{ .Permalink }}" class="new">
+                      {{ with .Params.image}}
+                        {{ partial "commons/image.html" (dict
+                          "src" .
+                          "class" "img-fluid"
+                          "resize" "290x200"
+                        ) }}
+                      {{ end }}
+                      <div>
+                        {{ with .Title }}
+                          <h3 class="title">{{ partial "PrepareHTML" . }}</h3>
+                        {{ end }}
+                        {{ with .Date }}
+                          <time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time>
+                        {{ end }}
+                      </div>
+                    </a>
+                  </article>
+                </div>
+              {{ end }}
+            </div>
+          </section>
+        {{ end }}
+
+      </div>
+      <div class="col-md-2 offset-md-2">
+        <p class="share">{{ i18n "news.share" }}</p>
+        <ul>
+          <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener">
+              <img src="/assets/images/icons/facebook.png" alt="Facebook" height="25" width="25">
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener">
+              <img src="/assets/images/icons/twitter.png" alt="Twitter" height="25" width="25">
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener">
+              <img src="/assets/images/icons/linkedin.png" alt="Linkedin" height="25" width="25">
+            </a>
+          </li>
+          <li>
+            <a href="http://pinterest.com/pin/create/button/?url={{ .Permalink | absURL }}&description={{ .Title }}" target="_blank" rel="noopener">
+              <img src="/assets/images/icons/pinterest.png" alt="Pinterest" height="25" width="25">
+            </a>
+          </li>
+          <li>
+            <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener">
+              <img src="/assets/images/icons/whatsapp.png" alt="Whatsapp" height="25" width="25">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+{{ end }}

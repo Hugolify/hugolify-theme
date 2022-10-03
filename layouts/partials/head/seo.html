@@ -1,0 +1,48 @@
+{{- $seoTitle := htmlUnescape site.Title -}}
+{{- if .Title -}}
+  {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape .Title)) $seoTitle -}}
+{{- end -}}
+
+{{- $seoDescription := "" -}}
+{{- with .Params.description -}}
+  {{- $seoDescription = partial "PrepareHTML" . -}}
+{{- end -}}
+
+{{- $seoImage := "" -}}
+{{- if os.FileExists "static/assets/images/share.png" -}}
+  {{- $seoImage = printf "%sassets/images/share.png" site.BaseURL -}}
+{{- end -}}
+{{- if os.FileExists "static/assets/images/share.jpg" -}}
+  {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
+{{- end -}}
+{{ with .Params.image -}}
+  {{ $image := resources.Get . }}
+  {{ $seoImage = $image.Permalink -}}
+{{ end }}
+
+{{- $ogImage := $seoImage -}}
+{{- $twitterImage := $seoImage -}}
+
+{{- $seoUrl := .Permalink -}}
+
+<!-- HTML Meta Tags -->
+<title>{{ $seoTitle }}</title>
+<meta name="description" content="{{ $seoDescription }}">
+
+<!-- Facebook Meta Tags -->
+<meta property="og:title" content="{{ $seoTitle }}">
+<meta property="og:description" content="{{ $seoDescription }}">
+{{- with $ogImage }}
+<meta property="og:image" content="{{ . }}">
+{{ end -}}
+<meta property="og:url" content="{{ $seoUrl }}">
+<meta property="og:type" content="website">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:title" content="{{ $seoTitle }}">
+<meta name="twitter:description" content="{{ $seoDescription }}">
+{{- with $twitterImage }}
+<meta name="twitter:image" content="{{ . }}">
+{{ end -}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="" />

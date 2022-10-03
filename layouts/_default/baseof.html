@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ partial "head/css.html" }}
+    {{ partial "head/seo.html" . }}
+    {{ partial "head/favicons.html" . }}
+    {{ partial "head/rss.html" . }}
+  </head>
+  {{ $body_class := printf "%s-%s" .Kind .Type }}
+  <body class="{{ $body_class }}">
+    {{- partial "header/accessibility.html" -}}
+    {{- partial "header/header.html" -}}
+    <main id="main" role="main" tabindex="-1">
+      {{- block "main" . }}{{- end }}
+    </main>
+    {{- partial "footer/footer.html" . -}}
+    {{- partial "footer/cookie-banner.html" . -}}
+    {{- partial "footer/js.html" . -}}
+    {{- partial "footer/script.html" . -}}
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "hugo-theme",
+    "version": "1.0.0",
+    "repository": "git@github.com:sebousan/hugo-theme.git",
+    "author": {
+        "name" : "Sébastien Moulène",
+        "url" : "https://www.sebousan.com/"
+    },
+    "license": "MIT",
+    "dependencies": {
+      "@popperjs/core": "^2.11.2",
+      "bootstrap": "^5.2"
+    }
+  }

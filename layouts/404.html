@@ -1,0 +1,8 @@
+{{ define "main" }}
+    {{ partial "commons/hero.html" . }}
+    <div class="container">
+        <h1>{{ i18n "page404.title" }}</h1>
+        <p>{{ i18n "page404.text" }}</p>
+        <a href="/">{{ i18n "page404.cta" }}</a>
+    </div>
+{{ end }}

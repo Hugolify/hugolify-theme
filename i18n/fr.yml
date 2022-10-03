@@ -1,0 +1,12 @@
+header:
+  accessibility:
+    footer: Accéder au bas de la page
+    main: Contenu principal
+    menu: Navigation principale
+navigation:
+  main: Navigation principale
+  menu: Menu
+page404:
+  title: Page introuvable
+  text: La page que vous recherchez n'existe pas ou a été déplacée.
+  cta: Retour à la page d’accueil

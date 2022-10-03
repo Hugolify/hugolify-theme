@@ -1,0 +1,15 @@
+body
+    -moz-osx-font-smoothing: grayscale
+    -webkit-font-smoothing: antialiased
+    font-variant-ligatures: common-ligatures
+    text-rendering: optimizelegibility
+
+*:focus-visible
+    outline-color: gray
+    outline-offset: 5px
+    outline-style: dashed
+    outline-width: 1px
+
+@media (prefers-reduced-motion: no-preference)
+    *:focus-visible
+        transition: outline-offset .3s ease

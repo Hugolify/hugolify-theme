@@ -1,0 +1,30 @@
+{{ $width := 1 }}
+{{ $height := 1 }}
+{{ $file := "" }}
+{{ if .static }}
+  {{ $file = delimit (slice "/static" .file) "" }}
+{{ else }}
+  {{ $file = .file }}
+{{ end }}
+
+{{ if strings.HasSuffix $file ".svg"}}
+  {{ $svgContent := $file | readFile }}
+  {{ $svgWidth := index (split (index (split $svgContent `width=`) 1) `"`) 1 }}
+  {{ $svgHeight := index (split (index (split $svgContent `height=`) 1) `"`) 1 }}
+  {{ if $svgWidth }}
+    {{ $width = $svgWidth }}
+    {{ $height = $svgHeight }}
+  {{ else }}
+    {{ $svgViewBoxSizes := split (index (split (index (split $svgContent `viewBox=`) 1) `"`) 1) ` ` }}
+    {{ $width = index $svgViewBoxSizes 2 }}
+    {{ $height = index $svgViewBoxSizes 3 }}
+  {{ end }}
+{{ else }}
+  {{ $imgData := imageConfig $file }}
+  {{ with $imgData }}
+    {{ $width = .Width }}
+    {{ $height = .Height }}
+  {{ end }}
+{{ end }}
+
+{{ return slice (math.Round $width) (math.Round $height) }}

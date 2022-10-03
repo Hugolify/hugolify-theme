@@ -1,0 +1,6 @@
+{{ return
+safeHTML (
+  chomp (
+    replace . "\n" "<br/>"
+  )
+) }}
