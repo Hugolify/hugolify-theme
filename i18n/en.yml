@@ -9,8 +9,8 @@ navigation:
   menu: Menu
 page404:
   title: Page not found
-  text: The page you are looking for doesn't exist or has been moved.
+  text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
 share:
-  on: Share on {{ .Website }}
+  share_on: Share on {{ .Website }}
   title: Share

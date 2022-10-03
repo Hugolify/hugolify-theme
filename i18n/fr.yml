@@ -12,5 +12,5 @@ page404:
   text: La page que vous recherchez n'existe pas ou a été déplacée.
   cta: Retour à la page d’accueil
 share:
-  on: Partager sur {{ .Website }}
+  share_on: Partager sur {{ .Website }}
   title: Partager
