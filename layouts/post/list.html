@@ -1,0 +1,19 @@
+{{ define "main" }}
+
+  <div class="container">
+
+    <code>LIST POST</code>
+
+    <h1>{{ partial "PrepareHTML" .Title }}</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 gy-4">
+      {{ range .Paginator.Pages }}
+        <div class="col">
+          {{ partial "post/item.html" . }}
+        </div>
+      {{ end }}
+    </div>
+
+  </div>
+
+{{ end }}

@@ -3,6 +3,7 @@ header:
     footer: Go to the bottom of the page
     main: Main content
     menu: Main navigation
+more: Read more
 navigation:
   main: Main navigation
   menu: Menu
@@ -10,3 +11,6 @@ page404:
   title: Page not found
   text: The page you are looking for doesn't exist or has been moved.
   cta: Back to home page
+share:
+  on: Share on {{ .Website }}
+  title: Share
