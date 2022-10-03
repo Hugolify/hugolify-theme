@@ -2,16 +2,10 @@
   <nav class="navbar navbar-expand-lg" role="navigation" aria-label="{{ i18n "navigation.main" }}">
     <div class="container">
       {{ partial "commons/logo.html" }}
-      {{ with site.Data.menu.primary }}
+      {{ if site.Data.menu.primary }}
         {{ partial "header/button.html" }}
         <div class="collapse navbar-collapse" id="navigation">
-          <ul class="navbar-nav ms-md-auto">
-            {{ range .item }}
-              <li class="nav-item">
-                <a href="{{ .url }}" class="nav-link">{{ .title }}</a>
-              </li>
-            {{ end }}
-          </ul>
+          {{ partial "nav/primary.html" . }}
         </div>
       {{ end }}
     </div>

@@ -1,0 +1,9 @@
+{{ with site.Data.menu.secondary }}
+  <ul class="nav-secondary">
+    {{ range .item }}
+      <li>
+        <a href="{{ .url }}">{{ .title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

@@ -1,12 +1,7 @@
 .nav-accessibility
-    @extend .nav
     position: absolute
     transform: translateY(-100%)
     z-index: $zindex-popover
-    li
-        @extend .nav-item
-    a
-        @extend .nav-link
     &:focus-within
         position: relative
         transform: translateY(0)

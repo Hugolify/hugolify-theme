@@ -1,0 +1,9 @@
+{{ with site.Data.menu.legal }}
+  <ul class="nav-legal">
+    {{ range .item }}
+      <li>
+        <a href="{{ .url }}">{{ .title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

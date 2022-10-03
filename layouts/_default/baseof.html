@@ -10,8 +10,8 @@
   </head>
   {{ $body_class := printf "%s-%s" .Kind .Type }}
   <body class="{{ $body_class }}">
-    {{- partial "header/accessibility.html" -}}
-    {{- partial "header/header.html" -}}
+    {{- partial "nav/accessibility.html" -}}
+    {{- partial "header/header.html" . -}}
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
     </main>

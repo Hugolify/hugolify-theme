@@ -1,0 +1,9 @@
+{{ with site.Data.menu.social }}
+  <ul class="nav-social">
+    {{ range .item }}
+      <li>
+        <a href="{{ .url }}">{{ .title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}
