@@ -3,6 +3,9 @@ header:
     footer: Go to the bottom of the page
     main: Main content
     menu: Main navigation
+link:
+  blank: extern link
+  blank_aria: « {{ .Title }} » - extern link
 more: Read more
 navigation:
   main: Main navigation
