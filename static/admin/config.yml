@@ -1,0 +1,128 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Localhost
+local_backend: true
+
+# Internationalisation
+locale: 'fr'
+# i18n:
+#  structure: multiple_folders
+#  locales: [fr, en]
+#  default_locale: fr
+
+# Media
+media_folder: assets/images/uploads
+public_folder: /images/uploads
+
+# Slug
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+
+
+# Fields
+basic_fields: &BASIC_FIELDS
+  - { label: "Brouillon", name: "draft", widget: "boolean", default: true }
+  - { label: 'Titre', name: 'title', widget: 'string', i18n: true }
+  - { label: 'Date de publication', name: 'date', widget: 'datetime', i18n: duplicate }
+  - { label: 'Image par défaut', name: 'image', widget: 'image', required: false, i18n: duplicate }
+  - { label: 'Extrait', name: 'description', widget: 'text', required: false, i18n: true }
+  - { label: 'Contenu', name: 'body', widget: 'markdown', required: false, i18n: true  }
+
+links_fields: &LINKS_FIELDS
+  name: item
+  label: Links
+  widget: list
+  i18n: true
+  required: false
+  fields:
+    - { label: Titre, name: title, widget: string, i18n: true }
+    - { label: Lien, name: link, widget: string, i18n: true }
+
+
+
+# Collections
+collections:
+
+  # Posts
+  - name: 'posts'
+    label: 'Posts'
+    label_singular: 'Post'
+    folder: 'content/posts'
+    create: true
+    #i18n: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    path: "{{year}}/{{month}}/{{slug}}"
+    fields:
+      *BASIC_FIELDS
+  
+
+  # Pages
+  - name: 'pages'
+    label: 'Pages'
+    label_singular: 'Page'
+    folder: 'content/pages'
+    create: true
+    #i18n: true
+    slug: '{{slug}}'
+    fields:
+      *BASIC_FIELDS
+
+
+  # Menus
+  - name: menu
+    label: Menus
+    editor:
+      preview: false
+    # i18n: 
+    #   structure: single_file
+    #   locales: [fr, en]
+    files:
+
+      - name: primary
+        label: Principal
+        file: 'data/menu/primary.yml'
+        i18n: true
+        fields:
+          - *LINKS_FIELDS
+      - name: "secondary"
+        label: "Secondaire"
+        file: 'data/menu/secondary.yml'
+        i18n: true
+        fields:
+          - *LINKS_FIELDS
+      - name: "legal"
+        label: "Légal"
+        file: 'data/menu/legal.yml'
+        i18n: true
+        fields:
+          - *LINKS_FIELDS
+      - name: "social"
+        label: "Réseaux sociaux"
+        file: 'data/menu/social.yml'
+        i18n: true
+        fields:
+          - *LINKS_FIELDS
+
+  # Config
+  - name: config
+    label: Config
+    editor:
+      preview: false
+    # i18n: 
+    #   structure: single_file
+    #   locales: [fr, en]
+    files:
+
+      - name: seo
+        label: SEO
+        file: 'data/seo.yml'
+        i18n: true
+        fields:
+          - { label: Nom du site, name: title, widget: string, i18n: true }
+          - { label: Description, name: description, widget: text, i18n: true }
+          - { label: 'Image', name: 'image', widget: 'image', required: false, i18n: duplicate }
