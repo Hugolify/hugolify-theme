@@ -12,47 +12,50 @@
 {{ with $file }}
 
   {{ $image := resources.Get . }}
+  {{ if $image }}
   
-  {{ $image_desktop := false }}
-  {{ $image_mobile := false }}
-  
-  {{ $image_mobile_retina := false }}
+    {{ $image_desktop := false }}
+    {{ $image_mobile := false }}
+    
+    {{ $image_mobile_retina := false }}
 
-  {{ $image_desktop_webp := false }}
-  {{ $image_mobile_webp := false }}
+    {{ $image_desktop_webp := false }}
+    {{ $image_mobile_webp := false }}
 
-  {{ $image_mobile_webp_retina := false }}
+    {{ $image_mobile_webp_retina := false }}
 
-  {{ if $desktop_size }}
-    {{ $image_desktop = $image.Fill (printf "%s smart" $desktop_size) }}
-    {{ $image_desktop_webp = $image.Fill (printf "%s smart webp" $desktop_size) }}
-  {{ else }}
-    {{ $image_desktop = $image }}
-    {{ $image_desktop_webp = $image.Resize (printf "%dx%d webp" $image.Width $image.Height) }}
-  {{ end }}
+    {{ if $desktop_size }}
+      {{ $image_desktop = $image.Fill (printf "%s smart" $desktop_size) }}
+      {{ $image_desktop_webp = $image.Fill (printf "%s smart webp" $desktop_size) }}
+    {{ else }}
+      {{ $image_desktop = $image }}
+      {{ $image_desktop_webp = $image.Resize (printf "%dx%d webp" $image.Width $image.Height) }}
+    {{ end }}
 
-  {{ if $mobile_size }}
-    {{ $image_mobile = $image.Fill (printf "%s smart" $mobile_size) }}
-    {{ $width_x2 := mul 2 $image_mobile.Width }}
-    {{ $height_x2 := mul 2 $image_mobile.Height }}
-    {{ $image_mobile_retina = $image.Fill (print $width_x2 "x" $height_x2) }}
-    {{ $image_mobile_webp = $image.Fill (printf "%s smart webp" $mobile_size) }}
-    {{ $image_mobile_webp_retina = $image.Fill (print $width_x2 "x" $height_x2 " webp") }}
-  {{ end }}
+    {{ if $mobile_size }}
+      {{ $image_mobile = $image.Fill (printf "%s smart" $mobile_size) }}
+      {{ $width_x2 := mul 2 $image_mobile.Width }}
+      {{ $height_x2 := mul 2 $image_mobile.Height }}
+      {{ $image_mobile_retina = $image.Fill (print $width_x2 "x" $height_x2) }}
+      {{ $image_mobile_webp = $image.Fill (printf "%s smart webp" $mobile_size) }}
+      {{ $image_mobile_webp_retina = $image.Fill (print $width_x2 "x" $height_x2 " webp") }}
+    {{ end }}
 
-  {{ with $image_desktop }}
-    <picture>
-      {{ with $image_desktop_webp }}
-        <source srcset="{{ .RelPermalink }}" type="image/webp" media="(min-width: 577px)">
-      {{ end }}
-      {{ with $image_mobile }}
-        {{ with $image_mobile_webp }}
-          <source srcset="{{ .RelPermalink }}, {{ $image_mobile_webp_retina.RelPermalink }} x2" type="image/webp" media="(max-width: 576px)">
+    {{ with $image_desktop }}
+      <picture>
+        {{ with $image_desktop_webp }}
+          <source srcset="{{ .RelPermalink }}" type="image/webp" media="(min-width: 577px)">
         {{ end }}
-        <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} x2" type="image/jpg" media="(max-width: 576px)">
-      {{ end }}
-      <img src="{{ .RelPermalink }}" alt="" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}>
-    </picture>
+        {{ with $image_mobile }}
+          {{ with $image_mobile_webp }}
+            <source srcset="{{ .RelPermalink }}, {{ $image_mobile_webp_retina.RelPermalink }} x2" type="image/webp" media="(max-width: 576px)">
+          {{ end }}
+          <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} x2" type="image/jpg" media="(max-width: 576px)">
+        {{ end }}
+        <img src="{{ .RelPermalink }}" alt="" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}>
+      </picture>
+    {{ end }}
+
   {{ end }}
 
 {{ end }}

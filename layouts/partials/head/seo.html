@@ -17,7 +17,9 @@
 {{- end -}}
 {{ with .Params.image -}}
   {{ $image := resources.Get . }}
-  {{ $seoImage = $image.Permalink -}}
+  {{ if $image}}
+    {{ $seoImage = $image.Permalink -}}
+  {{ end }}
 {{ end }}
 
 {{- $ogImage := $seoImage -}}

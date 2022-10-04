@@ -6,33 +6,15 @@
 
     <h1>{{ partial "PrepareHTML" .Title }}</h1>
 
+    {{ with .Pages }}
     <div class="row row-cols-1 row-cols-md-3 gy-4">
-      {{ range .Paginator.Pages }}
+      {{ range . }}
         <div class="col">
-          <article class="card">
-            {{ with .Params.image}}
-              {{ partial "commons/image.html" (dict
-                "src" .
-                "class" "img-fluid"
-                "resize" "290x200"
-              ) }}
-            {{ end }}
-            <div class="card-body">
-              {{ with .Title }}
-                <p class="card-title">{{ partial "PrepareHTML" . }}</p>
-              {{ end }}
-              {{ with .Params.description }}
-                <p class="card-text">{{ partial "PrepareHTML" . }}</p>
-              {{ end }}
-              {{ with .Date }}
-                <time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time>
-              {{ end }}
-              <a href="{{ .Permalink }}">{{ i18n "more" }}</a>
-            </div>
-          </article>
+          {{ partial "pages/item.html" . }}
         </div>
       {{ end }}
     </div>
+    {{ end }}
 
   </div>
 
