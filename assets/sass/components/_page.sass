@@ -1,12 +1,11 @@
-.post
+.page
     @extend .card
     .media
         @extend .card-img-top
+        @extend .ratio
+        @extend .ratio-21x9
+        background-color: $light
         order: -1
-        &:empty
-            @extend .ratio
-            @extend .ratio-21x9
-            background-color: $light
     .content
         @extend .card-body
     p
@@ -16,8 +15,6 @@
     [itemprop="name"]
         @extend .card-title
         @extend .h5
-    [itemprop="datePublished"]
-        @extend .small
     a
         @extend .stretched-link
     .cta

@@ -3,19 +3,22 @@
     {{ with .Date }}
       <p><time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_long" }}</time></p>
     {{ end }}
-    <p itemprop="name">{{ partial "PrepareHTML" .Title }}</p>
+    {{ with .Title }}
+      <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
+    {{ end }}
     {{ with .Params.description }}
       <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
     {{ end }}
     <p class="cta">{{ i18n "more" }}</p>
   </a>
-  {{ with .Params.image}}
-    <div class="media" itemprop="image">
+  <div class="media">
+    {{ with .Params.image}}
       {{ partial "commons/image.html" (dict
         "src" .
         "class" "img-fluid"
-        "resize" "290x200"
+        "desktop" "414x200"
+        "itemprop" "image"
       ) }}
-    </div>
-  {{ end }}
+    {{ end }}
+  </div>
 </article>

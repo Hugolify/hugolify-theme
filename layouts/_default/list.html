@@ -7,9 +7,9 @@
     <h1>{{ partial "PrepareHTML" .Title }}</h1>
 
     {{ with .Pages }}
-    <div class="row row-cols-1 row-cols-md-3 gy-4">
+    <div class="pages">
       {{ range . }}
-        <div class="col">
+        <div>
           {{ partial "pages/item.html" . }}
         </div>
       {{ end }}

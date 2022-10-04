@@ -1,0 +1,31 @@
+{{ define "main" }}
+
+  <div class="container">
+
+    <code>SINGLE POST</code>
+
+    <div class="row">
+      <div class="col-md-9">
+        
+        <section itemscope itemtype="http://schema.org/BlogPosting">
+          {{ with .Title }}
+            <h1>{{ partial "PrepareHTML" . }}</h1>
+          {{ end }}
+          {{ with .Date }}
+            <p><time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time></p>
+          {{ end }}
+          {{ with .Content }}
+            <div itemprop="articleBody">
+                {{ partial "PrepareHTML" . }}
+            </div>
+          {{ end }}
+        </section>
+
+      </div>
+      <div class="col-md-2 offset-md-1">
+        {{ partial "commons/share" . }}
+      </div>
+    </div>
+  </div>
+
+{{ end }}
