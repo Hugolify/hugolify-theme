@@ -4,28 +4,52 @@
 
     <code>SINGLE POST</code>
 
-    <div class="row">
-      <div class="col-md-9">
-        
-        <section itemscope itemtype="http://schema.org/BlogPosting">
-          {{ with .Title }}
-            <h1>{{ partial "PrepareHTML" . }}</h1>
-          {{ end }}
-          {{ with .Date }}
-            <p><time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time></p>
-          {{ end }}
-          {{ with .Content }}
-            <div itemprop="articleBody">
-                {{ partial "PrepareHTML" . }}
-            </div>
-          {{ end }}
-        </section>
+    <section itemscope itemtype="http://schema.org/BlogPosting">
+      {{ with .Params.description }}
+        <meta itemprop="abstract" content="{{ partial "PrepareHTML" . }}">
+      {{ end }}
+      <div class="row">
+        <div class="col-md-8">
+            
+            {{ with .Title }}
+              <h1 itemprop="name">{{ partial "PrepareHTML" . }}</h1>
+            {{ end }}
+            <p>
+              {{ with .Date }}
+                <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time>
+              {{ end }}
+              {{ with .Params.categories }}
+                {{ $category := site.GetPage (printf "/categories/%s" .) }}
+                - <a href="{{ $category.Permalink }}" class="post-categories" itemprop="articleSection">{{ $category.Title }}</a>
+              {{ end }}
+            </p>
+            {{/*  {{ partial "commons/share" . }}  */}}
+            {{ with .Params.image}}
+              {{ partial "commons/image.html" (dict
+                "src" .
+                "picture_class" "featured-image"
+                "desktop" "856x400"
+                "itemprop" "image"
+              ) }}
+            {{ end }}
+            {{ with .Content }}
+              <div itemprop="articleBody">
+                  {{ partial "PrepareHTML" . }}
+              </div>
+            {{ end }}
 
+        </div>
+        <div class="col-md-3 offset-md-1">
+
+          {{ with .Params.authors }}
+            {{ $author := site.GetPage (printf "/authors/%s" .) }}
+            {{ partial "authors/item" $author }}
+          {{ end }}
+
+        </div>
       </div>
-      <div class="col-md-2 offset-md-1">
-        {{ partial "commons/share" . }}
-      </div>
-    </div>
+    </section>
+
   </div>
 
 {{ end }}

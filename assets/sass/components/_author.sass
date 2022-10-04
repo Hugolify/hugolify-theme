@@ -1,10 +1,6 @@
-.post
+.author
     @extend .card
     .media
-        @extend .card-img-top
-        @extend .ratio
-        @extend .ratio-21x9
-        background-color: $light
         order: -1
     .content
         @extend .card-body
@@ -15,11 +11,11 @@
     [itemprop="name"]
         @extend .card-title
         @extend .h5
-    [itemprop="datePublished"]
+    [itemprop="description"]
         @extend .small
     a
         @extend .stretched-link
-    &-categories
-        @extend .badge
-        @extend .rounded-pill
-        @extend .text-bg-light
+    .more
+        @extend .card-link
+        @extend .small
+        text-decoration: underline

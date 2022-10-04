@@ -1,8 +1,10 @@
 {{ $lazy := cond (eq .lazy false) false true }}
 {{ $class := cond (ne .class false) .class false }}
+{{ $picture_class := cond (ne .picture_class false) .picture_class false }}
 {{ $itemprop := cond (ne .itemprop false) .itemprop false }}
 {{ $desktop_size := cond (ne .desktop false) .desktop false }}
 {{ $mobile_size := cond (ne .mobile false) .mobile false }}
+{{ $alt := cond (ne .alt "") .alt "" }}
 {{ $file := "" }}
 {{ if .static }}
   {{ $file = delimit (slice "/static" .src) "" }}
@@ -43,7 +45,7 @@
     {{ end }}
 
     {{ with $image_desktop }}
-      <picture>
+      <picture {{ if $picture_class }}class="{{ $picture_class }}"{{ end }}>
         {{ with $image_desktop_webp }}
           <source srcset="{{ .RelPermalink }}" type="image/webp" media="(min-width: 577px)">
         {{ end }}
@@ -53,7 +55,7 @@
           {{ end }}
           <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} x2" type="image/jpg" media="(max-width: 576px)">
         {{ end }}
-        <img src="{{ .RelPermalink }}" alt="" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
+        <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
       </picture>
     {{ end }}
 

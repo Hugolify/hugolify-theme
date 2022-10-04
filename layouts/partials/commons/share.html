@@ -2,28 +2,28 @@
   <p>{{ i18n "share.title" }}</p>
   <ul>
     <li>
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener">
-        <img src="/assets/images/icons/facebook.png" alt="Facebook" height="25" width="25">
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "facebook" )) }}">
+        Facebook
       </a>
     </li>
     <li>
-      <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener">
-        <img src="/assets/images/icons/twitter.png" alt="Twitter" height="25" width="25">
+      <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "twitter" )) }}">
+        Twitter
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener">
-        <img src="/assets/images/icons/linkedin.png" alt="Linkedin" height="25" width="25">
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "linkedin" )) }}">
+        Linkedin
       </a>
     </li>
     <li>
-      <a href="http://pinterest.com/pin/create/button/?url={{ .Permalink | absURL }}&description={{ .Title }}" target="_blank" rel="noopener">
-        <img src="/assets/images/icons/pinterest.png" alt="Pinterest" height="25" width="25">
+      <a href="http://pinterest.com/pin/create/button/?url={{ .Permalink | absURL }}&description={{ .Title }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "pinterest" )) }}">
+        Pinterest
       </a>
     </li>
     <li>
-      <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener">
-        <img src="/assets/images/icons/whatsapp.png" alt="Whatsapp" height="25" width="25">
+      <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "whatsapp" )) }}">
+        Whatsapp
       </a>
     </li>
   </ul>

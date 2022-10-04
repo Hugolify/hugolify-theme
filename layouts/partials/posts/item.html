@@ -1,22 +1,27 @@
 <article class="post">
   <a href="{{ .Permalink }}" itemprop="url" class="content">
-    {{ with .Date }}
-      <p><time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_long" }}</time></p>
-    {{ end }}
     {{ with .Title }}
       <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
     {{ end }}
     {{ with .Params.description }}
-      <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
+      <p itemprop="abstract">{{ partial "PrepareHTML" . }}</p>
     {{ end }}
-    <p class="cta">{{ i18n "more" }}</p>
+    <p>
+      {{ with .Date }}
+        <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_medium" }}</time>
+      {{ end }}
+      {{ with .Params.categories }}
+        {{ $category := site.GetPage (printf "/categories/%s" .) }}
+        - <span class="post-categories">{{ $category.Title }}</span>
+      {{ end }}
+    </p>
   </a>
   <div class="media">
     {{ with .Params.image}}
       {{ partial "commons/image.html" (dict
         "src" .
         "class" "img-fluid"
-        "desktop" "414x200"
+        "desktop" "414x177"
         "itemprop" "image"
       ) }}
     {{ end }}
