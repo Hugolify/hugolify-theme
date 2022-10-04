@@ -12,7 +12,7 @@
             <h1>{{ partial "PrepareHTML" . }}</h1>
           {{ end }}
           {{ with .Date }}
-            <p><time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time></p>
+            <p><time datetime="{{ . }}">{{ . | time.Format ":date_full" }}</time></p>
           {{ end }}
           {{ with .Content }}
             {{ partial "PrepareHTML" . }}

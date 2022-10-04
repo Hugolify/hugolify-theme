@@ -1,6 +1,16 @@
-<article class="card">
+<article class="post">
+  <a href="{{ .Permalink }}" itemprop="url" class="content">
+    {{ with .Date }}
+      <p><time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_long" }}</time></p>
+    {{ end }}
+    <p itemprop="name">{{ partial "PrepareHTML" .Title }}</p>
+    {{ with .Params.description }}
+      <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
+    {{ end }}
+    <p class="cta">{{ i18n "more" }}</p>
+  </a>
   {{ with .Params.image}}
-    <div class="card-media">
+    <div class="media" itemprop="image">
       {{ partial "commons/image.html" (dict
         "src" .
         "class" "img-fluid"
@@ -8,16 +18,4 @@
       ) }}
     </div>
   {{ end }}
-  <div class="card-body">
-    {{ with .Title }}
-      <p class="card-title">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .Params.description }}
-      <p class="card-text">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .Date }}
-      <p class="card-text"><time datetime="{{ . }}">{{ .Format "Jan 2, 2006" }}</time></p>
-    {{ end }}
-    <a href="{{ .Permalink }}" class="btn btn-primary stretched-link">{{ i18n "more" }}</a>
-  </div>
 </article>

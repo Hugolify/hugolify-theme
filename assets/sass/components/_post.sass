@@ -1,0 +1,21 @@
+.post
+    @extend .card
+    .media
+        @extend .ratio
+        order: -1
+    .content
+        @extend .card-body
+    p
+        @extend .card-text
+    [itemprop="url"]
+        text-decoration: none
+    [itemprop="name"]
+        @extend .card-title
+        @extend .h5
+    [itemprop="datePublished"]
+        @extend .small
+    a
+        @extend .stretched-link
+    .cta
+        @extend .btn
+        @extend .btn-primary
