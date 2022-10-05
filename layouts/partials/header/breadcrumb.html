@@ -1,9 +1,11 @@
+{{ $levels := split .RelPermalink "/" }}
+{{ if gt (len $levels) 2 }}
 <div class="breadcrumb-wrapper">
-  <nav aria-label="{{ i18n "breadcrumb" }}" class="container">
+  <nav aria-label="{{ i18n "breadcrumb" }}">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">{{ i18n "home" }}</a></li>
+      <li><a href="/">{{ i18n "home" }}</a></li>
       {{- $.Scratch.Set "url" "" -}}
-      {{- range (split .RelPermalink "/") -}}
+      {{- range $levels -}}
         {{- if (gt (len .) 0) -}}    
           {{- $.Scratch.Set "isPage" "false" -}}
           {{- $.Scratch.Add "url" (print "/" . ) -}}
@@ -16,13 +18,14 @@
           {{- end -}}
           {{- if eq ($.Scratch.Get "isPage") "true" -}}
             {{- with $.Site.GetPage (print . ".md") -}}
-              <li class="breadcrumb-item"><a href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a></li>
+              <li><a href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a></li>
             {{- end -}}
           {{- else -}}
-            <li class="breadcrumb-item"><a href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a></li>
+            <li><a href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a></li>
           {{- end -}}
         {{- end -}}
       {{- end -}}
     </ol>
   </nav>
 </div>
+{{ end }}

@@ -1,0 +1,21 @@
+{{ with .Params.hero }}
+<header class="hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 offset-md-1">
+
+        {{ with .title }}
+          <h1>{{ . }}</h1>
+        {{ end }}
+        {{ with .text }}
+          <p>{{ . }}</p>
+        {{ end }}
+        {{ with .cta }}
+          <p><a href="{{ .url }}" class="btn btn-primary">{{ .text }}</a></p>
+        {{ end }}
+        
+      </div>
+    </div>
+  </div>
+</header>
+{{ end }}

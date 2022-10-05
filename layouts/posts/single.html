@@ -2,8 +2,6 @@
 
   <div class="container">
 
-    <code>SINGLE POSTS</code>
-
     <section itemscope itemtype="http://schema.org/BlogPosting">
       {{ with .Params.description }}
         <meta itemprop="abstract" content="{{ partial "PrepareHTML" . }}">
@@ -49,6 +47,8 @@
         </div>
       </div>
     </section>
+
+    <code>SINGLE POSTS</code>
 
   </div>
 
