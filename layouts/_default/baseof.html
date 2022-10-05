@@ -12,6 +12,7 @@
   <body class="{{ $body_class }}">
     {{- partial "nav/accessibility.html" -}}
     {{- partial "header/header.html" . -}}
+    {{- partial "header/breadcrumb.html" . -}}
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
     </main>

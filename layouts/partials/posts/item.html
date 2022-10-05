@@ -12,7 +12,7 @@
       {{ end }}
       {{ with .Params.categories }}
         {{ $category := site.GetPage (printf "/categories/%s" .) }}
-        - <span class="post-categories">{{ $category.Title }}</span>
+         <span class="post-categories">{{ $category.Title }}</span>
       {{ end }}
     </p>
   </a>
@@ -22,6 +22,7 @@
         "src" .
         "class" "img-fluid"
         "desktop" "414x177"
+        "mobile" "334x143"
         "itemprop" "image"
       ) }}
     {{ end }}

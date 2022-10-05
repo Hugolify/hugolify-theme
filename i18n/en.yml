@@ -1,21 +1,29 @@
-author:
+authors:
+  title: Authors
   more: Discover author
+breadcrumb: Breadcrumb
 header:
   accessibility:
     footer: Go to the bottom of the page
     main: Main content
     menu: Main navigation
+home: Home
 link:
   blank: extern link
   blank_aria: « {{ .Title }} » - extern link
 more: Read more
 navigation:
+  close: Close
   main: Main navigation
   menu: Menu
 page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
+posts:
+  title: News
+  list_author: News list of this author
+  more: Discover more news
 share:
   share_on: Share on {{ .Website }}
   title: Share

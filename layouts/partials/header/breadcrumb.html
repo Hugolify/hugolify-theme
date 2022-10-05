@@ -1,0 +1,28 @@
+<div class="breadcrumb-wrapper">
+  <nav aria-label="{{ i18n "breadcrumb" }}" class="container">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">{{ i18n "home" }}</a></li>
+      {{- $.Scratch.Set "url" "" -}}
+      {{- range (split .RelPermalink "/") -}}
+        {{- if (gt (len .) 0) -}}    
+          {{- $.Scratch.Set "isPage" "false" -}}
+          {{- $.Scratch.Add "url" (print "/" . ) -}}
+          {{- if $.Site.GetPage (print . ".md") -}}
+            {{- with $.Site.GetPage (print . ".md") -}}
+              {{- if .IsPage -}}
+                {{- $.Scratch.Set "isPage" "true" -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          {{- if eq ($.Scratch.Get "isPage") "true" -}}
+            {{- with $.Site.GetPage (print . ".md") -}}
+              <li class="breadcrumb-item"><a href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a></li>
+            {{- end -}}
+          {{- else -}}
+            <li class="breadcrumb-item"><a href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a></li>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    </ol>
+  </nav>
+</div>
