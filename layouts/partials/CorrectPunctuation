@@ -1,0 +1,6 @@
+{{ $correct := . }}
+{{ $signs := slice ";" ":" "!" "?" }}
+{{ range $signs }}
+  {{ $correct = replace $correct (printf " %s" .) (printf "&#8239;%s" .) }}
+{{ end }}
+{{ return $correct }}

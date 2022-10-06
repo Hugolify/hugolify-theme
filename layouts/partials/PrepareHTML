@@ -1,6 +1,8 @@
 {{ return
 safeHTML (
   chomp (
-    replace . "\n" "<br/>"
+    partial "CorrectPunctuation" (
+      replace . "\n" "<br/>"
+    )
   )
 ) }}
