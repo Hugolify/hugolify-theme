@@ -1,0 +1,2 @@
+{{ $slug := replace .slug "/_index" "" }}
+{{ return site.GetPage (printf "/%s/%s" .taxonomy $slug) }}

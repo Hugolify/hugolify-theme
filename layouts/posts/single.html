@@ -17,8 +17,10 @@
                 <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time>
               {{ end }}
               {{ with .Params.categories }}
-                {{ $category := site.GetPage (printf "/categories/%s" .) }}
-                - <a href="{{ $category.Permalink }}" class="post-categories" itemprop="articleSection">{{ $category.Title }}</a>
+                {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
+                {{ with $category }}
+                - <a href="{{ .Permalink }}" class="post-categories" itemprop="articleSection">{{ .Title }}</a>
+                {{ end }}
               {{ end }}
             </p>
             {{/*  {{ partial "commons/share" . }}  */}}
@@ -40,7 +42,7 @@
         <div class="col-md-3 offset-md-1">
 
           {{ with .Params.authors }}
-            {{ $author := site.GetPage (printf "/authors/%s" .) }}
+            {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
             {{ partial "authors/item" $author }}
           {{ end }}
 
