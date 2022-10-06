@@ -2,7 +2,7 @@
 
   <div class="container">
 
-    <h1>{{ partial "PrepareHTML" .Title }}</h1>
+    {{ partial "commons/title" . }}
 
     {{ with .Pages }}
     <div class="posts">
