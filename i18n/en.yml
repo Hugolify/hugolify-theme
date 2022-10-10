@@ -1,6 +1,7 @@
 authors:
-  title: Authors
-  more: Discover author
+  discover: Discover author
+  title: Author
+  title_plurial: Authors
 breadcrumb: Breadcrumb
 header:
   accessibility:
@@ -26,7 +27,10 @@ posts:
   title: News
   list_author: News list of this author
   more: Discover more news
-  reading_time: "{{ .Time }}min read"
+  reading_time:
+    one: One minute to read
+    other: '{{.Time}} minutes to read'
+  toc: Table of contents
 share:
   share_on: Share on {{ .Website }}
   title: Share

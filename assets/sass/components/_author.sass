@@ -1,4 +1,4 @@
-.author
+article.author
     @extend .card
     .media
         order: -1
@@ -19,3 +19,19 @@
         @extend .card-link
         @extend .small
         text-decoration: underline
+
+aside.author
+    > p
+        @extend .h5
+    article
+        background-color: $light
+        padding: $spacer
+    [itemprop="name"]
+        font-weight: $font-weight-bold
+        margin-bottom: .5rem 
+    [itemprop="description"]
+        @extend .small
+        margin-bottom: .5rem 
+    [itemprop="url"]
+        @extend .small
+

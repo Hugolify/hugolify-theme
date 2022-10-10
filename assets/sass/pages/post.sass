@@ -1,0 +1,14 @@
+.page-posts
+    .row >
+        .content
+            @extend .col-md-8
+        .sidebar
+            @extend .col-md-3
+            @extend .offset-md-1
+        @include media-breakpoint-down(md)
+            header
+                order: 1
+            .content
+                order: 3
+            .sidebar
+                order: 2

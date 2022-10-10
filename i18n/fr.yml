@@ -1,6 +1,7 @@
 authors:
-  title: Auteurs
-  more: Découvrir l’auteur
+  discover: Découvrir l’auteur
+  title: Auteur
+  title_plurial: Auteurs
 breadcrumb: fil d’Arianne
 header:
   accessibility:
@@ -26,7 +27,10 @@ posts:
   title: Actualités
   list_author: Liste des actualités de l’auteur
   more: Découvrir plus d’actualités
-  reading_time: "{{ .Time }}min de lecture"
+  reading_time:
+    one: Une minute de lecture
+    other: '{{.Time}} minutes de lecture'
+  toc: Table des matières
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager

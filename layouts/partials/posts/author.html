@@ -1,0 +1,19 @@
+{{ with .Params.authors }}
+  <aside class="author">
+    <p>{{ i18n "authors.title" }}</p>
+    {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
+    {{ with $author }}
+      <article itemprop="author" itemscope itemtype="https://schema.org/Person">
+        <div class="content">
+          {{ with .Title }}
+            <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
+          {{ end }}
+          {{ with .Params.description }}
+            <p itemprop="description">{{ partial "TruncateContent" (partial "PrepareHTML" .) }}</p>
+          {{ end }}
+          <a href="{{ .Permalink }}" itemprop="url">{{ i18n "authors.discover" }}</a>
+        </div>
+      </article>
+    {{ end }}
+  </aside>
+{{ end }}

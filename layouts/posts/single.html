@@ -7,49 +7,11 @@
         <meta itemprop="abstract" content="{{ partial "PrepareHTML" . }}">
       {{ end }}
       <div class="row">
-        <div class="col-md-8">
-            
-            {{ with .Title }}
-              <h1 itemprop="name">{{ partial "PrepareHTML" . }}</h1>
-            {{ end }}
-            <p>
-              {{ with .Date }}
-                <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time>
-              {{ end }}
-              - {{ i18n "posts.reading_time" (dict "Time" .ReadingTime) }}
-              {{ with .Params.categories }}
-                {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
-                {{ with $category }}
-                - <a href="{{ .Permalink }}" itemprop="articleSection">{{ .Title }}</a>
-                {{ end }}
-              {{ end }}
-            </p>
-            {{/*  {{ partial "commons/share" . }}  */}}
-            {{ with .Params.image}}
-              {{ partial "commons/image.html" (dict
-                "src" .
-                "picture_class" "featured-image"
-                "desktop" "856x400"
-                "itemprop" "image"
-              ) }}
-            {{ end }}
-            {{ with .Content }}
-              <div itemprop="articleBody">
-                  {{ partial "PrepareHTML" . }}
-              </div>
-            {{ end }}
 
-            {{ partial "nav/previous-next" . }}
+        {{ partial "posts/header" . }}
+        {{ partial "posts/content" . }}
+        {{ partial "posts/sidebar" . }}
 
-        </div>
-        <div class="col-md-3 offset-md-1">
-
-          {{ with .Params.authors }}
-            {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
-            {{ partial "authors/item" $author }}
-          {{ end }}
-
-        </div>
       </div>
     </section>
 
