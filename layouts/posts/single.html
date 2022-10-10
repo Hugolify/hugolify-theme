@@ -16,10 +16,11 @@
               {{ with .Date }}
                 <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time>
               {{ end }}
+              - {{ i18n "posts.reading_time" (dict "Time" .ReadingTime) }}
               {{ with .Params.categories }}
                 {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
                 {{ with $category }}
-                - <a href="{{ .Permalink }}" class="post-categories" itemprop="articleSection">{{ .Title }}</a>
+                - <a href="{{ .Permalink }}" itemprop="articleSection">{{ .Title }}</a>
                 {{ end }}
               {{ end }}
             </p>
@@ -37,6 +38,8 @@
                   {{ partial "PrepareHTML" . }}
               </div>
             {{ end }}
+
+            {{ partial "nav/previous-next" . }}
 
         </div>
         <div class="col-md-3 offset-md-1">

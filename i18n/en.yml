@@ -16,6 +16,8 @@ navigation:
   close: Close
   main: Main navigation
   menu: Menu
+  next: Next
+  previous: Previous
 page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.
@@ -24,6 +26,7 @@ posts:
   title: News
   list_author: News list of this author
   more: Discover more news
+  reading_time: "{{ .Time }}min read"
 share:
   share_on: Share on {{ .Website }}
   title: Share

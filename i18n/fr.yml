@@ -16,6 +16,8 @@ navigation:
   close: Fermer
   main: Navigation principale
   menu: Menu
+  next: Suivant
+  previous: Précédent
 page404:
   title: Page introuvable
   text: La page que vous recherchez n'existe pas ou a été déplacée.
@@ -24,6 +26,7 @@ posts:
   title: Actualités
   list_author: Liste des actualités de l’auteur
   more: Découvrir plus d’actualités
+  reading_time: "{{ .Time }}min de lecture"
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
