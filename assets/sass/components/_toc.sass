@@ -13,5 +13,13 @@
         font-size: px2rem(14)
         padding-left: 1.1rem
     .offcanvas
-        @extend .offcanvas-lg
+        @extend .offcanvas-md
         @extend .offcanvas-end
+        @include media-breakpoint-up(md)
+            position: static
+            transform: none
+            transition: none
+            visibility: visible
+            width: auto
+            z-index: auto
+    
