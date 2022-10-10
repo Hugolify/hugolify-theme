@@ -1,0 +1,10 @@
+<section>
+  <h2>{{ i18n "posts.latest" }}</h2>
+  <div class="posts">
+    {{ range first 3 ( ( where site.RegularPages "Section" "posts" ).ByDate.Reverse ) }}
+      <div>
+        {{ partial "posts/item" . }}
+      </div>
+    {{ end }}
+  </div>
+</section>

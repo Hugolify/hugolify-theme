@@ -24,12 +24,13 @@ page404:
   text: La page que vous recherchez n'existe pas ou a été déplacée.
   cta: Retour à la page d’accueil
 posts:
-  title: Actualités
+  latest: Dernières actualités
   list_author: Liste des actualités de l’auteur
   more: Découvrir plus d’actualités
   reading_time:
     one: Une minute de lecture
     other: '{{.Time}} minutes de lecture'
+  title: Actualités
   toc: Table des matières
 share:
   share_on: Partager sur {{ .Website }}

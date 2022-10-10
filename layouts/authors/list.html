@@ -1,0 +1,21 @@
+{{ define "main" }}
+
+  <div class="container">
+
+    {{ partial "commons/title" . }}
+
+    {{ with .Pages }}
+    <div class="authors">
+      {{ range . }}
+        <div>
+          {{ partial "authors/item.html" . }}
+        </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    <code>LIST AUTHORS</code>
+
+  </div>
+
+{{ end }}

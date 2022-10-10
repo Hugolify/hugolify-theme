@@ -24,12 +24,13 @@ page404:
   text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
 posts:
-  title: News
+  latest: Latest news
   list_author: News list of this author
   more: Discover more news
   reading_time:
     one: One minute to read
     other: '{{.Time}} minutes to read'
+  title: News
   toc: Table of contents
 share:
   share_on: Share on {{ .Website }}
