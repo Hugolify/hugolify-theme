@@ -17,9 +17,9 @@
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
     </main>
-    {{- partial "footer/footer.html" . -}}
-    {{- partial "footer/cookie-banner.html" . -}}
-    {{- partial "footer/js.html" . -}}
-    {{- partial "footer/script.html" . -}}
+    {{- partialCached "footer/footer.html" . -}}
+    {{- partialCached "footer/cookie-banner.html" . -}}
+    {{- partialCached "footer/js.html" . -}}
+    {{- partialCached "footer/script.html" . -}}
   </body>
 </html>

@@ -1,8 +1,12 @@
 authors:
   discover: Discover author
-  title: Author
-  title_plurial: Authors
+  one: Author
+  other: Authors
 breadcrumb: Breadcrumb
+categories:
+  one: Category
+  other: Categories
+filter: Filter
 header:
   accessibility:
     footer: Go to the bottom of the page
@@ -27,11 +31,12 @@ posts:
   latest: Latest news
   list_author: News list of this author
   more: Discover more news
-  reading_time:
-    one: One minute to read
-    other: '{{.Time}} minutes to read'
-  title: News
-  toc: Table of contents
+  one: New
+  other: News
+reading_time:
+  one: One minute to read
+  other: '{{.Time}} minutes to read'
 share:
   share_on: Share on {{ .Website }}
   title: Share
+toc: Table of contents

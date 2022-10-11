@@ -1,8 +1,12 @@
 authors:
   discover: Découvrir l’auteur
-  title: Auteur
-  title_plurial: Auteurs
+  one: Auteur
+  other: Auteurs
 breadcrumb: fil d’Arianne
+categories:
+  one: Categorie
+  other: Categories
+filter: Filtrer
 header:
   accessibility:
     footer: Accéder au bas de la page
@@ -27,11 +31,12 @@ posts:
   latest: Dernières actualités
   list_author: Liste des actualités de l’auteur
   more: Découvrir plus d’actualités
-  reading_time:
+  one: Actualité
+  other: Actualités
+reading_time:
     one: Une minute de lecture
     other: '{{.Time}} minutes de lecture'
-  title: Actualités
-  toc: Table des matières
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
+toc: Table des matières

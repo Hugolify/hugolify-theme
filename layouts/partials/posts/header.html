@@ -6,7 +6,7 @@
     {{ with .Date }}
       <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_full" }}</time>
     {{ end }}
-    - {{ i18n "posts.reading_time" (dict "Time" .ReadingTime) }}
+    - {{ i18n "reading_time" (dict "Time" .ReadingTime) }}
     {{ with .Params.categories }}
       {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
       {{ with $category }}

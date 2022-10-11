@@ -2,10 +2,8 @@
 
   <div class="container">
 
-    <header class="title">
-      {{ partial "commons/title" . }}
-      {{ partial "posts/offcanvas-button" . }}
-    </header>
+    {{ partial "commons/title" . }}
+    {{ partial "posts/offcanvas-button" . }}
     {{ partial "posts/offcanvas" . }}
 
     {{ with .Pages }}
