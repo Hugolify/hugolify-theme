@@ -12,11 +12,11 @@
   <body class="{{ $body_class }}">
     {{- partial "nav/accessibility.html" -}}
     {{- partial "header/header.html" . -}}
-    {{- partial "header/hero.html" . -}}
-    {{- partial "header/breadcrumb.html" . -}}
+    {{- block "hero" . }}{{- end }}
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
     </main>
+    {{- partial "header/breadcrumb.html" . -}}
     {{- partialCached "footer/footer.html" . -}}
     {{- partialCached "footer/cookie-banner.html" . -}}
     {{- partialCached "footer/js.html" . -}}
