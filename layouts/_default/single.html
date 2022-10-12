@@ -7,23 +7,19 @@
   <div class="container">
 
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-7">
         
-        <section>
-          {{ with .Title }}
-            <h1>{{ partial "PrepareHTML" . }}</h1>
-          {{ end }}
-          {{ with .Date }}
-            <p><time datetime="{{ . }}">{{ . | time.Format ":date_full" }}</time></p>
-          {{ end }}
-          {{ with .Content }}
+        {{- partial "commons/title.html" . -}}
+          
+        {{ with .Content }}
+          <section>
             {{ partial "PrepareHTML" . }}
-          {{ end }}
-        </section>
+          </section>
+        {{ end }}
 
       </div>
-      <div class="col-md-2 offset-md-1">
-        {{ partial "commons/share" . }}
+      <div class="col-md-4 offset-md-1">
+        {{ partial "commons/toc" . }}
       </div>
     </div>
 

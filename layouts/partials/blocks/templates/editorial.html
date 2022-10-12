@@ -7,10 +7,10 @@
           <h2>{{ partial "PrepareHTML" . }}</h2>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "PrepareHTML" . }}</p>
+          <p>{{ partial "PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ with .cta}}
-          <a href="{{ .url }}" class="btn btn-primary">{{ partial "PrepareHTML" .text }}</a>
+          <a href="{{ .url }}" class="btn">{{ partial "PrepareHTML" .text }}</a>
         {{ end }}
       </div>
 

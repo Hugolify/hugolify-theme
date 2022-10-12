@@ -1,37 +1,43 @@
 <figure class="block-blockquote">
   <div class="container">
+    <div class="row">
 
-    {{ with .quote}}
-    <blockquote>
-      {{ partial "PrepareHTML" . }}
-    </blockquote>
-    {{ end }}
+      <div class="content">
+        {{ with .quote}}
+        <blockquote>
+          {{ partial "PrepareHTML" . }}
+        </blockquote>
+        {{ end }}
 
-    {{ with .author }}
-    <figcaption>
-      {{ with .image}}
-        {{ partial "commons/image.html" (dict
-            "src" .
-            "desktop" "50x50"
-            "crop" "Top"
-          ) }}
-      {{ end }}
-      {{ partial "PrepareHTML" .name }}
-      {{ with .url}}
-        <a href="{{ . }}" target="_blank">
-      {{ end }}
-      {{ partial "PrepareHTML" .company }}
-      {{ with .url}}
-        </a>
-      {{ end }}
-    </figcaption>
-    {{ end }}
+        {{ with .author }}
+        <figcaption>
+          {{ with .image}}
+            {{ partial "commons/image.html" (dict
+                "src" .
+                "desktop" "50x50"
+                "crop" "Top"
+              ) }}
+          {{ end }}
+          <div>
+            <cite>{{ partial "PrepareHTML" .name }}</cite><br>
+            {{ with .url}}
+              <a href="{{ . }}" target="_blank">
+            {{ end }}
+            {{ partial "PrepareHTML" .company }}
+            {{ with .url}}
+              </a>
+            {{ end }}
+          </div>
+        </figcaption>
+        {{ end }}
 
-    {{ with .cta}}
-    <div>
-      <a href="{{ .url }}" class="btn btn-primary">{{ partial "PrepareHTML" .text }}</a>
+        {{ with .cta}}
+        <div>
+          <a href="{{ .url }}" class="btn btn-primary">{{ partial "PrepareHTML" .text }}</a>
+        </div>
+        {{ end }}
+      </div>
+
     </div>
-    {{ end }}
-
   </div>
 </figure>

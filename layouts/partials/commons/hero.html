@@ -1,9 +1,10 @@
+{{ $image := .Params.image }}
 {{ with .Params.hero }}
 <header class="hero">
   <div class="container">
     <div class="row">
-      <div class="hero-content">
 
+      <div class="hero-content">
         {{ with .title }}
           <h1>{{ . }}</h1>
         {{ end }}
@@ -13,8 +14,16 @@
         {{ with .cta }}
           <p><a href="{{ .url }}" class="btn">{{ .text }}</a></p>
         {{ end }}
-        
       </div>
+
+      {{ with $image }}
+        <div class="hero-media">
+          {{ partial "commons/image.html" (dict
+              "src" .
+          ) }}
+        </div>
+      {{ end }}
+
     </div>
   </div>
 </header>

@@ -1,21 +1,19 @@
-{{ if gt .WordCount 200 }}
-  <div class="toc">
-    <p>{{ i18n "toc" }}</p>
-    <button type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#toc"
-      aria-controls="toc"
-      aria-expanded="false">
-      {{ i18n "toc" }}
-    </button>
-    <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="tocLabel">{{ i18n "toc" }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
-      </div>
-      <div class="offcanvas-body">
-        {{ .TableOfContents }}
-      </div>
+<div class="toc">
+  <p>{{ i18n "toc" }}</p>
+  <button type="button"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#toc"
+    aria-controls="toc"
+    aria-expanded="false">
+    {{ i18n "toc" }}
+  </button>
+  <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="tocLabel">{{ i18n "toc" }}</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+    </div>
+    <div class="offcanvas-body">
+      {{ .TableOfContents }}
     </div>
   </div>
-{{ end }}
+</div>

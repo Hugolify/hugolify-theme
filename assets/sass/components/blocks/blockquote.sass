@@ -1,10 +1,25 @@
 .block-blockquote
-    @extend .pb-5
-    @extend .pt-5
-    .container > *
-        margin-left: auto
-        margin-right: auto
-        width: calc(66.666667% - (1.5rem/4))
+    padding-bottom: map-get($spacers, 5)
+    padding-top: map-get($spacers, 5)
+    text-align: center
+    .content
+        @extend .col-md-8
+        @extend .offset-md-2
     figcaption
+        align-items: center
+        display: flex
+        justify-content: center
+        margin-top: 0
         &::before
             content: none
+        picture
+            display: block
+        div
+            line-height: 1.2
+            text-align: left
+        cite
+            font-style: normal
+            font-weight: $font-weight-bold
+        & + div
+            margin-top: 2rem
+    

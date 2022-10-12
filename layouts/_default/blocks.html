@@ -1,0 +1,12 @@
+{{ define "hero"}}
+  {{- partial "commons/hero.html" . -}}
+{{ end }}
+
+{{ define "main" }}
+
+  {{ partial "blocks/title" . }}
+  {{ partial "blocks/list" .Params.blocks }}
+  
+  <code>SINGLE BLOCKS</code>
+
+{{ end }}
