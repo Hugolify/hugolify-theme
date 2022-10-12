@@ -5,12 +5,12 @@
 {{ define "main" }}
 
   <div class="container">
-
     {{ partial "commons/title" . }}
+  </div>
+  {{ partial "blocks/list" .Params.blocks }}
+  <div class="container">
     {{ partial "posts/latest" . }}
-
     <code>HOME</code>
-
   </div>
 
 {{ end }}

@@ -1,0 +1,37 @@
+<figure class="block-blockquote">
+  <div class="container">
+
+    {{ with .quote}}
+    <blockquote>
+      {{ partial "PrepareHTML" . }}
+    </blockquote>
+    {{ end }}
+
+    {{ with .author }}
+    <figcaption>
+      {{ with .image}}
+        {{ partial "commons/image.html" (dict
+            "src" .
+            "desktop" "50x50"
+            "crop" "Top"
+          ) }}
+      {{ end }}
+      {{ partial "PrepareHTML" .name }}
+      {{ with .url}}
+        <a href="{{ . }}" target="_blank">
+      {{ end }}
+      {{ partial "PrepareHTML" .company }}
+      {{ with .url}}
+        </a>
+      {{ end }}
+    </figcaption>
+    {{ end }}
+
+    {{ with .cta}}
+    <div>
+      <a href="{{ .url }}" class="btn btn-primary">{{ partial "PrepareHTML" .text }}</a>
+    </div>
+    {{ end }}
+
+  </div>
+</figure>
