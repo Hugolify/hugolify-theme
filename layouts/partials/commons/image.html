@@ -6,7 +6,7 @@
 {{ $mobile_size := cond (ne .mobile false) .mobile false }}
 {{ $alt := cond (ne .alt "") .alt "" }}
 {{ $file := "" }}
-{{ $crop := "Center" }}
+{{ $crop := cond (ne .crop false) .crop "Center" }}
 {{ if .static }}
   {{ $file = delimit (slice "/static" .src) "" }}
 {{ else }}
