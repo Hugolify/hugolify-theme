@@ -9,7 +9,7 @@
       {{ end }}
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="content">
             
           {{ with .Params.description }}
             <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
@@ -31,7 +31,7 @@
           {{ end }}
 
         </div>
-        <div class="col-md-3 offset-md-1">
+        <div class="sidebar">
 
           <p>Contact</p>
           <ul class="contact-list">

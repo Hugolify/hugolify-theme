@@ -1,0 +1,43 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ .Title }},
+
+    {{ with .Params.image }}
+      "thumbnailUrl": {{ . | absURL }},
+    {{ end }}
+
+    {{ with .Date }}
+      "datePublished": {{ . }},
+    {{ end }}
+
+    {{ with .Params.categories }}
+      {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
+      {{ with $category }}
+        articleSection: {{ .Title | plainify | safeHTML }},
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.description }}
+      "abstract": {{ .  }},
+    {{ end }}
+
+    {{ with .Content }}
+      "articleBody": {{ . | plainify | safeHTML }},
+    {{ end }}
+
+    {{ with .Params.authors }}
+      {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
+      {{ with $author }}
+        "author": {
+          "@type": "Person",
+          "name": {{ .Title | plainify | safeHTML }},
+          "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
+          "url": {{ .Permalink }}
+        }
+      {{ end }}
+    {{ end }}
+
+  }
+</script>

@@ -1,12 +1,16 @@
+{{ define "hero"}}
+  {{- partial "commons/hero.html" . -}}
+{{ end }}
+
 {{ define "main" }}
 
   <div class="container">
 
     <header class="title">
       {{ partial "commons/title" . }}
-      {{ partial "posts/offcanvas-button" . }}
+      {{ partial "posts/filters-button" . }}
     </header>
-    {{ partial "posts/offcanvas" . }}
+    {{ partial "posts/filters" . }}
 
     {{ with .Pages }}
       {{ partial "posts/items" . }}

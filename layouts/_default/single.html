@@ -4,23 +4,12 @@
 
 {{ define "main" }}
 
+  {{ partial "pages/schema" . }}
   <div class="container">
 
     <div class="row">
-      <div class="col-md-7">
-        
-        {{- partial "commons/title.html" . -}}
-          
-        {{ with .Content }}
-          <section>
-            {{ partial "PrepareHTML" . }}
-          </section>
-        {{ end }}
-
-      </div>
-      <div class="col-md-4 offset-md-1">
-        {{ partial "commons/toc" . }}
-      </div>
+      {{ partial "commons/content.html" . }}
+      {{ partial "commons/sidebar" . }}
     </div>
 
     <code>SINGLE DEFAULT</code>
