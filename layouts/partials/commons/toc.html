@@ -1,3 +1,4 @@
+{{ if ge (len .TableOfContents) 100 }}
 <div class="toc">
   <p>{{ i18n "toc" }}</p>
   <button type="button"
@@ -17,3 +18,4 @@
     </div>
   </div>
 </div>
+{{ end }}
