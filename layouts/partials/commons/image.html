@@ -1,12 +1,12 @@
-{{ $lazy := cond (eq .lazy false) false true }}
-{{ $class := cond (ne .class false) .class false }}
-{{ $picture_class := cond (ne .picture_class false) .picture_class false }}
-{{ $itemprop := cond (ne .itemprop false) .itemprop false }}
-{{ $desktop_size := cond (ne .desktop false) .desktop false }}
-{{ $mobile_size := cond (ne .mobile false) .mobile false }}
-{{ $alt := cond (ne .alt "") .alt "" }}
+{{ $lazy := .lazy | default false }}
+{{ $class := .class | default false }}
+{{ $picture_class := .picture_class | default false }}
+{{ $itemprop := .itemprop | default false }}
+{{ $desktop_size := .desktop | default false }}
+{{ $mobile_size := .mobile | default false }}
+{{ $alt := .alt | default "" }}
+{{ $crop := .crop | default "Center" }}
 {{ $file := "" }}
-{{ $crop := cond (ne .crop false) .crop "Center" }}
 {{ if .static }}
   {{ $file = delimit (slice "/static" .src) "" }}
 {{ else }}
@@ -45,20 +45,51 @@
       {{ $image_mobile_webp_retina := false }}
 
       {{ if $desktop_size }}
-        {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
-        {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
+        {{ $size := split $desktop_size "x" }}
+        {{ $isFill := true }}
+        {{ range $size }}
+          {{ if eq . "" }}
+            {{ $isFill = false }}
+          {{ end }}
+        {{ end }}
+
+        {{ if $isFill }}
+          {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
+          {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
+        {{ else }}
+          {{ $image_desktop = $image.Resize $desktop_size }}
+          {{ $image_desktop_webp = $image.Resize (printf "%s webp" $desktop_size) }}
+        {{ end }}
       {{ else }}
         {{ $image_desktop = $image }}
         {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s webp" $image.Width $image.Height $crop) }}
       {{ end }}
 
       {{ if $mobile_size }}
-        {{ $image_mobile = $image.Fill (printf "%s" $mobile_size) }}
+        {{ $size_m := split $mobile_size "x" }}
+        {{ $isFill_m := true }}
+        {{ range $size_m }}
+          {{ if eq . "" }}
+            {{ $isFill_m = false }}
+          {{ end }}
+        {{ end }}
+
+        {{ if $isFill_m}}
+          {{ $image_mobile = $image.Fill $mobile_size }}
+        {{ else }}
+          {{ $image_mobile = $image.Resize $mobile_size }}
+        {{ end }}
         {{ $width_x2 := mul 2 $image_mobile.Width }}
         {{ $height_x2 := mul 2 $image_mobile.Height }}
-        {{ $image_mobile_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop) }}
-        {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-        {{ $image_mobile_webp_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop " webp") }}
+        {{ if $isFill_m}}
+          {{ $image_mobile_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop) }}
+          {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
+          {{ $image_mobile_webp_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop " webp") }}
+        {{ else }}
+          {{ $image_mobile_retina = $image.Resize (print $width_x2 "x" $height_x2) }}
+          {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
+          {{ $image_mobile_webp_retina = $image.Resize (print $width_x2 "x" $height_x2 " webp") }}
+        {{ end }}
       {{ end }}
 
       {{ with $image_desktop }}
