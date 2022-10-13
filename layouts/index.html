@@ -3,14 +3,21 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ partial "pages/schema" . }}
 
-  <div class="container">
-    {{ partial "commons/title" . }}
-  </div>
-  {{ partial "blocks/list" .Params.blocks }}
-  <div class="container">
-    {{ partial "posts/latest" . }}
-    <code>HOME</code>
-  </div>
+  {{ if .Params.blocks }}
+  
+    {{ partial "blocks/list" .Params.blocks }}
+  
+  {{ else }}
+
+    <div class="container">
+      {{ partial "commons/title" . }}
+      {{ partial "posts/latest" . }}
+    </div>
+  
+  {{ end }}
+    
+  <code>HOME</code>
 
 {{ end }}

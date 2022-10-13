@@ -3,6 +3,7 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ partial "pages/schema" . }}
 
   {{ partial "blocks/title" . }}
   {{ partial "blocks/list" .Params.blocks }}
