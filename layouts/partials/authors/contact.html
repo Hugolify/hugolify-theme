@@ -1,0 +1,14 @@
+{{ if or .Params.email .Params.website .Params.twitter }}
+  <p>{{ i18n "contact" }}</p>
+  <ul class="contact-list">
+    {{ with .Params.email }}
+      <li><a href="{{ . }}">Email</a></li>
+    {{ end }}
+    {{ with .Params.website }}
+      <li><a href="{{ . }}">Website</a></li>
+    {{ end }}
+    {{ with .Params.twitter }}
+      <li><a href="{{ . }}">Twitter</a></li>
+    {{ end }}
+  </ul>
+{{ end }}

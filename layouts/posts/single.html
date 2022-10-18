@@ -7,17 +7,11 @@
 
   <div class="container">
 
-    <section>
-      <div class="row">
-
-        {{ partial "posts/header" . }}
-        {{ partial "posts/content" . }}
-        {{ partial "posts/sidebar" . }}
-
-      </div>
-    </section>
-
-    <code>SINGLE POSTS</code>
+    <div class="row">
+      {{ partial "posts/title" . }}
+      {{ partial "posts/content" . }}
+      {{ partial "posts/sidebar" . }}
+    </div>
 
   </div>
 

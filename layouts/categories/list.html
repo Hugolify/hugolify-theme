@@ -1,16 +1,20 @@
+{{ define "hero"}}
+  {{- partial "categories/hero.html" . -}}
+{{ end }}
+
 {{ define "main" }}
 
   <div class="container">
 
-    {{ partial "commons/title" . }}
-    {{ partial "posts/filters-button" . }}
+    <header class="title">
+      {{ partial "commons/title" . }}
+      {{ partial "posts/filters-button" . }}
+    </header>
     {{ partial "posts/filters" . }}
 
     {{ with .Pages }}
       {{ partial "posts/items" . }}
     {{ end }}
-
-    <code>LIST POSTS</code>
 
   </div>
 

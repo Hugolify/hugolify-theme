@@ -33,7 +33,9 @@
         "author": {
           "@type": "Person",
           "name": {{ .Title | plainify | safeHTML }},
-          "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
+          {{ with .Description }}
+            "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
+          {{ end }}
           "url": {{ .Permalink }}
         }
       {{ end }}

@@ -1,7 +1,12 @@
 .share
-    p
-        @extend .h5
+    @extend .dropdown
+    > button
+        @extend .btn
+        // @extend .btn-sm
+        @extend .btn-light
+        @extend .dropdown-toggle
     ul
-        @extend .list-group
+        @extend .dropdown-menu
     li
-        @extend .list-group-item
+        a
+            @extend .dropdown-item

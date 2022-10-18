@@ -1,6 +1,8 @@
 <div class="share">
-  <p>{{ i18n "share.title" }}</p>
-  <ul>
+  <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    {{ i18n "share.title" }}
+  </button>
+  <ul class="dropdown-menu">
     <li>
       <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "facebook" )) }}">
         Facebook

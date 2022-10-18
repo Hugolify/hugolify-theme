@@ -1,69 +1,23 @@
+{{ define "hero"}}
+  {{- partial "authors/hero.html" . -}}
+{{ end }}
+
 {{ define "main" }}
+  {{ partial "authors/schema" . }}
 
   <div class="container">
 
-    <section itemscope itemtype="http://schema.org/Person">
+    <div class="row">
+      {{ partial "authors/title" . }}
+      {{ partial "authors/content" . }}
+      {{ partial "authors/sidebar" . }}
+    </div>
 
-      {{ with .Title }}
-        <h1 itemprop="name">{{ partial "PrepareHTML" . }}</h1>
-      {{ end }}
-
-      <div class="row">
-        <div class="content">
-            
-          {{ with .Params.description }}
-            <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
-          {{ end }}
-            
-          {{ with .Params.image}}
-            {{ partial "commons/image.html" (dict
-              "src" .
-              "picture_class" "featured-image"
-              "desktop" "856x400"
-              "itemprop" "image"
-            ) }}
-          {{ end }}
-
-          {{ with .Content }}
-            <div itemprop="articleBody">
-                {{ partial "PrepareHTML" . }}
-            </div>
-          {{ end }}
-
-        </div>
-        <div class="sidebar">
-
-          <p>Contact</p>
-          <ul class="contact-list">
-            {{ with .Params.email }}
-              <li><a href="{{ . }}">Email</a></li>
-            {{ end }}
-            {{ with .Params.website }}
-              <li><a href="{{ . }}">Website</a></li>
-            {{ end }}
-            {{ with .Params.twitter }}
-              <li><a href="{{ . }}">Twitter</a></li>
-            {{ end }}
-          </ul>
-
-        </div>
-      </div>
-
-      {{ with .Pages }}
-        <hr>
-        <h2>{{ i18n "posts.list_author" }}</h2>
-        <div class="posts">
-          {{ range . }}
-            <div>
-              {{ partial "posts/item" . }}
-            </div>
-          {{ end }}
-        </div>
-      {{ end }}
-
-    </section>
-
-    <code>TERM AUTHORS</code>
+    {{ with .Pages }}
+      <hr>
+      <h2>{{ i18n "posts.list_author" }}</h2>
+      {{ partial "posts/items" . }}
+    {{ end }}
 
   </div>
 

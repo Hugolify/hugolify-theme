@@ -1,20 +1,16 @@
+{{ define "hero"}}
+  {{- partial "authors/hero.html" . -}}
+{{ end }}
+
 {{ define "main" }}
 
   <div class="container">
 
-    {{ partial "commons/title" . }}
+    {{ partial "authors/title" . }}
 
     {{ with .Pages }}
-    <div class="authors">
-      {{ range . }}
-        <div>
-          {{ partial "authors/item.html" . }}
-        </div>
-      {{ end }}
-    </div>
+      {{ partial "authors/items.html" . }}
     {{ end }}
-
-    <code>LIST AUTHORS</code>
 
   </div>
 

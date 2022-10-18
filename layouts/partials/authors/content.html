@@ -1,0 +1,20 @@
+<div class="content">
+  {{ with .Params.description }}
+    <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
+  {{ end }}
+          
+  {{ with .Params.image}}
+    {{ partial "commons/image.html" (dict
+      "src" .
+      "picture_class" "featured-image"
+      "desktop" "856x400"
+      "itemprop" "image"
+    ) }}
+  {{ end }}
+
+  {{ with .Content }}
+    <div itemprop="articleBody">
+      {{ partial "PrepareHTML" . }}
+    </div>
+  {{ end }}
+</div>
