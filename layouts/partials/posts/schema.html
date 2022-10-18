@@ -15,7 +15,7 @@
     {{ with .Params.categories }}
       {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
       {{ with $category }}
-        articleSection: {{ .Title | plainify | safeHTML }},
+        "articleSection": {{ .Title | plainify | safeHTML }},
       {{ end }}
     {{ end }}
 
