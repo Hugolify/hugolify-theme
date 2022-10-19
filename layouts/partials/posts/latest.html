@@ -1,10 +1,10 @@
-<section>
-  <h2>{{ i18n "posts.latest" }}</h2>
-  <div class="posts">
-    {{ range first 3 ( ( where site.RegularPages "Section" "posts" ).ByDate.Reverse ) }}
-      <div>
-        {{ partial "posts/item" . }}
-      </div>
-    {{ end }}
-  </div>
+<section class="latest-posts">
+  <header class="title">
+    <h2>{{ i18n "posts.latest" }}</h2>
+  </header>
+  {{ with first 3 ( ( where site.RegularPages "Section" "posts" ).ByDate.Reverse ) }}
+    {{ partial "posts/items" . }}
+    {{ $index := site.GetPage "/posts" }}
+    <a href="{{ $index.Permalink }}">{{ i18n "posts.more" }}</a>
+  {{ end }}
 </section>

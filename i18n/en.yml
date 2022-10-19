@@ -1,12 +1,20 @@
 authors:
   discover: Discover author
-  one: Author
-  other: Authors
+  title:
+    one: Author
+    other: Authors
 breadcrumb: Breadcrumb
 categories:
-  one: Category
-  other: Categories
-contact: Contact
+  title:
+    one: Category
+    other: Categories
+contact: 
+  email: Email
+  instagram: Instagram
+  linkedin: Linkedin
+  title: Contact
+  twitter: Twitter
+  website: Website
 filter: Filter
 header:
   accessibility:
@@ -22,18 +30,24 @@ navigation:
   close: Close
   main: Main navigation
   menu: Menu
-  next: Next
-  previous: Previous
 page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
+pagination:
+  first: Première page
+  label: Pagination
+  last: Dernière page
+  next: Next
+  page: Page {{ .Number }}
+  previous: Previous
 posts:
   latest: Latest news
   list_author: News list of this author
   more: Discover more news
-  one: New
-  other: News
+  title:
+    one: New
+    other: News
 reading_time:
   one: One minute to read
   other: '{{.Time}} minutes to read'

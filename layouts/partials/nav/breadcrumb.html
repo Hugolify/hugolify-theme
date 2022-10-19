@@ -2,8 +2,10 @@
 {{ if gt (len $levels) 2 }}
 <div class="breadcrumb-wrapper">
   <nav aria-label="{{ i18n "breadcrumb" }}">
-    <ol class="breadcrumb">
-      <li><a href="/">{{ i18n "home" }}</a></li>
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item">{{ i18n "home" }}</a>
+      </li>
       {{- $.Scratch.Set "url" "" -}}
       {{- range $levels -}}
         {{- if (gt (len .) 0) -}}    
@@ -18,10 +20,14 @@
           {{- end -}}
           {{- if eq ($.Scratch.Get "isPage") "true" -}}
             {{- with $.Site.GetPage (print . ".md") -}}
-              <li><a href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a></li>
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a itemprop="item" href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a>
+              </li>
             {{- end -}}
           {{- else -}}
-            <li><a href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a></li>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a>
+            </li>
           {{- end -}}
         {{- end -}}
       {{- end -}}

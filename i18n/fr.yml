@@ -1,12 +1,20 @@
 authors:
   discover: Découvrir l’auteur
-  one: Auteur
-  other: Auteurs
+  title:
+    one: Auteur
+    other: Auteurs
 breadcrumb: fil d’Arianne
 categories:
-  one: Categorie
-  other: Categories
-contact: Contact
+  title:
+    one: Categorie
+    other: Categories
+contact: 
+  email: E-mail
+  instagram: Instagram
+  linkedin: Linkedin
+  title: Contact
+  twitter: Twitter
+  website: Site web
 filter: Filtrer
 header:
   accessibility:
@@ -22,21 +30,27 @@ navigation:
   close: Fermer
   main: Navigation principale
   menu: Menu
-  next: Suivant
-  previous: Précédent
 page404:
   title: Page introuvable
   text: La page que vous recherchez n'existe pas ou a été déplacée.
   cta: Retour à la page d’accueil
+pagination:
+  first: Première page
+  label: Pagination
+  last: Dernière page
+  next: Suivant
+  page: Page {{ .Number }}
+  previous: Précédent
 posts:
   latest: Dernières actualités
   list_author: Liste des actualités de l’auteur
   more: Découvrir plus d’actualités
-  one: Actualité
-  other: Actualités
+  title:
+    one: Actualité
+    other: Actualités
 reading_time:
-    one: Une minute de lecture
-    other: '{{.Time}} minutes de lecture'
+  one: Une minute de lecture
+  other: '{{.Time}} minutes de lecture'
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
