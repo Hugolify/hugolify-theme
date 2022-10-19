@@ -1,37 +1,59 @@
-{{ $levels := split .RelPermalink "/" }}
-{{ if gt (len $levels) 2 }}
 <div class="breadcrumb-wrapper">
   <nav aria-label="{{ i18n "breadcrumb" }}">
-    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-        <a href="/" itemprop="item">{{ i18n "home" }}</a>
-      </li>
-      {{- $.Scratch.Set "url" "" -}}
-      {{- range $levels -}}
-        {{- if (gt (len .) 0) -}}    
-          {{- $.Scratch.Set "isPage" "false" -}}
-          {{- $.Scratch.Add "url" (print "/" . ) -}}
-          {{- if $.Site.GetPage (print . ".md") -}}
-            {{- with $.Site.GetPage (print . ".md") -}}
-              {{- if .IsPage -}}
-                {{- $.Scratch.Set "isPage" "true" -}}
-              {{- end -}}
-            {{- end -}}
-          {{- end -}}
-          {{- if eq ($.Scratch.Get "isPage") "true" -}}
-            {{- with $.Site.GetPage (print . ".md") -}}
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a itemprop="item" href="{{ $.Scratch.Get `url` }}">{{ .Title }}</a>
-              </li>
-            {{- end -}}
-          {{- else -}}
-            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-              <a itemprop="item" href="{{ $.Scratch.Get `url` }}">{{ humanize . }}</a>
-            </li>
-          {{- end -}}
-        {{- end -}}
-      {{- end -}}
+    {{- $path := strings.TrimSuffix "/" .RelPermalink -}}
+    {{- $length := len (split $path "/") }}
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      {{- template "breadcrumbOptimized"
+                  (dict 
+                    "p1" . 
+                    "p2" . 
+                    "path" $path 
+                    "position" $length
+                  ) }}
     </ol>
   </nav>
 </div>
-{{ end }}
+
+{{- define "breadcrumbOptimized" -}}
+  {{- $positionNext := sub .position 1 -}}
+  {{- if .p1.Parent -}}
+    {{- $path := strings.TrimSuffix "/" .path -}}
+    {{- $split := path.Split $path -}}
+    {{- if eq .p1.Parent.RelPermalink $split.Dir -}}
+      {{/* Normal case, parent matches permalink<br><br> */}}
+      {{- template "breadcrumbOptimized" (dict "p1" .p1.Parent "p2" .p2 "path" $split.Dir "position" $positionNext) -}}
+    {{- else -}}
+      {{/* Dissonant case, the supposed parent does not have the correct path, so we do an expensive search<br><br> */}}
+      {{- $page := partial "GetPageByUrl" $split.Dir -}}
+      {{- if $page -}}
+        {{- template "breadcrumbOptimized" (dict "p1" $page "p2" .p2 "path" $split.Dir "position" $positionNext) -}}
+      {{- else -}}
+        {{- template "breadcrumbOptimized" (dict "p1" .p1.Parent "p2" .p2 "path" $split.Dir "position" $positionNext) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else if not .p1.IsNode -}}
+    {{- template "breadcrumbLink" (dict "page" .p1.Site.Home "position" .position)  -}}
+  {{- end -}}
+  {{- template "breadcrumbLink" (dict "page" .p1 "active" (eq .p1 .p2) "position" .position) -}}
+{{- end -}}
+
+{{ define "breadcrumbLink" -}}
+  {{/* The pages root is not supposed to show, it's confusing with the home */}}
+  {{- if not (eq .page.RelPermalink "/pages/") -}}
+    {{- $title := .page.Params.breadcrumb_title -}}
+    {{- if not $title -}}
+      {{- $title = .page.Title -}}
+    {{- end -}}
+    {{- $title = chomp $title }}
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"{{ if .active }} aria-current="page"{{ end }}>
+      {{ if not .active -}}
+        <a itemprop="item" href="{{ .page.Permalink }}">
+      {{- end }}
+        <span itemprop="name">{{ partial "PrepareHTML" $title }}</span>
+      {{ if not .active -}}
+        </a>
+      {{- end }}
+      <meta itemprop="position" content="{{ .position }}">
+    </li>
+  {{- end -}}
+{{- end -}}

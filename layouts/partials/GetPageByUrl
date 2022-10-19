@@ -1,0 +1,5 @@
+{{ $page := "" }}
+{{ range (where site.Pages "RelPermalink" "eq" .) }}
+  {{  $page = . }}
+{{ end }}
+{{ return $page }}
