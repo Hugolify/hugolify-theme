@@ -8,13 +8,13 @@
 
     <header class="title">
       {{ partial "commons/title" . }}
-      {{ partial "posts/filters-button" . }}
+      {{ partial "posts/filters/button" . }}
     </header>
     {{ partial "posts/filters" . }}
 
-    {{ with .Pages }}
-      {{ partial "posts/items" . }}
-    {{ end }}
+    {{ $paginator := .Paginator.Pages }}
+    {{ partial "posts/items" $paginator }}
+    {{ partial "nav/pagination.html" . }}
 
   </div>
 

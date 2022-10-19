@@ -1,31 +1,5 @@
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <a href="{{ .Permalink }}" itemprop="url" class="content">
-    {{ with .Title }}
-      <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .Params.description }}
-      <p itemprop="abstract">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    <p>
-      {{ with .Date }}
-        <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_medium" }}</time>
-      {{ end }}
-      {{ with .Params.categories }}
-        {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
-        {{ with $category }}
-          <span class="post-categories">{{ .Title }}</span>
-        {{ end }}
-      {{ end }}
-    </p>
-  </a>
-  <div class="media">
-    {{ with .Params.image}}
-      {{ partial "commons/image.html" (dict
-        "src" .
-        "class" "img-fluid"
-        "desktop" "414x177"
-        "itemprop" "image"
-      ) }}
-    {{ end }}
-  </div>
+  {{ partial "posts/item/content" . }}
+  {{ partial "posts/item/metas" . }}
+  {{ partial "posts/item/image" . }}
 </article>

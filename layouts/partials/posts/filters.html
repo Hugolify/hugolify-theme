@@ -1,39 +1,9 @@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPosts" aria-labelledby="offcanvasPostsLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasCategoriesLabel">{{ i18n "filter" }}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+<div class="filters offcanvas" tabindex="-1" id="postsFilters" aria-labelledby="postsFiltersLabel">
+  <div class="header">
+    {{ partial "posts/filters/header" . }}
   </div>
-  <div class="offcanvas-body">
-
-    {{ $nCategories := .Site.Taxonomies.categories | len }}
-    {{ if gt $nCategories 1 }}
-      <p>{{ i18n "categories" $nCategories }}</p>
-      <ul>
-        {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.categories }}
-          <li>
-            {{ $category := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" "categories")  }}
-            {{ with $category }}
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
-            {{ end }}
-          </li>
-        {{ end }}
-      </ul>
-    {{ end }}
-
-    {{ $nAuthors := .Site.Taxonomies.authors | len }}
-    {{ if gt $nAuthors 1 }}
-      <p>{{ i18n "authors" $nAuthors }}</p>
-      <ul>
-        {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.authors }}
-          <li>
-            {{ $category := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" "authors")  }}
-            {{ with $category }}
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
-            {{ end }}
-          </li>
-        {{ end }}
-      </ul>
-    {{ end }}
-
+  <div class="content">
+    {{ partial "posts/filters/categories" . }}
+    {{ partial "posts/filters/authors" . }}
   </div>
 </div>

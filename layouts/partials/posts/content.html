@@ -1,18 +1,5 @@
-<div class="content">   
-  
-  {{ with .Params.image}}
-    {{ partial "commons/image.html" (dict
-      "src" .
-      "picture_class" "featured-image"
-      "desktop" "856x400"
-    ) }}
-  {{ end }}
-  {{ with .Content }}
-    <div>
-        {{ partial "PrepareHTML" . }}
-    </div>
-  {{ end }}
-
+<div class="content">
+  {{ partial "posts/featured-image" . }}
+  {{ partial "posts/body" . }}
   {{ partial "nav/previous-next" . }}
-
 </div>

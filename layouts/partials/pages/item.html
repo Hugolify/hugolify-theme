@@ -1,21 +1,4 @@
 <article class="page">
-  <a href="{{ .Permalink }}" itemprop="url" class="content">
-    {{ with .Title }}
-      <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .Params.description }}
-      <p itemprop="description">{{ partial "PrepareHTML" . }}</p>
-    {{ end }}
-    <p class="cta">{{ i18n "more" }}</p>
-  </a>
-  {{ with .Params.image}}
-    <div class="media">
-    {{ partial "commons/image.html" (dict
-        "src" .
-        "class" "img-fluid"
-        "desktop" "290x200"
-        "itemprop" "image"
-      ) }}
-    </div>
-  {{ end }}
+  {{ partial "posts/item/content" . }}
+  {{ partial "posts/item/image" . }}
 </article>

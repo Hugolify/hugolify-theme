@@ -1,0 +1,13 @@
+<div class="metas">
+  <p>
+    {{ with .Date }}
+      <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format ":date_medium" }}</time>
+    {{ end }}
+    {{ with .Params.categories }}
+      {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
+      {{ with $category }}
+        <span itemprop="articleSection">{{ .Title }}</span>
+      {{ end }}
+    {{ end }}
+  </p>
+</div>
