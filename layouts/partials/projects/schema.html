@@ -1,7 +1,7 @@
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Project",
+    "@type": "CreativeWork",
     "headline": {{ .Title }},
 
     {{ with .Params.image }}
@@ -9,36 +9,26 @@
     {{ end }}
 
     {{ with .Date }}
-      "datePublished": {{ . }},
+      "dateCreated": {{ . }},
     {{ end }}
 
-    {{ with .Params.categories }}
-      {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
-      {{ with $category }}
+    {{ with .Params.types }}
+      {{ $type := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
+      {{ with $type }}
         "articleSection": {{ .Title | plainify | safeHTML }},
       {{ end }}
     {{ end }}
 
     {{ with .Params.description }}
-      "abstract": {{ .  }},
+      "abstract": {{ . | plainify | safeHTML }},
     {{ end }}
 
     {{ with .Content }}
-      "articleBody": {{ . | plainify | safeHTML }},
+      "description": {{ . | plainify | safeHTML }},
     {{ end }}
 
-    {{ with .Params.authors }}
-      {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
-      {{ with $author }}
-        "author": {
-          "@type": "Person",
-          "name": {{ .Title | plainify | safeHTML }},
-          {{ with .Description }}
-            "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
-          {{ end }}
-          "url": {{ .Permalink }}
-        }
-      {{ end }}
+    {{ with .Site.Title }}
+      "author": {{ . }}
     {{ end }}
 
   }

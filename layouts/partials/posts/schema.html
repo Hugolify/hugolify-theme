@@ -20,7 +20,7 @@
     {{ end }}
 
     {{ with .Params.description }}
-      "abstract": {{ .  }},
+      "abstract": {{ . | plainify | safeHTML }},
     {{ end }}
 
     {{ with .Content }}
