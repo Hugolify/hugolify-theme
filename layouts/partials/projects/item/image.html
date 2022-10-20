@@ -1,0 +1,10 @@
+<div class="media">
+  {{ with .Params.image}}
+    {{ partial "commons/image.html" (dict
+      "src" .
+      "class" "img-fluid"
+      "desktop" "414x177"
+      "itemprop" "image"
+    ) }}
+  {{ end }}
+</div>

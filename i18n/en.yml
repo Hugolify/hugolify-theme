@@ -48,6 +48,12 @@ posts:
   title:
     one: New
     other: News
+projects:
+  latest: Latest projects
+  more: Discover more projects
+  title:
+    one: Project
+    other: Projects
 reading_time:
   one: One minute to read
   other: '{{.Time}} minutes to read'

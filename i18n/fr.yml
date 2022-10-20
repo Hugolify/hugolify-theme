@@ -48,6 +48,12 @@ posts:
   title:
     one: Actualité
     other: Actualités
+projects:
+  latest: Derniers projets
+  more: Découvrir plus de projets
+  title:
+    one: Projet
+    other: Projets
 reading_time:
   one: Une minute de lecture
   other: '{{.Time}} minutes de lecture'

@@ -1,0 +1,7 @@
+{{ with .Params.image}}
+  {{ partial "commons/image.html" (dict
+    "src" .
+    "picture_class" "featured-image"
+    "desktop" "856x"
+  ) }}
+{{ end }}

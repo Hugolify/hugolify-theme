@@ -1,0 +1,8 @@
+<a href="{{ .Permalink }}" itemprop="url" class="content">
+  {{ with .Title }}
+    <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
+  {{ end }}
+  {{ with .Params.description }}
+    <p itemprop="abstract">{{ partial "PrepareHTML" . }}</p>
+  {{ end }}
+</a>

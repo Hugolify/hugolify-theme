@@ -1,0 +1,6 @@
+{{ with .Params.types }}
+  {{ $type := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
+  {{ with $type }}
+    <p><a href="{{ .Permalink }}">{{ .Title }}</a></p>
+  {{ end }}
+{{ end }}

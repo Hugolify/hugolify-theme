@@ -1,0 +1,14 @@
+{{ $nTypes := .Site.Taxonomies.types | len }}
+{{ if gt $nTypes 1 }}
+  <p>{{ i18n "types.title" $nTypes }}</p>
+  <ul>
+    {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.types }}
+      <li>
+        {{ $type := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" "types")  }}
+        {{ with $type }}
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+{{ end }}

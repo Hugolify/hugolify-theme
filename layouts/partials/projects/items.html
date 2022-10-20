@@ -1,0 +1,9 @@
+{{ if gt . 0 }}
+  <div class="projects">
+    {{ range . }}
+      <div>
+        {{ partial "projects/item.html" . }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}

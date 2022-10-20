@@ -1,0 +1,18 @@
+{{ define "hero"}}
+  {{- partial "projects/hero.html" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "projects/schema" . }}
+
+  <div class="container">
+
+    <div class="row">
+      {{ partial "projects/title" . }}
+      {{ partial "projects/content" . }}
+      {{ partial "projects/sidebar" . }}
+    </div>
+
+  </div>
+
+{{ end }}
