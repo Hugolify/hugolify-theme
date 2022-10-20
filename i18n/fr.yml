@@ -61,3 +61,7 @@ share:
   share_on: Partager sur {{ .Website }}
   title: Partager
 toc: Table des matières
+types:
+  title:
+    one: Type
+    other: Types

@@ -2,5 +2,14 @@ header.title
     align-items: baseline
     display: flex
     margin-bottom: map-get($spacers, 4)
-    .btn
+    .btn,
+    .more
         margin-left: auto
+    .more
+        &::before
+            @extend .icon
+            content: 'east'
+            font-size: px2rem(16)
+            margin-right: .25rem
+            vertical-align: middle
+            

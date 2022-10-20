@@ -61,3 +61,7 @@ share:
   share_on: Share on {{ .Website }}
   title: Share
 toc: Table of contents
+types:
+  title:
+    one: Type
+    other: Types
