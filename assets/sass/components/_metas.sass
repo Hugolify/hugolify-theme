@@ -5,10 +5,10 @@
     @include media-breakpoint-up(md)
         display: flex
         > *
-            &:not(:first-child)
-                margin-left: .75rem
+            &:not(:first-child):not(.share)
+                margin-left: .5rem
                 &::before
                     content: '—'
-                    margin-right: .75rem
+                    margin-right: .5rem
     .share
         margin-left: auto
