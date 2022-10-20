@@ -1,12 +1,6 @@
-<p>
-  {{ with .Date }}
-    <time datetime="{{ . }}">{{ . | time.Format ":date_full" }}</time>
-  {{ end }}
-  - {{ i18n "reading_time" (dict "Time" .ReadingTime) }}
-  {{ with .Params.categories }}
-    {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
-    {{ with $category }}
-    - <a href="{{ .Permalink }}">{{ .Title }}</a>
-    {{ end }}
-  {{ end }}
-</p>
+<div class="metas">
+  {{ partial "commons/date" . }}
+  {{ partial "commons/reading-time" . }}
+  {{ partial "posts/categories" . }}
+  {{ partial "commons/share" . }}
+</div>

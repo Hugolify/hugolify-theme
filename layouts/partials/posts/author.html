@@ -1,6 +1,6 @@
 {{ with .Params.authors }}
   <aside class="author">
-    <p>{{ i18n "authors" 1 }}</p>
+    <p>{{ i18n "authors.title" 1 }}</p>
     {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
     {{ with $author }}
       <article itemprop="author" itemscope itemtype="https://schema.org/Person">

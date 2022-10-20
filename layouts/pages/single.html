@@ -7,11 +7,10 @@
 
   <div class="container">
 
-    {{ partial "commons/title" . }}
-
-    {{ with .Pages }}
-      {{ partial "pages/items" . }}
-    {{ end }}
+    <div class="row">
+      {{ partial "commons/content.html" . }}
+      {{ partial "commons/sidebar" . }}
+    </div>
 
   </div>
 

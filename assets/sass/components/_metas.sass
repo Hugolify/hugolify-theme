@@ -1,0 +1,14 @@
+.metas
+    @extend .small
+    p
+        margin-bottom: 0
+    @include media-breakpoint-up(md)
+        display: flex
+        > *
+            &:not(:first-child)
+                margin-left: .75rem
+                &::before
+                    content: '—'
+                    margin-right: .75rem
+    .share
+        margin-left: auto
