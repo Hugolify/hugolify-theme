@@ -1,0 +1,22 @@
+<div class="content">
+  {{ range site.Sections }}
+    {{ if ne .Type "sitemap" }}
+      {{ $permalink := .Permalink }}
+      <h2 id="{{ .Type }}">
+        <a href="{{ $permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+      </h2>
+      <ul>
+        {{ range where .Site.Pages "Section" .Type }}
+          {{ if ne $permalink .Permalink }}
+            <li>
+              <a href="{{ .Permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+              {{ if eq .Type "posts" }}
+                - <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date | time.Format ":date_medium" }}</time> 
+              {{ end }}
+            </li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    {{ end }}
+  {{ end }}
+</div>

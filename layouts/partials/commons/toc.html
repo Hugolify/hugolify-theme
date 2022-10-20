@@ -9,11 +9,11 @@
     {{ i18n "toc" }}
   </button>
   <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="tocLabel">{{ i18n "toc" }}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+    <div class="header">
+      <p class="title" id="tocLabel">{{ i18n "toc" }}</p>
+      <button type="button" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="content">
       {{ .TableOfContents }}
     </div>
   </div>

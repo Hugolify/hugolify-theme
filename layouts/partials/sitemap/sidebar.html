@@ -1,0 +1,31 @@
+<div class="sidebar">
+        
+  <div class="toc">
+    <p>{{ i18n "toc" }}</p>
+    <button type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#toc"
+      aria-controls="toc"
+      aria-expanded="false">
+      {{ i18n "toc" }}
+    </button>
+    <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+      <div class="header">
+        <p class="title" id="tocLabel">{{ i18n "toc" }}</h5>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+      </div>
+      <div class="content">
+        <ol>
+          {{ range site.Sections }}
+            {{ if ne .Type "sitemap" }}
+              <li>
+                <a href="#{{ .Type }}">{{ partial "PrepareHTML" .Title }}</a>
+              </li>
+            {{ end }}
+          {{ end }}
+        </ol>
+      </div>
+    </div>
+  </div>
+
+</div>
