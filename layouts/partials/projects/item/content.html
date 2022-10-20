@@ -1,8 +1,8 @@
 <a href="{{ .Permalink }}" itemprop="url" class="content">
+  {{ with .Date }}
+      <time datetime="{{ . }}" itemprop="datePublished">{{ .Format "2006" }}</time>
+    {{ end }}
   {{ with .Title }}
     <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
-  {{ end }}
-  {{ with .Params.description }}
-    <p itemprop="abstract">{{ partial "PrepareHTML" . }}</p>
   {{ end }}
 </a>

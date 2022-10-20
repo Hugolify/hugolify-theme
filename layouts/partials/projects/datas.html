@@ -1,0 +1,8 @@
+{{ with .Params.datas }}
+  <dl>
+    {{ range . }}
+      <dt>{{ .title }}</dt>
+      <dd>{{ .value }}</dd>
+    {{ end }}
+  </dl>
+{{ end }}

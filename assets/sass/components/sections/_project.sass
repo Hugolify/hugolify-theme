@@ -1,0 +1,40 @@
+.project
+    --bs-card-spacer-x: 0
+    --bs-card-border-width: 0
+    --bs-card-border-radius: 0
+    --bs-card-inner-border-radius: 0
+    --bs-card-bg: transparent
+    --bs-card-cap-bg: transparent
+    --bs-card-cap-padding-x: 0
+    --bs-card-cap-padding-y: 0
+    @extend .card
+    .media
+        @extend .card-img-top
+        @extend .ratio
+        @extend .ratio-4x3
+        background-color: $light
+        order: -1
+        img
+            @extend .card-img-top
+    .content
+        @extend .card-body
+    .metas
+        @extend .card-footer
+    p
+        @extend .card-text
+    [itemprop="url"]
+        text-decoration: none
+    [itemprop="name"]
+        @extend .card-title
+        @extend .h5
+    [itemprop="datePublished"]
+        @extend .small
+        @extend .text-muted
+    [itemprop="articleSection"]
+        @extend .project-types
+    a
+        @extend .stretched-link
+    &-types
+        @extend .badge
+        @extend .rounded-pill
+        @extend .text-bg-light
