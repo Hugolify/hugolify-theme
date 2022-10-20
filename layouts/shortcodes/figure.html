@@ -1,0 +1,13 @@
+{{ $src := .Get "src" | default false }}
+{{ $alt := .Get "alt" | default false }}
+{{ $link := .Get "link" | default false }}
+{{ $title := .Get "title" | default false }}
+{{ $credits := .Get "credits" | default false }}
+
+{{ partial "commons/figure" (dict
+  "src" $src 
+  "alt" $alt 
+  "link" $link 
+  "title" $title 
+  "credits" $credits 
+  ) }}

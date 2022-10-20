@@ -1,0 +1,21 @@
+<figure>
+  {{ if .link }}
+    <a href="{{ .link }}">
+  {{ end }}
+  {{ if .src }}
+    {{ partial "commons/image.html" (dict
+          "src" .src
+          "class" "img-fluid"
+          "alt" .alt
+        ) }}
+  {{ end }}
+  {{ if .link }}</a>{{ end }}
+  <figcaption>
+    {{ with .title }}
+      <p>{{ partial "PrepareHTML" . }}</p>
+    {{ end }}
+    {{ with .credits }}
+      <p class="credits">{{ partial "PrepareHTML" . }}</p>
+    {{ end }}
+  </figcaption>
+</figure>
