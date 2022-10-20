@@ -2,5 +2,19 @@ header[role="banner"]
     position: sticky
     top: 0
     z-index: $zindex-sticky
+    > nav
+        @extend .navbar
+        @extend .navbar-expand-lg
+        background-color: $header-background-color
     .nav-primary
         margin-left: auto
+    .offcanvas
+        @extend .offcanvas-end
+        .header
+            @extend .offcanvas-header
+            .title
+                @extend .offcanvas-title
+            button
+                @extend .btn-close
+        .content
+            @extend .offcanvas-body

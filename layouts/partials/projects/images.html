@@ -1,7 +1,10 @@
+{{ $desktop := site.Params.projects.image.desktop | default false }}
+{{ $mobile := site.Params.projects.image.mobile | default false }}
 {{ range .Params.images }}
   {{ partial "commons/image.html" (dict
     "src" .image
     "picture_class" "featured-image"
-    "desktop" "856x"
+    "desktop" $desktop
+    "mobile" $mobile
   ) }}
 {{ end }}

@@ -4,19 +4,5 @@
 
 {{ define "main" }}
   {{ partial "pages/schema" . }}
-
-  {{ if .Params.blocks }}
-  
-    {{ partial "blocks/list" .Params.blocks }}
-  
-  {{ else }}
-
-    <div class="container">
-      {{ partial "commons/title" . }}
-      {{ partial "projects/latest" . }}
-      {{ partial "posts/latest" . }}
-    </div>
-  
-  {{ end }}
-    
+  {{ partial "home/content.html" . }}
 {{ end }}

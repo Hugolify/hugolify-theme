@@ -1,15 +1,15 @@
 <header role="banner">
-  <nav class="navbar navbar-expand-lg bg-light" role="navigation" aria-label="{{ i18n "navigation.main" }}">
+  <nav role="navigation" aria-label="{{ i18n "navigation.main" }}">
     <div class="container">
       {{ partial "commons/logo.html" }}
       {{ if site.Data.menu.primary }}
         {{ partial "header/button.html" }}
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="navigation" aria-labelledby="navigationLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">{{ i18n "navigation.menu" }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+        <div class="offcanvas" tabindex="-1" id="navigation" aria-labelledby="navigationLabel">
+          <div class="header">
+            <p class="title" id="offcanvasNavbarLabel">{{ i18n "navigation.menu" }}</p>
+            <button type="button" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
           </div>
-          <div class="offcanvas-body">
+          <div class="content">
             {{ partial "nav/primary.html" . }}
           </div>
         </div>

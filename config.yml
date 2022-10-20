@@ -1,2 +1,12 @@
 params:
   logo: "/assets/images/logo.svg"
+  posts:
+    thumbnail:
+      desktop: "414x177"
+    image:
+      desktop: "856x"
+  projects:
+    thumbnail:
+      desktop: "414x312"
+    image:
+      desktop: "856x"
