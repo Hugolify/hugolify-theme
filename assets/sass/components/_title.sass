@@ -2,6 +2,10 @@ header.title
     align-items: baseline
     display: flex
     margin-bottom: map-get($spacers, 4)
+    h1,
+    h2
+        @include media-breakpoint-up(mp)
+            margin-bottom: 0
     .btn,
     .more
         margin-left: auto
