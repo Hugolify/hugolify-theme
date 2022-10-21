@@ -17,7 +17,8 @@
       {{ with .image}}
         <div class="media">
           {{ partial "commons/image.html" (dict
-              "src" .
+              "src" .src
+              "alt" .alt
               "class" "img-fluid"
             ) }}
         </div>

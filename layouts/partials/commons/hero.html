@@ -19,7 +19,8 @@
       {{ with $image }}
         <div class="hero-media">
           {{ partial "commons/image.html" (dict
-              "src" .
+              "src" .src
+              "alt" .alt
           ) }}
         </div>
       {{ end }}

@@ -16,7 +16,7 @@
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
 {{- end -}}
 {{ with .Params.image -}}
-  {{ $image := resources.Get . }}
+  {{ $image := resources.Get .src }}
   {{ if $image}}
     {{ $seoImage = $image.Permalink -}}
   {{ end }}

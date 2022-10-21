@@ -3,7 +3,8 @@
 <div class="media">
   {{ with .Params.image}}
     {{ partial "commons/image.html" (dict
-      "src" .
+      "src" .src
+      "alt" .alt
       "class" "img-fluid"
       "desktop" $desktop
       "mobile" $mobile

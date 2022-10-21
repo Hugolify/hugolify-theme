@@ -5,7 +5,8 @@
           
   {{ with .Params.image}}
     {{ partial "commons/image.html" (dict
-      "src" .
+      "src" .src
+      "alt" .alt
       "picture_class" "featured-image"
       "desktop" "856x400"
       "itemprop" "image"
