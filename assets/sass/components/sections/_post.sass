@@ -31,10 +31,9 @@
         @extend .small
         @extend .text-muted
     [itemprop="articleSection"]
-        @extend .post-categories
+        &::before
+            content: '—'
+            margin-left: .25rem
+            margin-right: .25rem
     a
         @extend .stretched-link
-    &-categories
-        @extend .badge
-        @extend .rounded-pill
-        @extend .text-bg-light

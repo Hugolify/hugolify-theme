@@ -1,8 +1,6 @@
 <header class="title">
-  <div>
-    {{ with .Title }}
-      <h1>{{ partial "PrepareHTML" . }}</h1>
-    {{ end }}
-    {{ partial "posts/metas" . }}
-  </div>
+  {{ with .Title }}
+    <h1>{{ partial "PrepareHTML" . }}</h1>
+  {{ end }}
+  {{ partial "posts/metas" . }}
 </header>

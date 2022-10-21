@@ -1,11 +1,14 @@
 header.title
     align-items: baseline
     display: flex
+    flex-wrap: wrap
     margin-bottom: map-get($spacers, 4)
     h1,
     h2
         @include media-breakpoint-up(mp)
             margin-bottom: 0
+    .metas
+        width: 100%
     .btn,
     .more
         margin-left: auto
