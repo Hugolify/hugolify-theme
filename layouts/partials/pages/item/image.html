@@ -1,7 +1,8 @@
 <div class="media">
   {{ with .Params.image}}
     {{ partial "commons/image.html" (dict
-      "src" .
+      "src" .src
+      "alt" .alt
       "class" "img-fluid"
       "desktop" "414x177"
       "itemprop" "image"

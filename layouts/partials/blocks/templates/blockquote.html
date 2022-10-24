@@ -13,7 +13,8 @@
         <figcaption>
           {{ with .image}}
             {{ partial "commons/image.html" (dict
-                "src" .
+                "src" .src
+                "alt" .alt
                 "desktop" "50x50"
                 "crop" "Top"
               ) }}
