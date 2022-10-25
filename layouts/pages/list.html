@@ -4,19 +4,5 @@
 
 {{ define "main" }}
   {{ partial "pages/schema" . }}
-
-  <div class="container">
-
-    {{ if .Pages }}
-      {{ partial "commons/title" . }}
-      {{ partial "pages/items" .Pages }}
-    {{ else }}
-      <div class="row">
-        {{ partial "commons/content.html" . }}
-        {{ partial "commons/sidebar" . }}
-      </div>
-    {{ end }}
-
-  </div>
-
+  {{ partial "pages/content" . }}
 {{ end }}
