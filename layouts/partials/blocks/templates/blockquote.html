@@ -3,7 +3,7 @@
     <div class="row">
 
       <div class="content">
-        {{ with .quote}}
+        {{ with .text}}
         <blockquote>
           {{ partial "PrepareHTML" . }}
         </blockquote>
@@ -20,14 +20,10 @@
               ) }}
           {{ end }}
           <div>
-            <cite>{{ partial "PrepareHTML" .name }}</cite><br>
-            {{ with .url}}
-              <a href="{{ . }}" target="_blank">
+            {{ with .title}}
+              <cite>{{ partial "PrepareHTML" . }}</cite><br>
             {{ end }}
-            {{ partial "PrepareHTML" .company }}
-            {{ with .url}}
-              </a>
-            {{ end }}
+            {{ partial "PrepareHTML" .text }}
           </div>
         </figcaption>
         {{ end }}
