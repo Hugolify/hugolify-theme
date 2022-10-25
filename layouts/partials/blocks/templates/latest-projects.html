@@ -1,7 +1,13 @@
 <section class="block-latest-projects">
   <div class="container">
     
-    <h2>{{ i18n "projects.latest" }}</h2>
+    {{ with .title }}
+      <header class="title">
+        <h2>{{ partial "PrepareHTML" . }}</h2>
+        {{ $index := site.GetPage "/projects" }}
+        <a href="{{ $index.Permalink }}" class="more">{{ i18n "projects.more" }}</a>
+      </header>
+    {{ end }}
     {{ with first 3 ( ( where site.RegularPages "Section" "projects" ).ByDate.Reverse ) }}
       {{ partial "projects/items" . }}
     {{ end }}
