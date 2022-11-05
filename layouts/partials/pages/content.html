@@ -1,0 +1,19 @@
+{{ if isset .Params "blocks" }}
+  
+  {{ partial "blocks/list" .Params.blocks }}
+
+{{ else }}
+
+  <div class="container">
+    {{ if .Pages }}
+      {{ partial "commons/title" . }}
+      {{ partial "pages/items" .Pages }}
+    {{ else }}
+      <div class="row">
+        {{ partial "commons/content.html" . }}
+        {{ partial "commons/sidebar" . }}
+      </div>
+    {{ end }}
+  </div>
+
+{{ end }}

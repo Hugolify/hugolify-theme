@@ -1,4 +1,4 @@
-{{ if .Params.blocks }}
+{{ if isset .Params "blocks" }}
   
   {{ partial "blocks/list" .Params.blocks }}
 
