@@ -6,13 +6,10 @@
   {{ partial "pages/schema" . }}
 
   <div class="container">
-
-    {{ partial "commons/title" . }}
-
+    {{ partial "commons/heading" . }}
     {{ with .Pages }}
       {{ partial "pages/items" . }}
     {{ end }}
-
   </div>
 
 {{ end }}
