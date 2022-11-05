@@ -35,12 +35,15 @@ page404:
   text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
 pagination:
+  between: Pagination between {{ .Section }}
   first: Première page
   label: Pagination
   last: Dernière page
   next: Next
+  next_section: Next {{ .Section }}
   page: Page {{ .Number }}
   previous: Previous
+  previous_section: Previous {{ .Section }}
 posts:
   latest: Latest news
   list_author: News list of this author

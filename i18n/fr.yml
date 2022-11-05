@@ -35,12 +35,15 @@ page404:
   text: La page que vous recherchez n'existe pas ou a été déplacée.
   cta: Retour à la page d’accueil
 pagination:
+  between: Pagination entre {{ .Section }}
   first: Première page
   label: Pagination
   last: Dernière page
   next: Suivant
+  next_section: "{{ .Section }} suivant"
   page: Page {{ .Number }}
   previous: Précédent
+  previous_section: "{{ .Section }} précédent"
 posts:
   latest: Dernières actualités
   list_author: Liste des actualités de l’auteur

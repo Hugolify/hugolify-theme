@@ -1,12 +1,16 @@
-<ul class="pagination">
-  {{ with .PrevInSection }}
-    <li>
-      <a href="{{ .Permalink }}">{{ i18n "pagination.previous" }}</a>
-    </li>
-  {{ end }}
-  {{ with .NextInSection }}
-    <li>
-      <a href="{{ .Permalink }}">{{ i18n "pagination.next" }}</a>
-    </li>
-  {{ end }}
-</ul>
+{{ $sections := lower (i18n (printf "%s.title" .Type)) }}
+{{ $section := i18n (printf "%s.title" .Type) 1 }}
+<nav role="navigation" aria-label="{{ i18n "pagination.between" (dict "Section" $sections) }}">
+  <ul class="pagination-between">
+    {{ with .PrevInSection }}
+      <li>
+        <a href="{{ .Permalink }}" class="previous">{{ i18n "pagination.previous_section" (dict "Section" $section) }}</a>
+      </li>
+    {{ end }}
+    {{ with .NextInSection }}
+      <li>
+        <a href="{{ .Permalink }}" class="next">{{ i18n "pagination.next_section" (dict "Section" $section) }}</a>
+      </li>
+    {{ end }}
+  </ul>
+</nav>
