@@ -2,15 +2,19 @@
 {{ $section := i18n (printf "%s.title" .Type) 1 }}
 <nav role="navigation" aria-label="{{ i18n "pagination.between" (dict "Section" $sections) }}">
   <ul class="pagination-between">
-    {{ with .PrevInSection }}
-      <li>
+    <li>
+      {{ with .PrevInSection }}
         <a href="{{ .Permalink }}" class="previous">{{ i18n "pagination.previous_section" (dict "Section" $section) }}</a>
-      </li>
-    {{ end }}
-    {{ with .NextInSection }}
-      <li>
+      {{ else }}
+        <a href="#" class="previous disabled">{{ i18n "pagination.previous_section" (dict "Section" $section) }}</a>
+      {{ end }}
+    </li>
+    <li>
+      {{ with .NextInSection }}
         <a href="{{ .Permalink }}" class="next">{{ i18n "pagination.next_section" (dict "Section" $section) }}</a>
-      </li>
-    {{ end }}
+      {{ else }}
+        <a href="#" class="next disabled">{{ i18n "pagination.next_section" (dict "Section" $section) }}</a>
+      {{ end }}
+    </li>
   </ul>
 </nav>

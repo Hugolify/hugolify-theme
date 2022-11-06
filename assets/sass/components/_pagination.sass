@@ -1,4 +1,5 @@
 .pagination
+    justify-content: center
     li
         @extend .page-item
     a
@@ -34,10 +35,21 @@
             content: 'navigate_before'
 
 .pagination-between
+    --bs-pagination-bg: transparent
+    --bs-pagination-border-radius: 0
+    --bs-pagination-hover-bg: transparent
+    --bs-pagination-focus-bg: transparent
     @extend .pagination
+    li
+        margin-left: .5rem
+        margin-right: .5rem
+    a
+        &:hover
+            text-decoration-line: underline 
     .previous::before,
     .next::after
         display: inline-block
+        margin-top: -.2em
         vertical-align: middle
     .previous::before
         margin-right: .25rem
