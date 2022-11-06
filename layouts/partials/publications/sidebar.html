@@ -1,3 +1,10 @@
 <div class="sidebar">
+  {{ partial "publications/metas" . }}
+  {{ with .Description }}
+    <p>{{ partial "PrepareHTML" . }}</p>
+  {{ end }}
+  {{ with .Params.target }}
+    <a href="{{ . }}" target="_blank" class="btn btn-primary">Découvrir la parution</a>
+  {{ end }}
   {{ partial "commons/share" . }}
 </div>
