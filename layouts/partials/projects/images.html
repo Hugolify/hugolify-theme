@@ -1,11 +1,13 @@
 {{ $desktop := site.Params.projects.image.desktop | default false }}
 {{ $mobile := site.Params.projects.image.mobile | default false }}
 {{ range .Params.images }}
-  {{ partial "commons/image.html" (dict
-    "src" .src
-    "alt" .alt
-    "picture_class" "featured-image"
-    "desktop" $desktop
-    "mobile" $mobile
-  ) }}
+  {{ with .image }}
+    {{ partial "commons/image.html" (dict
+      "src" .src
+      "alt" .alt
+      "picture_class" "featured-image"
+      "desktop" $desktop
+      "mobile" $mobile
+    ) }}
+  {{ end }}
 {{ end }}
