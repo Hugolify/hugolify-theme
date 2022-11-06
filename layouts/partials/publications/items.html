@@ -1,0 +1,9 @@
+{{ if gt . 0 }}
+  <div class="publications">
+    {{ range . }}
+      <div>
+        {{ partial "publications/item.html" . }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}
