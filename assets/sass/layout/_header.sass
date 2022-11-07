@@ -6,8 +6,19 @@ header[role="banner"]
         @extend .navbar
         @extend .navbar-expand-lg
         background-color: $header-background-color
+    .btn-menu
+        @extend .navbar-toggler
+        border: 0
+        > span
+            @extend .navbar-toggler-icon
     .nav-primary
         margin-left: auto
+        @include media-breakpoint-down(lg)
+            align-items: center
+            flex-direction: column
+            li
+                font-size: px2rem(20)
+            
     .offcanvas
         @extend .offcanvas-end
         .header
