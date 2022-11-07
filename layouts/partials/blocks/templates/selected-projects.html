@@ -1,0 +1,19 @@
+<section class="block-selected-projects">
+  <div class="container">
+    {{ with .title }}
+      <header class="heading">
+        <h2>{{ partial "PrepareHTML" . }}</h2>
+        {{ $index := site.GetPage "/projects" }}
+        <a href="{{ $index.Permalink }}" class="more">{{ i18n "projects.more" }}</a>
+      </header>
+    {{ end }}
+    {{ with .projects }}
+      {{ $projects := slice }}
+      {{ range . }}
+        {{ $project := site.GetPage "projects" (substr . 5) }}
+        {{ $projects = $projects | append $project }}
+      {{ end }}
+      {{ partial "projects/items" $projects }}
+    {{ end }}
+  </div>
+</section>
