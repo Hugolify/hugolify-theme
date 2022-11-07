@@ -1,0 +1,12 @@
+<section class="block-paragraph">
+  <div class="container">
+    
+    {{ with .title }}
+      <h2>{{ partial "PrepareHTML" . }}</h2>
+    {{ end }}
+    {{ with .text }}
+      <p>{{ partial "PrepareHTML" . | markdownify }}</p>
+    {{ end }}
+
+  </div>
+</section>
