@@ -6,10 +6,7 @@
 
   <div class="container">
 
-    <header class="title">
-      {{ partial "commons/heading" . }}
-      {{ partial "projects/filters/button" . }}
-    </header>
+    {{ partial "projects/heading" . }}
     {{ partial "projects/filters" . }}
 
     {{ $paginator := .Paginator.Pages }}
