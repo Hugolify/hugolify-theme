@@ -2,3 +2,12 @@ a
     text-decoration-line: underline
     text-decoration-thickness: 1px
     text-underline-offset: 3px
+    &[target="_blank"]
+        &::after
+            @extend .icon
+            content: 'open_in_new'
+            font-size: px2rem(14)
+            line-height: 1
+            margin-left: .2rem
+            margin-top: -.1rem
+            vertical-align: middle

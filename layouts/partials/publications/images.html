@@ -1,5 +1,5 @@
-{{ $desktop := site.Params.projects.image.desktop | default false }}
-{{ $mobile := site.Params.projects.image.mobile | default false }}
+{{ $desktop := site.Params.publications.image.desktop | default false }}
+{{ $mobile := site.Params.publications.image.mobile | default false }}
 {{ range .Params.images }}
   {{ with . }}
     {{ partial "commons/image.html" (dict
