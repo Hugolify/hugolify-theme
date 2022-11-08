@@ -20,7 +20,7 @@ params:
   publications:
     thumbnail:
       desktop: "306x459"
-      mobile: "146x234"
+      mobile: "156x234"
     image:
       desktop: "746x"
       mobile: "336x"
