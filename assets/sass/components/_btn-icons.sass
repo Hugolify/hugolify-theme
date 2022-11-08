@@ -2,8 +2,9 @@
     @extend .btn
     @extend .btn-sm
     @extend .btn-light
-    &::before
-        @extend .icon
-        content: 'filter_list'
-        margin-right: .5rem
-        vertical-align: bottom
+    @if variable-exists(icon-filter)
+        &::before
+            @extend .icon
+            content: $icon-filter
+            margin-right: .5rem
+            vertical-align: bottom

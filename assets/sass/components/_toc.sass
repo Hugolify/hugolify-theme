@@ -11,11 +11,12 @@
         @extend .btn-light
         @extend .d-md-none
         @extend .mb-3
-        &::before
-            @extend .icon
-            content: 'list'
-            margin-right: .5rem
-            vertical-align: bottom
+        @if variable-exists(icon-toc)
+            &::before
+                @extend .icon
+                content: $icon-toc
+                margin-right: .5rem
+                vertical-align: bottom
 
     nav 
         width: 100%

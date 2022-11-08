@@ -7,32 +7,38 @@
         line-height: 1
         height: 100%
 
-    .first,
-    .previous
-        &::before
-            @extend .icon
-            display: block
-            font-size: px2rem(16)
-            line-height: 1
-    .last,
-    .next
-        &::after
-            @extend .icon
-            display: block
-            font-size: px2rem(16)
-            line-height: 1
-    .first
-        &::before
-            content: 'first_page'
-    .last
-        &::after
-            content: 'last_page'
-    .next
-        &::after
-            content: 'navigate_next'
-    .previous
-        &::before
-            content: 'navigate_before'
+    @if variable-exists(icon-first-page)
+        .first
+            &::before
+                @extend .icon
+                content: $icon-first-page
+                display: block
+                font-size: px2rem(16)
+                line-height: 1
+    @if variable-exists(icon-last-page)
+        .last
+            &::after
+                @extend .icon
+                content: $icon-last-page
+                display: block
+                font-size: px2rem(16)
+                line-height: 1
+    @if variable-exists(icon-next-page)
+        .next
+            &::after
+                @extend .icon
+                content: $icon-next-page
+                display: block
+                font-size: px2rem(16)
+                line-height: 1
+    @if variable-exists(icon-previous-page)
+        .previous
+            &::before
+                @extend .icon
+                content: $icon-previous-page
+                display: block
+                font-size: px2rem(16)
+                line-height: 1
 
 .pagination-between
     --bs-pagination-bg: transparent

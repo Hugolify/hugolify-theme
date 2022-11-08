@@ -5,14 +5,15 @@
         // @extend .btn-sm
         @extend .btn-light
         @extend .dropdown-toggle
-        &::before
-            @extend .icon
-            content: 'share'
-            font-size: px2rem(16)
-            line-height: 1
-            margin-right: .1rem
-            margin-top: -.1rem
-            vertical-align: middle
+        @if variable-exists(icon-share)
+            &::before
+                @extend .icon
+                content: $icon-share
+                font-size: px2rem(16)
+                line-height: 1
+                margin-right: .1rem
+                margin-top: -.1rem
+                vertical-align: middle
     ul
         @extend .dropdown-menu
     li

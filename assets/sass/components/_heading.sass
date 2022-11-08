@@ -12,11 +12,12 @@
     .btn,
     .more
         margin-left: auto
-    .more
-        &::before
-            @extend .icon
-            content: 'east'
-            font-size: px2rem(16)
-            margin-right: .25rem
-            vertical-align: middle
+    @if variable-exists(icon-arrow-right)
+        .more
+            &::before
+                @extend .icon
+                content: $icon-arrow-right
+                font-size: px2rem(16)
+                margin-right: .25rem
+                vertical-align: middle
             
