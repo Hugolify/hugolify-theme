@@ -95,7 +95,7 @@
       {{ with $image_desktop }}
         <picture {{ if $picture_class }}class="{{ $picture_class }}"{{ end }}>
           {{ with $image_desktop_webp }}
-            <source srcset="{{ .RelPermalink }}" type="image/webp" media="(min-width: 577px)">
+            <source srcset="{{ .RelPermalink }}" type="image/webp"{{ if $image_mobile}} media="(min-width: 577px)"{{ end }}>
           {{ end }}
           {{ with $image_mobile }}
             {{ with $image_mobile_webp }}
