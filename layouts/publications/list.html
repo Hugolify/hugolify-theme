@@ -8,6 +8,8 @@
 
     {{ partial "commons/heading" . }}
 
+    {{ partial "blocks/list" . }}
+
     {{ $paginator := .Paginator.Pages }}
     {{ partial "publications/items" $paginator }}
     {{ partial "nav/pagination.html" . }}

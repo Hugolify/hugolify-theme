@@ -9,6 +9,8 @@
     {{ partial "posts/heading" . }}
     {{ partial "posts/filters" . }}
 
+    {{ partial "blocks/list" . }}
+    
     {{ $paginator := .Paginator.Pages }}
     {{ partial "posts/items" $paginator }}
     {{ partial "nav/pagination.html" . }}

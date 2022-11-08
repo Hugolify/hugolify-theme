@@ -9,6 +9,8 @@
     {{ partial "projects/heading" . }}
     {{ partial "projects/filters" . }}
 
+    {{ partial "blocks/list" . }}
+
     {{ $paginator := .Paginator.Pages }}
     {{ partial "projects/items" $paginator }}
     {{ partial "nav/pagination.html" . }}

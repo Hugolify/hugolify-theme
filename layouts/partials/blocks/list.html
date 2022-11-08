@@ -1,4 +1,6 @@
-{{- range . -}}
-  {{ $template := printf "blocks/templates/%s.html" .type }}
-  {{ partial $template . }}
+{{- with .Params.blocks -}}
+  {{- range . -}}
+    {{ $template := printf "blocks/templates/%s.html" .type }}
+    {{ partial $template . }}
+  {{- end -}}
 {{- end -}}
