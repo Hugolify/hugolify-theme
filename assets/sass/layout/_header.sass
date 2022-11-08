@@ -9,6 +9,8 @@ header[role="banner"]
     .btn-menu
         @extend .navbar-toggler
         border: 0
+        @include media-breakpoint-down(md)
+            margin-right: - $navbar-toggler-padding-x
         > span
             @extend .navbar-toggler-icon
     .nav-primary
@@ -18,7 +20,6 @@ header[role="banner"]
             flex-direction: column
             li
                 font-size: px2rem(20)
-            
     .offcanvas
         @extend .offcanvas-end
         .header
