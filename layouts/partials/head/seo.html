@@ -1,13 +1,23 @@
-{{- $seoTitle := htmlUnescape site.Title -}}
+{{/*  TITLE  */}}
+{{- $seoTitle := chomp (htmlUnescape site.Title) -}}
+{{- with .Site.Data.seo.title -}}
+  {{- $seoTitle = chomp (htmlUnescape .) -}}
+{{- end -}}
 {{- if .Title -}}
   {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape .Title)) $seoTitle -}}
 {{- end -}}
 
+{{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
+{{- with .Site.Data.seo.description -}}
+  {{- $seoDescription = partial "PrepareHTML" . -}}
+{{- end -}}
 {{- with .Params.description -}}
   {{- $seoDescription = partial "PrepareHTML" . -}}
 {{- end -}}
 
+
+{{/*  IMAGE  */}}
 {{- $seoImage := "" -}}
 {{- if os.FileExists "static/assets/images/share.png" -}}
   {{- $seoImage = printf "%sassets/images/share.png" site.BaseURL -}}
@@ -15,16 +25,19 @@
 {{- if os.FileExists "static/assets/images/share.jpg" -}}
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
 {{- end -}}
+{{- with .Site.Data.seo.image.src -}}
+  {{- $seoImage = . -}}
+{{- end -}}
 {{ with .Params.image -}}
   {{ $image := resources.Get .src }}
   {{ if $image}}
     {{ $seoImage = $image.Permalink -}}
   {{ end }}
 {{ end }}
-
 {{- $ogImage := $seoImage -}}
 {{- $twitterImage := $seoImage -}}
 
+{{/*  PERMALINK  */}}
 {{- $seoUrl := .Permalink -}}
 
 <!-- HTML Meta Tags -->
