@@ -79,16 +79,16 @@
         {{ else }}
           {{ $image_mobile = $image.Resize $mobile_size }}
         {{ end }}
-        {{ $width_x2 := mul 2 $image_mobile.Width }}
-        {{ $height_x2 := mul 2 $image_mobile.Height }}
+        {{ $width_2x := mul 2 $image_mobile.Width }}
+        {{ $height_2x := mul 2 $image_mobile.Height }}
         {{ if $isFill_m}}
-          {{ $image_mobile_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop) }}
+          {{ $image_mobile_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop) }}
           {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-          {{ $image_mobile_webp_retina = $image.Fill (print $width_x2 "x" $height_x2 " " $crop " webp") }}
+          {{ $image_mobile_webp_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop " webp") }}
         {{ else }}
-          {{ $image_mobile_retina = $image.Resize (print $width_x2 "x" $height_x2) }}
+          {{ $image_mobile_retina = $image.Resize (print $width_2x "x" $height_2x) }}
           {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
-          {{ $image_mobile_webp_retina = $image.Resize (print $width_x2 "x" $height_x2 " webp") }}
+          {{ $image_mobile_webp_retina = $image.Resize (print $width_2x "x" $height_2x " webp") }}
         {{ end }}
       {{ end }}
 
@@ -99,9 +99,9 @@
           {{ end }}
           {{ with $image_mobile }}
             {{ with $image_mobile_webp }}
-              <source srcset="{{ .RelPermalink }}, {{ $image_mobile_webp_retina.RelPermalink }} x2" type="image/webp" media="(max-width: 576px)">
+              <source srcset="{{ .RelPermalink }}, {{ $image_mobile_webp_retina.RelPermalink }} 2x" type="image/webp" media="(max-width: 576px)">
             {{ end }}
-            <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} x2" type="image/jpg" media="(max-width: 576px)">
+            <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} 2x" type="image/jpg" media="(max-width: 576px)">
           {{ end }}
           <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
         </picture>
