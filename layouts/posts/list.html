@@ -4,13 +4,13 @@
 
 {{ define "main" }}
 
+  {{ partial "blocks/list" . }}
+
   <div class="container">
 
     {{ partial "posts/heading" . }}
     {{ partial "posts/filters" . }}
 
-    {{ partial "blocks/list" . }}
-    
     {{ $paginator := .Paginator.Pages }}
     {{ partial "posts/items" $paginator }}
     {{ partial "nav/pagination.html" . }}

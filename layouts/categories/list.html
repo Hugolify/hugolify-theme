@@ -4,12 +4,11 @@
 
 {{ define "main" }}
 
+  {{ partial "blocks/list" . }}
+
   <div class="container">
 
-    <header class="title">
-      {{ partial "commons/heading" . }}
-      {{ partial "posts/filters/button" . }}
-    </header>
+    {{ partial "posts/heading" . }}
     {{ partial "posts/filters" . }}
 
     {{ $paginator := .Paginator.Pages }}

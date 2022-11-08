@@ -1,0 +1,12 @@
+{{ if or (.Pages) (.Content) }}
+  <div class="container">
+    {{ if .Pages }}
+      {{ partial "pages/items" .Pages }}
+    {{ else }}
+      <div class="row">
+        {{ partial "commons/content.html" . }}
+        {{ partial "pages/sidebar" . }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}
