@@ -1,8 +1,11 @@
 {{ with .Params.image}}
+  {{ $desktop := site.Params.image.desktop | default false }}
+  {{ $mobile := site.Params.image.mobile | default false }}
   {{ partial "commons/image.html" (dict
     "src" .src
     "alt" .alt
     "picture_class" "featured-image"
-    "desktop" "856x"
+    "desktop" $desktop
+    "mobile" $mobile
   ) }}
 {{ end }}

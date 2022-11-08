@@ -1,12 +1,36 @@
 params:
   logo: "/assets/images/logo.svg"
+  image:
+    desktop: "856x"
+    mobile: "336x"
   posts:
     thumbnail:
       desktop: "414x177"
+      mobile: "336x100"
     image:
       desktop: "856x"
+      mobile: "336x"
   projects:
     thumbnail:
       desktop: "414x312"
+      mobile: "336x250"
     image:
       desktop: "856x"
+      mobile: "336x"
+  publications:
+    thumbnail:
+      desktop: "306x459"
+      mobile: "146x234"
+    image:
+      desktop: "746x"
+      mobile: "336x"
+  blocks:
+    editorial:
+      desktop: "624x"
+      mobile: "336x"
+    figure:
+      desktop: "1272x"
+      mobile: "336x"
+
+
+  

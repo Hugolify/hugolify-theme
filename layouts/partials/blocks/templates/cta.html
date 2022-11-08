@@ -1,9 +1,12 @@
-<section class="block-cta">
-  <div class="container">
+{{ with .}}
+  <section class="block-cta">
+    <div class="container">
 
-    {{ with .}}
-      <a href="{{ .url }}" class="btn">{{ partial "PrepareHTML" .text }}</a>
-    {{ end }}
+      {{ if and (ne .url "") (ne .text "") }}
+        {{ $title := i18n "link.blank_aria" (dict "Title" (partial "PrepareHTML" .text))}}
+        <a href="{{ .url }}" class="btn"{{ if .blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "PrepareHTML" .text }}</a>
+      {{ end }}
 
-  </div>
-</section>
+    </div>
+  </section>
+{{ end }}

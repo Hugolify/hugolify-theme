@@ -1,18 +1,18 @@
 {{ $src := .src | default false }}
 {{ $alt := .alt | default false }}
 {{ $link := .link | default false }}
-{{ $title := .title | default false }}
-{{ $credits := .credits | default false }}
+{{ $legend := .legend | default false }}
+{{ $credit := .credit | default false }}
 
 <section class="block-figure">
   <div class="container">
-    
+
     {{ partial "commons/figure" (dict
       "src" $src 
       "alt" $alt 
       "link" $link 
-      "title" $title 
-      "credits" $credits 
+      "text" $legend 
+      "credits" $credit
       ) }}
 
   </div>

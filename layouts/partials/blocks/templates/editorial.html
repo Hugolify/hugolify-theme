@@ -10,15 +10,22 @@
           <p>{{ partial "PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ with .cta}}
-          <a href="{{ .url }}" class="btn">{{ partial "PrepareHTML" .text }}</a>
+          {{ if and (isset . "url") (ne .url "") (isset . "text") (ne .text "") }}
+            {{ $title := i18n "link.blank_aria" (dict "Title" (partial "PrepareHTML" .text))}}
+            <a href="{{ .url }}" class="btn"{{ if .blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "PrepareHTML" .text }}</a>
+          {{ end }}
         {{ end }}
       </div>
 
       {{ with .image}}
+        {{ $desktop := site.Params.blocks.editorial.desktop | default false }}
+        {{ $mobile := site.Params.blocks.editorial.mobile | default false }}
         <div class="media">
           {{ partial "commons/image.html" (dict
               "src" .src
               "alt" .alt
+              "desktop" $desktop
+              "mobile" $mobile
               "class" "img-fluid"
             ) }}
         </div>
