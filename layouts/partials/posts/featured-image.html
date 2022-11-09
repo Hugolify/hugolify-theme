@@ -1,1 +1,11 @@
-{{ partial "commons/featured-image" . }}
+{{ with .Params.image}}
+  {{ $desktop := site.Params.posts.image.desktop | default false }}
+  {{ $mobile := site.Params.posts.image.mobile | default false }}
+  {{ partial "commons/image.html" (dict
+    "src" .src
+    "alt" .alt
+    "picture_class" "featured-image"
+    "desktop" $desktop
+    "mobile" $mobile
+  ) }}
+{{ end }}
