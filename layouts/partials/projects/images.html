@@ -1,13 +1,34 @@
-{{ $desktop := site.Params.projects.image.desktop | default false }}
-{{ $mobile := site.Params.projects.image.mobile | default false }}
-{{ range .Params.images }}
-  {{ with . }}
-    {{ partial "commons/image.html" (dict
-      "src" .src
-      "alt" .alt
-      "picture_class" "featured-image"
-      "desktop" $desktop
-      "mobile" $mobile
-    ) }}
+{{ if isset .Params "images" }}
+  <section class="images">
+  {{ range .Params.images }}
+    {{ with . }}
+      {{ $desktop := site.Params.projects.image.desktop | default false }}
+      {{ $mobile := site.Params.projects.image.mobile | default false }}
+      {{ $picture_class := "featured-image" }}
+      {{ if .half }}
+        {{ $gutter := site.Params.gutter | default 0 }}
+        {{ $picture_class = printf "%s half" $picture_class }}
+        {{ if $desktop }}
+          {{ $desktop_size := split $desktop "x" }}
+          {{ $desktop_width := index $desktop_size 0 | default "" }}
+          {{ $desktop_height := index $desktop_size 1 | default "" }}
+          {{ if ne ($desktop_width) "" }}
+            {{ $desktop_width = sub (div (int $desktop_width) 2) (div $gutter 2) }}
+          {{ end }}
+          {{ if ne ($desktop_height) "" }}
+            {{ $desktop_height = sub (div (int $desktop_height) 2) (div $gutter 2) }}
+          {{ end }}
+          {{ $desktop = printf "%sx%s" (string $desktop_width) (string $desktop_height) }}
+        {{ end }}
+      {{ end }}
+      {{ partial "commons/image.html" (dict
+        "src" .src
+        "alt" .alt
+        "picture_class" $picture_class
+        "desktop" $desktop
+        "mobile" $mobile
+      ) }}
+    {{ end }}
   {{ end }}
+  </section>
 {{ end }}

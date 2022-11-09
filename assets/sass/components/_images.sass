@@ -1,0 +1,7 @@
+.images
+    @include media-breakpoint-up(md)
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
+      .half
+          width: calc(50% - (#{$grid-gutter-width} / 2))
