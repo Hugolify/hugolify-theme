@@ -1,18 +1,20 @@
-<div class="breadcrumb-wrapper">
-  <nav aria-label="{{ i18n "breadcrumb" }}">
-    {{- $path := strings.TrimSuffix "/" .RelPermalink -}}
-    {{- $length := len (split $path "/") }}
-    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
-      {{- template "breadcrumbOptimized"
-                  (dict 
-                    "p1" . 
-                    "p2" . 
-                    "path" $path 
-                    "position" $length
-                  ) }}
-    </ol>
-  </nav>
-</div>
+{{- if .Parent -}}
+  <div class="breadcrumb-wrapper">
+    <nav aria-label="{{ i18n "breadcrumb" }}">
+      {{- $path := strings.TrimSuffix "/" .RelPermalink -}}
+      {{- $length := len (split $path "/") }}
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+        {{- template "breadcrumbOptimized"
+                    (dict 
+                      "p1" . 
+                      "p2" . 
+                      "path" $path 
+                      "position" $length
+                    ) }}
+      </ol>
+    </nav>
+  </div>
+{{- end -}}
 
 {{- define "breadcrumbOptimized" -}}
   {{- $positionNext := sub .position 1 -}}
@@ -57,3 +59,4 @@
     </li>
   {{- end -}}
 {{- end -}}
+
