@@ -1,7 +1,4 @@
 <figure>
-  {{ if .link }}
-    <a href="{{ .link }}">
-  {{ end }}
   {{ if .src }}
     {{ partial "commons/image.html" (dict
           "src" .src
@@ -9,13 +6,12 @@
           "class" "img-fluid"
         ) }}
   {{ end }}
-  {{ if .link }}</a>{{ end }}
   <figcaption>
-    {{ with .text }}
+    {{ with .legend }}
       <p>{{ partial "PrepareHTML" . }}</p>
     {{ end }}
-    {{ with .credits }}
-      <p class="credits">{{ partial "PrepareHTML" . | markdownify }}</p>
+    {{ with .credit }}
+      <p class="credit">{{ partial "PrepareHTML" . | markdownify }}</p>
     {{ end }}
   </figcaption>
 </figure>

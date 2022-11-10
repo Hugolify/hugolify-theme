@@ -1,6 +1,5 @@
 {{ $src := .src | default false }}
 {{ $alt := .alt | default false }}
-{{ $link := .link | default false }}
 {{ $legend := .legend | default false }}
 {{ $credit := .credit | default false }}
 
@@ -10,9 +9,8 @@
     {{ partial "commons/figure" (dict
       "src" $src 
       "alt" $alt 
-      "link" $link 
-      "text" $legend 
-      "credits" $credit
+      "legend" $legend 
+      "credit" $credit
       ) }}
 
   </div>
