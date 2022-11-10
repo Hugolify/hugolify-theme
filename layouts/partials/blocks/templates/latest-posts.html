@@ -7,7 +7,11 @@
         <a href="{{ $index.Permalink }}" class="more">{{ i18n "posts.more" }}</a>
       </header>
     {{ end }}
-    {{ with first 3 ( ( where site.RegularPages "Section" "posts" ).ByDate.Reverse ) }}
+    {{ $count := 3 }}
+    {{ with .count }}
+      {{ $count = . }}
+    {{ end }}
+    {{ with first $count ( ( where site.RegularPages "Section" "posts" ).ByDate.Reverse ) }}
       {{ partial "posts/items" . }}
     {{ end }}
   </div>
