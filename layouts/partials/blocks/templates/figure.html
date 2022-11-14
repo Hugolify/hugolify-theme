@@ -3,7 +3,7 @@
 {{ $legend := .legend | default false }}
 {{ $credit := .credit | default false }}
 
-<section class="block-figure">
+<section class="block-figure{{ with .background }} block-bg{{ end }}">
   <div class="container">
 
     {{ partial "commons/figure" (dict
