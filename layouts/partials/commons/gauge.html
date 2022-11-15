@@ -1,0 +1,25 @@
+{{ $value := . }}
+{{ $color := false }}
+{{ if ge $value 90 }}
+  {{ $color = "pass" }}
+{{ else if ge $value 50 }}
+  {{ $color = "average" }}
+{{ else }}
+  {{ $color = "fail" }}
+{{ end }}
+<figure class="gauge">
+  <svg role="img" viewBox="0 0 36 36"{{ if $color }} class="{{ $color }}"{{ end }}>
+    <path class="circle-bg"
+      d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831"
+    />
+    <path class="circle"
+      stroke-dasharray="{{ $value }}, 100"
+      d="M18 2.0845
+        a 15.9155 15.9155 0 0 1 0 31.831
+        a 15.9155 15.9155 0 0 1 0 -31.831"
+    />
+  </svg>
+  <figcaption>{{ $value }}%</figcaption>
+</figure>

@@ -1,0 +1,38 @@
+<section class="block-gauges{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ $text := .text }}
+    {{ with .title }}
+      <header class="heading">
+        <h2>{{ partial "PrepareHTML" . }}</h2>
+        {{ with $text }}
+          <p>{{ partial "PrepareHTML" . }}</p>
+        {{ end }}
+      </header>
+    {{ end }}
+
+    {{ $column := 3 }}
+    {{ with .column }}
+      {{ $column = . }}
+    {{ end }}
+    {{ with .items }}
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-{{ $column }}">
+      {{ range . }}
+        <div class="col">
+          {{ with .value }}
+            {{ partial "commons/gauge.html" . }}
+          {{ end }}
+          {{ with .title }}
+            <h3>{{ partial "PrepareHTML" . }}</h3>
+          {{ end }}
+          {{ with .text }}
+            <p>{{ partial "PrepareHTML" . }}</p>
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+
+  </div>
+</section>

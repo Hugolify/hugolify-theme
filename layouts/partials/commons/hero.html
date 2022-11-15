@@ -12,8 +12,15 @@
         {{ with .text }}
           <p>{{ . }}</p>
         {{ end }}
-        {{ with .cta }}
-          <p><a href="{{ .url }}" class="btn">{{ .text }}</a></p>
+        {{ if .cta }}
+          <div class="cta" {{ if .cta }} role="group"{{ end }}>
+            {{ with .cta }}
+            <a href="{{ .url }}" class="btn">{{ .text }}</a>
+            {{ end }}
+            {{ with .cta_second }}
+              <a href="{{ .url }}" class="btn">{{ .text }}</a>
+            {{ end }}
+          </div>
         {{ end }}
       </div>
 

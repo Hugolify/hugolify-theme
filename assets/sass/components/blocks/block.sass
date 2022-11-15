@@ -1,6 +1,13 @@
 [class*="block-"]
-    padding-bottom: $global-padding
-    padding-top: $global-padding
+    @include rfs($global-padding, padding-bottom)
+    @include rfs($global-padding, padding-top)
+    .heading
+        @include media-breakpoint-up(lg)
+            margin-left: auto
+            margin-right: auto
+            max-width: 66%
+        h2 + p
+            margin-top: $headings-margin-bottom
 
 .block-bg
     background-color: $light

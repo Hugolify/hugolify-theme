@@ -1,0 +1,56 @@
+.gauge
+    height: $gauge-size
+    justify-content: space-around
+    position: relative
+    width: $gauge-size
+
+    svg
+        display: block
+
+        &.fail 
+            .circle
+                stroke: $color-fail
+            & + figcaption
+                color: $color-fail
+
+        &.average 
+            .circle
+                stroke: $color-average
+            & + figcaption
+                color: $color-average
+
+        &.pass
+            .circle
+                stroke: $color-pass
+            & + figcaption
+                color: $color-pass
+
+    .circle-bg
+        fill: none
+        stroke: $gauge-color
+        stroke-width: $gauge-stroke-size
+
+    .circle
+        fill: none
+        stroke: $gauge-stroke-color
+        stroke-width: $gauge-stroke-size
+        stroke-linecap: round
+        animation: progress 1s ease-out forwards
+
+    figcaption
+        align-items: center
+        bottom: 0
+        display: flex
+        font-size: 2rem
+        font-weight: $font-weight-bold
+        justify-content: center
+        left: 0
+        margin-top: 0
+        position: absolute
+        right: 0
+        top: 0
+
+
+@keyframes progress
+    0%
+        stroke-dasharray: 0 100

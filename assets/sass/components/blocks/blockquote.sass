@@ -5,11 +5,13 @@
         @extend .offset-md-2
     blockquote
         margin-bottom: 0
-    figcaption
+        p
+            line-height: 1.2
+    blockquote + figcaption
         align-items: center
         display: flex
         justify-content: center
-        margin-top: 0
+        margin-bottom: 0
         &::before
             content: none
         picture

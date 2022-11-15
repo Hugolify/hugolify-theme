@@ -2,9 +2,11 @@ blockquote
     @extend .blockquote
     p
         font-size: $blockquote-font-size
-    & + figcaption
+
+figure
+    blockquote + figcaption
         @extend .blockquote-footer
         margin-top: $blockquote-margin-y
         img
             border-radius: 50%
-            margin-right: .5rem
+            margin-right: 1rem
