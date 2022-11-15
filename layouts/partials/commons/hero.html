@@ -1,6 +1,6 @@
 {{ $image := .Params.image }}
 {{ with .Params.hero }}
-{{ if and (ne .title "") (ne .text "") (ne .cta "") }}
+{{ if or (ne .title "") (ne .text "") (ne .cta "") }}
 <header class="hero">
   <div class="container">
     <div class="row">
