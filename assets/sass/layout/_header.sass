@@ -20,6 +20,9 @@ header[role="banner"]
             flex-direction: column
             li
                 font-size: px2rem(20)
+        @include media-breakpoint-up(lg)
+            margin-right: - $nav-link-padding-x
+
     .offcanvas
         @extend .offcanvas-end
         .header
