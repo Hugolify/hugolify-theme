@@ -1,6 +1,6 @@
 {{ $image := .Params.image }}
 {{ with .Params.hero }}
-{{ if or (ne .title "") (ne .text "") (ne .cta "") }}
+{{ if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) }}
 <header class="hero">
   <div class="container">
     <div class="row">
@@ -13,12 +13,16 @@
           <p>{{ . }}</p>
         {{ end }}
         {{ if .cta }}
-          <div class="cta" {{ if .cta }} role="group"{{ end }}>
+          <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
             {{ with .cta }}
-            <a href="{{ .url }}" class="btn">{{ .text }}</a>
+              {{ if .text }}
+                <a href="{{ .url }}" class="btn">{{ .text }}</a>
+              {{ end }}
             {{ end }}
             {{ with .cta_second }}
-              <a href="{{ .url }}" class="btn">{{ .text }}</a>
+              {{ if .text }}
+                <a href="{{ .url }}" class="btn">{{ .text }}</a>
+              {{ end }}
             {{ end }}
           </div>
         {{ end }}
