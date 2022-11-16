@@ -4,12 +4,20 @@ authors:
     one: Auteur
     other: Auteurs
 breadcrumb: fil d’Arianne
+casestudies:
+  latest: Dernières étude de cas
+  more: Découvrir plus d’étude de cas
+  title:
+    one: Étude de cas
+    other: Études de cas
 categories:
   title:
     one: Categorie
     other: Categories
 contact: 
   email: E-mail
+  fax: Fax
+  facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
   title: Contact
@@ -57,6 +65,12 @@ projects:
   title:
     one: Projet
     other: Projets
+publications:
+  latest: Dernières parutions
+  more: Découvrir plus de parutions
+  title:
+    one: Parution
+    other: Parutions
 reading_time:
   one: Une minute de lecture
   other: '{{.Time}} minutes de lecture'

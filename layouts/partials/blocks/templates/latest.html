@@ -1,0 +1,26 @@
+{{ $section := .section }}
+{{ if $section }}
+<section class="block-latest{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+
+    {{ partial "blocks/heading" . }}
+
+    {{ $count := 3 }}
+    {{ with .count }}
+      {{ $count = . }}
+    {{ end }}
+    {{ with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
+      {{ $partial := printf "%s/items" $section }}
+      {{ partial $partial . }}
+    {{ end }}
+
+    {{ $index := site.GetPage (printf "/%s" $section) }}
+    {{ with $index }}
+      <div class="bottom">
+        {{ $i18n := printf "%s.more" $section }}
+        <a href="{{ .Permalink }}" class="more">{{ i18n $i18n }}</a>
+      </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
