@@ -1,0 +1,5 @@
+{{ with . }}
+  {{ if .text }}
+    <a href="{{ .url }}" class="btn">{{ partial "PrepareHTML" .text }}</a>
+  {{ end }}
+{{ end }}
