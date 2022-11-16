@@ -1,15 +1,7 @@
 <section class="block-infos{{ with .background }} block-bg{{ end }}">
   <div class="container">
     
-    {{ $text := .text }}
-    {{ with .title }}
-      <header class="heading">
-        <h2>{{ partial "PrepareHTML" . }}</h2>
-        {{ with $text }}
-          <p>{{ partial "PrepareHTML" . }}</p>
-        {{ end }}
-      </header>
-    {{ end }}
+    {{ partial "blocks/heading.html" . }}
 
     {{ $column := 3 }}
     {{ with .column }}

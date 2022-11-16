@@ -1,0 +1,9 @@
+{{ $text := .text }}
+{{ with .title }}
+  <header class="heading">
+    <h2>{{ partial "PrepareHTML" . }}</h2>
+    {{ with $text }}
+      <p>{{ partial "PrepareHTML" . }}</p>
+    {{ end }}
+  </header>
+{{ end }}
