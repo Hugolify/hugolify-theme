@@ -1,7 +1,5 @@
-{{ if not (isset .Params "hero") }}
-  {{ with .Title }}
-    <header class="heading">
-      <h1>{{ partial "PrepareHTML" . }}</h1>
-    </header>
-  {{ end }}
+{{ with .Title }}
+  <header class="heading">
+    <h1>{{ partial "PrepareHTML" . }}</h1>
+  </header>
 {{ end }}
