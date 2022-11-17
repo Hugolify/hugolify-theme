@@ -5,6 +5,7 @@
 {{ $desktop_size := .desktop | default false }}
 {{ $mobile_size := .mobile | default false }}
 {{ $alt := .alt | default "" }}
+{{ $credit := .credit | default false }}
 {{ $crop := .crop | default "Center" }}
 {{ $file := "" }}
 {{ if .static }}
@@ -18,82 +19,83 @@
   {{ $image := resources.Get . }}
   {{ if $image }}
 
-    {{ if strings.HasSuffix $file "svg" }}
-      {{ $fileAssets := print "/assets/" $file }}
-      {{ $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $fileAssets) }}
-      {{ with $image }}
-        <img 
-          src="{{ .RelPermalink }}" 
-          alt="{{ $alt }}" 
-          height="{{ index $fileDimensions 1 }}" 
-          width="{{ index $fileDimensions 0 }}"
-          {{ if $lazy }} loading="lazy"{{ end }}
-          {{ if $class }} class="{{$class}}"{{ end }}
-          {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}
-          >
-      {{ end }}
-    {{ else }}
-  
-      {{ $image_desktop := false }}
-      {{ $image_mobile := false }}
-      
-      {{ $image_mobile_retina := false }}
+    <picture {{ if $picture_class }}class="{{ $picture_class }}"{{ end }}>
 
-      {{ $image_desktop_webp := false }}
-      {{ $image_mobile_webp := false }}
-
-      {{ $image_mobile_webp_retina := false }}
-
-      {{ if $desktop_size }}
-        {{ $size := split $desktop_size "x" }}
-        {{ $isFill := true }}
-        {{ range $size }}
-          {{ if eq . "" }}
-            {{ $isFill = false }}
-          {{ end }}
-        {{ end }}
-
-        {{ if $isFill }}
-          {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
-          {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
-        {{ else }}
-          {{ $image_desktop = $image.Resize $desktop_size }}
-          {{ $image_desktop_webp = $image.Resize (printf "%s webp" $desktop_size) }}
+      {{ if strings.HasSuffix $file "svg" }}
+        {{ $fileAssets := print "/assets/" $file }}
+        {{ $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $fileAssets) }}
+        {{ with $image }}
+          <img 
+            src="{{ .RelPermalink }}" 
+            alt="{{ $alt }}" 
+            height="{{ index $fileDimensions 1 }}" 
+            width="{{ index $fileDimensions 0 }}"
+            {{ if $lazy }} loading="lazy"{{ end }}
+            {{ if $class }} class="{{$class}}"{{ end }}
+            {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}
+            >
         {{ end }}
       {{ else }}
-        {{ $image_desktop = $image }}
-        {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s webp" $image.Width $image.Height $crop) }}
-      {{ end }}
+    
+        {{ $image_desktop := false }}
+        {{ $image_mobile := false }}
+        
+        {{ $image_mobile_retina := false }}
 
-      {{ if $mobile_size }}
-        {{ $size_m := split $mobile_size "x" }}
-        {{ $isFill_m := true }}
-        {{ range $size_m }}
-          {{ if eq . "" }}
-            {{ $isFill_m = false }}
+        {{ $image_desktop_webp := false }}
+        {{ $image_mobile_webp := false }}
+
+        {{ $image_mobile_webp_retina := false }}
+
+        {{ if $desktop_size }}
+          {{ $size := split $desktop_size "x" }}
+          {{ $isFill := true }}
+          {{ range $size }}
+            {{ if eq . "" }}
+              {{ $isFill = false }}
+            {{ end }}
+          {{ end }}
+
+          {{ if $isFill }}
+            {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
+            {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
+          {{ else }}
+            {{ $image_desktop = $image.Resize $desktop_size }}
+            {{ $image_desktop_webp = $image.Resize (printf "%s webp" $desktop_size) }}
+          {{ end }}
+        {{ else }}
+          {{ $image_desktop = $image }}
+          {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s webp" $image.Width $image.Height $crop) }}
+        {{ end }}
+
+        {{ if $mobile_size }}
+          {{ $size_m := split $mobile_size "x" }}
+          {{ $isFill_m := true }}
+          {{ range $size_m }}
+            {{ if eq . "" }}
+              {{ $isFill_m = false }}
+            {{ end }}
+          {{ end }}
+
+          {{ if $isFill_m}}
+            {{ $image_mobile = $image.Fill $mobile_size }}
+          {{ else }}
+            {{ $image_mobile = $image.Resize $mobile_size }}
+          {{ end }}
+          {{ $width_2x := mul 2 $image_mobile.Width }}
+          {{ $height_2x := mul 2 $image_mobile.Height }}
+          {{ if $isFill_m}}
+            {{ $image_mobile_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop) }}
+            {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
+            {{ $image_mobile_webp_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop " webp") }}
+          {{ else }}
+            {{ $image_mobile_retina = $image.Resize (print $width_2x "x" $height_2x) }}
+            {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
+            {{ $image_mobile_webp_retina = $image.Resize (print $width_2x "x" $height_2x " webp") }}
           {{ end }}
         {{ end }}
 
-        {{ if $isFill_m}}
-          {{ $image_mobile = $image.Fill $mobile_size }}
-        {{ else }}
-          {{ $image_mobile = $image.Resize $mobile_size }}
-        {{ end }}
-        {{ $width_2x := mul 2 $image_mobile.Width }}
-        {{ $height_2x := mul 2 $image_mobile.Height }}
-        {{ if $isFill_m}}
-          {{ $image_mobile_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop) }}
-          {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-          {{ $image_mobile_webp_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop " webp") }}
-        {{ else }}
-          {{ $image_mobile_retina = $image.Resize (print $width_2x "x" $height_2x) }}
-          {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
-          {{ $image_mobile_webp_retina = $image.Resize (print $width_2x "x" $height_2x " webp") }}
-        {{ end }}
-      {{ end }}
-
-      {{ with $image_desktop }}
-        <picture {{ if $picture_class }}class="{{ $picture_class }}"{{ end }}>
+        {{ with $image_desktop }}
           {{ with $image_desktop_webp }}
             <source srcset="{{ .RelPermalink }}" type="image/webp"{{ if $image_mobile}} media="(min-width: 577px)"{{ end }}>
           {{ end }}
@@ -104,10 +106,15 @@
             <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} 2x" type="image/jpg" media="(max-width: 576px)">
           {{ end }}
           <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
-        </picture>
+        {{ end }}
+
       {{ end }}
 
-    {{ end }}
+      {{ with $credit }}
+        <p class="credit">{{ . | markdownify }}</p>
+      {{ end }}
+
+    </picture>
 
   {{ end }}
 
