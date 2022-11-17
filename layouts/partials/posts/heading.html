@@ -1,5 +1,5 @@
 {{ $context := . }}
-{{ if not (isset .Params "hero") }}
+{{ if and (isset .Params "hero.title") (.Params.hero.title "!=" "") }}
   {{ with .Title }}
     <header class="heading">
       <h1>{{ partial "PrepareHTML" . }}</h1>

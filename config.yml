@@ -18,6 +18,13 @@ params:
     image:
       desktop: "856x"
       mobile: "336x"
+  casestudies:
+    thumbnail:
+      desktop: "414x177"
+      mobile: "336x100"
+    image:
+      desktop: "856x"
+      mobile: "336x"
   publications:
     thumbnail:
       desktop: "306x459"
