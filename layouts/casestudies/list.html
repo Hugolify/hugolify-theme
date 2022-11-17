@@ -1,0 +1,19 @@
+{{ define "hero"}}
+  {{- partial "commons/hero.html" . -}}
+{{ end }}
+
+{{ define "main" }}
+
+  {{ partial "blocks/list" . }}
+  
+  <div class="container">
+
+    {{ partial "casestudies/heading" . }}
+
+    {{ $paginator := .Paginator.Pages }}
+    {{ partial "casestudies/items" $paginator }}
+    {{ partial "nav/pagination.html" . }}
+
+  </div>
+
+{{ end }}

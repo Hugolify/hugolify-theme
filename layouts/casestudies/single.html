@@ -1,0 +1,11 @@
+{{ define "hero"}}
+  {{- partial "commons/hero.html" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "casestudies/schema" . }}
+
+  {{ partial "casestudies/heading" . }}
+  {{ partial "blocks/list" . }}
+
+{{ end }}

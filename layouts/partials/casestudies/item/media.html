@@ -1,0 +1,13 @@
+{{ $desktop := site.Params.casestudies.thumbnail.desktop | default false }}
+{{ $mobile := site.Params.casestudies.thumbnail.mobile | default false }}
+<div class="media">
+  {{ with .Params.image}}
+    {{ partial "commons/image.html" (dict
+      "src" .src
+      "alt" .alt
+      "desktop" $desktop
+      "mobile" $mobile
+      "itemprop" "image"
+    ) }}
+  {{ end }}
+</div>

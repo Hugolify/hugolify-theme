@@ -1,0 +1,38 @@
+.casestudy
+    --bs-card-spacer-x: 0
+    --bs-card-border-width: 0
+    --bs-card-border-radius: 0
+    --bs-card-inner-border-radius: 0
+    --bs-card-bg: transparent
+    --bs-card-cap-bg: transparent
+    @extend .card
+    .media
+        @extend .card-img-top
+        @extend .ratio
+        @extend .ratio-21x9
+        background-color: $light
+        order: -1
+        > *
+            height: 70%
+            left: 15%
+            top: 15%
+            width: 70%
+        img
+            object-fit: contain
+        picture
+            img
+                height: 100%
+                width: 100%
+    .content
+        @extend .card-body
+        text-decoration: none
+    p
+        @extend .card-text
+    a
+        @extend .stretched-link
+    .title
+        @extend .card-title
+        @extend .h5
+    .cta
+        @extend .btn
+        @extend .btn-primary
