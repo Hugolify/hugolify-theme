@@ -3,6 +3,7 @@
     
     {{ partial "blocks/heading.html" . }}
 
+    {{ $show_color := .show_color | default false }}
     {{ $column := 3 }}
     {{ with .column }}
       {{ $column = . }}
@@ -11,8 +12,14 @@
     <div class="row row-cols-1 row-cols-md-3 row-cols-lg-{{ $column }}">
       {{ range . }}
         <div class="col">
+          {{ $stat := . }}
           {{ with .value }}
-            {{ partial "commons/gauge.html" . }}
+            {{ partial "commons/gauge.html" (dict 
+              "value" . 
+              "limit" $stat.limit 
+              "show_color" $show_color 
+              "prefix" $stat.prefix 
+              "suffix" $stat.suffix ) }}
           {{ end }}
           {{ with .title }}
             <h3>{{ partial "PrepareHTML" . }}</h3>

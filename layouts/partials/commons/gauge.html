@@ -1,12 +1,25 @@
-{{ $value := . }}
-{{ $color := false }}
-{{ if ge $value 90 }}
-  {{ $color = "pass" }}
-{{ else if ge $value 50 }}
-  {{ $color = "average" }}
-{{ else }}
-  {{ $color = "fail" }}
+{{ $value := .value }}
+{{ $prefix := .prefix }}
+{{ $suffix := .suffix }}
+
+{{ $progress := $value | float }}
+{{ $limit := .limit | default 100 | float }}
+{{ if ne $limit 100 }}
+  {{ $progress = mul (div $progress $limit) 100 }}
 {{ end }}
+
+{{ $show_color := .show_color }}
+{{ $color := false }}
+{{ if $show_color }}
+  {{ if ge $value 90 }}
+    {{ $color = "pass" }}
+  {{ else if ge $value 50 }}
+    {{ $color = "average" }}
+  {{ else }}
+    {{ $color = "fail" }}
+  {{ end }}
+{{ end }}
+
 <figure class="gauge">
   <svg role="img" viewBox="0 0 36 36"{{ if $color }} class="{{ $color }}"{{ end }}>
     <path class="circle-bg"
@@ -15,11 +28,11 @@
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
     <path class="circle"
-      stroke-dasharray="{{ $value }}, 100"
+      stroke-dasharray="{{ $progress }}, 100"
       d="M18 2.0845
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
   </svg>
-  <figcaption>{{ $value }}%</figcaption>
+  <figcaption>{{ $prefix }}{{ $value }}{{ $suffix }}</figcaption>
 </figure>
