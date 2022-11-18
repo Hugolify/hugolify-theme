@@ -15,14 +15,10 @@
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
             {{ with .cta }}
-              {{ if .text }}
-                <a href="{{ .url }}" class="btn">{{ .text }}</a>
-              {{ end }}
+              {{ partial "commons/cta.html" . }}
             {{ end }}
             {{ with .cta_second }}
-              {{ if .text }}
-                <a href="{{ .url }}" class="btn">{{ .text }}</a>
-              {{ end }}
+              {{ partial "commons/cta.html" . }}
             {{ end }}
           </div>
         {{ end }}
