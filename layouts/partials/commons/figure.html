@@ -1,11 +1,13 @@
-<figure>
+<figure{{ if .figure_class }} class="{{.figure_class}}"{{ end }}>
   {{ if .src }}
     {{ partial "commons/image.html" (dict
           "src" .src
           "alt" .alt
-          "class" "img-fluid"
+          "desktop" .desktop
+          "mobile" .mobile
         ) }}
   {{ end }}
+  {{ if or .legend .credit }}
   <figcaption>
     {{ with .legend }}
       <p>{{ partial "PrepareHTML" . }}</p>
@@ -14,4 +16,5 @@
       <p class="credit">{{ partial "PrepareHTML" . | markdownify }}</p>
     {{ end }}
   </figcaption>
+  {{ end }}
 </figure>

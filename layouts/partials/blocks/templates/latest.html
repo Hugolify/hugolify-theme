@@ -14,12 +14,15 @@
       {{ partial $partial . }}
     {{ end }}
 
-    {{ $index := site.GetPage (printf "/%s" $section) }}
-    {{ with $index }}
-      <div class="bottom">
-        {{ $i18n := printf "%s.more" $section }}
-        <a href="{{ .Permalink }}" class="more">{{ i18n $i18n }}</a>
-      </div>
+    {{ $show_button := .show_more | default true }}
+    {{ if $show_button }}
+      {{ $index := site.GetPage (printf "/%s" $section) }}
+      {{ with $index }}
+        <div class="bottom">
+          {{ $i18n := printf "%s.more" $section }}
+          <a href="{{ .Permalink }}" class="more">{{ i18n $i18n }}</a>
+        </div>
+      {{ end }}
     {{ end }}
   </div>
 </section>

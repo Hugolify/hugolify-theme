@@ -1,0 +1,21 @@
+{{ $desktop := .desktop | default site.Params.image.desktop | default false }}
+{{ $mobile := .mobile | default site.Params.image.mobile | default false }}
+{{ range .images }}
+  {{ $figure_class := false }}
+  {{ $image_desktop := $desktop }}
+  {{ if .half }}
+    {{ $figure_class = "half" }}
+    {{ $image_desktop = partial "GetDividedImage" (dict 
+        "size" $desktop
+        "divider" 2) }}
+  {{ end }}
+  {{ partial "commons/figure.html" (dict
+    "src" .src
+    "alt" .alt
+    "legend" .legend
+    "credit" .credit
+    "figure_class" $figure_class
+    "desktop" $image_desktop
+    "mobile" $mobile
+  ) }}
+{{ end }}

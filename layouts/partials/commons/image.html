@@ -1,11 +1,10 @@
-{{ $lazy := .lazy | default false }}
+{{ $lazy := .lazy | default true }}
 {{ $class := .class | default false }}
 {{ $picture_class := .picture_class | default false }}
 {{ $itemprop := .itemprop | default false }}
 {{ $desktop_size := .desktop | default false }}
 {{ $mobile_size := .mobile | default false }}
 {{ $alt := .alt | default "" }}
-{{ $credit := .credit | default false }}
 {{ $crop := .crop | default "Center" }}
 {{ $file := "" }}
 {{ if .static }}
@@ -108,10 +107,6 @@
           <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
         {{ end }}
 
-      {{ end }}
-
-      {{ with $credit }}
-        <p class="credit">{{ . | markdownify }}</p>
       {{ end }}
 
     </picture>

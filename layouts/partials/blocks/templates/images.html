@@ -1,0 +1,21 @@
+<section class="block-images{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ $column := 3 }}
+    {{ with .column }}
+      {{ $column = . }}
+    {{ end }}
+
+    {{ with .images }}
+      <div class="images">
+        {{ $desktop := site.Params.blocks.figure.desktop | default false }}
+        {{ partial "commons/images" (dict
+          "images" .
+          "desktop" $desktop ) }}
+      </div>
+    {{ end }}
+
+  </div>
+</section>

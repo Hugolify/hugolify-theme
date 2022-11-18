@@ -1,0 +1,45 @@
+<section class="block-gallery{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    <pre class="alert alert-danger">TODO: add lightbox with legend and credit</pre>
+
+    {{ $ratio := .ratio | default 1 }}
+    {{ $column := .column | default 3 }}
+    {{ with .gallery }}
+    <div class="gallery gallery-{{ $column }}">
+      {{ $desktop := site.Params.container.desktop | default false }}
+      {{ $mobile := site.Params.container.mobile | default false }}
+      {{ if $desktop }}
+        {{ $width := string $desktop }}
+        {{ $height := string (mul ($desktop | int) ($ratio | int)) }}
+        {{ $size := printf "%sx%s" $width $height }}
+        {{ $desktop = partial "GetDividedImage" (dict
+          "size" $size
+          "divider" ($column | int)) }}
+      {{ end }}
+      {{ if $mobile }}
+        {{ $width := string $mobile }}
+        {{ $height := string (mul ($mobile | int) ($ratio | int)) }}
+        {{ $size := printf "%sx%s" $width $height }}
+        {{ $mobile = partial "GetDividedImage" (dict
+          "size" $size
+          "divider" 2) }}
+      {{ end }}
+      {{ range . }}
+        <div>
+          {{ partial "commons/figure" (dict
+            "src" .src 
+            "alt" .alt 
+            "desktop" $desktop
+            "mobile" $mobile
+            ) }}
+          </a>
+        </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+  </div>
+</section>

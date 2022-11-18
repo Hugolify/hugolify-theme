@@ -1,5 +1,7 @@
 {{ with . }}
+  {{ $blank := .blank | default false }}
+  {{ $title := i18n "link.blank_aria" (dict "Title" (partial "PrepareHTML" .text))}}
   {{ if .text }}
-    <a href="{{ .url }}" class="btn">{{ partial "PrepareHTML" .text }}</a>
+    <a href="{{ .url }}" class="btn"{{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "PrepareHTML" .text }}</a>
   {{ end }}
 {{ end }}

@@ -1,13 +1,17 @@
 params:
   logo: "/assets/images/logo.svg"
   gutter: 24
+  container:
+    desktop: 1292
+    mobile: 336
   image:
+    xlarge: "1600x"
     desktop: "856x"
     mobile: "336x"
   posts:
     thumbnail:
       desktop: "414x177"
-      mobile: "336x100"
+      mobile: "336x144"
     image:
       desktop: "856x"
       mobile: "336x"
@@ -21,7 +25,7 @@ params:
   casestudies:
     thumbnail:
       desktop: "414x177"
-      mobile: "336x100"
+      mobile: "336x144"
     image:
       desktop: "856x"
       mobile: "336x"
@@ -37,8 +41,8 @@ params:
       desktop: "624x"
       mobile: "336x"
     figure:
-      desktop: "1272x"
+      desktop: "1292x"
       mobile: "336x"
-
-
+    gallery:
+      mobile: "336x"
   

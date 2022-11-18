@@ -1,0 +1,12 @@
+.gallery
+    @extend .row
+    @extend .row-cols-2
+    @extend .row-cols-md-3
+
+    > *
+        @extend .col
+
+    @for $i from 3 through 6
+        &-#{$i}
+            @extend .row-cols-lg-#{$i}
+

@@ -2,10 +2,7 @@
   <section class="block-cta">
     <div class="container">
 
-      {{ if and (ne .url "") (ne .text "") }}
-        {{ $title := i18n "link.blank_aria" (dict "Title" (partial "PrepareHTML" .text))}}
-        <a href="{{ .url }}" class="btn"{{ if .blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "PrepareHTML" .text }}</a>
-      {{ end }}
+      {{ partial "commons/cta.html" . }}
 
     </div>
   </section>

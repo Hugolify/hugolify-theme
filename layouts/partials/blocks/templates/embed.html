@@ -1,8 +1,12 @@
 <section class="block-embed{{ with .background }} block-bg{{ end }}">
   <div class="container">
 
+    {{ partial "blocks/heading.html" . }}
+
     {{ with .embed }}
-      {{ . }}
+      <div class="embed">
+        {{ . | safeHTML }}
+      </div>
     {{ end }}
 
   </div>
