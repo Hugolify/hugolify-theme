@@ -1,5 +1,5 @@
 <a class="logo" href="{{ site.BaseURL }}">
-  {{- $file := site.Params.logo -}}
+  {{- $file := printf "static/%s" site.Params.logo -}}
   {{- if fileExists site.Params.logo }}
     {{- $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $file "static" true) -}}
     <img src="{{ $file }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
