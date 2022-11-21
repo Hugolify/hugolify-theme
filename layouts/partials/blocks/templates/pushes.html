@@ -27,7 +27,7 @@
               "size" $size
               "divider" 2) }}
           {{ end }}
-          {{ range . }}
+          {{ with .image }}
             <div>
               {{ partial "commons/figure" (dict
                 "src" .src 
