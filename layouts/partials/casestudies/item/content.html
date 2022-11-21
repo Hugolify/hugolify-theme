@@ -1,8 +1,4 @@
-<a href="{{ .Permalink }}" class="content">
-  {{ with .Title }}
-    <p class="title">{{ partial "PrepareHTML" . }}</p>
-  {{ end }}
-  {{ with .Params.description }}
-    <p>{{ partial "PrepareHTML" . }}</p>
-  {{ end }}
+<a href="{{ .Permalink }}" itemprop="url" class="content">
+  {{ partial "commons/item/title" . }}
+  {{ partial "commons/item/description" . }}
 </a>

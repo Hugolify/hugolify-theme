@@ -1,0 +1,4 @@
+{{ $format := .format | default 2006 }}
+{{ with .date }}
+  <time datetime="{{ . }}" itemprop="datePublished">{{ .Format $format }}</time>
+{{ end }}

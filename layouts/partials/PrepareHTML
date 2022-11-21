@@ -1,6 +1,7 @@
 {{ return
-safeHTML (
-  chomp (
-    partial "CorrectPunctuation" .
+  safeHTML (
+    chomp (
+      partial "CorrectPunctuation" .
+    )
   )
-) }}
+}}

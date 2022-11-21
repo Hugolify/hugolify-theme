@@ -1,6 +1,10 @@
+{{ $limit := 3 }}
+{{ with .limit }}
+  {{ $limit = . }}  
+{{ end }}
 {{ with .section }}
   {{ $section := . }}
-  {{ $query := first 3 ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
+  {{ $query := first $limit ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
   {{ if gt ($query | len) 0 }}
   <section class="latest">
     <header class="heading">
