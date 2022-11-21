@@ -1,0 +1,11 @@
+{{ with .}}
+  <section class="block-cta">
+    <div class="container">
+
+      <div class="alert alert-{{ .state }}">
+        <p>{{ .text | markdownify }}</p>
+      </div>
+
+    </div>
+  </section>
+{{ end }}
