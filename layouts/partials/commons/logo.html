@@ -1,8 +1,8 @@
+{{- $file := printf "static2%s" site.Params.logo -}}
 <a class="logo" href="{{ site.BaseURL }}">
-  {{- $file := printf "static/%s" site.Params.logo -}}
-  {{- if fileExists site.Params.logo }}
-    {{- $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $file "static" true) -}}
-    <img src="{{ $file }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
+  {{- if os.FileExists $file }}
+    {{- $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $file) -}}
+    <img src="{{ site.Params.logo }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
   {{ else }}
     {{- site.Title -}}
   {{ end -}}
