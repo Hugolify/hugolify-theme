@@ -4,12 +4,20 @@ authors:
     one: Author
     other: Authors
 breadcrumb: Breadcrumb
+casestudies:
+  latest: Latest case studies
+  more: Discover more case studies
+  title:
+    one: Case study
+    other: Case studies
 categories:
   title:
     one: Category
     other: Categories
 contact: 
   email: Email
+  fax: Fax
+  facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
   title: Contact
@@ -36,9 +44,9 @@ page404:
   cta: Back to home page
 pagination:
   between: Pagination between {{ .Section }}
-  first: Première page
+  first: First page
   label: Pagination
-  last: Dernière page
+  last: Last page
   next: Next
   next_section: Next {{ .Section }}
   page: Page {{ .Number }}
@@ -57,6 +65,12 @@ projects:
   title:
     one: Project
     other: Projects
+publications:
+  latest: Latest publications
+  more: Discover more publications
+  title:
+    one: Publication
+    other: Publications
 reading_time:
   one: One minute to read
   other: '{{.Time}} minutes to read'
