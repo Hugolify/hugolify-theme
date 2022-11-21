@@ -28,8 +28,8 @@
               "divider" 2) }}
           {{ end }}
           {{ with .image }}
-            <div>
-              {{ partial "commons/figure" (dict
+            <div class="media">
+              {{ partial "commons/image" (dict
                 "src" .src 
                 "alt" .alt 
                 "desktop" $desktop
