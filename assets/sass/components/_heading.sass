@@ -1,8 +1,8 @@
 .heading
+    @include rfs($global-spacing, margin-bottom)
     align-items: baseline
     display: flex
     flex-wrap: wrap
-    margin-bottom: map-get($spacers, 4)
     h1,
     h2
         @include media-breakpoint-up(mp)
