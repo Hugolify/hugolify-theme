@@ -1,9 +1,7 @@
 {{ $context := . }}
-{{ if and (isset .Params "hero.title") (.Params.hero.title "!=" "") }}
-  {{ with .Title }}
-    <header class="heading">
-      <h1>{{ partial "PrepareHTML" . }}</h1>
-      {{ partial "projects/filters/button" $context }}
-    </header>
-  {{ end }}
+{{ with .Title }}
+  <header class="heading">
+    <h1>{{ partial "PrepareHTML" . }}</h1>
+    {{ partial "projects/filters/button" $context }}
+  </header>
 {{ end }}

@@ -8,6 +8,10 @@
     li
         @extend .breadcrumb-item
         font-size: $breadcrumb-font-size
+        &:first-child
+            &::before
+                @extend .icon
+                content: $icon-house  
     [aria-current="page"]
         @extend .active
  
