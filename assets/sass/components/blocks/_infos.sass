@@ -3,9 +3,20 @@
     .heading
         flex-direction: column
         align-items: center
-    .row
+    .items
+        @extend .row
+        @extend .row-cols-1
+        @extend .row-cols-md-3
         @extend .gy-4
         justify-content: center
+        > *
+            @extend .col
+
+        @for $i from 3 through 6
+            &-#{$i}
+                @extend .row-cols-lg-#{$i}
+
+
     .icon
         align-items: center
         background-color: $light
