@@ -1,8 +1,8 @@
 <div class="metas">
   <p>
-    {{ partial "commons/time" (dict "date" .Date "format" "Jan 2, 2006") }}
+    {{ partial "commons/time" (dict "date" .Date "format" "January 2006") }}
     {{ with .Params.categories }}
-      {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
+      {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
       {{ with $category }}
         <span itemprop="articleSection">{{ .Title }}</span>
       {{ end }}

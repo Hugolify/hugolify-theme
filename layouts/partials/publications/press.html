@@ -1,0 +1,4 @@
+{{ with .Params.press }}
+  {{ $i18n := i18n "publications.discover" (dict "Source" .title) }}
+  <a href="{{ .url }}" target="_blank" class="btn" title="{{ safeHTML (i18n "link.blank_aria" (dict "Title" $i18n)) }}">{{ $i18n }}</a>
+{{ end }}

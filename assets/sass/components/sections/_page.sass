@@ -1,22 +1,12 @@
 .page
     @extend .card
     .media
-        @extend .card-img-top
-        @extend .ratio
-        @extend .ratio-21x9
-        background-color: $light
-        order: -1
-    .content
-        @extend .card-body
+        --bs-aspect-ratio: 43%
     p
         @extend .card-text
     [itemprop="url"]
         text-decoration: none
-    [itemprop="name"]
-        @extend .card-title
-        @extend .h5
     a
         @extend .stretched-link
     .cta
-        @extend .btn
         @extend .btn-primary

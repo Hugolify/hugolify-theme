@@ -1,7 +1,9 @@
 footer[role="contentinfo"]
+    @include rfs($global-spacing, padding-bottom)
+    @include rfs($global-spacing, padding-top)
     background-color: $footer-background-color
-    padding-bottom: $grid-gutter-width
-    padding-top: $grid-gutter-width
+    .logo + p
+        margin-top: .5rem
     .bottom-links
         display: flex
         flex-wrap: wrap
@@ -10,3 +12,10 @@ footer[role="contentinfo"]
     [class^="nav-"]
         margin-left: - $nav-link-padding-x
         margin-right: - $nav-link-padding-x
+    .hugolify
+        @extend .small
+        @extend .text-muted
+        margin-bottom: 0
+        text-align: center
+        a
+            @extend .text-muted

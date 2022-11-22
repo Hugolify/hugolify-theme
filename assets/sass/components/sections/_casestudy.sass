@@ -7,17 +7,12 @@
     --bs-card-cap-bg: transparent
     @extend .card
     .media
-        @extend .card-img-top
-        @extend .ratio
-        @extend .ratio-21x9
-        background-color: $light
-        order: -1
+        --bs-aspect-ratio: 43%
         picture
             img
                 height: 100%
                 width: 100%
     .content
-        @extend .card-body
         text-decoration: none
     p
         @extend .card-text
@@ -27,5 +22,4 @@
         @extend .card-title
         @extend .h5
     .cta
-        @extend .btn
         @extend .btn-primary

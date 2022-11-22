@@ -1,4 +1,4 @@
 <a href="{{ .Permalink }}" itemprop="url" class="content">
   {{ partial "commons/item/title" . }}
-  {{ partial "commons/item/date" (dict "date" .Date "format" "January 2006") }}
+  {{ partial "commons/time" (dict "date" .Date "format" "January 2006") }}
 </a>

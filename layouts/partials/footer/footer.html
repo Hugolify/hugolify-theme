@@ -1,11 +1,12 @@
 <footer role="contentinfo" id="footer">
   <div class="container">
     {{ partial "commons/logo.html" }}
-    {{ partial "footer/description.html" }}
+    {{ partial "footer/description.html" . }}
     {{ partial "nav/secondary.html" . }}
     <div class="bottom-links">
       {{ partial "nav/legal.html" . }}
       {{ partial "nav/social.html" . }}
     </div>
+    {{ partial "footer/credit-hugolify.html" . }}
   </div>
 </footer>

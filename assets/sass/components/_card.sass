@@ -1,0 +1,20 @@
+.card
+    .media
+        @extend .card-img-top
+        @extend .ratio
+        background-color: $light
+        order: -1
+        img
+            @extend .card-img-top
+    .content
+        @extend .card-body
+    .cta
+        @extend .btn
+    [itemprop="name"]
+        @extend .card-title
+        @extend .h5
+    [itemprop="datePublished"]
+        @extend .small
+        @extend .text-muted
+    [itemprop="url"]
+        text-decoration: none
