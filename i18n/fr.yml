@@ -68,7 +68,7 @@ projects:
     one: Projet
     other: Projets
 publications:
-  discover: Découvrir la parution sur {{ .Source }}
+  discover: Découvrir la parution sur <cite>{{ .Source }}</cite>
   latest: Dernières parutions
   more: Découvrir plus de parutions
   title:

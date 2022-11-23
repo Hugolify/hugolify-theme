@@ -68,7 +68,7 @@ projects:
     one: Project
     other: Projects
 publications:
-  discover: Discover publication on {{ .Source }}
+  discover: Discover publication on <cite>{{ .Source }}</cite>
   latest: Latest publications
   more: Discover more publications
   title:
