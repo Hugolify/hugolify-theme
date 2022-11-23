@@ -1,5 +1,10 @@
-{{ with .Title }}
-  <header class="heading">
-    <h1>{{ partial "PrepareHTML" . }}</h1>
-  </header>
+{{ if or 
+  (not (isset .Params "hero"))
+  (eq .Params.hero.title "")
+}}
+  {{ with .Title }}
+    <header class="heading">
+      <h1>{{ partial "PrepareHTML" . }}</h1>
+    </header>
+  {{ end }}
 {{ end }}
