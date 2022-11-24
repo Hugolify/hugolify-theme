@@ -12,7 +12,7 @@
       {{ range . }}
         <div>
           {{ with .icon }}
-            <span class="icon">{{ . }}</span>
+            <span class="media">{{ . }}</span>
           {{ end }}
           {{ with .title }}
             <h3>{{ partial "PrepareHTML" . }}</h3>

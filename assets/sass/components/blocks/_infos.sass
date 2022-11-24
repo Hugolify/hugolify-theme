@@ -1,8 +1,5 @@
 .block-infos
     text-align: center
-    .heading
-        flex-direction: column
-        align-items: center
     .items
         @extend .row
         @extend .row-cols-1
@@ -16,8 +13,7 @@
             &-#{$i}
                 @extend .row-cols-lg-#{$i}
 
-
-    .icon
+    .media
         align-items: center
         background-color: $light
         border-radius: 50%
