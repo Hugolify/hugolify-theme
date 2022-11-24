@@ -5,8 +5,8 @@
   "includePaths" (slice "node_modules")
 ) -}}
 
-{{- $styles := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
+{{- $css := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
 {{ if hugo.IsProduction }}
-  {{- $styles = resources.Get "sass/main.sass" | toCSS $cssOpts | postCSS | minify | fingerprint -}}
+  {{- $css = $css | resources.PostCSS | minify | fingerprint | resources.PostProcess -}}
 {{ end }}
-<link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}" media="screen">
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" media="all">
