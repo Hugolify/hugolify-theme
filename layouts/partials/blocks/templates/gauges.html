@@ -11,7 +11,7 @@
     {{ with .items }}
     <div class="items items-{{ $column }}">
       {{ range . }}
-        <div class="col">
+        <div>
           {{ $stat := . }}
           {{ with .value }}
             {{ partial "commons/gauge.html" (dict 
