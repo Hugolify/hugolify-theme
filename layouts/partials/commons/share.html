@@ -1,31 +1,36 @@
 <div class="share">
   <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    {{ i18n "share.title" }}
+    {{- i18n "share.title" -}}
   </button>
   <ul class="dropdown-menu">
     <li>
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "facebook" )) }}">
-        Facebook
+      {{ $name := i18n "contact.facebook" -}}
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+        {{- $name -}}
       </a>
     </li>
     <li>
-      <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "twitter" )) }}">
-        Twitter
+      {{ $name := i18n "contact.twitter" -}}
+      <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+        {{- $name -}}
       </a>
     </li>
     <li>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "linkedin" )) }}">
-        Linkedin
+      {{ $name := i18n "contact.linkedin" -}}
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+        {{- $name -}}
       </a>
     </li>
     <li>
-      <a href="http://pinterest.com/pin/create/button/?url={{ .Permalink | absURL }}&description={{ .Title }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "pinterest" )) }}">
-        Pinterest
+      {{ $name := i18n "contact.pinterest" -}}
+      <a href="http://pinterest.com/pin/create/button/?url={{ .Permalink | absURL }}&description={{ .Title }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+        {{- $name -}}
       </a>
     </li>
     <li>
-      <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" "whatsapp" )) }}">
-        Whatsapp
+      {{ $name := i18n "contact.whatsapp" -}}
+      <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+        {{- $name -}}
       </a>
     </li>
   </ul>
