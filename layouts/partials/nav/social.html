@@ -1,5 +1,5 @@
 {{ with site.Data.menu.social }}
-  <ul class="nav-social">
+  <ul class="nav nav-social">
     {{ range .links }}
       <li>
         <a href="{{ .url }}"{{ if .blank }} title="{{ safeHTML (i18n "link.blank_aria" (dict "Title" .title)) }}" target="_blank"{{ end }}>{{ .title }}</a>
