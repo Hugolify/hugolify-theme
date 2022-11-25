@@ -1,17 +1,25 @@
 .breadcrumb-wrapper
     @extend .border-bottom
     @extend .border-top
+    overflow: hidden
     nav
         @extend .container
+        overflow: auto
     ol
         @extend .breadcrumb
+        flex-wrap: nowrap
     li
         @extend .breadcrumb-item
+        flex-shrink: 0
         font-size: $breadcrumb-font-size
+        white-space: nowrap
         &:first-child
             &::before
                 @extend .icon
                 content: $icon-house  
+        &:last-child
+            padding-right: calc(var(--bs-gutter-x) * .5)
     [aria-current="page"]
         @extend .active
  
+
