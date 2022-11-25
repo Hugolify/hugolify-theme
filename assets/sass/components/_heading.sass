@@ -1,5 +1,5 @@
 .heading
-    @include rfs($global-spacing, margin-bottom)
+    @include rfs(calc(#{$global-spacing} / 2), margin-bottom)
     align-items: baseline
     display: flex
     flex-wrap: wrap
@@ -8,6 +8,7 @@
         @include media-breakpoint-up(mp)
             margin-bottom: 0
     .metas
+        margin-top: 1rem
         width: 100%
     .btn,
     .more

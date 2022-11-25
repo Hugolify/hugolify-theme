@@ -2,7 +2,10 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": {{ .Title }},
+    {{ with .Title }}
+      "headline": {{ . | plainify | safeHTML }},
+      "name": {{ . | plainify | safeHTML }},
+    {{ end }}
 
     {{ with .Params.image }}
       "thumbnailUrl": {{ . | absURL }},
@@ -20,7 +23,7 @@
     {{ end }}
 
     {{ with .Params.description }}
-      "abstract": {{ . | plainify | safeHTML }},
+      "description": {{ . | plainify | safeHTML }},
     {{ end }}
 
     {{ with .Content }}

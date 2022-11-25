@@ -4,7 +4,7 @@
     {{ with .Params.categories }}
       {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "categories")  }}
       {{ with $category }}
-        <span itemprop="articleSection">{{ .Title }}</span>
+        <span class="category" itemprop="articleSection">{{ .Title }}</span>
       {{ end }}
     {{ end }}
   </p>

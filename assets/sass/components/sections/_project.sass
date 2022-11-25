@@ -12,15 +12,10 @@
         --bs-aspect-ratio: 75%
     .metas
         @extend .card-footer
-    p
-        @extend .card-text
-    [itemprop="url"]
-        text-decoration: none
-    [itemprop="articleSection"]
-        @extend .project-types
+    .category
+        &::before
+            content: '—'
+            margin-left: .25rem
+            margin-right: .25rem
     a
         @extend .stretched-link
-    &-types
-        @extend .badge
-        @extend .rounded-pill
-        @extend .text-bg-light

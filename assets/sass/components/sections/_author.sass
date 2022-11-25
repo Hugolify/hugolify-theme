@@ -1,10 +1,6 @@
 article.author
     @extend .card
-    p
-        @extend .card-text
-    [itemprop="url"]
-        text-decoration: none
-    [itemprop="description"]
+    .description
         @extend .small
     a
         @extend .stretched-link
@@ -14,17 +10,29 @@ article.author
         text-decoration: underline
 
 aside.author
-    > p
-        @extend .h5
-    article
-        background-color: $light
-        padding: $spacer
-    [itemprop="name"]
+    display: flex
+    flex-direction: column
+    .media
+        margin-bottom: .25rem
+        order: -1
+    .name
         font-weight: $font-weight-bold
         margin-bottom: .5rem 
-    [itemprop="description"]
+    .description
         @extend .small
+        @extend .text-muted
         margin-bottom: .5rem 
-    [itemprop="url"]
+    p:last-child
         @extend .small
+        margin-bottom: 0
+    @if variable-exists(icon-arrow-right)
+        a
+            &::before
+                @extend .icon
+                content: $icon-arrow-right
+                font-size: px2rem(16)
+                margin-right: .25rem
+                vertical-align: middle
+            
+
 

@@ -9,13 +9,13 @@ footer[role="contentinfo"]
         flex-wrap: wrap
         justify-content: space-between
         padding-top: $grid-gutter-width
-    [class^="nav-"]
+    .nav
         margin-left: - $nav-link-padding-x
         margin-right: - $nav-link-padding-x
     .hugolify
         @extend .small
-        @extend .text-muted
         margin-bottom: 0
         text-align: center
+        &,
         a
-            @extend .text-muted
+            color: $gray-700

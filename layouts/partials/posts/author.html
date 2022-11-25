@@ -1,19 +1,27 @@
 {{ with .Params.authors }}
-  <aside class="author">
-    <p>{{ i18n "authors.title" 1 }}</p>
-    {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
-    {{ with $author }}
-      <article itemprop="author" itemscope itemtype="https://schema.org/Person">
-        <div class="content">
-          {{ with .Title }}
-            <p itemprop="name">{{ partial "PrepareHTML" . }}</p>
-          {{ end }}
-          {{ with .Params.description }}
-            <p itemprop="description">{{ partial "TruncateContent" (partial "PrepareHTML" .) }}</p>
-          {{ end }}
-          <a href="{{ .Permalink }}" itemprop="url">{{ i18n "authors.discover" }}</a>
+  {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
+  {{ with $author }}
+    <aside class="author">
+      <div class="content">
+        {{ with .Title }}
+          <p class="name">{{ partial "PrepareHTML" . }}</p>
+        {{ end }}
+        {{ with .Params.description }}
+          <p class="description">{{ partial "TruncateContent" (partial "PrepareHTML" .) }}</p>
+        {{ end }}
+        <p><a href="{{ .Permalink }}">{{ i18n "authors.discover" }}</a></p>
+      </div>
+      {{ with .Params.image}}
+        <div class="media">
+          {{ partial "commons/image.html" (dict
+            "src" .src
+            "alt" .alt
+            "desktop" "50x50"
+            "picture_class" "avatar"
+            "crop" "top"
+          ) }}
         </div>
-      </article>
-    {{ end }}
-  </aside>
+      {{ end }}
+    </aside>
+  {{ end }}
 {{ end }}

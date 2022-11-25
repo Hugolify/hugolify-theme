@@ -1,10 +1,10 @@
 <div class="metas">
   <p>
     {{ partial "commons/time" (dict "date" .Date "format" "January 2006") }}
-    {{ with .Params.categories }}
+    {{ with .Params.types }}
       {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
       {{ with $category }}
-        <span itemprop="articleSection">{{ .Title }}</span>
+        <span class="category" itemprop="articleSection">{{ .Title }}</span>
       {{ end }}
     {{ end }}
   </p>

@@ -3,6 +3,7 @@
     p
         margin-bottom: 0
     @include media-breakpoint-up(md)
+        align-items: baseline
         display: flex
         > *
             &:not(:first-child):not(.share)
@@ -12,3 +13,6 @@
                     margin-right: .5rem
     .share
         margin-left: auto
+        button
+            @extend .btn-sm
+            @extend .btn-link

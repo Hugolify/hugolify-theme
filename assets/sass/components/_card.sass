@@ -10,11 +10,13 @@
         @extend .card-body
     .cta
         @extend .btn
-    [itemprop="name"]
+    .name
         @extend .card-title
         @extend .h5
-    [itemprop="datePublished"]
+    p
+        @extend .card-text
+    time
         @extend .small
         @extend .text-muted
-    [itemprop="url"]
+    > a
         text-decoration: none
