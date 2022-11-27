@@ -2,8 +2,6 @@
     text-align: center
     .items
         @extend .row
-        @extend .row-cols-1
-        @extend .row-cols-md-3
         @extend .gy-4
         justify-content: center
         > *
@@ -11,15 +9,22 @@
 
         @for $i from 3 through 6
             &-#{$i}
+                @extend .row-cols-md-#{$i - 1}
                 @extend .row-cols-lg-#{$i}
+        
+        @include scroll-snap
 
-    .media
-        align-items: center
-        background-color: $light
-        border-radius: 50%
-        display: inline-flex
-        font-size: 3rem
-        height: px2rem(100)
-        justify-content: center
-        margin-bottom: 1rem
-        width: px2rem(100)
+    .card
+        --bs-card-spacer-y: 1.5rem
+        background-color: $gray-200
+        border: 0
+        height: 100%
+        text-align: left
+        .media
+            background: transparent
+            padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
+            > *
+                position: static
+    
+    .icon
+        font-size: 2rem

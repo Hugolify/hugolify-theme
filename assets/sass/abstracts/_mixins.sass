@@ -1,0 +1,17 @@
+@mixin scroll-snap
+    @include media-breakpoint-down(lg)
+        flex-wrap: nowrap
+        justify-content: flex-start
+        overflow: auto
+        scroll-snap-type: x mandatory
+        > *
+            scroll-snap-align: start
+            width: 30%
+    @include media-breakpoint-down(md)
+        > *
+            flex: 0 0 45%
+            width: 45%
+    @include media-breakpoint-down(sm)
+        > *
+            flex: 0 0 75%
+            width: 75%

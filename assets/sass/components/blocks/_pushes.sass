@@ -2,8 +2,6 @@
     text-align: center
     .items
         @extend .row
-        @extend .row-cols-1
-        @extend .row-cols-md-2
         @extend .gy-4
         justify-content: center
         > *
@@ -11,4 +9,8 @@
 
         @for $i from 3 through 6
             &-#{$i}
+                @extend .row-cols-md-#{$i - 1}
                 @extend .row-cols-lg-#{$i}
+
+        @include media-breakpoint-down(md)
+            @include scroll-snap

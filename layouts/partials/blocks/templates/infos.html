@@ -11,15 +11,21 @@
     <div class="items items-{{ $column }}">
       {{ range . }}
         <div>
-          {{ with .icon }}
-            <span class="media">{{ . }}</span>
-          {{ end }}
-          {{ with .title }}
-            <h3>{{ partial "PrepareHTML" . }}</h3>
-          {{ end }}
-          {{ with .text }}
-            <p>{{ partial "PrepareHTML" . }}</p>
-          {{ end }}
+          <div class="card">
+            <div class="media">
+              {{ with .icon }}
+                <i class="icon" style="--icon: '{{ . }}'"></i>
+              {{ end }}
+            </div>
+            <div class="content">
+              {{ with .title }}
+              <p class="name">{{ partial "PrepareHTML" . }}</p>
+              {{ end }}
+              {{ with .text }}
+                <p>{{ partial "PrepareHTML" . }}</p>
+              {{ end }}
+            </div>
+          </div>
         </div>
       {{ end }}
     </div>
