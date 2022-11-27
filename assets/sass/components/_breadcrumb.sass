@@ -13,10 +13,11 @@
         flex-shrink: 0
         font-size: $breadcrumb-font-size
         white-space: nowrap
-        &:first-child
-            &::before
-                @extend .icon
-                content: $icon-house  
+        @if variable-exists(bootstrap-icons-map)
+            &:first-child
+                &::before
+                    @include icon
+                    content: map-get($bootstrap-icons-map, "house")
         &:last-child
             padding-right: calc(var(--bs-gutter-x) * .5)
     [aria-current="page"]

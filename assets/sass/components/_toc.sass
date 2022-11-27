@@ -11,10 +11,10 @@
         @extend .btn-light
         @extend .d-md-none
         @extend .mb-3
-        @if variable-exists(icon-toc)
+        @if variable-exists(bootstrap-icons-map)
             &::before
-                @extend .icon
-                content: $icon-toc
+                @include icon
+                content: map-get($bootstrap-icons-map, "list-nested")
                 margin-right: .5rem
                 vertical-align: bottom
 

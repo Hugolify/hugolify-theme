@@ -13,11 +13,11 @@
     .btn,
     .more
         margin-left: auto
-    @if variable-exists(icon-arrow-right)
+    @if variable-exists(bootstrap-icons-map)
         .more
             &::before
-                @extend .icon
-                content: $icon-arrow-right
+                @include icon
+                content: map-get($bootstrap-icons-map, "arrow-right")
                 font-size: px2rem(16)
                 margin-right: .25rem
                 vertical-align: middle

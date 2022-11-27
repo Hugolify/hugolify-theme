@@ -5,11 +5,11 @@
         // @extend .btn-sm
         @extend .btn-light
         @extend .dropdown-toggle
-        @if variable-exists(icon-share)
+        @if variable-exists(bootstrap-icons-map)
             &::before
-                @extend .icon
-                content: $icon-share
-                font-size: px2rem(16)
+                @include icon
+                content: map-get($bootstrap-icons-map, "share")
+                font-size: 1rem
                 line-height: 1
                 margin-right: .5rem
                 margin-top: -.1rem

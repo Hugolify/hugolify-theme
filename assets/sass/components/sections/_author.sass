@@ -25,11 +25,11 @@ aside.author
     p:last-child
         @extend .small
         margin-bottom: 0
-    @if variable-exists(icon-arrow-right)
+    @if variable-exists(bootstrap-icons-map)
         a
             &::before
-                @extend .icon
-                content: $icon-arrow-right
+                @include icon
+                content: map-get($bootstrap-icons-map, "arrow-right")
                 font-size: px2rem(16)
                 margin-right: .25rem
                 vertical-align: middle

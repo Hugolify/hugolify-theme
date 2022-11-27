@@ -7,35 +7,35 @@
         line-height: 1
         height: 100%
 
-    @if variable-exists(icon-first-page)
+    @if variable-exists(bootstrap-icons-map)
         .first
             &::before
-                @extend .icon
-                content: $icon-first-page
+                @include icon
+                content: map-get($bootstrap-icons-map, "chevron-bar-left")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(icon-last-page)
+    @if variable-exists(bootstrap-icons-map)
         .last
             &::after
-                @extend .icon
-                content: $icon-last-page
+                @include icon
+                content: map-get($bootstrap-icons-map, "chevron-bar-right")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(icon-next-page)
+    @if variable-exists(bootstrap-icons-map)
         .next
             &::after
-                @extend .icon
-                content: $icon-next-page
+                @include icon
+                content: map-get($bootstrap-icons-map, "chevron-right")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(icon-previous-page)
+    @if variable-exists(bootstrap-icons-map)
         .previous
             &::before
-                @extend .icon
-                content: $icon-previous-page
+                @include icon
+                content: map-get($bootstrap-icons-map, "chevron-left")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1

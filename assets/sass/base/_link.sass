@@ -6,8 +6,8 @@ a
     @if variable-exists(icon-target-blank)
         &[target="_blank"]
             &::after
-                @extend .icon
-                content: $icon-target-blank
+                @include icon
+                content: map-get($bootstrap-icons-map, "box-arrow-up-right")
                 font-size: clamp(.625rem, .8em, .875rem)
                 line-height: 1
                 margin-left: .5em

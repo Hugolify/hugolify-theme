@@ -5,8 +5,11 @@
     font-family: "bootstrap-icons"
     src: url("../fonts/bootstrap-icons/bootstrap-icons.woff2") format("woff2"), url("../fonts/bootstrap-icons/bootstrap-icons.woff") format("woff");
 
-// Class (:pseudo)
-.icon
+// Variables
+@import "icons-bi-var"
+
+// Mixin
+@mixin icon
     display: inline-block
     font-family: bootstrap-icons
     font-style: normal
@@ -16,17 +19,9 @@
     text-transform: none
     vertical-align: -0.125em
 
-// Variables
-$icon-arrow-left: '\F12F'
-$icon-arrow-right: '\F138'
-$icon-filter: '\F3CA'
-$icon-first-page: '\F276'
-$icon-house: '\F425'
-$icon-last-page: '\F277'
-$icon-next-page: '\F285'
-$icon-previous-page: '\F284'
-$icon-share: '\F52E'
-$icon-target-blank: '\F1C5'
-$icon-time: '\F293'
-$icon-toc: '\F474'
+// Class
+.icon
+    &::before
+        @include icon
+        content: map-get($bootstrap-icons-map, var(--icon))
 /*! purgecss end ignore */

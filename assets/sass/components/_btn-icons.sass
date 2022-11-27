@@ -4,6 +4,6 @@
     @extend .btn-light
     @if variable-exists(icon-filter)
         &::before
-            @extend .icon
-            content: $icon-filter
+            @include icon
+            content: map-get($bootstrap-icons-map, "filter")
             margin-right: .5rem
