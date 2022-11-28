@@ -4,7 +4,8 @@
     display: flex
     flex-wrap: wrap
     h1,
-    h2
+    h2,
+    p
         @include media-breakpoint-up(mp)
             margin-bottom: 0
     .metas
@@ -16,8 +17,7 @@
     @if variable-exists(bootstrap-icons-map)
         .more
             &::before
-                @include icon
-                content: map-get($bootstrap-icons-map, "arrow-right")
+                @include icon("arrow-right")
                 font-size: px2rem(16)
                 margin-right: .25rem
                 vertical-align: middle

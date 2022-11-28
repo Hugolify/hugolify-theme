@@ -9,7 +9,9 @@
 @import "icons-bi-var"
 
 // Mixin
-@mixin icon
+@mixin icon($icon: "")
+    @if $icon != ""
+        content: map-get($bootstrap-icons-map, $icon)
     display: inline-block
     font-family: bootstrap-icons
     font-style: normal
@@ -20,8 +22,8 @@
     vertical-align: -0.125em
 
 // Class
-.icon
-    &::before
-        @include icon
-        content: map-get($bootstrap-icons-map, var(--icon))
+@each $name, $glyph in $bootstrap-icons-map
+    .icon-#{$name}
+        &::before
+            @include icon($name)
 /*! purgecss end ignore */

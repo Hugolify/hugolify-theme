@@ -28,8 +28,7 @@ aside.author
     @if variable-exists(bootstrap-icons-map)
         a
             &::before
-                @include icon
-                content: map-get($bootstrap-icons-map, "arrow-right")
+                @include icon("arrow-right")
                 font-size: px2rem(16)
                 margin-right: .25rem
                 vertical-align: middle

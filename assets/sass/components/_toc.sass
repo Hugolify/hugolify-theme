@@ -13,8 +13,7 @@
         @extend .mb-3
         @if variable-exists(bootstrap-icons-map)
             &::before
-                @include icon
-                content: map-get($bootstrap-icons-map, "list-nested")
+                @include icon("list-nested")
                 margin-right: .5rem
                 vertical-align: bottom
 

@@ -2,8 +2,7 @@
     @extend .btn
     @extend .btn-sm
     @extend .btn-light
-    @if variable-exists(icon-filter)
+    @if variable-exists(bootstrap-icons-map)
         &::before
-            @include icon
-            content: map-get($bootstrap-icons-map, "filter")
+            @include icon("filter")
             margin-right: .5rem

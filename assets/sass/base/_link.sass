@@ -3,11 +3,10 @@ a
     text-decoration-line: underline
     text-decoration-thickness: 1px
     text-underline-offset: 3px
-    @if variable-exists(icon-target-blank)
+    @if variable-exists(bootstrap-icons-map)
         &[target="_blank"]
             &::after
-                @include icon
-                content: map-get($bootstrap-icons-map, "box-arrow-up-right")
+                @include icon("box-arrow-up-right")
                 font-size: clamp(.625rem, .8em, .875rem)
                 line-height: 1
                 margin-left: .5em
