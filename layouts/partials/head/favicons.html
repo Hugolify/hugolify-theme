@@ -1,27 +1,29 @@
 <!-- Icons -->
-{{- if os.FileExists "static1/assets/images/favicons/apple-touch-icon.png" -}}
+{{ $staticDir := "static2/assets/images/favicons" }}
+{{ $staticDirFavicon := (printf "%s/favicons" $staticDir) }}
+{{- if os.FileExists (printf "%s/apple-touch-icon.png" $staticDirFavicon) -}}
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicons/apple-touch-icon.png">
 {{ end -}}
-{{- if os.FileExists "static1/assets/images/favicons/favicon-32x32.png" -}}
+{{- if os.FileExists (printf "%s/favicon-32x32.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicons/favicon-32x32.png">
 {{ end -}}
-{{- if os.FileExists "static1/assets/images/favicons/favicon-16x16.png" -}}
+{{- if os.FileExists (printf "%s/favicon-16x16.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicons/favicon-16x16.png">
 {{ end -}}
-{{- if os.FileExists "static1/assets/images/favicons/favicon.ico" -}}
+{{- if os.FileExists (printf "%s/favicon.ico" $staticDirFavicon) -}}
   <link rel="icon" type="image/ico" href="/assets/images/favicons/favicon.ico">
 {{ end -}}
-{{- if os.FileExists "static1/assets/images/favicons/favicon.png" -}}
+{{- if os.FileExists (printf "%s/favicon.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" href="/assets/images/favicons/favicon.png">
 {{ end -}}
-{{- if os.FileExists "static1/assets/images/favicons/favicon.svg" -}}
+{{- if os.FileExists (printf "%s/favicon.svg" $staticDirFavicon) -}}
   <link rel="icon" type="image/svg" href="/assets/images/favicons/favicon.svg">
 {{ end -}}
-{{- if os.FileExists "static1/site.webmanifest" -}}
+{{- if os.FileExists (printf "%s/site.webmanifest" $staticDir) -}}
   <link rel="manifest" href="/site.webmanifest">
 {{ end -}}
 {{- $colorPrimary := .Site.Data.seo.color | default "#000000" -}}
-{{- if os.FileExists "static1/assets/images/favicons/safari-pinned-tab.svg" -}}
+{{- if os.FileExists (printf "%s/safari-pinned-tab.svg" $staticDirFavicon) -}}
   <link rel="mask-icon" href="/assets/images/favicons/safari-pinned-tab.svg" color="{{ $colorPrimary }}">
 {{ end -}}
 <meta name="msapplication-TileColor" content="{{ $colorPrimary }}">
