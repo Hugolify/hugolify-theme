@@ -52,10 +52,10 @@ pagination:
   label: Pagination
   last: Dernière page
   next: Suivant
-  next_section: "{{ .Section }} suivant"
+  next_section: "<span>{{ .Section }}</span> suivant"
   page: Page {{ .Number }}
   previous: Précédent
-  previous_section: "{{ .Section }} précédent"
+  previous_section: "<span>{{ .Section }}</span> précédent"
 posts:
   latest: Dernières actualités
   list_author: Liste des actualités de l’auteur

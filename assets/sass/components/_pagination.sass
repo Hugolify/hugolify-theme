@@ -10,32 +10,25 @@
     @if variable-exists(bootstrap-icons-map)
         .first
             &::before
-                @include icon
-                content: map-get($bootstrap-icons-map, "chevron-bar-left")
+                @include icon("chevron-bar-left")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(bootstrap-icons-map)
         .last
             &::after
-                @include icon
-                content: map-get($bootstrap-icons-map, "chevron-bar-right")
+                @include icon("chevron-bar-right")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(bootstrap-icons-map)
         .next
             &::after
-                @include icon
-                content: map-get($bootstrap-icons-map, "chevron-right")
+                @include icon("chevron-right")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-    @if variable-exists(bootstrap-icons-map)
         .previous
             &::before
-                @include icon
-                content: map-get($bootstrap-icons-map, "chevron-left")
+                @include icon("chevron-left")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
@@ -48,8 +41,13 @@
     @extend .pagination
     margin-top: $grid-gutter-width * 2
     li
-        margin-left: .5rem
-        margin-right: .5rem
+        &:first-child
+            margin-right: .5rem
+        &:last-child
+            margin-left: .5rem
+        @include media-breakpoint-down(md)
+            span
+                display: none
     a
         border-width: 0
         &:hover
