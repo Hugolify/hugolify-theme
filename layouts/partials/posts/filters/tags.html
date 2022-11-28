@@ -1,7 +1,7 @@
 {{ if .Site.Taxonomies.tags }}
   {{ $nTags := .Site.Taxonomies.tags | len }}
   {{ if gt $nTags 1 }}
-    <div>
+    <div class="list list-tags">
       <p>{{ i18n "tags.title" $nTags }}</p>
       <ul>
         {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.tags }}

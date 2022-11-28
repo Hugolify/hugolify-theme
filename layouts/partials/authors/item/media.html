@@ -1,6 +1,7 @@
-<header class="heading">
+{{ $desktop := site.Params.authors.thumbnail.desktop | default false }}
+{{ $w := printf "width: %spx" (index (split $desktop "x") 0 | default 100)  }}
+<div style="{{ $w }}">
   {{- with .Params.image}}
-    {{ $desktop := site.Params.authors.image.desktop | default false }}
     {{ partial "commons/image.html" (dict
       "src" .src
       "alt" .alt
@@ -9,7 +10,4 @@
       "crop" "top"
     ) }}
   {{ end -}}
-  {{ with .Title }}
-    <h1>{{ partial "PrepareHTML" . }}</h1>
-  {{ end }}
-</header>
+</div>

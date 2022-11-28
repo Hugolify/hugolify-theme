@@ -8,6 +8,13 @@ params:
     xlarge: "1600x"
     desktop: "856x"
     mobile: "336x"
+  authors:
+    thumbnail:
+      desktop: "100x100"
+    image:
+      desktop: "100x100"
+    post:
+      desktop: "50x50"
   posts:
     thumbnail:
       desktop: "414x177"

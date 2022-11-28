@@ -13,13 +13,7 @@
       {{ partial "authors/sidebar" . }}
     </div>
 
-    {{ with .Pages }}
-      <hr>
-      <header class="title">
-        <h2>{{ i18n "posts.list_author" }}</h2>
-      </header>
-      {{ partial "posts/items" .ByDate.Reverse }}
-    {{ end }}
+    {{ partial "authors/posts" . }}
 
   </div>
 

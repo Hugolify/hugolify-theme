@@ -4,7 +4,16 @@
     "@type": "Person",
     "name": {{ .Title | plainify | safeHTML }},
     {{ with .Description }}
-      "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
+      "description": {{ . | plainify | safeHTML }},
+    {{ end }}
+    {{ with .Params.email }}
+      "email": {{ . | plainify | safeHTML }},
+    {{ end }}
+    {{ with .Params.phone }}
+      "telephone": {{ . | plainify | safeHTML }},
+    {{ end }}
+    {{ with .Params.fax }}
+      "faxNumber": {{ . | plainify | safeHTML }},
     {{ end }}
     "url": {{ .Permalink }}
   }
