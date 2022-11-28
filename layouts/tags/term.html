@@ -1,5 +1,5 @@
 {{ define "hero"}}
-  {{- partial "types/hero.html" . -}}
+  {{- partial "tags/hero.html" . -}}
 {{ end }}
 
 {{ define "main" }}
@@ -8,12 +8,11 @@
 
   <div class="container">
 
-    {{ partial "types/heading" . }}
-    {{ partial "projects/filters" . }}
+    {{ partial "posts/heading" . }}
+    {{ partial "posts/filters" . }}
 
-    {{ .Pages }}
     {{ $paginator := .Paginator.Pages }}
-    {{ partial "projects/items" $paginator }}
+    {{ partial "posts/items" $paginator }}
     {{ partial "nav/pagination.html" . }}
 
   </div>

@@ -9,3 +9,15 @@
             @extend .btn-close
     .content
         @extend .offcanvas-body
+        p
+            font-weight: $font-weight-bold
+            margin-bottom: .5rem
+        ul
+            margin-bottom: 0
+            padding-left: 1.1rem
+        div
+            &:not(:first-child)
+                padding-top: calc(#{$global-spacing} / 2)
+            &:not(:last-child)
+                border-bottom: 1px solid $border-color
+                padding-bottom: calc(#{$global-spacing} / 2)

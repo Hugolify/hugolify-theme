@@ -1,2 +1,7 @@
-{{ $slug := replace .slug "/_index" "" }}
+{{ $slug := .slug }}
+{{ if in .slug "/_index" }}
+  {{ $slug = replace .slug "/_index" "" }}
+{{ else }}
+  {{ $slug = .slug | urlize }}
+{{ end }}
 {{ return site.GetPage (printf "/%s/%s" .taxonomy $slug) }}

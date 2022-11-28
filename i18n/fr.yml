@@ -82,6 +82,10 @@ reading_time:
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
+tags:
+  title:
+    one: Tag
+    other: Tags
 toc: Table des matières
 types:
   title:

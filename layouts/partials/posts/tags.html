@@ -1,0 +1,13 @@
+{{ with .Params.tags }}
+  <div class="tags">
+    <p>{{ i18n "tags.title" (. | len) }}</p>
+    <ul>
+      {{ range . }}
+        {{ $tag := partial "GetTaxonomy" (dict "slug" . "taxonomy" "tags")  }}
+        {{ with $tag }}
+          <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}

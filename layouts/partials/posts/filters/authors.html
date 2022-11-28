@@ -1,14 +1,18 @@
-{{ $nAuthors := .Site.Taxonomies.authors | len }}
-{{ if gt $nAuthors 1 }}
-  <p>{{ i18n "authors.title" $nAuthors }}</p>
-  <ul>
-    {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.authors }}
-      <li>
-        {{ $category := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" "authors")  }}
-        {{ with $category }}
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
+{{ if .Site.Taxonomies.authors }}
+  {{ $nAuthors := .Site.Taxonomies.authors | len }}
+  {{ if gt $nAuthors 1 }}
+    <div>
+      <p>{{ i18n "authors.title" $nAuthors }}</p>
+      <ul>
+        {{ range $taxonomy_term, $taxonomy := .Site.Taxonomies.authors }}
+          <li>
+            {{ $category := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" "authors")  }}
+            {{ with $category }}
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            {{ end }}
+          </li>
         {{ end }}
-      </li>
-    {{ end }}
-  </ul>
+      </ul>
+    </div>
+  {{ end }}
 {{ end }}
