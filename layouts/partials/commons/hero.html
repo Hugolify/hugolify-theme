@@ -10,7 +10,7 @@
           <h1>{{ . }}</h1>
         {{ end }}
         {{ with .text }}
-          <p>{{ . }}</p>
+          <p>{{ . | markdownify }}</p>
         {{ end }}
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
