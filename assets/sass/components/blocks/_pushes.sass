@@ -22,8 +22,14 @@
             &:not(.logo) > *
                 position: static
             &.logo
+                @extend .ratio-1x1
+                @extend .bg-light
+                picture
+                    align-items: center
+                    display: flex
+                    justify-content: center
                 img
-                    max-width: 70%
+                    max-width: 60%
             img
                 height: auto
                 object-fit: contain
