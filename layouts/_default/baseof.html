@@ -11,7 +11,8 @@
   {{ $body_class := printf "%s-%s" .Kind .Type }}
   <body class="{{ $body_class }}">
     {{- partialCached "commons/schema.html" . -}}
-    {{- partial "nav/accessibility.html" -}}
+    {{- partialCached "nav/accessibility.html" . -}}
+    {{- partialCached "header/top.html" . -}}
     {{- partial "header/header.html" . -}}
     {{- block "hero" . }}{{- end }}
     <main id="main" role="main" tabindex="-1">
