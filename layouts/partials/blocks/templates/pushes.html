@@ -41,7 +41,7 @@
                 {{ end }}
             </div>
             {{ with .image }}
-              <div class="media">
+              <div class="media{{ if .logo }} logo{{ end }}">
                 {{ partial "commons/image" (dict
                   "src" .src 
                   "alt" .alt 
