@@ -27,27 +27,32 @@
               "size" $size
               "divider" 2) }}
           {{ end }}
-          {{ with .image }}
-            <div class="media">
-              {{ partial "commons/image" (dict
-                "src" .src 
-                "alt" .alt 
-                "desktop" $desktop
-                "mobile" $mobile
-                ) }}
-              </a>
+
+          <div class="card">
+            <div class="content">
+              {{ with .title }}
+                <h3>{{ partial "PrepareHTML" . }}</h3>
+              {{ end }}
+              {{ with .text }}
+                <p>{{ partial "PrepareHTML" . }}</p>
+              {{ end }}
+              {{ with .cta }}
+                  {{ partial "commons/cta.html" . }}
+                {{ end }}
             </div>
-          {{ end }}
-          
-          {{ with .title }}
-            <h3>{{ partial "PrepareHTML" . }}</h3>
-          {{ end }}
-          {{ with .text }}
-            <p>{{ partial "PrepareHTML" . }}</p>
-          {{ end }}
-          {{ with .cta }}
-              {{ partial "commons/cta.html" . }}
+            {{ with .image }}
+              <div class="media">
+                {{ partial "commons/image" (dict
+                  "src" .src 
+                  "alt" .alt 
+                  "desktop" $desktop
+                  "mobile" $mobile
+                  ) }}
+                </a>
+              </div>
             {{ end }}
+          </div>
+
         </div>
       {{ end }}
     </div>
