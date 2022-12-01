@@ -3,9 +3,19 @@
 
     {{ partial "blocks/heading.html" . }}
 
+    {{ $title := .title | default "" }}
     {{ with .embed }}
+      {{ $embed := . }}
+      {{ if not (in . "loading=") }}
+        {{ $embed = replace . "<iframe " "<iframe loading='lazy'" }}
+      {{ end }}
+      {{ if not (in . "title=") }}
+        {{ $replace := printf "<iframe title='%s'" $title }}
+        {{ $embed = replace . "<iframe " $replace }}
+      {{ end }}
+
       <div class="embed">
-        {{ . | safeHTML }}
+        {{ $embed | safeHTML }}
       </div>
     {{ end }}
 
