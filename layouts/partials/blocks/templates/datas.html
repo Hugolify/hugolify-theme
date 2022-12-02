@@ -1,0 +1,42 @@
+<section class="block-datas{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ $show_color := .show_color | default false }}
+    {{ $show_gauge := .show_gauge | default false }}
+    {{ $column := 3 }}
+    {{ with .column }}
+      {{ $column = . }}
+    {{ end }}
+    {{ with .items }}
+    <ul class="items items-{{ $column }}">
+      {{ range . }}
+        <li>
+          {{ if $show_gauge }}
+            {{ $stat := . }}
+            {{ with .value }}
+              {{ partial "commons/gauge.html" (dict 
+                "value" . 
+                "limit" $stat.limit 
+                "show_color" $show_color 
+                "prefix" $stat.prefix 
+                "suffix" $stat.suffix ) }}
+            {{ end }}
+          {{ else }}
+            <p class="value">{{ .prefix }}{{ .value }}{{ .suffix }}</p>
+          {{ end }}
+          {{ with .title }}
+            <h3>{{ partial "PrepareHTML" . }}</h3>
+          {{ end }}
+          {{ with .text }}
+            <p>{{ partial "PrepareHTML" . }}</p>
+          {{ end }}
+        </li>
+      {{ end }}
+      </ul>
+    {{ end }}
+
+
+  </div>
+</section>

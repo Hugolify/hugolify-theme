@@ -34,5 +34,5 @@
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
   </svg>
-  <figcaption>{{ $prefix }}{{ $value }}{{ $suffix }}</figcaption>
+  <figcaption role="progressbar" aria-valuenow="{{ $value }}" aria-valuemin="0" aria-valuemax="{{ $limit }}">{{ $prefix }}{{ $value }}{{ $suffix }}</figcaption>
 </figure>

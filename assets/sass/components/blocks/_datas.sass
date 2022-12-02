@@ -1,4 +1,4 @@
-.block-gauges
+.block-datas
     text-align: center
     .items
         @extend .row
@@ -6,6 +6,9 @@
         @extend .row-cols-md-3
         @extend .gy-4
         justify-content: center
+        list-style: none
+        margin-bottom: 0
+        padding-left: 0
         > *
             @extend .col
 
@@ -17,3 +20,5 @@
     .gauge
         margin-left: auto
         margin-right: auto
+    .value
+        @extend .display-4
