@@ -1,8 +1,10 @@
 {{ with .}}
-  <section class="block-cta">
+  <section class="block-cta{{ with .background }} block-bg{{ end }}">
     <div class="container">
 
-      {{ partial "commons/cta.html" . }}
+      {{ partial "blocks/heading.html" . }}
+
+      {{ partial "commons/cta.html" .cta }}
 
     </div>
   </section>
