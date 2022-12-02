@@ -1,5 +1,5 @@
 {{ $gutter := site.Params.gutter | default 0 }}
-{{ $divider := .divider | default 2 }}
+{{ $divider := (.divider | float) | default 2 }}
 {{ $image_size := .size | default false }}
 
 {{ if $image_size }}
@@ -7,10 +7,10 @@
   {{ $image_width := index $image_size_array 0 | default "" }}
   {{ $image_height := index $image_size_array 1 | default "" }}
   {{ if ne ($image_width) "" }}
-    {{ $image_width = sub (div (int $image_width) $divider) (div $gutter $divider) }}
+    {{ $image_width = math.Round ( sub (div (int $image_width) $divider) (div $gutter $divider) ) }}
   {{ end }}
   {{ if ne ($image_height) "" }}
-    {{ $image_height = sub (div (int $image_height) $divider) (div $gutter $divider) }}
+    {{ $image_height = math.Round ( sub (div (int $image_height) $divider) (div $gutter $divider) ) }}
   {{ end }}
   {{ $image_size = printf "%sx%s" (string $image_width) (string $image_height) }}
 {{ end }}

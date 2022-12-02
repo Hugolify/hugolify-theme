@@ -1,17 +1,50 @@
-{{ $src := .src | default false }}
-{{ $alt := .alt | default false }}
-{{ $legend := .legend | default false }}
-{{ $credit := .credit | default false }}
+{{ $class := "" }}
+{{ $divider := 1 }}
+{{ if eq .grid "small" }}
+  {{ $class = "col-md-8 offset-md-2" }}
+  {{ $divider = 1.5 }}
+{{ else if eq .grid "medium" }}
+  {{ $class = "col-md-10 offset-md-1" }}
+  {{ $divider = 1.2 }}
+{{ end }}
 
 <section class="block-figure{{ with .background }} block-bg{{ end }}">
   <div class="container">
 
-    {{ partial "commons/figure" (dict
-      "src" $src 
-      "alt" $alt 
-      "legend" $legend 
-      "credit" $credit
-      ) }}
+    {{ if ne .grid "large" }}
+    <div class="row">
+      <div class="{{ $class }}">
+    {{ end }}
+
+        {{ with .figure }}
+          {{ $src := .src | default false }}
+          {{ $alt := .alt | default false }}
+          {{ $legend := .legend | default false }}
+          {{ $credit := .credit | default false }}
+          {{ $desktop := site.Params.container.desktop | default false }}
+          {{ $mobile := site.Params.image.mobile | default false }}
+          {{ if $desktop }}
+            {{ $width := string $desktop }}
+            {{ $size := printf "%sx" $width }}
+            {{ $desktop = partial "GetDividedImage" (dict
+              "size" $size
+              "divider" $divider) }}
+          {{ end }}
+          {{ $desktop }}
+          {{ partial "commons/figure" (dict
+            "src" $src 
+            "alt" $alt 
+            "desktop" $desktop
+            "mobile" $mobile
+            "legend" $legend 
+            "credit" $credit
+            ) }}
+        {{ end }}
+    
+    {{ if ne .grid "large" }}
+      </div>
+    </div>
+    {{ end }}
 
   </div>
 </section>
