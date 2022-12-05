@@ -1,0 +1,35 @@
+{{ $section := .section }}
+{{ if $section }}
+<section class="block-selected block-selected-{{ $section }}{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+
+    {{ partial "blocks/heading" . }}
+
+    {{ with .items }}
+      {{ $items := slice }}
+      {{ range . }}
+        {{ $path := printf "%s/%s" $section . }}
+        {{ $item := site.GetPage $path }}
+        {{ with $item }}
+          {{ $items = $items | append . }}
+        {{ end }}
+      {{ end }}
+      {{ if gt $items 0 }}
+        {{ $partial := printf "%s/items" $section }}
+        {{ partial $partial $items }}
+      {{ end }}
+    {{ end }}
+
+    {{ $show_button := .show_more | default true }}
+    {{ if $show_button }}
+      {{ $index := site.GetPage (printf "/%s" $section) }}
+      {{ with $index }}
+        <div class="bottom">
+          {{ $i18n := printf "%s.more" $section }}
+          <a href="{{ .Permalink }}" class="more">{{ i18n $i18n }}</a>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}
