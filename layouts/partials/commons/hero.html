@@ -1,4 +1,3 @@
-{{ $image := .Params.image }}
 {{ with .Params.hero }}
 {{ if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) }}
 <header class="hero">
@@ -24,7 +23,7 @@
         {{ end }}
       </div>
 
-      {{ with $image }}
+      {{ with .image }}
         <div class="hero-media">
           {{ partial "commons/image.html" (dict
               "src" .src
