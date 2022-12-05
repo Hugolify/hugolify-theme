@@ -12,17 +12,18 @@ Types supportés par le thème
 * categories (taxonomy)
 * projects
 * types (taxonomy)
+* case studies
 * publications
 * pages
 
 ## Framework
 Bootstrap 5.2 : https://getbootstrap.com/docs/5.2/getting-started/introduction/
 
-## SASS Guidelines
-https://sass-guidelin.es/
-
 ## Icons
-Material icons : https://fonts.google.com/icons
+https://icons.getbootstrap.com
+
+## Documentation
+https://github.com/sebousan/hugolify-template/wiki
 
 ## Licensing
 This Repository is licensed under the MIT License
