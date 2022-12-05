@@ -4,8 +4,11 @@
         @extend .ratio
         background-color: $light
         order: -1
+        overflow: hidden
         img
             @extend .card-img-top
+            height: 100%
+            object-fit: contain
     .content
         @extend .card-body
     .cta
