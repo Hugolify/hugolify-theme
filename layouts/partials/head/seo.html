@@ -1,5 +1,5 @@
-{{ $staticDir := "static2" }}
-{{ $staticDirImages := (printf "%s/assets/images" $staticDir) }}
+{{- $staticDir := "static2" -}}
+{{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
 
 {{/*  TITLE  */}}
 {{- $seoTitle := chomp (htmlUnescape site.Title) -}}
