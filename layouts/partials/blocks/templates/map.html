@@ -3,9 +3,10 @@
 
     {{ partial "blocks/heading.html" . }}
 
-    <div class="map">
-      TODO {{ .location }}
-    </div>
+    {{ $zoom := .zoom }}
+    {{ with .location }}
+    <div class="map js-map" data-location="{{ . }}" data-zoom="{{ $zoom }}"></div>
+    {{ end }}
     
   </div>
 </section>

@@ -1,10 +1,12 @@
 <!-- CSS -->
+{{ if partial "HasMap" . }}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+{{ end }}
 {{- $cssOpts := (dict
   "targetPath" "assets/css/main.css"
   "enableSourceMap" true
   "includePaths" (slice "node_modules")
 ) -}}
-
 {{- $css := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
 {{ if hugo.IsProduction }}
   {{- $css = $css | resources.PostCSS | minify | fingerprint | resources.PostProcess -}}

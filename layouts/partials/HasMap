@@ -1,0 +1,8 @@
+{{ $hasMap := false }}
+{{ range .Params.blocks }}
+  {{ if eq .type "map" }}
+    {{ $hasMap = true }}
+  {{ end }}
+{{ end }}
+
+{{ return $hasMap }}
