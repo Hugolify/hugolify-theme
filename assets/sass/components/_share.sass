@@ -1,5 +1,7 @@
 .share
     @extend .dropdown
+    @include media-breakpoint-down(md)
+        display: none
     > button
         @extend .btn
         // @extend .btn-sm

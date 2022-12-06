@@ -21,4 +21,13 @@
     .btn + .btn
         @extend .btn-outline-primary
         margin-left: .5rem
+    @include media-breakpoint-down(md)
+        .cta
+            display: flex
+            flex-direction: column
+        .btn + .btn
+            margin-left: 0
+
+
+
     

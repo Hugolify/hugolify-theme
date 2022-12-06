@@ -3,14 +3,19 @@
     align-items: baseline
     display: flex
     flex-wrap: wrap
-    h1,
-    h2,
-    p
-        @include media-breakpoint-up(mp)
+    @include media-breakpoint-down(md)
+        &:not(.heading-filter)
+            flex-direction: column
+            .more
+                margin-left: 0
+    @include media-breakpoint-up(md)
+        h1,
+        h2,
+        p
             margin-bottom: 0
-    .metas
-        margin-top: 1rem
-        width: 100%
+        .metas
+            margin-top: 1rem
+            width: 100%
     .btn,
     .more
         margin-left: auto

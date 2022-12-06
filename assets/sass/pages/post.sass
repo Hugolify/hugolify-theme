@@ -6,6 +6,9 @@
             @extend .col-md-4
             @extend .col-lg-3
             @extend .offset-lg-1
+            @include media-breakpoint-down(md)
+                margin-top: calc(#{$global-spacing} / 2)
+                order: 3
     .tags
         border-top: 1px solid $border-color
         margin-top: $global-spacing

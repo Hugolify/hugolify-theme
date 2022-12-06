@@ -1,6 +1,6 @@
 {{ $context := . }}
 {{ with .Title }}
-  <header class="heading">
+  <header class="heading heading-filter">
     <h1>{{ partial "PrepareHTML" . }}</h1>
     {{ partial "posts/filters/button" $context }}
   </header>
