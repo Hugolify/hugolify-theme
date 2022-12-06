@@ -15,6 +15,13 @@ params:
       desktop: "100x100"
     post:
       desktop: "50x50"
+  pages:
+    thumbnail:
+      desktop: "414x177"
+      mobile: "336x144"
+    image:
+      desktop: "856x"
+      mobile: "336x"
   posts:
     thumbnail:
       desktop: "414x177"
