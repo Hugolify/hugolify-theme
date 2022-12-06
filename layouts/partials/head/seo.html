@@ -1,3 +1,6 @@
+{{ $staticDir := "static2" }}
+{{ $staticDirImages := (printf "%s/assets/images" $staticDir) }}
+
 {{/*  TITLE  */}}
 {{- $seoTitle := chomp (htmlUnescape site.Title) -}}
 {{- with .Site.Data.seo.title -}}
@@ -18,10 +21,9 @@
 
 {{/*  IMAGE  */}}
 {{- $seoImage := "" -}}
-{{- if os.FileExists "static/assets/images/share.png" -}}
+{{- if os.FileExists (printf "%s/share.png" $staticDirImages) -}}
   {{- $seoImage = printf "%sassets/images/share.png" site.BaseURL -}}
-{{- end -}}
-{{- if os.FileExists "static/assets/images/share.jpg" -}}
+{{- else if os.FileExists (printf "%s/share.jpg" $staticDirImages) -}}
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
 {{- end -}}
 {{- with .Site.Data.seo.image.src -}}
