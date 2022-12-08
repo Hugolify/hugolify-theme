@@ -104,7 +104,7 @@
             {{ end }}
             <source srcset="{{ .RelPermalink }}, {{ $image_mobile_retina.RelPermalink }} 2x" type="image/jpg" media="(max-width: 576px)">
           {{ end }}
-          <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
+          <img src="{{ .RelPermalink }}" alt="{{ $alt }}" width="{{ .Width }}" height="{{ .Height }}"{{ if $lazy }} loading="lazy" decoding="async"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
         {{ end }}
 
       {{ end }}
