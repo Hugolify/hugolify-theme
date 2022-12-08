@@ -3,18 +3,21 @@
 ## Installation 
 Add the repository into your Hugo Project repository as a submodule:
 ```
-git submodule add git@github.com:sebousan/hugo-theme themes/hugo-theme
+git submodule add git@github.com:sebousan/hugolify-theme themes/hugolify-theme
 ```
-## Fonctionnalités
-Types supportés par le thème
+
+## Features
+Hugo sections available in theme and admin
+
+* pages
 * posts
 * authors (taxonomy)
 * categories (taxonomy)
+* tags (taxonomy)
 * projects
 * types (taxonomy)
 * case studies
 * publications
-* pages
 
 ## Framework
 Bootstrap 5.2 : https://getbootstrap.com/docs/5.2/getting-started/introduction/
@@ -26,4 +29,4 @@ https://icons.getbootstrap.com
 https://github.com/sebousan/hugolify-template/wiki
 
 ## Licensing
-This Repository is licensed under the MIT License
+Hugolify is free for personal or commercial projects (MIT license)
