@@ -16,12 +16,16 @@
                 @include icon("list-nested")
                 margin-right: .5rem
                 vertical-align: bottom
-
     nav 
         width: 100%
         ol, ul
-            font-size: px2rem(14)
             padding-left: 1.125rem
+        ol, ul, li
+            font-size: 1rem
+        a
+            text-decoration-color: transparent
+            &:hover
+                text-decoration-color: $link-color
         
     .offcanvas
         @extend .offcanvas-md
@@ -43,5 +47,3 @@
         @extend .h5
     .content
         @extend .offcanvas-body
-
-    
