@@ -1,6 +1,6 @@
 # Hugo theme
 
-## Installation 
+## Install
 Add the repository into your Hugo Project repository as a submodule:
 ```
 git submodule add git@github.com:sebousan/hugolify-theme themes/hugolify-theme
