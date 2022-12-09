@@ -1,0 +1,36 @@
+.push
+    --bs-card-spacer-y: 2rem
+    --bs-card-spacer-x: 2rem
+    @extend .card
+    @extend .ratio
+    @extend .ratio-21x9
+    background-color: $body-color
+    border: 0
+    color: $body-bg
+    position: relative
+    overflow: hidden
+
+    .content
+        align-items: flex-start
+        display: flex
+        flex-direction: column
+        justify-content: center
+        z-index: 1
+
+    &-end
+        .content
+            align-items: flex-end
+    
+    &-center
+        .content
+            align-items: center
+            text-align: center
+
+    img
+        height: 100%
+        object-fit: cover
+        width: 100%
+
+    .btn
+        @extend .btn-light
+        @extend .stretched-link

@@ -12,7 +12,7 @@
       {{ range . }}
         <div>
 
-          <div class="card">
+          <div class="push push-{{ .align }}">
             <div class="content">
               {{ with .title }}
                 <h3>{{ partial "PrepareHTML" . }}</h3>
@@ -42,15 +42,13 @@
                   "size" $size
                   "divider" 2) }}
               {{ end }}
-              <div class="media{{ if .logo }} logo{{ end }}">
-                {{ partial "commons/image" (dict
-                  "src" .src 
-                  "alt" .alt 
-                  "desktop" $desktop
-                  "mobile" $mobile
-                  ) }}
-                </a>
-              </div>
+            
+              {{ partial "commons/image" (dict
+                "src" .src 
+                "alt" .alt 
+                "desktop" $desktop
+                "mobile" $mobile
+                ) }}
             {{ end }}
           </div>
 

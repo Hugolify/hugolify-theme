@@ -1,38 +1,7 @@
 .block-pushes
-    text-align: center
     .items
         @extend .row
         @extend .gy-4
         justify-content: center
         > *
             @extend .col
-
-        @for $i from 3 through 6
-            &-#{$i}
-                @extend .row-cols-md-#{$i - 1}
-                @extend .row-cols-lg-#{$i}
-
-        @include scroll-snap
-
-    .card
-        --bs-card-spacer-y: 1rem
-        --bs-card-spacer-x: 0
-        border: 0
-        .media
-            &:not(.logo) > *
-                position: static
-            &.logo
-                @extend .ratio-1x1
-                @extend .bg-light
-                picture
-                    align-items: center
-                    display: flex
-                    justify-content: center
-                img
-                    max-width: 60%
-            img
-                height: auto
-                object-fit: contain
-                max-width: 100%
-        .btn
-            @extend .btn-primary
