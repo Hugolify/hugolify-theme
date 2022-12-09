@@ -1,11 +1,45 @@
+{{ $class := "full" }}
+{{ if eq .grid "small" }}
+  {{ $class = "col-md-6" }}
+  {{ if eq .align "center" }}
+    {{ $class = printf "%s offset-md-3" $class }}
+  {{ else if eq .align "end" }}
+    {{ $class = printf "%s offset-md-6" $class }}
+  {{ end }}
+{{ else if eq .grid "medium" }}
+  {{ $class = "col-md-8" }}
+  {{ if eq .align "center" }}
+    {{ $class = printf "%s offset-md-2" $class }}
+  {{ else if eq .align "end" }}
+    {{ $class = printf "%s offset-md-4" $class }}
+  {{ end }}
+{{ else if eq .grid "large" }}
+  {{ $class = "col-md-10" }}
+  {{ if eq .align "center" }}
+    {{ $class = printf "%s offset-md-1" $class }}
+  {{ else if eq .align "end" }}
+    {{ $class = printf "%s offset-md-2" $class }}
+  {{ end }}
+{{ end }}
+
 <section class="block-paragraph{{ with .background }} block-bg{{ end }}">
   <div class="container">
+
+    {{ if ne .grid "full" }}
+    <div class="row">
+      <div class="{{ $class }}">
+    {{ end }}
     
     {{ with .title }}
       <h2>{{ partial "PrepareHTML" . }}</h2>
     {{ end }}
     {{ with .text }}
       <p>{{ partial "PrepareHTML" . | markdownify }}</p>
+    {{ end }}
+
+    {{ if ne .grid "full" }}
+      </div>
+    </div>
     {{ end }}
 
   </div>
