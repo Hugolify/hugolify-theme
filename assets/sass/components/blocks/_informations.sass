@@ -1,4 +1,4 @@
-.block-infos
+.block-informations
     text-align: center
     .items
         @extend .row
@@ -24,8 +24,28 @@
         .media
             background: transparent
             padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
-            > *
-                position: static
+            &-icon
+                > *
+                    position: static
+            &-image,
+            &-logo
+                @extend .ratio-21x9
+            &-logo
+                picture
+                    align-items: center
+                    display: flex
+                    justify-content: center
+                img
+                    border-radius: 0
+                    max-width: 60%
+            &-image
+                img
+                    object-fit: cover
+            &-none
+                padding: 0
     
     .icon
         font-size: 2rem
+
+    .btn
+        @extend .btn-primary

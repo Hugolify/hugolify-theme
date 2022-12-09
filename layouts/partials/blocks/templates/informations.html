@@ -1,0 +1,79 @@
+<section class="block-informations{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ $column := 3 }}
+    {{ with .column }}
+      {{ $column = . }}
+    {{ end }}
+    {{ with .items }}
+    <div class="items items-{{ $column }}">
+      {{ range . }}
+        <div>
+          <div class="card">
+
+            
+            <div class="content">
+              {{ with .title }}
+                <p class="name">{{ partial "PrepareHTML" . }}</p>
+              {{ end }}
+              {{ with .text }}
+                <p>{{ partial "PrepareHTML" . }}</p>
+              {{ end }}
+              {{ with .cta }}
+                  {{ partial "commons/cta.html" . }}
+                {{ end }}
+            </div>
+
+            {{ $class := "none" }}
+            {{ if .icon }}
+              {{ $class = "icon" }}
+            {{ else if .image.isLogo }}
+              {{ $class = "logo" }}
+            {{ else if .image.src }}
+              {{ $class = "image" }}
+            {{ end }}
+
+            <div class="media media-{{ $class }}">
+              {{- with .icon -}}
+                <i class="icon icon-{{ . }}"></i>
+              {{- else -}}
+
+                {{ with .image }}
+                  {{ $desktop := site.Params.container.desktop | default false }}
+                  {{ $mobile := site.Params.container.mobile | default false }}
+                  {{ if $desktop }}
+                    {{ $width := string $desktop }}
+                    {{ $size := printf "%sx" $width }}
+                    {{ $desktop = partial "GetDividedImage" (dict
+                      "size" $size
+                      "divider" ($column | int)) }}
+                  {{ end }}
+                  {{ if $mobile }}
+                    {{ $width := string $mobile }}
+                    {{ $size := printf "%sx" $width }}
+                    {{ $mobile = partial "GetDividedImage" (dict
+                      "size" $size
+                      "divider" 2) }}
+                  {{ end }}
+                  {{ partial "commons/image" (dict
+                    "src" .src 
+                    "alt" .alt 
+                    "desktop" $desktop
+                    "mobile" $mobile
+                    ) }}
+                {{ end }}
+
+              {{- end -}}
+            </div>
+
+          </div>
+        </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+
+  </div>
+</section>
