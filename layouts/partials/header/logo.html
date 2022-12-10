@@ -1,2 +1,1 @@
-{{ $logo := site.Params.logo.header }}
-{{ partial "commons/logo.html" $logo }}
+{{ partial "commons/logo.html" (dict "logo" site.Params.logo.header) }}
