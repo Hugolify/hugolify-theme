@@ -1,4 +1,5 @@
-{{- $file := printf "static2%s" site.Params.logo -}}
+{{- $logo := . | default "" -}}
+{{- $file := printf "static2%s" $logo -}}
 <a class="logo" href="{{ site.BaseURL }}">
   {{- if os.FileExists $file }}
     {{- $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $file) -}}

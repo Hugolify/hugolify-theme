@@ -1,5 +1,7 @@
 params:
-  logo: "/assets/images/logo.svg"
+  logo: 
+    hearder: "/assets/images/logo.svg"
+    footer: "/assets/images/logo.svg"
   gutter: 24
   container:
     desktop: 1292
