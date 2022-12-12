@@ -1,3 +1,4 @@
+{{ $tag := cond (ne .title "") "h2" "h3" }}
 <section class="block-pushes{{ with .background }} block-bg{{ end }}">
   <div class="container">
     
@@ -15,7 +16,9 @@
           <div class="push push-{{ .align }}">
             <div class="content">
               {{ with .title }}
-                <h3>{{ partial "PrepareHTML" . }}</h3>
+                {{- printf "<%s>" $tag | safeHTML -}}
+                  {{ partial "PrepareHTML" . }}
+                {{- printf "</%s>" $tag | safeHTML -}}
               {{ end }}
               {{ with .text }}
                 <p>{{ partial "PrepareHTML" . }}</p>
