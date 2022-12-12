@@ -1,10 +1,4 @@
 <div class="filters offcanvas" tabindex="-1" id="postsFilters" aria-labelledby="postsFiltersLabel">
-  <div class="header">
-    {{ partial "posts/filters/header" . }}
-  </div>
-  <div class="content">
-    {{ partial "posts/filters/categories" . }}
-    {{ partial "posts/filters/tags" . }}
-    {{ partial "posts/filters/authors" . }}
-  </div>
+  {{ partial "posts/filters/header" . }}
+  {{ partial "posts/filters/content" . }}
 </div>
