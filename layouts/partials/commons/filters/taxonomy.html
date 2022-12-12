@@ -1,0 +1,21 @@
+{{ $tax := .tax | default false }}
+{{ if $tax }}
+  {{ $the_tax := index site.Taxonomies $tax }}
+  {{ with $the_tax }}
+    {{ $nTaxs := $the_tax | len }}
+    {{ $i18n := printf "%s.title" $tax }}
+    <div class="list list-{{ $tax }}">
+      <p>{{ i18n $i18n $nTaxs }}</p>
+      <ul>
+        {{ range $taxonomy_term, $taxonomy := . }}
+          <li>
+            {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
+            {{ with $item }}
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+{{ end }}
