@@ -8,8 +8,9 @@
         min-height: $hero-min-height
     .row
         align-items: center
-        width: 100%
+        flex-basis: calc(100% + var(--bs-gutter-x))
     &-content
+        @extend .col-12
         @extend .col-md-5
     &-media
         @extend .col-md-4
