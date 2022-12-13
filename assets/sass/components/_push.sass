@@ -9,6 +9,9 @@
     color: $body-bg
     position: relative
     overflow: hidden
+    @include media-breakpoint-down(md)
+        &::before
+            padding-top: 100%
 
     .content
         align-items: flex-start
