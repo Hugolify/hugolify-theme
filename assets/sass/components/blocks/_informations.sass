@@ -12,7 +12,8 @@
                 @extend .row-cols-md-#{$i - 1}
                 @extend .row-cols-lg-#{$i}
         
-        @include scroll-snap
+        &:not(.items-1)
+            @include scroll-snap
 
     .card
         --bs-card-spacer-y: 1.5rem
