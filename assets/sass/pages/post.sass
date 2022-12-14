@@ -5,3 +5,13 @@
         padding-top: calc(#{$global-spacing} / 2)
         p
             @extend .h5
+
+    @include media-breakpoint-up(md)
+        .grid
+            >
+                .content
+                    grid-row: 2/4
+                .sidebar
+                    grid-row: 2
+                .toc
+                    grid-row: 3/5

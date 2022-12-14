@@ -11,13 +11,11 @@
                 grid-row: 1
             .content
                 grid-column: 1/9
-                grid-row: 2/4
-            .sidebar
-                grid-column: 10/13
                 grid-row: 2
+            .sidebar,
             .toc
                 grid-column: 10/13
-                grid-row: 3/5
+                grid-row: 2
             nav
                 grid-column: 1/9
                 grid-row: 4
@@ -27,10 +25,11 @@
                 order: 1
             .content
                 order: 3
-            .media
-                margin-bottom: $grid-gutter-width
-                order: 2
+            // .media
+            //     margin-bottom: $grid-gutter-width
+            //     order: 2
             .sidebar
+                margin-top: $global-spacing
                 order: 4
             .toc
                 margin-bottom: $grid-gutter-width
