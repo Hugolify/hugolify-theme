@@ -6,14 +6,6 @@
   {{ partial "projects/schema" . }}
 
   <div class="container">
-
-    <div class="row">
-      {{ partial "projects/heading-single" . }}
-      {{ partial "projects/content" . }}
-      {{ partial "projects/sidebar" . }}
-      {{ partial "nav/previous-next" . }}
-    </div>
-
+    {{ partial "projects/grid" . }}
   </div>
-
 {{ end }}

@@ -1,24 +1,26 @@
 {{ if ge (len .TableOfContents) 100 }}
 <div class="toc">
-  <p>{{ i18n "toc" }}</p>
-  <button type="button"
-    data-bs-toggle="offcanvas"
-    data-bs-target="#toc"
-    aria-controls="toc"
-    aria-expanded="false">
-    {{ i18n "toc" }}
-  </button>
-  <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
-    <div class="header">
-      <p class="title" id="tocLabel">{{ i18n "toc" }}</p>
-      <button type="button" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+  <div>
+    <p>{{ i18n "toc" }}</p>
+    <button type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#toc"
+      aria-controls="toc"
+      aria-expanded="false">
+      {{ i18n "toc" }}
+    </button>
+    <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+      <div class="header">
+        <p class="title" id="tocLabel">{{ i18n "toc" }}</p>
+        <button type="button" data-bs-dismiss="offcanvas" aria-label="{{ i18n "navigation.close" }}"></button>
+      </div>
+      <div class="content">
+        {{ with .TableOfContents }}
+          {{ $replace := printf "id='TableOfContents' aria-label='%s'" (i18n "toc") }}
+          {{ replace . "id=\"TableOfContents\"" $replace | safeHTML }}
+        {{ end }}
+      </div>
     </div>
-    <div class="content">
-      {{ with .TableOfContents }}
-        {{ $replace := printf "id='TableOfContents' aria-label='%s'" (i18n "toc") }}
-        {{ replace . "id=\"TableOfContents\"" $replace | safeHTML }}
-      {{ end }}
-    </div>
-  </div>
+</div>
 </div>
 {{ end }}

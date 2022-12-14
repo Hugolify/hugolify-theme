@@ -1,27 +1,30 @@
 .toc
     @include media-breakpoint-up(md)
-        position: sticky
-        top: $offset
-    > p
-        @extend .d-none
-        @extend .d-md-block
-        @extend .h5
-    > button
-        @extend .btn
-        @extend .btn-light
-        @extend .d-md-none
-        @extend .mb-3
-        @if variable-exists(bootstrap-icons-map)
-            &::before
-                @include icon("list-nested")
-                margin-right: .5rem
-                vertical-align: bottom
+        > div
+            position: sticky
+            top: $offset
+    > div
+        > p
+            @extend .d-none
+            @extend .d-md-block
+            @extend .h5
+        > button
+            @extend .btn
+            @extend .btn-light
+            @extend .d-md-none
+            @if variable-exists(bootstrap-icons-map)
+                &::before
+                    @include icon("list-nested")
+                    margin-right: .5rem
     nav 
         width: 100%
         ol, ul
             padding-left: 1.125rem
         ol, ul, li
-            font-size: 1rem
+            font-size: .875rem
+        ol
+            ol
+                list-style-type: circle
         a
             text-decoration-color: transparent
             &:hover

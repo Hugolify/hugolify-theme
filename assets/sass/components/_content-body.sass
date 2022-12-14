@@ -1,4 +1,8 @@
 .content-body
     margin-bottom: $grid-gutter-width * 2
+    &:last-child
+        margin-bottom: 0
     h2:not(:first-child)
         @include rfs($global-spacing, margin-top)
+    > *:last-child
+        margin-bottom: 0

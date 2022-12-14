@@ -3,10 +3,7 @@
     {{ if .Pages }}
       {{ partial "pages/items" .Pages }}
     {{ else }}
-      <div class="row">
-        {{ partial "pages/content.html" . }}
-        {{ partial "pages/sidebar" . }}
-      </div>
+      {{ partial "pages/grid.html" . }}
     {{ end }}
   </div>
 {{ end }}
