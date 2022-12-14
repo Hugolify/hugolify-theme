@@ -1,8 +1,8 @@
 .grid
     display: grid
-    grid-column-gap: $grid-gutter-width
     grid-template-columns: 1fr
     @include media-breakpoint-up(md)
+        grid-column-gap: $grid-gutter-width
         grid-template-columns: repeat(12, 1fr)
     >
         @include media-breakpoint-up(md)
