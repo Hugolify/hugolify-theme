@@ -29,10 +29,12 @@
 {{- with .Site.Data.seo.image.src -}}
   {{- $seoImage = . -}}
 {{- end -}}
-{{ with .Params.image -}}
-  {{ $image := resources.Get .src }}
-  {{ if $image}}
-    {{ $seoImage = $image.Permalink -}}
+{{if not .IsHome}}
+  {{ with .Params.image -}}
+    {{ $image := resources.Get .src }}
+    {{ if $image}}
+      {{ $seoImage = $image.Permalink -}}
+    {{ end }}
   {{ end }}
 {{ end }}
 {{- $ogImage := $seoImage -}}
