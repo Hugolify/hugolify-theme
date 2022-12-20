@@ -26,9 +26,13 @@
           "divider" 2) }}
       {{ end }}
       {{ range . }}
+        {{ $src := . }}
+        {{ if isset . "src" }}
+          {{ $src = .src }}
+        {{ end }}
         <div>
           {{ partial "commons/figure" (dict
-            "src" .src 
+            "src" $src 
             "alt" .alt 
             "desktop" $desktop
             "mobile" $mobile
