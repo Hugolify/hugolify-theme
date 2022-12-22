@@ -134,6 +134,10 @@
               {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
               {{ $image_mobile_webp_retina = $image.Resize (print $width_2x "x" $height_2x " webp") }}
             {{ end }}
+
+            {{ $image_mobile_retina = $image_mobile_retina.RelPermalink }}
+            {{ $image_mobile_webp = $image_mobile_webp.RelPermalink }}
+            {{ $image_mobile_webp_retina = $image_mobile_webp_retina.RelPermalink }}
           {{ end }}
 
         {{ end }}
