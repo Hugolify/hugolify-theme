@@ -1,4 +1,5 @@
-import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+// import 'bootstrap/dist/js/bootstrap.min.js';
 
 // import 'bootstrap/js/src/alert';
 // import 'bootstrap/js/src/carousel';
