@@ -4,4 +4,4 @@
 {{ end }}
 {{ $opts := dict "targetPath" "assets/js/main.js" "minify" hugo.IsProduction }}
 {{ $js := resources.Get "js/main.js" | js.Build $opts | fingerprint }}
-<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
