@@ -5,11 +5,11 @@ params:
   gutter: 24
   container:
     desktop: 1292
-    mobile: 336
+    mobile: 330
   image:
     xlarge: "1600x"
     desktop: "856x"
-    mobile: "336x"
+    mobile: "330x"
   authors:
     thumbnail:
       desktop: "100x100"
@@ -20,45 +20,45 @@ params:
   pages:
     thumbnail:
       desktop: "414x177"
-      mobile: "336x144"
+      mobile: "330x142"
     image:
       desktop: "856x"
-      mobile: "336x"
+      mobile: "330x"
   posts:
     thumbnail:
       desktop: "414x177"
-      mobile: "336x144"
+      mobile: "330x142"
     image:
       desktop: "856x"
-      mobile: "336x"
+      mobile: "330x"
   projects:
     thumbnail:
       desktop: "414x312"
-      mobile: "336x250"
+      mobile: "330x248"
     image:
       desktop: "856x"
-      mobile: "336x"
+      mobile: "330x"
   casestudies:
     thumbnail:
       desktop: "414x177"
-      mobile: "336x144"
+      mobile: "330x142"
     image:
       desktop: "856x"
-      mobile: "336x"
+      mobile: "330x"
   publications:
     thumbnail:
       desktop: "306x459"
       mobile: "156x234"
     image:
       desktop: "746x"
-      mobile: "336x"
+      mobile: "330x"
   blocks:
     editorial:
       desktop: "624x"
-      mobile: "336x"
+      mobile: "330x"
     figure:
       desktop: "1292x"
-      mobile: "336x"
+      mobile: "330x"
     gallery:
-      mobile: "336x"
+      mobile: "330x"
   
