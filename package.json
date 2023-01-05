@@ -1,6 +1,6 @@
 {
     "name": "hugolify-theme",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "homepage": "https://www.hugolify.com",
     "repository": "https://github.com/sebousan/hugolify-theme",
     "bugs": {
@@ -14,6 +14,6 @@
     "dependencies": {
         "@popperjs/core": "^2.11.2",
         "bootstrap": "^5.2.3",
-        "bootstrap-icons": "^1.10.2"
+        "bootstrap-icons": "^1.10.3"
     }
 }
