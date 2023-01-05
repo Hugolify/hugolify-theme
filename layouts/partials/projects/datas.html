@@ -1,16 +1,20 @@
 {{ with .Params.datas }}
   <div class="datas">
-    <dl>
+    <ul>
       {{ range . }}
-        <dt>{{ partial "PrepareHTML" .title }}</dt>
-        <dd>
-          {{ if in .text "http" }}
-            <a href="{{ .text }}" title="{{ safeHTML (i18n "link.blank_aria" (dict "Title" .text)) }}" target="_blank">{{ partial "PrepareHTML" .text }}</a>
-          {{ else }}
-            {{ .text }}
-          {{ end }}
-        </dd>
+        <li>
+          <dl>
+            <dt>{{ partial "PrepareHTML" .title }}</dt>
+            <dd>
+              {{ if in .text "http" }}
+                <a href="{{ .text }}" title="{{ safeHTML (i18n "link.blank_aria" (dict "Title" .text)) }}" target="_blank">{{ partial "PrepareHTML" .text }}</a>
+              {{ else }}
+                {{ .text }}
+              {{ end }}
+            </dd>
+          </dl>
+        </li>
       {{ end }}
-    </dl>
+    </ul>
   </div>
 {{ end }}
