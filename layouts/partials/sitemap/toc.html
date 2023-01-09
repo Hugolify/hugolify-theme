@@ -15,12 +15,18 @@
       </div>
       <div class="content">
         <ol>
-          {{ range site.Sections }}
+          {{ range (where site.Sections ".Params.isPage" "!=" true) }}
             {{ if ne .Type "sitemap" }}
               <li>
                 <a href="#{{ .Type }}">{{ partial "PrepareHTML" .Title }}</a>
               </li>
             {{ end }}
+          {{ end }}
+          {{ $pages := where site.Sections ".Params.isPage" true }}
+          {{ if $pages }}
+            <li>
+              <a href="#pages">{{ i18n "pages.title" ($pages | len) }}</a>
+            </li>
           {{ end }}
         </ol>
       </div>

@@ -1,5 +1,5 @@
 <div class="content">
-  {{ range site.Sections }}
+  {{ range (where site.Sections ".Params.isPage" "!=" true) }}
     {{ if ne .Type "sitemap" }}
       {{ $permalink := .Permalink }}
       <h2 id="{{ .Type }}">
@@ -10,7 +10,7 @@
           {{ if ne $permalink .Permalink }}
             <li>
               <a href="{{ .Permalink }}">{{ partial "PrepareHTML" .Title }}</a>
-              {{ if eq .Type "posts" }}
+              {{ if or (eq .Type "posts") (eq .Type "publications") }}
                 - <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date | time.Format ":date_medium" }}</time> 
               {{ end }}
             </li>
@@ -19,4 +19,29 @@
       </ul>
     {{ end }}
   {{ end }}
+  {{ $pages := where site.Sections ".Params.isPage" true }}
+  {{ if $pages }}
+    <h2 id="pages">{{ i18n "pages.title" ($pages | len) }}</h2>
+    <ul>
+      {{ range $pages }}
+        {{ $permalink := .Permalink }}
+        <li id="{{ .Type }}">
+          <a href="{{ $permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+        </li>
+        <ul>
+          {{ range where .Site.Pages "Section" .Type }}
+            {{ if ne $permalink .Permalink }}
+              <li>
+                <a href="{{ .Permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+                {{ if eq .Type "posts" }}
+                  - <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date | time.Format ":date_medium" }}</time> 
+                {{ end }}
+              </li>
+            {{ end }}
+          {{ end }}
+        </ul>
+      {{ end }}
+    </ul>
+  {{ end }}
+
 </div>

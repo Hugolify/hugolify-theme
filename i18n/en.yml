@@ -46,6 +46,10 @@ page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.
   cta: Back to home page
+pages:
+  title:
+    one: Page
+    other: Pages
 pagination:
   between: Pagination between {{ .Section }}
   first: First page
