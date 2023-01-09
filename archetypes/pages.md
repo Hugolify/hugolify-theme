@@ -1,5 +1,5 @@
 ---
-isIndex: false
+isPage: true
 draft: true
 title: "{{ replace .Name "-" " " | title }}"
 ---
