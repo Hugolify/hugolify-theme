@@ -1,15 +1,11 @@
 {{ define "hero"}}
-  {{- partial "commons/hero.html" . -}}
+  {{- partial "pages/hero.html" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "pages/schema" . }}
 
-  <div class="container">
-    {{ partial "commons/heading" . }}
-    {{ with .Pages }}
-      {{ partial "pages/items" . }}
-    {{ end }}
-  </div>
-
+  {{ partial "pages/heading" . }}
+  {{ partial "blocks/list" . }}
+  {{ partial "pages/main" . }}
 {{ end }}

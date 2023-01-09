@@ -4,8 +4,8 @@ licenselink: "https://github.com/sebousan/hugolify-theme/blob/main/LICENSE"
 description: "Hugo theme with Bootstrap 5"
 tags: []
 features: []
-min_version: "0.102.2"
+min_version: "0.109.0"
 
 author:
   name: "Sébastien Moulène"
-  homepage: "https://www.sebousan.com"
+  homepage: "https://www.sebastienmoulene.com"
