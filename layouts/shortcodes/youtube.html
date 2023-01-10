@@ -1,3 +1,5 @@
+{{ $id := .Get "id" }}
+{{ $title := .Get "title" }}
 <div class="youtube">
-  <iframe src="https://www.youtube.com/embed/{{ .Get "id" }}" title="{{ .Get "title" }}" loading="lazy" allowfullscreen></iframe>
+  <iframe src="https://www.youtube.com/embed/{{ $id }}" title="{{ $title }}" loading="lazy" allowfullscreen></iframe>
 </div>

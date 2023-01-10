@@ -1,3 +1,7 @@
-<a class="btn btn-primary" href="{{ .Get "url" }}" {{ if .Get "blank" }}target="_blank"{{ end }}>
-  {{- .Get "text" -}}
+{{ $url := .Get "url" }}
+{{ $blank := .Get "blank" }}
+{{ $text := .Get "text" }}
+{{ $title := i18n "link.blank_aria" (dict "Title" $text) }}
+<a class="btn btn-primary" href="{{ $url }}" {{ if $blank }}target="_blank" rel="noreferrer noopener" title="{{ safeHTML $title }}"{{ end }}>
+  {{- $text -}}
 </a>
