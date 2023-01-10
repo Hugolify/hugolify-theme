@@ -1,10 +1,14 @@
 {{ $src := .Get "src" | default false }}
-{{ $alt := .Get "alt" | default false }}
+{{ $alt := .Get "alt" | default "" }}
 {{ $legend := .Get "legend" | default false }}
 {{ $credit := .Get "credit" | default false }}
+{{ $desktop := site.Params.image.desktop | default false }}
+{{ $mobile := site.Params.image.mobile | default false }}
 {{ partial "commons/figure" (dict
   "src" $src 
   "alt" $alt 
+  "desktop" $desktop
+  "mobile" $mobile
   "legend" $legend 
   "credit" $credit
   ) }}
