@@ -13,7 +13,7 @@
     {{- partialCached "commons/schema.html" . -}}
     {{- partialCached "nav/accessibility.html" . -}}
     {{- partialCached "header/top.html" . -}}
-    {{- partial "header/header.html" . -}}
+    {{- partialCached "header/header.html" . .Section -}}
     {{- block "hero" . }}{{- end }}
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
