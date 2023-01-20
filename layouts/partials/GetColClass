@@ -1,0 +1,10 @@
+{{ $class := false }}
+{{ if eq . "small" }}
+  {{ $class = "col-md-6 offset-md-3" }}
+{{ else if eq . "medium" }}
+  {{ $class = "col-md-8 offset-md-2" }}
+{{ else if eq . "large" }}
+  {{ $class = "col-md-10 offset-md-1" }}
+{{ end }}
+
+{{ return $class }}

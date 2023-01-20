@@ -1,11 +1,23 @@
+{{ $class := partial "GetColClass" .grid }}
+
 <section class="block-map{{ with .background }} block-bg{{ end }}">
   <div class="container">
 
-    {{ partial "blocks/heading.html" . }}
+    {{ if $class }}
+    <div class="row">
+      <div class="{{ $class }}">
+    {{ end }}
 
-    {{ $zoom := .zoom }}
-    {{ with .location }}
-    <div class="map js-map" data-location="{{ . }}" data-zoom="{{ $zoom }}"></div>
+        {{ partial "blocks/heading.html" . }}
+
+        {{ $zoom := .zoom }}
+        {{ with .location }}
+        <div class="map js-map" data-location="{{ . }}" data-zoom="{{ $zoom }}"></div>
+        {{ end }}
+
+    {{ if $class }}
+      </div>
+    </div>
     {{ end }}
     
   </div>
