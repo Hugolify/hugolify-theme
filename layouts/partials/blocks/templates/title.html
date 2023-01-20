@@ -1,5 +1,5 @@
 {{ with .title }}
-  <section class="block-title">
+  <section class="block-title{{ with .background }} block-bg{{ end }}">
     <div class="container">
       <h2>{{ partial "PrepareHTML" . }}</h2>
     </div>

@@ -1,5 +1,5 @@
 {{ with .}}
-  <section class="block-alert">
+  <section class="block-alert{{ with .background }} block-bg{{ end }}">
     <div class="container">
 
       <div class="alert alert-{{ .state }}">
