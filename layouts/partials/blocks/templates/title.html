@@ -1,7 +1,9 @@
-{{ with .title }}
+{{ with . }}
   <section class="block-title{{ with .background }} block-bg{{ end }}">
     <div class="container">
-      <h2>{{ partial "PrepareHTML" . }}</h2>
+      {{ with .title }}
+        <h2>{{ partial "PrepareHTML" . }}</h2>
+      {{ end }}
     </div>
   </section>
 {{ end }}
