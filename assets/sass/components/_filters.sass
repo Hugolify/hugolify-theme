@@ -9,7 +9,7 @@
             @extend .btn-close
     .content
         @extend .offcanvas-body
-        div
+        > div
             &:not(:first-child)
                 padding-top: calc(#{$global-spacing} / 2)
             &:not(:last-child)
@@ -29,4 +29,12 @@
                     @include icon("bookmarks")
             &-authors
                 p::before
-                    @include icon("person-badge")
+                    @include icon("people")
+            
+            &-mini_card
+                ul
+                    padding-left: 0
+                li
+                    @extend .mini-card
+                    &:not(:last-child)
+                        margin-bottom: .5rem

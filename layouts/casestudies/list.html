@@ -3,17 +3,13 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ partial "pages/schema" . }}
 
   {{ partial "blocks/list" . }}
   
   <div class="container">
-
     {{ partial "casestudies/heading" . }}
-
-    {{ $paginator := .Paginator.Pages }}
-    {{ partial "casestudies/items" $paginator }}
-    {{ partial "nav/pagination.html" . }}
-
+    {{ partial "casestudies/paginator" . }}
   </div>
 
 {{ end }}

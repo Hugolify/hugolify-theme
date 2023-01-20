@@ -1,20 +1,7 @@
 {{ define "hero" }}
-  <header class="hero">
-    <div class="container">
-      <div class="row">
-        <div class="hero-content">
-          <h1>{{ i18n "page404.title" }}</h1>
-          <p>{{ i18n "page404.text" }}</p>
-        </div>
-        <div class="hero-media">
-        </div>
-      </div>
-    </div>
-  </header>
+  {{ partial "404/hero" . }}
 {{ end }}
 
 {{ define "main" }}
-  <div class="container">
-    <p><a href="{{ site.BaseURL }}" class="btn btn-primary">{{ i18n "page404.cta" }}</a></p>
-  </div>
+  {{ partial "404/main" . }}
 {{ end }}

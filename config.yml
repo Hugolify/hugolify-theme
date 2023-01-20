@@ -8,6 +8,7 @@ params:
     mobile: 330
   image:
     xlarge: "1600x"
+    xsmall: "50x50"
     desktop: "856x"
     mobile: "330x"
   authors:

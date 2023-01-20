@@ -1,17 +1,34 @@
 {{ $tax := .tax | default false }}
+{{ $mini_card := .mini_card | default false }}
 {{ if $tax }}
   {{ $the_tax := index site.Taxonomies $tax }}
   {{ with $the_tax }}
     {{ $nTaxs := $the_tax | len }}
     {{ $i18n := printf "%s.title" $tax }}
-    <div class="list list-{{ $tax }}">
+    <div class="list list-{{ $tax }}{{ if $mini_card }} list-mini_card{{ end }}">
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ul>
         {{ range $taxonomy_term, $taxonomy := . }}
           <li>
             {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
             {{ with $item }}
+              {{ if $mini_card }}
+                {{ with .Params.image }}
+                  {{ $desktop := site.Params.image.xsmall | default false }}
+                  {{ partial "commons/image.html" (dict
+                    "src" .src
+                    "alt" .alt
+                    "picture_class" "avatar"
+                    "desktop" $desktop
+                    "crop" "top"
+                  ) }}
+                {{ end }}
+                <div>
+              {{ end }}
               <a href="{{ .Permalink }}">{{ .Title }}</a>
+              {{ if $mini_card }}
+                </div>
+              {{ end }}
             {{ end }}
           </li>
         {{ end }}

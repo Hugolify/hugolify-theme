@@ -1,0 +1,3 @@
+{{ $paginator := .Paginator.Pages }}
+{{ partial "projects/items" $paginator }}
+{{ partial "nav/pagination.html" . }}

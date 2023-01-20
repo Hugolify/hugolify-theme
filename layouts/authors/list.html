@@ -3,17 +3,13 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ partial "pages/schema" . }}
 
   {{ partial "blocks/list" . }}
   
   <div class="container">
-
     {{ partial "authors/heading" . }}
-
-    {{ with .Pages }}
-      {{ partial "authors/items.html" . }}
-    {{ end }}
-
+    {{ partial "authors/paginator" . }}
   </div>
 
 {{ end }}

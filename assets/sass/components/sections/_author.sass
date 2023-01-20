@@ -19,21 +19,24 @@ article.author
             order: -1
 
 aside.author
-    display: flex
-    flex-direction: column
+    --bs-card-border-width: 0
+    @extend .card
+    background-color: $light
     .media
-        margin-bottom: .25rem
-        order: -1
-    .name
-        font-weight: $font-weight-bold
-        margin-bottom: .5rem 
+        padding-left: $card-spacer-x
+        padding-top: $card-spacer-y
+        margin-bottom: calc(#{$card-spacer-y} / -2)
+        &::before
+            content: none
+        > *
+            position: static
+            height: auto
+            width: auto
     .description
         @extend .small
         @extend .text-muted
-        margin-bottom: .5rem 
     p:last-child
         @extend .small
-        margin-bottom: 0
     @if variable-exists(bootstrap-icons-map)
         a
             &::before

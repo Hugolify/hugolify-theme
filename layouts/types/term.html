@@ -3,18 +3,14 @@
 {{ end }}
 
 {{ define "main" }}
+  {{ partial "types/schema" . }}
 
   {{ partial "blocks/list" . }}
 
   <div class="container">
-
     {{ partial "types/heading" . }}
-    {{ partial "projects/filters" . }}
-
-    {{ $paginator := .Paginator.Pages }}
-    {{ partial "projects/items" $paginator }}
-    {{ partial "nav/pagination.html" . }}
-
+    {{ partial "types/filters" . }}
+    {{ partial "types/paginator" . }}
   </div>
 
 {{ end }}
