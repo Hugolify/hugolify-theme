@@ -12,10 +12,11 @@
         {{ with .author }}
         <figcaption>
           {{ with .image}}
+            {{ $desktop := site.Params.image.xsmall | default false }}
             {{ partial "commons/image.html" (dict
                 "src" .src
                 "alt" .alt
-                "desktop" "50x50"
+                "desktop" $desktop
                 "crop" "Top"
               ) }}
           {{ end }}
@@ -27,13 +28,6 @@
           </div>
         </figcaption>
         {{ end }}
-
-        {{ with .cta}}
-        <div>
-          <a href="{{ .url }}" class="btn btn-primary">{{ partial "PrepareHTML" .text }}</a>
-        </div>
-        {{ end }}
-      </div>
 
     </div>
   </div>
