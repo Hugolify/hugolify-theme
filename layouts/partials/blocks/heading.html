@@ -3,7 +3,7 @@
   <header class="heading">
     <h2>{{ partial "PrepareHTML" . }}</h2>
     {{ with $text }}
-      <p>{{ partial "PrepareHTML" . }}</p>
+      <p>{{ partial "PrepareHTML" (partial "LineBreak" .) }}</p>
     {{ end }}
   </header>
 {{ end }}
