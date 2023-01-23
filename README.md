@@ -20,10 +20,17 @@ Hugo sections available in theme and admin
 * publications
 
 ## Framework
-Bootstrap 5.2 : https://getbootstrap.com/docs/5.2/getting-started/introduction/
+Bootstrap 5.2: https://getbootstrap.com/docs/5.2/getting-started/introduction/
 
 ## Icons
 https://icons.getbootstrap.com
+
+## Linked repositories
+* Template Hugolify: [Hugolify template](https://github.com/sebousan/hugolify-template)
+* Admin Hugolify: [Hugolify admin](https://github.com/sebousan/hugolify-netlify-cms)
+
+## Live demo
+* Front: https://demo.hugolify.com
 
 ## Documentation
 https://github.com/sebousan/hugolify-template/wiki
