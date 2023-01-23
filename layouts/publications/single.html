@@ -1,9 +1,9 @@
 {{ define "hero"}}
-  {{- partial "publications/hero.html" . -}}
+  {{- partial "publications/hero-single.html" . -}}
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "publications/schema" . }}
+  {{ partial "publications/schema-single" . }}
 
   <div class="container">
     {{ partial "publications/grid" . }}

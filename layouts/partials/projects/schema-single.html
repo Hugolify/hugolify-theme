@@ -1,0 +1,35 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "headline": {{ .Title }},
+
+    {{ with .Params.image }}
+      "thumbnailUrl": {{ . | absURL }},
+    {{ end }}
+
+    {{ with .Date }}
+      "dateCreated": {{ . }},
+    {{ end }}
+
+    {{ with .Params.types }}
+      {{ $type := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
+      {{ with $type }}
+        "articleSection": {{ .Title | plainify | safeHTML }},
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.description }}
+      "abstract": {{ . | plainify | safeHTML }},
+    {{ end }}
+
+    {{ with .Content }}
+      "description": {{ . | plainify | safeHTML }},
+    {{ end }}
+
+    {{ with .Site.Title }}
+      "author": {{ . }}
+    {{ end }}
+
+  }
+</script>

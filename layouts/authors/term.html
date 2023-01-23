@@ -1,20 +1,13 @@
 {{ define "hero"}}
-  {{- partial "authors/hero.html" . -}}
+  {{- partial "authors/hero-single.html" . -}}
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "authors/schema" . }}
+  {{ partial "authors/schema-single" . }}
 
   <div class="container">
-
-    <div class="row">
-      {{ partial "authors/heading-single" . }}
-      {{ partial "authors/content" . }}
-      {{ partial "authors/sidebar" . }}
-    </div>
-
+    {{ partial "authors/grid" . }}
     {{ partial "authors/posts" . }}
-
   </div>
 
 {{ end }}
