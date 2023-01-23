@@ -1,9 +1,11 @@
 {{ return
-	plainify (
-		chomp (
-			truncate 120 "…" (
-				partial "CorrectPunctuation" .
-			)
-		)
-	) 
+  safeHTML (
+    plainify (
+      chomp (
+        truncate 120 "…" (
+          partial "CorrectPunctuation" .
+        )
+      )
+    ) 
+  ) 
 }}
