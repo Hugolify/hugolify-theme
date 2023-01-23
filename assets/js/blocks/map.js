@@ -1,9 +1,36 @@
+import lazyInit from '../utils/lazyInit';
+
 const maps = document.querySelectorAll('.block-map');
+let leafletLoaded = false;
 
 class BlockMap {
     constructor (block) {
         this.map = block.querySelector('.js-map');
-        this.init();
+
+        if (!leafletLoaded) {
+            this.addFiles();
+        } else {
+            this.init();
+        }
+    }
+
+    addFiles () {
+        // JS
+        this.leafletJS = document.createElement('script'),
+        this.leafletJS.type = 'text/javascript';
+        this.leafletJS.src = 'https://unpkg.com/leaflet@1.9.3/dist/leaflet.js';
+        (document.getElementsByTagName('body')[0]).appendChild(this.leafletJS);
+        
+        // CSS
+        this.leafletCSS = document.createElement('link');
+        this.leafletCSS.rel = 'stylesheet';
+        this.leafletCSS.href = 'https://unpkg.com/leaflet@1.9.3/dist/leaflet.css';
+        (document.getElementsByTagName('head')[0]).appendChild(this.leafletCSS);
+        
+        this.leafletJS.addEventListener("load", () => {
+            leafletLoaded = true;
+            this.init();
+        });
     }
 
     init () {
@@ -27,5 +54,7 @@ class BlockMap {
 }
 
 maps.forEach((map) => {
-    new BlockMap(map);
+    lazyInit(map, () => {
+        new BlockMap(map);
+    });
 });
