@@ -22,4 +22,24 @@
             flex: 0 0 75%
             width: 75%
 
-    
+@mixin avatar
+    --bs-aspect-ratio: 100%
+    border-radius: 50%
+    display: inline-block
+    min-width: 50px
+    overflow: hidden
+    position: relative
+    &::before
+        display: block
+        padding-top: var(--bs-aspect-ratio)
+        content: ""
+    > *
+        height: 100%
+        left: 0
+        position: absolute
+        top: 0
+        width: 100%
+    img
+        height: 100%
+        object-fit: cover
+        width: 100%
