@@ -1,6 +1,6 @@
 <div class="metas">
   <p>
-    {{ partial "commons/time" (dict "date" .Date "format" "January 2006") }}
+    {{ partial "commons/time" (dict "date" .Date "format" ":date_long") }}
     {{ with .Params.types }}
       {{ $category := partial "GetTaxonomy" (dict "slug" . "taxonomy" "types")  }}
       {{ with $category }}
