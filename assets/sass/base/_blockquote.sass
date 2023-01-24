@@ -1,7 +1,7 @@
 blockquote
     @extend .blockquote
     p
-        font-size: $blockquote-font-size
+        @include font-size($blockquote-font-size)
 
 figure
     blockquote + figcaption
