@@ -2,11 +2,17 @@
     @include media-breakpoint-down(lg)
         flex-wrap: nowrap
         justify-content: flex-start
+        margin-left: -$gutter-mobile
+        margin-right: -$gutter-mobile
         overflow: auto
         scroll-snap-type: x mandatory
         > *
+            padding-left: $gutter-mobile
+            padding-right: 0
             scroll-snap-align: start
             width: 30%
+            &:last-child
+                margin-right: $gutter-mobile
     @include media-breakpoint-down(md)
         > *
             flex: 0 0 45%
@@ -15,3 +21,5 @@
         > *
             flex: 0 0 75%
             width: 75%
+
+    
