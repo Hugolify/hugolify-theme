@@ -5,61 +5,70 @@ params:
   gutter: 24
   container:
     desktop: 1292
-    mobile: 330
+    mobile: 300
   image:
     xlarge: "1600x"
     xsmall: "50x50"
     desktop: "856x"
-    mobile: "330x"
+    mobile: "300x"
+    scrollsnap: "240x"
   authors:
     thumbnail:
       desktop: "100x100"
+      mobile: "100x100"
     image:
       desktop: "100x100"
+      mobile: "100x100"
     post:
       desktop: "50x50"
-  pages:
-    thumbnail:
-      desktop: "414x177"
-      mobile: "330x142"
-    image:
-      desktop: "856x"
-      mobile: "330x"
-  posts:
-    thumbnail:
-      desktop: "414x177"
-      mobile: "330x142"
-    image:
-      desktop: "856x"
-      mobile: "330x"
-  projects:
-    thumbnail:
-      desktop: "414x312"
-      mobile: "330x248"
-    image:
-      desktop: "856x"
-      mobile: "330x"
+      mobile: "50x50"
   casestudies:
     thumbnail:
       desktop: "414x177"
-      mobile: "330x142"
+      mobile: "300x129"
+      scrollsnap: "240x103"
     image:
       desktop: "856x"
-      mobile: "330x"
+      mobile: "300x"
+  pages:
+    thumbnail:
+      desktop: "414x177"
+      mobile: "300x129"
+      scrollsnap: "240x103"
+    image:
+      desktop: "856x"
+      mobile: "300x"
+  posts:
+    thumbnail:
+      desktop: "414x177"
+      mobile: "300x129"
+      scrollsnap: "240x103"
+    image:
+      desktop: "856x"
+      mobile: "300x"
+  projects:
+    thumbnail:
+      desktop: "414x312"
+      mobile: "300x225"
+      scrollsnap: "240x180"
+    image:
+      desktop: "856x"
+      mobile: "300x"
   publications:
     thumbnail:
       desktop: "306x459"
-      mobile: "156x234"
+      mobile: "138x207"
+      scrollsnap: "240x360"
     image:
       desktop: "746x"
-      mobile: "330x"
+      mobile: "300x"
   blocks:
     editorial:
       desktop: "624x"
-      mobile: "330x"
+      mobile: "300x"
     figure:
       desktop: "1292x"
-      mobile: "330x"
+      mobile: "300x"
     gallery:
-      mobile: "330x"
+      mobile: "138x138"
   

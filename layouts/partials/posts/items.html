@@ -1,9 +1,26 @@
-{{ if gt . 0 }}
-  <div class="posts">
-    {{ range . }}
-      <div>
-        {{ partial "posts/item.html" . }}
-      </div>
-    {{ end }}
-  </div>
+{{ $pages := . }}
+{{ $scrollsnap := false }}
+{{ if reflect.IsMap . }}
+  {{ $pages = .pages }}
+  {{ with .scrollsnap }}
+    {{ $scrollsnap = true }}
+  {{ end }}
+{{ end }}
+
+{{ with $pages }}
+  {{ if gt . 0 }}
+    <div class="posts">
+      {{ range . }}
+        <div>
+          {{ if $scrollsnap }}
+            {{ .Scratch.Set "scrollsnap" true }}
+          {{ end }}
+          {{ partial "posts/item.html" . }}
+          {{ if $scrollsnap }}
+            {{ .Scratch.Delete "scrollsnap" }}
+          {{ end }}
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
 {{ end }}

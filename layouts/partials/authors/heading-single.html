@@ -1,10 +1,12 @@
 <header class="heading">
   {{- with .Params.image}}
     {{ $desktop := site.Params.authors.image.desktop | default false }}
+    {{ $mobile := site.Params.authors.image.mobile | default false }}
     {{ partial "commons/image.html" (dict
       "src" .src
       "alt" .alt
       "desktop" $desktop
+      "mobile" $mobile
       "picture_class" "avatar"
       "crop" "top"
     ) }}

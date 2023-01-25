@@ -1,17 +1,19 @@
 {{ $section := .section }}
+
 {{ if $section }}
 <section class="block-latest{{ with .background }} block-bg{{ end }}">
   <div class="container">
 
     {{ partial "blocks/heading" . }}
 
+    {{ $scratch := .Scratch }}
     {{ $count := 3 }}
     {{ with .count }}
       {{ $count = . }}
     {{ end }}
     {{ with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
       {{ $partial := printf "%s/items" $section }}
-      {{ partial $partial . }}
+      {{ partial $partial (dict "pages" . "scrollsnap" true) }}
     {{ end }}
 
     {{ $show_button := .show_more | default true }}

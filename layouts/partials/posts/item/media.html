@@ -1,5 +1,8 @@
 {{ $desktop := site.Params.posts.thumbnail.desktop | default false }}
 {{ $mobile := site.Params.posts.thumbnail.mobile | default false }}
+{{ if .Scratch.Get "scrollsnap" }}
+  {{ $mobile = site.Params.posts.thumbnail.scrollsnap | default false }}
+{{ end }}
 <div class="media">
   {{ with .Params.image}}
     {{ partial "commons/image.html" (dict
