@@ -5,11 +5,14 @@
     <div class="row">
 
       <div class="hero-content">
+        {{ with .surtitle }}
+          <p class="surtitle">{{ partial "PrepareHTML" . }}</h1>
+        {{ end }}
         {{ with .title }}
-          <h1>{{ . }}</h1>
+          <h1>{{ partial "PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .text }}
-          <p>{{ . | markdownify }}</p>
+          <p>{{ partial "PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
