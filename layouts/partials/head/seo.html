@@ -15,7 +15,7 @@
 {{- with .Site.Data.seo.description -}}
   {{- $seoDescription = partial "PrepareHTML" . -}}
 {{- end -}}
-{{- with .Params.description -}}
+{{- with .Description -}}
   {{- $seoDescription = partial "PrepareHTML" . -}}
 {{- end -}}
 
