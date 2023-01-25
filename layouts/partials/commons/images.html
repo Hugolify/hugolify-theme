@@ -1,6 +1,11 @@
+{{ $first := .first }}
 {{ $desktop := .desktop | default site.Params.image.desktop | default false }}
 {{ $mobile := .mobile | default site.Params.image.mobile | default false }}
-{{ range .images }}
+{{ range $index, $image := .images }}
+  {{ $lazy := true }}
+  {{ if and $first (eq $index 0) }}
+    {{ $lazy = false }}
+  {{ end }}
   {{ $figure_class := false }}
   {{ $image_desktop := $desktop }}
   {{ if .half }}
@@ -17,5 +22,6 @@
     "figure_class" $figure_class
     "desktop" $image_desktop
     "mobile" $mobile
+    "lazy" $lazy
   ) }}
 {{ end }}

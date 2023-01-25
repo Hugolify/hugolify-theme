@@ -1,3 +1,8 @@
+{{ $lazy := true }}
+{{ if .first }}
+  {{ $lazy = false }}
+{{ end }}
+
 <section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}">
   <div class="container">
     <div class="row">
@@ -26,6 +31,7 @@
               "alt" .alt
               "desktop" $desktop
               "mobile" $mobile
+              "lazy" $lazy 
               "class" "img-fluid"
             ) }}
         </div>
