@@ -1,4 +1,5 @@
-{{ $index := .index}}
+{{ $id := printf "gallery-%s" (.index | string) }}
+
 <section class="block-gallery{{ with .background }} block-bg{{ end }}">
   <div class="container">
     
@@ -29,26 +30,13 @@
       {{ end }}
       
       {{ range . }}
-        {{ $src := . }}
-        {{ if isset . "src" }}
-          {{ $src = .src }}
-        {{ end }}
         <div>
-          {{ $image_fallback := partial "GetImageResizeSrc" (dict "image" $src "size" "750x") }}
-          {{ $image_small := partial "GetImageResizeSrc" (dict "image" $src "size" "720x" "type" "webp") }}
-          {{ $image_medium := partial "GetImageResizeSrc" (dict "image" $src "size" "1024x" "type" "webp") }}
-          {{ $image_large := partial "GetImageResizeSrc" (dict "image" $src "size" "1280x" "type" "webp") }}
-          {{ $image_xlarge := partial "GetImageResizeSrc" (dict "image" $src "size" "1440x" "type" "webp") }}
-          {{ $image_2xlarge := partial "GetImageResizeSrc" (dict "image" $src "size" "1600x" "type" "webp") }}
-          {{ $srcset := printf "%s 720w, %s 1024w, %s 1280w, %s 1440w, %s 1600w" $image_small $image_medium $image_large $image_xlarge $image_2xlarge }}
-          <a href="{{ $image_fallback }}" class="lightbox" data-group="gallery-{{ $index }}" data-srcset="{{ $srcset }}">
-            {{ partial "commons/figure" (dict
-              "src" $src 
-              "alt" .alt 
+          {{ partial "commons/image-lightbox" (dict
+              "image" . 
               "desktop" $desktop
               "mobile" $mobile
+              "group" $id
               ) }}
-          </a>
         </div>
       {{ end }}
 

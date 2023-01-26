@@ -1,0 +1,28 @@
+@import "@midzer/tobii/src/scss/tobii.scss"
+
+.tobii
+    &__btn
+        border: 0
+        height: px2rem(44)
+        width: px2rem(44)
+        svg
+            max-height: 100%
+            max-width: 100%
+        &--close
+            right: px2rem(30)
+            top: px2rem(30)
+            svg
+                transform: none
+        &--next
+            right: px2rem(30)
+        &--previous
+            left: px2rem(30)
+
+    &__counter
+        left: px2rem(30)
+        top: px2rem(30)
+
+    &__slide 
+        figure > figcaption
+            font-size: 1rem
+            padding: px2rem(15) px2rem(30)
