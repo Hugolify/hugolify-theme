@@ -1,0 +1,21 @@
+{{ $image := .image }}
+{{ $size := .size }}
+{{ $type := .type | default "" }}
+{{ $image_src := false }}
+
+{{ with $image }}
+  {{ if in . "ucarecdn" }}
+    {{ $image_src =  printf "%s-/resize/%s" . $size }}
+    {{ if ne $type "" }}
+      {{ $image_src =  printf "%s/-/format/%s/" $image_src $type }}
+    {{ end }}
+  {{ else }}
+    {{ $ressource := resources.GetMatch . }}
+    {{ with $ressource }}
+      {{ $resize := printf "%s %s" $size $type }}
+      {{ $image_src = (.Resize $resize).RelPermalink }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $image_src }}

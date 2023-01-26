@@ -5,6 +5,7 @@
       {{ $isFirst = true }}
     {{ end }}
     {{ $block = merge $block (dict "first" $isFirst) }}
+    {{ $block = merge $block (dict "index" $index) }}
     {{ $template := printf "blocks/templates/%s.html" .type }}
     {{ partial $template $block }}
   {{- end -}}
