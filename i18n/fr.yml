@@ -14,6 +14,7 @@ categories:
   title:
     one: Categorie
     other: Categories
+close: Fermer
 contact: 
   email: E-mail
   fax: Fax
@@ -34,6 +35,8 @@ header:
     main: Contenu principal
     menu: Navigation principale
 home: Accueil
+lightbox:
+  label: Agrandir l’image
 link:
   blank: lien externe
   blank_aria: « {{ .Title }} » - lien externe
@@ -42,6 +45,7 @@ navigation:
   close: Fermer
   main: Navigation principale
   menu: Menu
+next: Suivant
 page404:
   title: Page introuvable
   text: La page que vous recherchez n'existe pas ou a été déplacée.
@@ -60,6 +64,7 @@ pagination:
   page: Page {{ .Number }}
   previous: Précédent
   previous_section: "<span>{{ .Section }}</span> précédent"
+previous: Précédent
 posts:
   latest: Dernières actualités
   list_author: Liste des actualités de l’auteur

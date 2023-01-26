@@ -8,8 +8,14 @@
   {{ $image_xlarge := partial "GetImageResizeSrc" (dict "image" $src "size" "1440x" "type" "webp") }}
   {{ $image_2xlarge := partial "GetImageResizeSrc" (dict "image" $src "size" "1600x" "type" "webp") }}
   {{ $srcset := printf "%s 720w, %s 1024w, %s 1280w, %s 1440w, %s 1600w" $image_small $image_medium $image_large $image_xlarge $image_2xlarge }}
+  {{ $label := i18n "lightbox.label" }}
 
-  <a href="{{ $image_fallback }}" class="lightbox" {{ if .group }}data-group="{{ .group }}"{{ end }} {{ if $legend }}data-caption="{{ $legend }}"{{ end }} data-srcset="{{ $srcset }}">
+  <a href="{{ $image_fallback }}" 
+    class="lightbox" 
+    aria-label="{{ $label }}" 
+    {{ if .group }}data-group="{{ .group }}"{{ end }}
+    {{ if $legend }}data-caption="{{ $legend }}"{{ end }}
+    data-srcset="{{ $srcset }}">
     {{ partial "commons/figure" (dict
       "src" $src 
       "alt" .image.alt 
