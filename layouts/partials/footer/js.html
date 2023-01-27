@@ -4,9 +4,20 @@
   window.i18n.next = {{ i18n "next" }}
   window.i18n.previous = {{ i18n "previous" }}
 </script>
+{{- $bsOpts := (dict 
+  "targetPath" "assets/js/bootstrap.js" 
+  "minify" false
+) -}}
+{{ $bsJS := resources.Get "js/vendors/bootstrap.js" | js.Build $bsOpts | fingerprint }}
+{{ with $bsJS }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{ end }}
+
 {{- $jsOpts := (dict 
   "targetPath" "assets/js/main.js" 
   "minify" hugo.IsProduction
 ) -}}
 {{ $js := resources.Get "js/main.js" | js.Build $jsOpts | fingerprint }}
-<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ with $js }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{ end }}
