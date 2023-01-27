@@ -6,7 +6,7 @@
 </script>
 {{- $bsOpts := (dict 
   "targetPath" "assets/js/bootstrap.js" 
-  "minify" false
+  "minify" hugo.IsProduction
 ) -}}
 {{ $bsJS := resources.Get "js/vendors/bootstrap.js" | js.Build $bsOpts | fingerprint }}
 {{ with $bsJS }}
