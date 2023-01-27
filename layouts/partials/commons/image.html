@@ -150,7 +150,12 @@
             {{ end }}
             <source srcset="{{ . }}, {{ $image_mobile_retina }} 2x" type="image/jpg" media="(max-width: 576px)">
           {{ end }}
-          <img src="{{ . }}" alt="{{ $alt }}" {{ with $image_width }}width="{{ . }}"{{ end }} {{ with $image_height }}height="{{ . }}"{{ end }} {{ if $lazy }} loading="lazy" decoding="async"{{ end }}{{ if $class }} class="{{$class}}"{{ end }}{{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
+          <img src="{{ . }}" alt="{{ $alt }}" 
+            {{ with $image_width }}width="{{ . }}"{{ end }} 
+            {{ with $image_height }}height="{{ . }}"{{ end }} 
+            {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
+            {{ if $class }} class="{{$class}}"{{ end }}
+            {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
         {{ end }}
 
       {{ end }}
