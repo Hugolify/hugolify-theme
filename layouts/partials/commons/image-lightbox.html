@@ -1,5 +1,6 @@
 {{ $src := .image.src }}
 {{ if $src }}
+  {{ $lazy := .lazy }}
   {{ $legend := .image.legend | default false }}
   {{ $image_fallback := partial "GetImageResizeSrc" (dict "image" $src "size" "750x") }}
   {{ $image_small := partial "GetImageResizeSrc" (dict "image" $src "size" "720x" "type" "webp") }}
@@ -19,6 +20,7 @@
     {{ partial "commons/figure" (dict
       "src" $src 
       "alt" .image.alt 
+      "lazy" $lazy 
       "desktop" .desktop
       "mobile" .mobile
       ) }}

@@ -1,4 +1,8 @@
 {{ $id := printf "gallery-%s" (.index | string) }}
+{{ $lazy := true }}
+{{ if .first }}
+  {{ $lazy = false }}
+{{ end }}
 
 <section class="block-gallery{{ with .background }} block-bg{{ end }}">
   <div class="container">
@@ -29,12 +33,16 @@
           "divider" 2) }}
       {{ end }}
       
-      {{ range . }}
+      {{ range $index, $image := . }}
+        {{ if gt $index 0 }}
+          {{ $lazy = true }}
+        {{ end }}
         <div>
           {{ partial "commons/image-lightbox" (dict
               "image" . 
               "desktop" $desktop
               "mobile" $mobile
+              "lazy" $lazy 
               "group" $id
               ) }}
         </div>
