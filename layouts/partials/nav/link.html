@@ -1,0 +1,5 @@
+{{ $currentPage := .currentPage }}
+{{ with .link }}
+  {{ $title := i18n "link.blank_aria" (dict "Title" .title) }}
+  <a href="{{ .url }}"{{ if .blank }} title="{{ safeHTML $title }}" target="_blank"{{ end }}{{ if hasPrefix $currentPage .url }} class="active" aria-current="page" {{ end }}>{{ .title }}</a>
+{{ end }}

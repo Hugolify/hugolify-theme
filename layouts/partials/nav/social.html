@@ -2,7 +2,7 @@
   <ul class="nav nav-social">
     {{ range .links }}
       <li class="social-{{ lower (safeHTML .title) }}">
-        <a href="{{ .url }}"{{ if .blank }} title="{{ safeHTML (i18n "link.blank_aria" (dict "Title" .title)) }}" target="_blank"{{ end }}>{{ .title }}</a>
+        {{ partial "nav/link" (dict "link" .) }}
       </li>
     {{ end }}
   </ul>

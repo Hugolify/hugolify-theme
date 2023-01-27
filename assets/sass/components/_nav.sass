@@ -8,3 +8,15 @@
             text-decoration-line: underline
             text-decoration-thickness: 1px
             text-underline-offset: 3px
+    .dropdown
+        display: flex
+        button
+            appearance: none
+            background-color: transparent
+            border: 0
+            margin-left: calc(var(--bs-nav-link-padding-x) * -1)
+            padding: 0 .5rem
+    ul 
+        @extend .dropdown-menu-end
+        a
+            @extend .dropdown-item
