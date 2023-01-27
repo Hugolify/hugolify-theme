@@ -13,11 +13,13 @@
       </div>
       {{ with .Params.image}}
         {{ $desktop := site.Params.authors.post.desktop | default false }}
+        {{ $mobile := site.Params.authors.post.mobile | default false }}
         <div class="media">
           {{ partial "commons/image.html" (dict
             "src" .src
             "alt" .alt
             "desktop" $desktop
+            "mobile" $mobile
             "picture_class" "avatar"
             "crop" "top"
           ) }}
