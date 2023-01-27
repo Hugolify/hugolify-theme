@@ -1,5 +1,5 @@
 // Vendors
-// import './vendors/bootstrap';
+import './vendors/bootstrap';
 // import './vendors/cookie';
 import './vendors/lightbox';
 
