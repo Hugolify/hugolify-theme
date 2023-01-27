@@ -1,7 +1,4 @@
-{{ $lazy := true }}
-{{ if .first }}
-  {{ $lazy = false }}
-{{ end }}
+{{ $lazy := partial "isLazyImage" (dict "first" .first) }}
 
 <section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}">
   <div class="container">

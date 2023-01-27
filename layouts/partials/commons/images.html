@@ -1,11 +1,9 @@
-{{ $first := .first }}
+{{ $isFirst := .first }}
 {{ $desktop := .desktop | default site.Params.image.desktop | default false }}
 {{ $mobile := .mobile | default site.Params.image.mobile | default false }}
 {{ range $index, $image := .images }}
-  {{ $lazy := true }}
-  {{ if and $first (eq $index 0) }}
-    {{ $lazy = false }}
-  {{ end }}
+  {{ $lazy := partial "isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
+
   {{ $figure_class := false }}
   {{ $image_desktop := $desktop }}
   {{ if .half }}

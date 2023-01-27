@@ -1,0 +1,12 @@
+{{ $isLazy := true }}
+
+{{ if .first }}
+  {{ $isLazy = false }}
+  {{ if .index }}
+    {{ if gt .index .limit }}
+      {{ $isLazy = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $isLazy }}

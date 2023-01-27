@@ -1,3 +1,5 @@
+{{ $lazy := partial "isLazyImage" (dict "first" .first) }}
+
 {{ $class := partial "GetColClass" .grid }}
 {{ $divider := 1 }}
 {{ if eq .grid "small" }}
@@ -6,11 +8,6 @@
   {{ $divider = 1.5 }}
 {{ else if eq .grid "large" }}
   {{ $divider = 1.2 }}
-{{ end }}
-
-{{ $lazy := true }}
-{{ if .first }}
-  {{ $lazy = false }}
 {{ end }}
 
 <section class="block-figure{{ with .background }} block-bg{{ end }}">
