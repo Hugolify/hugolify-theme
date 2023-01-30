@@ -10,26 +10,32 @@
         align-items: center
         flex-basis: calc(100% + var(--bs-gutter-x))
     &-content
-        @extend .col-12
-        @extend .col-md-5
+        @extend .col-md-6
+        @extend .col-xl-5
     &-media
-        @extend .col-md-4
-        @extend .offset-md-1
+        @extend .col-md-6
+        @extend .col-xl-4
+        @extend .offset-xl-1
         img
-            @extend .img-fluid
+            height: auto
+            width: 100%
     .btn
         margin-top: $spacer
     .btn:first-of-type
         @extend .btn-primary
+        margin-right: .5rem
     .btn + .btn
         @extend .btn-outline-primary
-        margin-left: .5rem
+        margin-right: 0
+
     @include media-breakpoint-down(md)
         .cta
             display: flex
             flex-direction: column
-        .btn + .btn
-            margin-left: 0
+        .btn:first-of-type
+            margin-right: 0
+        img
+            @include rfs($global-spacing, "margin-top")
 
 
 
