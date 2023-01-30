@@ -2,8 +2,8 @@
 [class*="block-"]
     @include rfs($global-spacing, padding-bottom)
     @include rfs($global-spacing, padding-top)
-    .heading
-        @include media-breakpoint-up(lg)
+    @include media-breakpoint-up(lg)
+        .heading
             align-items: center
             flex-direction: column
             margin-left: auto
@@ -13,8 +13,8 @@
             text-align: center
         h2 + p
             margin-top: $headings-margin-bottom
-    .bottom
-        text-align: center
+        .bottom
+            text-align: center
 
 .block-bg
     background-color: $light
