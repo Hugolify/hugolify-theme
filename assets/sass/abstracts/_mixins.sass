@@ -8,11 +8,13 @@
         scroll-snap-type: x mandatory
         > *
             --col-width: 43.75%
+            flex-basis: var(--col-width)
             padding-left: $gutter-mobile
             padding-right: 0
             scroll-snap-align: start
             width: var(--col-width)
             &:last-child
+                flex-basis: calc(var(--col-width) + #{$gutter-mobile})
                 padding-right: $gutter-mobile
                 width: calc(var(--col-width) + #{$gutter-mobile})
     @include media-breakpoint-down(md)
