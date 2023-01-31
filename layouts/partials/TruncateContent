@@ -1,9 +1,12 @@
+{{ $limit := .limit | default 120 }}
+{{ $content := .content }}
+
 {{ return
-  safeHTML (
-    plainify (
+  truncate $limit "…" (
+    safeHTML (
       chomp (
-        truncate 120 "…" (
-          partial "CorrectPunctuation" .
+        plainify (
+          partial "CorrectPunctuation" $content
         )
       )
     ) 

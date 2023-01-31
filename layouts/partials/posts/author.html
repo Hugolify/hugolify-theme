@@ -7,7 +7,7 @@
           <p class="name">{{ partial "PrepareHTML" . }}</p>
         {{ end }}
         {{ with .Params.description }}
-          <p class="description">{{ partial "TruncateContent" (partial "PrepareHTML" .) }}</p>
+          <p class="description">{{ partial "TruncateContent" (dict "content" (partial "PrepareHTML" .)) }}</p>
         {{ end }}
         <p><a href="{{ .Permalink }}">{{ i18n "authors.discover" }}</a></p>
       </div>

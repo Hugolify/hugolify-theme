@@ -37,7 +37,7 @@
           "@type": "Person",
           "name": {{ .Title | plainify | safeHTML }},
           {{ with .Description }}
-            "description": {{ partial "TruncateContent" (partial "PrepareHTML" .) }},
+            "description": {{ partial "TruncateContent" (dict "content" (partial "PrepareHTML" .)) }},
           {{ end }}
           "url": {{ .Permalink }}
         }
