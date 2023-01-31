@@ -7,9 +7,15 @@
         "url": "https://github.com/sebousan/hugolify-theme/issues"
     },
     "author": {
+        "email": "sebousan@gmail.com",
         "name": "Sébastien Moulène",
         "url": "https://www.sebastienmoulene.com/"
     },
+    "keywords": [
+        "hugo",
+        "hugo-theme",
+        "bootstrap"
+    ],
     "license": "MIT",
     "dependencies": {
         "@midzer/tobii": "^2.5.0",
