@@ -1,15 +1,9 @@
 {{ define "hero"}}
-  {{- partial "authors/hero.html" . -}}
+  {{- partial "authors/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "authors/schema" . }}
-
-  {{ partial "blocks/list" . }}
-  
-  <div class="container">
-    {{ partial "authors/heading" . }}
-    {{ partial "authors/paginator" . }}
-  </div>
-
+  {{ partial "authors/blocks" . }}
+  {{ partial "authors/container" . }}
 {{ end }}

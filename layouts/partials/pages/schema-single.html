@@ -1,0 +1,23 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "headline": {{ .Title }},
+    
+    {{ with .Params.image }}
+      "image": {{ . | absURL }},
+    {{ end }}
+
+    {{ with .Date }}
+      "datePublished": {{ . }},
+    {{ end }}
+
+    {{ with .Params.description }}
+      "abstract": {{ . | plainify | safeHTML }},
+    {{ end }}
+
+    {{ with .Content }}
+      "description": {{ . | plainify | safeHTML }},
+    {{ end }}
+  }
+</script>

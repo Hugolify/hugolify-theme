@@ -1,11 +1,10 @@
 {{ define "hero"}}
-  {{- partial "pages/hero.html" . -}}
+  {{- partial "pages/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "pages/schema" . }}
-
   {{ partial "pages/heading" . }}
-  {{ partial "blocks/list" . }}
-  {{ partial "pages/main" . }}
+  {{ partial "pages/blocks" . }}
+  {{ partial "pages/container" . }}
 {{ end }}

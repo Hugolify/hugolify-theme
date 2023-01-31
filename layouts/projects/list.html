@@ -1,16 +1,9 @@
 {{ define "hero"}}
-  {{- partial "projects/hero.html" . -}}
+  {{- partial "projects/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "projects/schema" . }}
-
-  {{ partial "blocks/list" . }}
-
-  <div class="container">
-    {{ partial "projects/heading" . }}
-    {{ partial "projects/filters" . }}
-    {{ partial "projects/paginator" . }}
-  </div>
-
+  {{ partial "projects/blocks" . }}
+  {{ partial "projects/container" . }}
 {{ end }}

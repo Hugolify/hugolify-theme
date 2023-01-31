@@ -1,16 +1,9 @@
 {{ define "hero"}}
-  {{- partial "types/hero.html" . -}}
+  {{- partial "types/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "types/schema" . }}
-
-  {{ partial "blocks/list" . }}
-
-  <div class="container">
-    {{ partial "types/heading" . }}
-    {{ partial "types/filters" . }}
-    {{ partial "types/paginator" . }}
-  </div>
-
+  {{ partial "types/blocks" . }}
+  {{ partial "types/container" . }}
 {{ end }}

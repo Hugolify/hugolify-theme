@@ -1,9 +1,7 @@
 {{ define "hero"}}
-  {{- partial "sitemap/hero.html" . -}}
+  {{- partial "sitemap/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
-  <div class="container">
-    {{ partial "sitemap/grid" . }}
-  </div>
+  {{ partial "sitemap/container" . }}
 {{ end }}

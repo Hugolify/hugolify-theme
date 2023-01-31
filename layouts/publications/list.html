@@ -1,15 +1,9 @@
 {{ define "hero"}}
-  {{- partial "publications/hero.html" . -}}
+  {{- partial "publications/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "publications/schema" . }}
-
-  {{ partial "blocks/list" . }}
-
-  <div class="container">
-    {{ partial "publications/heading" . }}
-    {{ partial "publications/paginator" . }}
-  </div>
-
+  {{ partial "publications/blocks" . }}
+  {{ partial "publications/container" . }}
 {{ end }}

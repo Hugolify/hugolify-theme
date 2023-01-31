@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{ partial "head/css.html" . }}
+    {{ partialCached "head/css.html" . }}
     {{ partial "head/seo.html" . }}
     {{ partial "head/favicons.html" . }}
     {{ partial "head/rss.html" . }}
@@ -21,7 +21,7 @@
     {{- partial "nav/breadcrumb.html" . -}}
     {{- partialCached "footer/footer.html" . -}}
     {{- partialCached "footer/cookie-banner.html" . -}}
-    {{- partial "footer/js.html" . -}}
+    {{- partialCached "footer/js.html" . -}}
     {{- partialCached "footer/scripts.html" . -}}
   </body>
 </html>

@@ -1,15 +1,9 @@
 {{ define "hero"}}
-  {{- partial "casestudies/hero.html" . -}}
+  {{- partial "casestudies/hero" . -}}
 {{ end }}
 
 {{ define "main" }}
   {{ partial "casestudies/schema" . }}
-
-  {{ partial "blocks/list" . }}
-  
-  <div class="container">
-    {{ partial "casestudies/heading" . }}
-    {{ partial "casestudies/paginator" . }}
-  </div>
-
+  {{ partial "casestudies/blocks" . }}
+  {{ partial "casestudies/container" . }}
 {{ end }}
