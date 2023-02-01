@@ -4,13 +4,6 @@
 
 {{ define "main" }}
   {{ partial "persons/schema" . }}
-
-  {{ partial "blocks/list" . }}
-  
-  <div class="container">
-    {{ partial "persons/heading" . }}
-    {{ partial "persons/filters" . }}
-    {{ partial "persons/paginator" . }}
-  </div>
-
+  {{ partial "persons/blocks" . }}
+  {{ partial "persons/container" . }}
 {{ end }}

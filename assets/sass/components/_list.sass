@@ -11,3 +11,15 @@
         &::before
             content: '-'
             speak: never
+
+aside.list
+    ul
+        list-style: none
+        margin-bottom: 0
+        padding-left: 0
+    li
+        @extend .mini-card
+        &::before
+            content: none
+        &:not(:last-child)
+            margin-bottom: 1rem

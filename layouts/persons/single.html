@@ -4,9 +4,6 @@
 
 {{ define "main" }}
   {{ partial "persons/schema-single" . }}
-
-  <div class="container">
-    {{ partial "persons/grid" . }}
-  </div>
+  {{ partial "persons/container-single" . }}
 {{ end }}
 

@@ -1,30 +1,6 @@
-{{ with .Params.authors }}
-  {{ $author := partial "GetTaxonomy" (dict "slug" . "taxonomy" "authors")  }}
-  {{ with $author }}
-    <aside class="author">
-      <div class="content">
-        {{ with .Title }}
-          <p class="name">{{ partial "PrepareHTML" . }}</p>
-        {{ end }}
-        {{ with .Params.description }}
-          <p class="description">{{ partial "TruncateContent" (dict "content" (partial "PrepareHTML" .)) }}</p>
-        {{ end }}
-        <p><a href="{{ .Permalink }}">{{ i18n "authors.discover" }}</a></p>
-      </div>
-      {{ with .Params.image}}
-        {{ $desktop := site.Params.authors.post.desktop | default false }}
-        {{ $mobile := site.Params.authors.post.mobile | default false }}
-        <div class="media">
-          {{ partial "commons/image.html" (dict
-            "src" .src
-            "alt" .alt
-            "desktop" $desktop
-            "mobile" $mobile
-            "picture_class" "avatar"
-            "crop" "top"
-          ) }}
-        </div>
-      {{ end }}
-    </aside>
+{{ range .Params.authors }}
+  {{ $author := where (where site.Pages "Section" "persons" ) "File.BaseFileName" "eq" . }}
+  {{ range $author }}
+    {{ partial "commons/person" (dict "person" . "type" "authors") }}
   {{ end }}
 {{ end }}
