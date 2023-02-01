@@ -1,9 +1,1 @@
-{{ if .Pages }}
-  <hr>
-  <header class="title">
-    <h2>{{ i18n "posts.list_author" }}</h2>
-  </header>
-  {{ $paginator := (.Paginator 9).Pages }}
-  {{ partial "posts/items" $paginator }}
-  {{ partial "nav/pagination.html" . }}
-{{ end }}
+{{ partial "posts/paginator" . }}

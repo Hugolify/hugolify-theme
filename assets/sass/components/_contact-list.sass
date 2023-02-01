@@ -1,0 +1,17 @@
+.contact-list
+    --bs-card-border-width: 0
+    @extend .card
+    background-color: $light
+    > div
+        @extend .card-body
+        > p
+            @extend .h5
+    ul:not(.nav-social)
+        @include font-size(.875rem)
+        margin-bottom: 0
+        padding-left: 1rem
+    .nav-social
+        border-top: 1px solid $border-color
+        margin-top: 1rem
+    a::after
+        content: ""

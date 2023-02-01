@@ -72,14 +72,19 @@ persons:
   title:
     one: Personne
     other: Personnes
-previous: Précédent
 posts:
+  all: Toutes l’actualités
   latest: Dernières actualités
-  list_author: Liste des actualités de l’auteur
+  latest_person: Dernières actualités de {{ .Person }}
+  list: Liste des actualités de l’auteur
+  list_person: Liste des actualités de {{ .Person }}
   more: Découvrir plus d’actualités
+  more_person: Découvrir plus d’actualités de {{ .Person }}
   title:
     one: Actualité
     other: Actualités
+  title_person: Actualités de {{ .Person }}
+previous: Précédent
 projects:
   latest: Derniers projets
   more: Découvrir plus de projets

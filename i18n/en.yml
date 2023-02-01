@@ -66,14 +66,19 @@ pagination:
   page: Page {{ .Number }}
   previous: Previous
   previous_section: Previous <span>{{ .Section }}</span>
-previous: Previous 
 posts:
+  all: All news
   latest: Latest news
-  list_author: News list of this author
+  latest_person: Latest news of {{ .Person }}
+  list: List of news by the author
+  list_person: "{{ .Person }}’s news"
   more: Discover more news
+  more_person: More news by {{ .Person }}
   title:
     one: New
     other: News
+  title_person: News of {{ .Person }}
+previous: Previous 
 projects:
   latest: Latest projects
   more: Discover more projects
