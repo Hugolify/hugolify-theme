@@ -1,4 +1,4 @@
-import lazyInit from '../utils/lazyInit';
+import scrollspy from '../utils/scrollspy';
 
 const maps = document.querySelectorAll('.block-map');
 let leafletLoaded = false;
@@ -67,7 +67,7 @@ class BlockMap {
 }
 
 maps.forEach((map) => {
-    lazyInit(map, () => {
+    scrollspy(map, () => {
         new BlockMap(map);
     });
 });
