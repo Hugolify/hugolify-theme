@@ -1,0 +1,12 @@
+{{ $slug := .slug | default false }}
+{{ $section := .section | default "posts" }}
+{{ $taxonomy := .taxonomy | default "authors" }}
+{{ $taxonomy = printf "Params.%s" $taxonomy }}
+{{ $pages := false }}
+
+{{ if $slug }}
+  {{ $pages = where site.RegularPages "Section" $section }}
+  {{ $pages = $pages | intersect (where site.RegularPages $taxonomy "intersect" (slice $slug) ) }}
+{{ end }}
+
+{{ return $pages }}
