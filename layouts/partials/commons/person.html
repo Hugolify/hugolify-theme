@@ -1,0 +1,28 @@
+{{ with .person }}
+  <aside class="author">
+    <div class="content">
+      {{ with .Title }}
+        <p class="name">{{ partial "PrepareHTML" . }}</p>
+      {{ end }}
+      {{ with .Params.description }}
+        <p class="description">{{ partial "TruncateContent" (dict "content" .) }}</p>
+      {{ end }}
+      {{ $i18n := i18n "more" }}
+      <p><a href="{{ .Permalink }}">{{ $i18n }}</a></p>
+    </div>
+    {{ with .Params.image}}
+      {{ $desktop := site.Params.persons.post.desktop }}
+      {{ $mobile := site.Params.persons.post.mobile }}
+      <div class="media">
+        {{ partial "commons/image.html" (dict
+          "src" .src
+          "alt" .alt
+          "desktop" $desktop
+          "mobile" $mobile
+          "picture_class" "avatar"
+          "crop" "top"
+        ) }}
+      </div>
+    {{ end }}
+  </aside>
+{{ end }}
