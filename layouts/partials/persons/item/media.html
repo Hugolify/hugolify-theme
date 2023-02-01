@@ -1,0 +1,21 @@
+{{ $desktop := site.Params.persons.thumbnail.desktop | default false }}
+{{ $mobile := site.Params.persons.thumbnail.mobile | default false }}
+{{ if .Scratch.Get "scrollsnap" }}
+  {{ $mobile = site.Params.persons.thumbnail.scrollsnap | default false }}
+{{ end }}
+{{ $w := "" }}
+{{ if $desktop }}
+  {{ $w = printf "style='width: %spx'" (index (split $desktop "x") 0 | default 100)  }}
+{{ end }}
+<div {{ safeHTMLAttr $w }}>
+  {{- with .Params.image}}
+    {{ partial "commons/image.html" (dict
+      "src" .src
+      "alt" .alt
+      "desktop" $desktop
+      "mobile" $mobile
+      "picture_class" "avatar"
+      "crop" "top"
+    ) }}
+  {{ end -}}
+</div>

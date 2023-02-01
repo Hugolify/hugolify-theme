@@ -1,0 +1,12 @@
+{{ define "hero"}}
+  {{- partial "persons/hero-single" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "persons/schema-single" . }}
+
+  <div class="container">
+    {{ partial "persons/grid" . }}
+  </div>
+{{ end }}
+

@@ -1,0 +1,43 @@
+{{ with .Params.contact }}
+  {{ if or .email .phone .fax .linkedin .twitter }}
+    <aside class="contact-list">
+      <div>
+        <p>{{ i18n "contact.title" }}</p>
+        <ul>
+          {{ with .phone }}
+            <li><b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ . }}" target="_blank">{{ i18n "contact.phone" }} {{ . }}</a></li>
+          {{ end }}
+          {{ with .fax }}
+            <li><b>{{ i18n "contact.fax" }}</b> {{ . }}</li>
+          {{ end }}
+          {{ with .email }}
+            {{ $title := i18n "link.blank_aria" (dict "Title" .) }}
+            <li><b>{{ i18n "contact.email" }}</b> <a href="mailto:{{ . }}" target="_blank" title="{{ safeHTML $title }}">{{ . | truncate 20 "…" }}</a></li>
+          {{ end }}
+        </ul>
+        {{ if or .linkedin .twitter }}
+        <ul class="nav nav-social">
+          {{ with .linkedin }}
+            <li class="linkedin">
+              {{ $name := i18n "contact.linkedin" }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+              <a href="{{ . }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+                <span>{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+          {{ with .twitter }}
+            <li class="twitter">
+              {{ $name := i18n "contact.twitter" }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+              <a href="{{ . }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+                <span>{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+    </aside>
+  {{ end }}
+{{ end }}

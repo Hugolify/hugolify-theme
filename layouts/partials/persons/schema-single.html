@@ -1,0 +1,35 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": {{ .Title | plainify | safeHTML }},
+
+    {{ with .Params.image }}
+      "image": {{ . | absURL }},
+    {{ end }}
+
+    {{ with .Description }}
+      "description": {{ partial "TruncateContent" (dict "content" .) }},
+    {{ end }}
+
+    "url": {{ .Permalink }},
+
+    {{ with .Params.statutes }}
+      {{ with index site.Data.statutes . }}
+        "jobTitle": {{ .title | plainify | safeHTML }},
+      {{ end }}
+    {{ end }}
+
+    {{ with .Params.contact }}
+      {{ with .email }}
+        "email": {{ . | plainify | safeHTML }},
+      {{ end }}
+      {{ with .phone }}
+        "telephone": {{ . | plainify | safeHTML }},
+      {{ end }}
+      {{ with .fax }}
+        "faxNumber": {{ . | plainify | safeHTML }},
+      {{ end }}
+    {{ end }}
+  }
+</script>

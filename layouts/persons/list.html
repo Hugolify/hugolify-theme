@@ -1,0 +1,16 @@
+{{ define "hero"}}
+  {{- partial "persons/hero.html" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "persons/schema" . }}
+
+  {{ partial "blocks/list" . }}
+  
+  <div class="container">
+    {{ partial "persons/heading" . }}
+    {{ partial "persons/filters" . }}
+    {{ partial "persons/paginator" . }}
+  </div>
+
+{{ end }}

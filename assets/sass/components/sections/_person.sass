@@ -1,0 +1,22 @@
+.person
+    --bs-card-spacer-x: 0
+    --bs-card-border-width: 0
+    --bs-card-border-radius: 0
+    --bs-card-inner-border-radius: 0
+    --bs-card-bg: transparent
+    --bs-card-cap-bg: transparent
+    @extend .card
+    .status
+        @extend .small
+        margin-bottom: 0
+    .description
+        @extend .small
+    a
+        @extend .stretched-link
+        & + div
+            @extend .ratio
+            @extend .ratio-1x1
+            align-self: flex-start
+            background-color: $light
+            border-radius: 50%
+            order: -1

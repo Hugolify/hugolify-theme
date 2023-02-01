@@ -1,0 +1,3 @@
+{{ $paginator := sort (.Paginator.Pages) "Params.statutes" }}
+{{ partial "persons/items" $paginator }}
+{{ partial "nav/pagination.html" . }}
