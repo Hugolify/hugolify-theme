@@ -8,13 +8,17 @@
             flex-direction: column
             .more
                 margin-left: 0
-    h1
+    h1, h2, p
         margin-bottom: 0
+    .surtitle
+        margin-bottom: .25em
 
     @include media-breakpoint-up(md)
-        h2,
-        p
-            margin-bottom: 0
+        h1
+            max-width: 80%
+        .surtitle
+            flex: 0 0 100%
+            margin-bottom: .25em
         .metas
             margin-top: 1rem
             width: 100%
