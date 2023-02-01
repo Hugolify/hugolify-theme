@@ -21,11 +21,16 @@
         ol, ul
             padding-left: 1.125rem
         ol, ul, li
-            font-size: .875rem
+            @include media-breakpoint-up(lg)
+                font-size: .875rem
+        li:not(:last-child)
+            margin-bottom: .5em
         ol
             ol
                 list-style-type: circle
+                margin-top: .5em
         a
+            line-height: 1.5
             text-decoration-color: transparent
             &:hover
                 text-decoration-color: $link-color
