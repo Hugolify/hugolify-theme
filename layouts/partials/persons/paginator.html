@@ -1,3 +1,2 @@
-{{ $paginator := sort (.Paginator.Pages) "Params.statutes" }}
-{{ partial "persons/items" $paginator }}
+{{ partial "persons/items" .Paginator.Pages }}
 {{ partial "nav/pagination.html" . }}
