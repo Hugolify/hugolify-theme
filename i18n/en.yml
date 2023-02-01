@@ -80,9 +80,11 @@ projects:
     one: Project
     other: Projects
 publications:
-  discover: Discover publication on <cite>{{ .Source }}</cite>
+  all: All publications
   latest: Latest publications
   more: Discover more publications
+  press: 
+    more: Découvrir l’article complet
   title:
     one: Publication
     other: Publications

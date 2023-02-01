@@ -1,6 +1,15 @@
+{{ $text := i18n "publications.press.more" }}
+{{ $title := i18n "link.blank_aria" (dict "Title" $text) }}
+{{ $context := .}}
+
 {{ with .Params.press }}
-  {{ $i18n := i18n "publications.discover" (dict "Source" .title) }}
-  <p class="press">
-    <a href="{{ .url }}" target="_blank" class="btn" title="{{ plainify (i18n "link.blank_aria" (dict "Title" $i18n)) }}">{{ $i18n | safeHTML }}</a>
-  </p>
+  <div class="press">
+    <div class="content">
+      <h3 class="name">{{ .title }}</h3>
+      {{ partial "commons/date" $context }}
+      <a href="{{ .url }}" class="btn" target="_blank" rel="noopener noreferrer" title="{{ $title }}">{{ $text }}</a>
+    </div>
+  </div>
+{{ else }}
+  {{ partial "publications/metas" . }}
 {{ end }}
