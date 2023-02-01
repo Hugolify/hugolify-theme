@@ -24,6 +24,9 @@
                 margin-top: 0
                 p::before
                     @include icon("tags")
+                li
+                    &::before
+                        content: none
             &-categories
                 p::before
                     @include icon("bookmarks")
@@ -32,9 +35,11 @@
                     @include icon("people")
             
             &-mini_card
-                ul
+                ul, ol
                     padding-left: 0
                 li
                     @extend .mini-card
+                    &::before
+                        content: none
                     &:not(:last-child)
                         margin-bottom: .5rem

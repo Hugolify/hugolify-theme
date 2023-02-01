@@ -7,32 +7,46 @@
     {{ $i18n := printf "%s.title" $tax }}
     <div class="list list-{{ $tax }}{{ if $mini_card }} list-mini_card{{ end }}">
       <p>{{ i18n $i18n $nTaxs }}</p>
-      <ul>
+      <ol>
         {{ range $taxonomy_term, $taxonomy := . }}
-          <li>
-            {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
-            {{ with $item }}
+          {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
+          {{ with $item }}
+            
+            {{ $exists := os.FileExists (printf "content/%s/%s" $tax $taxonomy_term) }}
+            {{ $title := .Title }}
+            {{ $image := .Params.image }}
+            {{ if not $exists }}
+              {{ with site.GetPage (printf "/persons/%s" $taxonomy_term) }}
+                {{ $title = .Title }}
+                {{ $image = .Params.image }}
+              {{ end }}
+            {{ end }}
+
+            <li>
               {{ if $mini_card }}
-                {{ with .Params.image }}
+                {{ with $image }}
                   {{ $desktop := site.Params.image.xsmall | default false }}
+                  {{ $mobile := site.Params.image.xsmall | default false }}
                   {{ partial "commons/image.html" (dict
                     "src" .src
                     "alt" .alt
                     "picture_class" "avatar"
                     "desktop" $desktop
+                    "mobile" $mobile
                     "crop" "top"
                   ) }}
                 {{ end }}
                 <div>
               {{ end }}
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
+              <a href="{{ .Permalink }}">{{ $title }}</a>
               {{ if $mini_card }}
                 </div>
               {{ end }}
-            {{ end }}
-          </li>
+            </li>
+
+          {{ end }}
         {{ end }}
-      </ul>
+      </ol>
     </div>
   {{ end }}
 {{ end }}

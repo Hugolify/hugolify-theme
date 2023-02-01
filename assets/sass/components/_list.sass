@@ -2,8 +2,12 @@
     p
         font-weight: $font-weight-bold
         margin-bottom: .5rem
-    ul
+    ul, ol
+        list-style: none
         margin-bottom: 0
-        padding-left: 1.1rem
+        padding-left: 0
     li
         @include font-size(0.875rem)
+        &::before
+            content: '-'
+            speak: never
