@@ -6,3 +6,5 @@
 import './blocks/gallery';
 import './blocks/map';
 
+// Components
+import './components/toc';
