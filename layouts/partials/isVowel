@@ -1,0 +1,9 @@
+{{ $vowels := slice "a" "e" "i" "o" "u" "y" }}
+{{ $isVowel := false }}
+{{ $firstLetter := lower (substr . 0 1) }}
+
+{{ if in $vowels $firstLetter }}
+  {{ $isVowel = true }}
+{{ end }}
+
+{{ return $isVowel }}
