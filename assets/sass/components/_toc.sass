@@ -1,17 +1,17 @@
 .toc
-    @include media-breakpoint-up(md)
+    @include media-breakpoint-up(lg)
         > div
             position: sticky
             top: $offset
     > div
         > p
             @extend .d-none
-            @extend .d-md-block
+            @extend .d-lg-block
             @extend .h5
         > button
             @extend .btn
             @extend .btn-light
-            @extend .d-md-none
+            @extend .d-lg-none
             @if variable-exists(bootstrap-icons-map)
                 &::before
                     @include icon("list-nested")
@@ -21,7 +21,7 @@
         ol, ul
             padding-left: 1.125rem
         ol, ul, li
-            @include media-breakpoint-up(lg)
+            @include media-breakpoint-up(md)
                 font-size: .875rem
         li:not(:last-child)
             margin-bottom: .5em
@@ -36,9 +36,9 @@
                 text-decoration-color: $link-color
         
     .offcanvas
-        @extend .offcanvas-md
+        @extend .offcanvas-lg
         @extend .offcanvas-end
-        @include media-breakpoint-up(md)
+        @include media-breakpoint-up(lg)
             position: static
             transform: none
             transition: none
