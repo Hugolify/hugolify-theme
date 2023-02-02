@@ -1,6 +1,6 @@
 .grid
     display: grid
-    grid-template-columns: 1fr
+    grid-template-columns: 100%
     @include media-breakpoint-up(md)
         grid-column-gap: $grid-gutter-width
         grid-template-columns: repeat(12, 1fr)
@@ -16,11 +16,13 @@
             .toc
                 grid-column: 9/13
                 grid-row: 2
-            .sidebar
-                @include rfs($global-spacing, margin-bottom)
+            .sidebar + .toc
+                @include rfs($global-spacing, margin-top)
             nav
                 grid-column: 1/9
                 grid-row: 4
+            .sidebar + .toc + nav
+                grid-row: 5
 
         @include media-breakpoint-up(lg)
             .sidebar,
@@ -33,7 +35,6 @@
             .content
                 order: 3
             .sidebar
-                margin-bottom: 0
                 @include rfs($global-spacing, margin-top)
                 order: 4
             .toc
