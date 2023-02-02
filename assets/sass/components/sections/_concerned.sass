@@ -3,12 +3,14 @@ article.concerned
 
 aside.concerned
     --bs-card-border-width: 0
+    --bs-card-bg: transparent
+    --bs-card-cap-bg: transparent
+    --bs-card-spacer-x: 0
+    --bs-card-spacer-y: 0
     @extend .card
-    background-color: $light
     .media
-        padding-left: $card-spacer-x
-        padding-top: $card-spacer-y
-        margin-bottom: calc(#{$card-spacer-y} / -2)
+        background-color: transparent
+        margin-bottom: .25rem
         &::before
             content: none
         > *
@@ -18,6 +20,7 @@ aside.concerned
     .description
         @extend .small
         @extend .text-muted
+        margin-bottom: 0.5rem
     p:last-child
         @extend .small
     @if variable-exists(bootstrap-icons-map)

@@ -3,7 +3,7 @@ div.press
     @extend .card
     background-color: $light
     .content
-        padding: $global-spacing
+        @include rfs($global-spacing, padding)
     .name
         margin-bottom: 0
     .btn

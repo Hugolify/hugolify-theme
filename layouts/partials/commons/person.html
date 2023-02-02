@@ -7,7 +7,7 @@
       {{ with .Title }}
         <p class="name">{{ partial "PrepareHTML" . }}</p>
       {{ end }}
-      {{ with .Params.description }}
+      {{ with .Description }}
         <p class="description">{{ partial "TruncateContent" (dict "content" .) }}</p>
       {{ end }}
       {{ $i18n := i18n (printf "%s.discover" $section) }}

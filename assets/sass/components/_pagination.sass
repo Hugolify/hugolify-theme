@@ -1,5 +1,6 @@
 .pagination
     justify-content: center
+    margin-bottom: 0
     li
         @extend .page-item
     a
@@ -39,7 +40,7 @@
     --bs-pagination-hover-bg: transparent
     --bs-pagination-focus-bg: transparent
     @extend .pagination
-    margin-top: $grid-gutter-width * 2
+    @include rfs($global-spacing, margin-top)
     li
         &:first-child
             margin-right: .5rem
