@@ -21,19 +21,19 @@ concerned:
     one: Concerned person
     other: Persons concerned
 contact: 
-  email: Email
-  fax: Fax
+  email: "Email:"
+  fax: "Fax:"
   facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
   pinterest: Pinterest
-  tel: Phone
+  tel: "Phone:"
   title: Contact
   twitter: Twitter
   website: Website
   whatsapp: WhatsApp
 credit:
-  hugolify: a low impact website crafted with <a href="https://www.hugolify.com" target="_blank">Hugolify</a>
+  smfd: a low impact website crafted with <a href="https://www.hugolify.com" target="_blank">Hugolify</a>
 filter: Filter
 header:
   accessibility:
