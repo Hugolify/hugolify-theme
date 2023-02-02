@@ -1,0 +1,9 @@
+{{ define "hero"}}
+  {{- partial "concerned/hero" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "concerned/schema" . }}
+  {{ partial "concerned/blocks" . }}
+  {{ partial "concerned/container" . }}
+{{ end }}
