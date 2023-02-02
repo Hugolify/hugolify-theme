@@ -1,5 +1,8 @@
+{{ $item := .item | default "author" }}
+{{ $section := .section | default "authors" }}
+
 {{ with .person }}
-  <aside class="author">
+  <aside class="{{ $item }}">
     <div class="content">
       {{ with .Title }}
         <p class="name">{{ partial "PrepareHTML" . }}</p>
@@ -7,7 +10,7 @@
       {{ with .Params.description }}
         <p class="description">{{ partial "TruncateContent" (dict "content" .) }}</p>
       {{ end }}
-      {{ $i18n := i18n "more" }}
+      {{ $i18n := i18n (printf "%s.discover" $section) }}
       <p><a href="{{ .Permalink }}">{{ $i18n }}</a></p>
     </div>
     {{ with .Params.image}}
