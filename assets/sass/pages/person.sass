@@ -2,6 +2,8 @@
     
     .latest
         @include rfs($global-spacing, margin-top)
+    div + .latest 
+        @include rfs(calc(#{$global-spacing} * 2), margin-top)
     
     @include media-breakpoint-up(md)
         .grid
