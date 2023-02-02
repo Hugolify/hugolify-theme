@@ -1,13 +1,1 @@
-{{ $slug := .Title }}
-{{ $context := . }}
-
-{{ with $slug }}
-  {{ $person := site.GetPage (printf "persons/%s" $slug) }}
-  <header class="heading heading-filter">
-    <p class="surtitle">
-      <a href="../" class="back">{{ i18n "posts.all" }}</a>
-    </p>
-    <h1>{{ i18n "posts.list_person" (dict "Person" $person.Title) }}</h1>
-    {{ partial "posts/filters/button" $context }}
-  </header>
-{{ end }}
+{{ partial "commons/heading-single-with-person-and-filter" (dict "section" "posts" "context" .) }}

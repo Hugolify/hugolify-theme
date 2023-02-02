@@ -1,7 +1,1 @@
-{{ $context := . }}
-{{ with .Title }}
-  <header class="heading heading-filter">
-    <h1>{{ partial "PrepareHTML" . }}</h1>
-    {{ partial "posts/filters/button" $context }}
-  </header>
-{{ end }}
+{{ partial "commons/heading-with-filter" (dict "context" . "section" "posts") }}

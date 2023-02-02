@@ -10,21 +10,15 @@
       <ol>
         {{ range $taxonomy_term, $taxonomy := . }}
           {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
+          {{ $permalink := $item.Permalink }}
+          {{ if or (eq $tax "authors") (eq $tax "concerned") }}
+            {{ $item = partial "GetRealPerson" $item }}
+          {{ end }}
           {{ with $item }}
             
-            {{ $exists := os.FileExists (printf "content/%s/%s" $tax $taxonomy_term) }}
-            {{ $title := .Title }}
-            {{ $image := .Params.image }}
-            {{ if not $exists }}
-              {{ with site.GetPage (printf "/persons/%s" $taxonomy_term) }}
-                {{ $title = .Title }}
-                {{ $image = .Params.image }}
-              {{ end }}
-            {{ end }}
-
             <li>
               {{ if $mini_card }}
-                {{ with $image }}
+                {{ with .Params.image }}
                   {{ $desktop := site.Params.image.xsmall | default false }}
                   {{ $mobile := site.Params.image.xsmall | default false }}
                   {{ partial "commons/image.html" (dict
@@ -38,7 +32,7 @@
                 {{ end }}
                 <div>
               {{ end }}
-              <a href="{{ .Permalink }}">{{ $title }}</a>
+              <a href="{{ $permalink }}">{{ .Title }}</a>
               {{ if $mini_card }}
                 </div>
               {{ end }}
