@@ -15,6 +15,11 @@ categories:
     one: Category
     other: Categories
 close: Close
+concerned:
+  discover: Discover the person concerned
+  title:
+    one: Concerned person
+    other: Persons concerned
 contact: 
   email: Email
   fax: Fax
@@ -88,12 +93,17 @@ projects:
 publications:
   all: All publications
   latest: Latest publications
+  latest_person: Latest publications by {{ .Person }}
+  list: List of publications by the person concerned
+  list_person: List of {{ .Person }}’s publications
   more: Discover more publications
+  more_person: Discover more publications by {{ .Person }}
   press: 
     more: Découvrir l’article complet
   title:
     one: Publication
     other: Publications
+  title_person: "{{ .Person }}’s publications"
 reading_time:
   one: One minute to read
   other: '{{.Time}} minutes to read'

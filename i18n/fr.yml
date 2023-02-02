@@ -15,6 +15,11 @@ categories:
     one: Categorie
     other: Categories
 close: Fermer
+concerned:
+  discover: Découvrir la personne concernée
+  title:
+    one: Personnes concernée
+    other: Personnes concernées
 contact: 
   email: E-mail
   fax: Fax
@@ -94,12 +99,17 @@ projects:
 publications:
   all: Toutes les parutions
   latest: Dernières parutions
+  latest_person: Dernières parutions de {{ .Person }}
+  list: Liste des parutions de la personne concernée
+  list_person: Liste des parutions de {{ .Person }}
   more: Découvrir plus de parutions
+  more_person: Découvrir plus de parutions de {{ .Person }}
   press: 
     more: Découvrir l’article complet
   title:
     one: Parution
     other: Parutions
+  title_person: Parutions de {{ .Person }}
 reading_time:
   one: Une minute de lecture
   other: '{{.Time}} minutes de lecture'
