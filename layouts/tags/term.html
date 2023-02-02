@@ -1,9 +1,8 @@
 {{ define "hero"}}
-  {{- partial "tags/hero" . -}}
+  {{- partial "tags/hero-single" . -}}
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "tags/schema" . }}
-  {{ partial "tags/blocks" . }}
-  {{ partial "tags/container" . }}
+  {{ partial "tags/schema-single" . }}
+  {{ partial "tags/container-single" . }}
 {{ end }}

@@ -1,0 +1,9 @@
+{{ define "hero"}}
+  {{- partial "categories/hero" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "categories/schema" . }}
+  {{ partial "categories/blocks" . }}
+  {{ partial "categories/container" . }}
+{{ end }}

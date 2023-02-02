@@ -1,0 +1,12 @@
+{{ $i18nAll := printf "%s.all" .section }}
+{{ $partialFilter := printf "%s/filters/button" .section }}
+
+<header class="heading heading-filter">
+  <p class="surtitle">
+    <a href="../" class="back">{{ i18n $i18nAll }}</a>
+  </p>
+  {{ with .context.Title }}
+    <h1>{{ partial "PrepareHTML" . }}</h1>
+  {{ end }}
+  {{ partial $partialFilter .context }}
+</header>
