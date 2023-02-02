@@ -1,0 +1,10 @@
+{{ $person := . }}
+{{ $exists := os.FileExists $person }}
+
+{{ if not $exists }}
+  {{ with site.GetPage (printf "/persons/%s" .Title) }}
+    {{ $person = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $person }}
