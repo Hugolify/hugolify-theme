@@ -1,0 +1,14 @@
+{{ $person := partial "GetRealPerson" .context }}
+{{ $i18nAll := printf "%s.all" .section }}
+{{ $i18nTitle := printf "%s.list_person" .section }}
+{{ $partialFilter := printf "%s/filters/button" .section }}
+
+<header class="heading heading-filter">
+  <p class="surtitle">
+    <a href="../" class="back">{{ i18n $i18nAll }}</a>
+  </p>
+  {{ with $person }}
+    <h1>{{ i18n $i18nTitle (dict "Person" .Title) }}</h1>
+  {{ end }}
+  {{ partial $partialFilter .context }}
+</header>

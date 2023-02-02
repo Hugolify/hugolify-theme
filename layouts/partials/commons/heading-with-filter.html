@@ -1,0 +1,8 @@
+{{ $partialFilter := printf "%s/filters/button" .section }}
+
+<header class="heading heading-filter">
+  {{ with .context.Title }}
+    <h1>{{ partial "PrepareHTML" . }}</h1>
+  {{ end }}
+  {{ partial $partialFilter .context }}
+</header>
