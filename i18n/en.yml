@@ -11,6 +11,7 @@ casestudies:
     one: Case study
     other: Case studies
 categories:
+  all: All categories
   title:
     one: Category
     other: Categories
@@ -85,6 +86,7 @@ posts:
   title_person: News of {{ .Person }}
 previous: Previous 
 projects:
+  all: All projects
   latest: Latest projects
   more: Discover more projects
   title:
@@ -111,6 +113,7 @@ share:
   share_on: Share on {{ .Website }}
   title: Share
 tags:
+  all: All tags
   title:
     one: Tag
     other: Tags

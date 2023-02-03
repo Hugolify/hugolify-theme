@@ -11,9 +11,10 @@ casestudies:
     one: Étude de cas
     other: Études de cas
 categories:
+  all: Toutes les catégories
   title:
-    one: Categorie
-    other: Categories
+    one: Catégorie
+    other: Catégories
 close: Fermer
 concerned:
   discover: Découvrir la personne concernée
@@ -91,6 +92,7 @@ posts:
   title_person: Actualités de {{ .Person }}
 previous: Précédent
 projects:
+  all: Tous les projets
   latest: Derniers projets
   more: Découvrir plus de projets
   title:
@@ -117,6 +119,7 @@ share:
   share_on: Partager sur {{ .Website }}
   title: Partager
 tags:
+  all: Tous les tags
   title:
     one: Tag
     other: Tags

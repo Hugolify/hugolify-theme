@@ -1,9 +1,8 @@
 {{ define "hero"}}
-  {{- partial "types/hero" . -}}
+  {{- partial "types/hero-single" . -}}
 {{ end }}
 
 {{ define "main" }}
-  {{ partial "types/schema" . }}
-  {{ partial "types/blocks" . }}
-  {{ partial "types/container" . }}
+  {{ partial "types/schema-single" . }}
+  {{ partial "types/container-single" . }}
 {{ end }}
