@@ -8,4 +8,6 @@
 {{ if hugo.IsProduction }}
   {{- $css = $css | resources.PostCSS | minify | fingerprint | resources.PostProcess -}}
 {{ end }}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" media="all">
+{{ with $css }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" media="all">
+{{ end }}
