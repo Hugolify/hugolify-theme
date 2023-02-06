@@ -7,6 +7,11 @@ imports:
   - path: github.com/hugolify/hugolify-theme
 ```
 
+Add dependants node_modules:
+```
+yarn install
+```
+
 ## Documentation
 https://github.com/hugolify/hugolify-template/wiki
 
