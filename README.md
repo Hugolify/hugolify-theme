@@ -2,7 +2,7 @@
 
 ## Install
 Edit `config/_default/module.yaml` to install the `hugolify-theme` module:
-```
+```yml
 imports:
   - path: github.com/hugolify/hugolify-theme
 ```
