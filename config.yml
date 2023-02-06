@@ -8,15 +8,8 @@ module:
       target: i18n
     - source: layouts
       target: layouts
-    # Workaround for https://github.com/gohugoio/hugo/issues/6945
-    # https://github.com/gohugoio/hugo-mod-bootstrap-scss-v4
-    - source: assets/sass/vendors/bootstrap/_vendor
-      target: assets/sass/bootstrap/vendor
   imports:
-    - path: github.com/twbs/bootstrap
-      mounts:
-        - source: scss
-          target: assets/sass/bootstrap
+    - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
     - path: github.com/twbs/icons
       mounts:
         - source: font/fonts
@@ -24,7 +17,7 @@ module:
     - path: github.com/midzer/tobii
       mounts:
         - source: src/scss
-          target: assets/sass/tobii
+          target: assets/scss/tobii
         - source: src/js
           target: assets/js/vendors/tobii
 

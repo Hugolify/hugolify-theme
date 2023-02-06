@@ -1,7 +1,7 @@
 name: "Hugolify Theme"
 license: "MIT"
 licenselink: "https://github.com/hugolify/hugolify-theme/blob/main/LICENSE"
-description: "Hugo theme with Bootstrap 5"
+description: "Hugolify theme base"
 tags: []
 features: []
 min_version: "0.109.0"
