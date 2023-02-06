@@ -17,11 +17,5 @@
         "hugo-theme",
         "bootstrap"
     ],
-    "license": "MIT",
-    "dependencies": {
-        "@midzer/tobii": "^2.5.0",
-        "@popperjs/core": "^2.11.2",
-        "bootstrap": "^5.2.3",
-        "bootstrap-icons": "^1.10.3"
-    }
+    "license": "MIT"
 }

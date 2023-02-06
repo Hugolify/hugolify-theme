@@ -1,5 +1,5 @@
 import scrollspy from '../utils/scrollspy';
-import Tobii from '@midzer/tobii'
+import Tobii from '../vendors/tobii'
 
 const galleries = document.querySelectorAll('.block-gallery');
 let lightboxLoaded = false;

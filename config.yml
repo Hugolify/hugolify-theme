@@ -1,9 +1,23 @@
 module:
+  mounts:
+    # Workaround for https://github.com/gohugoio/hugo/issues/6945
+    source: "assets/scss/bootstrap/_vendor"
+    target: "assets/scss/vendors/bootstrap/vendor"
   imports:
     - path: github.com/twbs/bootstrap
       mounts:
         - source: scss
           target: assets/sass/vendors/bootstrap
+    - path: github.com/twbs/icons
+      mounts:
+        - source: font/fonts
+          target: static/fonts/bootstrap-icons
+    - path: github.com/midzer/tobii
+      mounts:
+        - source: src/scss
+          target: assets/sass/vendors/tobii
+        - source: src/js
+          target: assets/js/vendors/tobii
 
 params:
   logo: 

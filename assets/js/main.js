@@ -1,5 +1,4 @@
 // Vendors
-// import './vendors/bootstrap';
 // import './vendors/cookie';
 
 // Blocks
