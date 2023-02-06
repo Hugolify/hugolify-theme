@@ -1,5 +1,6 @@
-{{ $desktop := site.Params.pages.thumbnail.desktop | default false }}
-{{ $mobile := site.Params.pages.thumbnail.mobile | default false }}<div class="media">
+{{ $desktop := site.Params.thumbnail.desktop | default false }}
+{{ $mobile := site.Params.thumbnail.mobile | default false }}
+<div class="media">
   {{ with .Params.image}}
     {{ partial "commons/image.html" (dict
       "src" .src

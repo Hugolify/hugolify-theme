@@ -1,26 +1,5 @@
-authors:
-  discover: Découvrir l’auteur
-  title:
-    one: Auteur
-    other: Auteurs
 breadcrumb: fil d’Arianne
-casestudies:
-  latest: Dernières étude de cas
-  more: Découvrir plus d’étude de cas
-  title:
-    one: Étude de cas
-    other: Études de cas
-categories:
-  all: Toutes les catégories
-  title:
-    one: Catégorie
-    other: Catégories
 close: Fermer
-concerned:
-  discover: Découvrir la personne concernée
-  title:
-    one: Personnes concernée
-    other: Personnes concernées
 contact: 
   email: "E-mail :"
   fax: "Fax :"
@@ -72,59 +51,11 @@ pagination:
   page: Page {{ .Number }}
   previous: Précédent
   previous_section: "<span>{{ .Section }}</span> précédent"
-persons:
-  all: Toutes les personnes
-  more: Découvrir plus de personnes
-  title:
-    one: Personne
-    other: Personnes
-posts:
-  all: Toutes l’actualités
-  latest: Dernières actualités
-  latest_person: Dernières actualités de {{ .Person }}
-  list: Liste des actualités de l’auteur
-  list_person: Liste des actualités de {{ .Person }}
-  more: Découvrir plus d’actualités
-  more_person: Découvrir plus d’actualités de {{ .Person }}
-  title:
-    one: Actualité
-    other: Actualités
-  title_person: Actualités de {{ .Person }}
 previous: Précédent
-projects:
-  all: Tous les projets
-  latest: Derniers projets
-  more: Découvrir plus de projets
-  title:
-    one: Projet
-    other: Projets
-publications:
-  all: Toutes les parutions
-  latest: Dernières parutions
-  latest_person: Dernières parutions de {{ .Person }}
-  list: Liste des parutions de la personne concernée
-  list_person: Liste des parutions de {{ .Person }}
-  more: Découvrir plus de parutions
-  more_person: Découvrir plus de parutions de {{ .Person }}
-  press: 
-    more: Découvrir l’article complet
-  title:
-    one: Parution
-    other: Parutions
-  title_person: Parutions de {{ .Person }}
 reading_time:
   one: Une minute de lecture
   other: '{{.Time}} minutes de lecture'
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
-tags:
-  all: Tous les tags
-  title:
-    one: Tag
-    other: Tags
 toc: Table des matières
-types:
-  title:
-    one: Type
-    other: Types

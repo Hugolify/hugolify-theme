@@ -1,8 +1,0 @@
-<div class="persons">
-  {{ range . }}
-    <div>
-      {{ $person := partial "GetRealPerson" . }}
-      {{ partial "persons/item" $person }}
-    </div>
-  {{ end }}
-</div>

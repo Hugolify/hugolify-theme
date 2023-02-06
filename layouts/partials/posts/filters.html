@@ -1,9 +1,0 @@
-{{ $hasCategory := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "categories") }}
-{{ $hasTag := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "tags") }}
-{{ $hasAuthor := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "authors") }}
-{{ if or $hasCategory $hasTag $hasAuthor }}
-  <div class="filters offcanvas" tabindex="-1" id="postsFilters" aria-labelledby="postsFiltersLabel">
-    {{ partial "posts/filters/header" . }}
-    {{ partial "posts/filters/content" . }}
-  </div>
-{{ end }}

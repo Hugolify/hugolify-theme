@@ -1,6 +1,0 @@
-{{ $hasCategory := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "categories") }}
-{{ $hasTag := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "tags") }}
-{{ $hasAuthor := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "authors") }}
-{{ if or $hasCategory $hasTag $hasAuthor }}
-  <button class="btn-filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#postsFilters" aria-controls="postsFilters">{{ i18n "filter" }}</button>
-{{ end }}

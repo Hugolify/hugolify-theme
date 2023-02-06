@@ -1,7 +1,0 @@
-{{ $hasConcerned := partial "isTaxonomyAvailable" (dict "pages" .Pages "taxonomy" "concerned") }}
-{{ if $hasConcerned }}
-  <div class="filters offcanvas" tabindex="-1" id="publicationsFilters" aria-labelledby="publicationsFiltersLabel">
-    {{ partial "publications/filters/header" . }}
-    {{ partial "publications/filters/content" . }}
-  </div>
-{{ end }}
