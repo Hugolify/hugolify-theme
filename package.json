@@ -1,10 +1,10 @@
 {
     "name": "hugolify-theme",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "homepage": "https://www.hugolify.com",
-    "repository": "https://github.com/sebousan/hugolify-theme",
+    "repository": "https://github.com/hugolify/hugolify-theme",
     "bugs": {
-        "url": "https://github.com/sebousan/hugolify-theme/issues"
+        "url": "https://github.com/hugolify/hugolify-theme/issues"
     },
     "author": {
         "email": "sebousan@gmail.com",
@@ -12,6 +12,7 @@
         "url": "https://www.sebastienmoulene.com/"
     },
     "keywords": [
+        "hugolify",
         "hugo",
         "hugo-theme",
         "bootstrap"
