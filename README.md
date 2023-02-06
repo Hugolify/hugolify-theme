@@ -7,7 +7,7 @@ imports:
   - path: github.com/hugolify/hugolify-theme
 ```
 
-Add dependants node_modules:
+Add dependecies node_modules:
 ```
 yarn install
 ```
