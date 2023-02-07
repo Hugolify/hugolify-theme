@@ -1,10 +1,13 @@
+{{ $section := printf "/%s" .section }}
 {{ $i18nAll := printf "%s.all" .section }}
 {{ $partialFilter := printf "%s/filters/button" .section }}
 
 <header class="heading heading-filter">
+  {{ with site.GetPage $section }}
   <p class="surtitle">
-    <a href="../" class="back">{{ i18n $i18nAll }}</a>
+    <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
   </p>
+  {{ end }}
   {{ with .context.Title }}
     <h1>{{ partial "PrepareHTML" . }}</h1>
   {{ end }}
