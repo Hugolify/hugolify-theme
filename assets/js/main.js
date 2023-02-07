@@ -3,6 +3,7 @@
 
 // Blocks
 import './blocks/gallery';
+import './blocks/instagram';
 import './blocks/map';
 
 // Components

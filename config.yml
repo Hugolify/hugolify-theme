@@ -20,6 +20,10 @@ module:
           target: assets/scss/tobii
         - source: src/js
           target: assets/js/vendors/tobii
+    - path: github.com/stevenschobert/instafeed.js
+      mounts:
+        - source: src
+          target: assets/js/vendors/instafeed
 
 params:
   logo: 

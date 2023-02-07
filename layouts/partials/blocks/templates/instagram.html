@@ -1,0 +1,18 @@
+{{ $isFirst := .first }}
+
+<section class="block-instagram{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ if .token }}
+      {{ $limit := .limit | default 5 }}
+      <div class="instagram" data-limit="{{ $limit }}" data-token="{{ .token }}"></div>
+    {{ else }}
+      <p>Access token is missing</p>
+    {{ end }}
+
+    {{ partial "commons/cta.html" .cta }}
+
+  </div>
+</section>

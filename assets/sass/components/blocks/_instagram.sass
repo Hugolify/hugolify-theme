@@ -1,0 +1,18 @@
+.block-instagram
+    text-align: center
+    .instagram
+        @extend .row
+        justify-content: center
+        div
+            flex: 1
+            max-width: calc(300px - #{$grid-gutter-width})
+        a
+            display: block
+            &::after
+                content: none
+        img
+            height: auto
+            width: 100%
+    .btn
+        @include rfs($global-spacing, margin-top)
+        @extend .btn-primary

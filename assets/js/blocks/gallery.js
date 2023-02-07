@@ -17,7 +17,7 @@ galleries.forEach((gallery) => {
                 navLabel: [previousLabel, nextLabel],
                 closeLabel: closeLabel
             })
-            console.log(lightboxLoaded);
+            lightboxLoaded = true;
         }
     });
 });
