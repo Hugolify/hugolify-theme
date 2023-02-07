@@ -1,0 +1,24 @@
+.block-faq
+    details
+        border: $border-width solid $border-color
+        border-radius: 1rem
+        max-width: 66%
+        margin-left: auto
+        margin-right: auto
+        position: relative
+        transition: all .6s cubic-bezier(.085,1.335,.285,.995)
+        &:not(:last-of-type)
+            margin-bottom: $grid-gutter-width
+        &:hover
+            box-shadow: 0 0 5px 5px rgba(0,0,0,.05)
+        &[open]
+            border-color: $primary
+    summary
+        @extend .h4
+        margin-bottom: 0
+        padding: 1rem
+
+        & + div
+            padding-bottom: 1rem
+            padding-left: 1rem
+            padding-right: 1rem

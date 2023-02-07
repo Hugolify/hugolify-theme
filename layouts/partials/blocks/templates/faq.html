@@ -1,0 +1,20 @@
+<section class="block-faq{{ with .background }} block-bg{{ end }}">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ range .items }}
+      <details>
+        {{ with .title }}
+          <summary>{{ partial "PrepareHTML" . }}</summary>
+        {{ end }}
+        {{ with .text }}
+          <div>
+            {{ (partial "PrepareHTML" .) | markdownify }}
+          </div>
+        {{ end }}
+      </details>
+    {{ end }}
+
+  </div>
+</section>
