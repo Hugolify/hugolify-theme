@@ -18,22 +18,14 @@
         .list
             p::before
                 margin-right: .25em
-            &-tags
+            &[class*="tags"]
                 @extend .tags
                 border-top: 0
                 margin-top: 0
-                p::before
-                    @include icon("tags")
                 li
                     &::before
                         content: none
-            &-categories
-                p::before
-                    @include icon("bookmarks")
-            &-authors
-                p::before
-                    @include icon("people")
-            
+
             &-mini_card
                 ul, ol
                     padding-left: 0
