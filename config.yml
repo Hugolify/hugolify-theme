@@ -9,22 +9,25 @@ module:
     - source: layouts
       target: layouts
   imports:
+    # Import bootstrap 5
     - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
+    # Import bootstrap icons
     - path: github.com/twbs/icons
       mounts:
         - source: font/fonts
           target: static/assets/fonts/bootstrap-icons
+    # Import lightbox plugin
     - path: github.com/midzer/tobii
       mounts:
         - source: src/scss
           target: assets/scss/tobii
         - source: src/js
           target: assets/js/vendors/tobii
+    # Import instafeed
     - path: github.com/stevenschobert/instafeed.js
       mounts:
         - source: src
           target: assets/js/vendors/instafeed
-
 params:
   logo: 
     header: "/assets/images/logo.svg"
