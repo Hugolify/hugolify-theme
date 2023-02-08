@@ -8,19 +8,21 @@ const instagramTemplate = '<div><a href="{{link}}" target="_blank"><img title="{
 instagrams.forEach((instagram) => {
     scrollspy(instagram, () => {
         let elm = instagram.querySelector('.instagram');
-        let datas = elm.dataset;
-        let instagramToken = datas.token;
-        let instagramLimit = parseInt(datas.limit, 10);
-        let instafeedLoaded = false;
-        if (!instafeedLoaded) {
-            const feed = new Instafeed({
-                target: elm,
-                limit: instagramLimit,
-                accessToken: instagramToken,
-                template: instagramTemplate
-            });
-            feed.run();
-            instafeedLoaded = true;
+        if (elm) {
+            let datas = elm.dataset;
+            let instagramToken = datas.token;
+            let instagramLimit = parseInt(datas.limit, 10);
+            let instafeedLoaded = false;
+            if (!instafeedLoaded) {
+                const feed = new Instafeed({
+                    target: elm,
+                    limit: instagramLimit,
+                    accessToken: instagramToken,
+                    template: instagramTemplate
+                });
+                feed.run();
+                instafeedLoaded = true;
+            }
         }
     });
 });
