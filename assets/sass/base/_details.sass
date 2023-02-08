@@ -1,0 +1,40 @@
+details
+    border: $border-width solid $border-color
+    border-radius: 1rem
+    max-width: 66%
+    margin-left: auto
+    margin-right: auto
+    position: relative
+    transition: border 1s $transition, box-shadow 1s $transition
+    @media (prefers-reduced-motion: reduce)
+        transition: none
+    &:not(:last-of-type)
+        margin-bottom: $grid-gutter-width
+    &:hover
+        box-shadow: 0 0 5px 5px rgba(0,0,0,.05)
+    
+    summary
+        @extend .h4
+        align-items: baseline
+        display: flex
+        justify-content: space-between
+        margin-bottom: 0
+        padding: 1rem
+        @if variable-exists(bootstrap-icons-map)
+            &::after
+                @include icon('arrow-right-short')
+                transition: transform 1s $transition
+                @media (prefers-reduced-motion: reduce)
+                    transition: none
+
+        & + div
+            padding-bottom: 1rem
+            padding-left: 1rem
+            padding-right: 1rem
+
+    &[open]
+        border-color: $primary
+        @if variable-exists(bootstrap-icons-map)
+            summary
+                &::after
+                    transform: rotate(90deg)
