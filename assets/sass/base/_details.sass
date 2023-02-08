@@ -1,10 +1,6 @@
 details
     border: $border-width solid $border-color
     border-radius: 1rem
-    max-width: 66%
-    margin-left: auto
-    margin-right: auto
-    position: relative
     transition: border 1s $transition, box-shadow 1s $transition
     @media (prefers-reduced-motion: reduce)
         transition: none
@@ -22,7 +18,7 @@ details
         padding: 1rem
         @if variable-exists(bootstrap-icons-map)
             &::after
-                @include icon('arrow-right-short')
+                @include icon('arrow-down-short')
                 transition: transform 1s $transition
                 @media (prefers-reduced-motion: reduce)
                     transition: none
@@ -37,4 +33,4 @@ details
         @if variable-exists(bootstrap-icons-map)
             summary
                 &::after
-                    transform: rotate(90deg)
+                    transform: rotate(-180deg)
