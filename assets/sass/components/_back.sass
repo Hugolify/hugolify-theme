@@ -1,5 +1,6 @@
 .back
     @extend .small
-    &::before
-        @include icon("arrow-left")
-        margin-right: .5em
+    @if variable-exists(bootstrap-icons-map)
+        &::before
+            @include icon("arrow-left")
+            margin-right: .5em
