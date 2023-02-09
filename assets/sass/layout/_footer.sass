@@ -12,10 +12,17 @@ footer[role="contentinfo"]
     .nav
         margin-left: - $nav-link-padding-x
         margin-right: - $nav-link-padding-x
-    .smfd
+    .hugolify
         @extend .small
         margin-bottom: 0
         text-align: center
+        &::before
+            @include rfs($global-spacing, margin-bottom)
+            @include rfs($global-spacing, margin-top)
+            background-color: $light
+            content: ''
+            display: block
+            height: 1px
         &,
         a
             color: $color-credit
