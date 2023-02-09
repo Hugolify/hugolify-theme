@@ -6,7 +6,7 @@
     {{ partial "blocks/heading.html" . }}
 
     {{ if .token }}
-      {{ $limit := .limit | default 5 }}
+      {{ $limit := .count | default 5 }}
       <div class="instagram" data-limit="{{ $limit }}" data-token="{{ .token }}"></div>
     {{ else }}
       <p>Access token is missing</p>
