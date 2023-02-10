@@ -4,7 +4,7 @@
 {{ $name := .name }}
 {{ $limit := .limit | default 3 }}
 
-{{ $pages := partial "GetTaxonomyPageBySlug" (dict 
+{{ $pages := partial "func/GetTaxonomyPageBySlug" (dict 
   "section" $section
   "taxonomy" $taxonomy
   "slug" $filename) }}
@@ -16,7 +16,7 @@
     <header class="heading">
       <h2>{{ i18n (printf "%s.latest" $section) }}</h2>
       {{ if gt $count $limit }}
-        {{ $item := partial "GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
+        {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
         {{ with $item }}
           <a href="{{ .Permalink }}" class="more">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
         {{ end }}

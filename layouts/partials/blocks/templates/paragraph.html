@@ -34,13 +34,13 @@
     {{ end }}
 
     {{ with .surtitle }}
-      <p class="surtitle">{{ partial "PrepareHTML" . }}</h1>
+      <p class="surtitle">{{ partial "func/PrepareHTML" . }}</h1>
     {{ end }}
     {{ with .title }}
-      <h2>{{ partial "PrepareHTML" . }}</h2>
+      <h2>{{ partial "func/PrepareHTML" . }}</h2>
     {{ end }}
     {{ with .text }}
-      <p>{{ partial "PrepareHTML" . | markdownify }}</p>
+      <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
     {{ end }}
 
     {{ if ne .grid "full" }}

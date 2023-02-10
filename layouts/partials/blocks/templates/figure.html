@@ -1,6 +1,6 @@
-{{ $lazy := partial "isLazyImage" (dict "first" .first) }}
+{{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
 
-{{ $class := partial "GetColClass" .grid }}
+{{ $class := partial "func/GetColClass" .grid }}
 {{ $divider := 1 }}
 {{ if eq .grid "small" }}
   {{ $divider = 1.8 }}
@@ -28,7 +28,7 @@
           {{ if $desktop }}
             {{ $width := string $desktop }}
             {{ $size := printf "%sx" $width }}
-            {{ $desktop = partial "GetDividedImage" (dict
+            {{ $desktop = partial "func/GetDividedImage" (dict
               "size" $size
               "divider" $divider) }}
           {{ end }}

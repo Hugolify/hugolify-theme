@@ -36,7 +36,7 @@
       {{ if strings.HasSuffix $file "svg" }}
 
         {{ $fileAssets := print "/assets/" $file }}
-        {{ $fileDimensions := partial "GetImageDimensions" (dict "context" . "file" $fileAssets) }}
+        {{ $fileDimensions := partial "func/GetImageDimensions" (dict "context" . "file" $fileAssets) }}
         {{ with $image }}
           {{ $image_desktop = .RelPermalink }}
           {{ $image_width = index $fileDimensions 0 }}
@@ -66,7 +66,7 @@
 
           {{ if $desktop_size }}
             {{ $params :=  printf "-/resize/%s" $desktop_size }}
-            {{ if partial "isCrop" $desktop_size }}
+            {{ if partial "func/isCrop" $desktop_size }}
               {{ $params =  printf "-/scale_crop/%s/%s" $desktop_size $crop }}
             {{ end }}
             {{ $image_desktop = printf "%s%s" . $params }}
@@ -80,7 +80,7 @@
 
           {{ if $mobile_size }}
             {{ $params :=  printf "-/resize/%s" $mobile_size }}
-            {{ if partial "isCrop" $mobile_size }}
+            {{ if partial "func/isCrop" $mobile_size }}
               {{ $params =  printf "-/scale_crop/%s/%s" $mobile_size $crop }}
             {{ end }}
             {{ $image_mobile = printf "%s%s" . $params }}
@@ -93,7 +93,7 @@
 
           {{ if $desktop_size }}
 
-          {{ if partial "isCrop" $desktop_size }}
+          {{ if partial "func/isCrop" $desktop_size }}
               {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
               {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
             {{ else }}
@@ -115,7 +115,7 @@
 
           {{ if $mobile_size }}
 
-            {{ if partial "isCrop" $mobile_size }}
+            {{ if partial "func/isCrop" $mobile_size }}
               {{ $image_mobile = $image.Fill $mobile_size }}
             {{ else }}
               {{ $image_mobile = $image.Resize $mobile_size }}
@@ -123,7 +123,7 @@
             {{ $width_2x := mul 2 $image_mobile.Width }}
             {{ $height_2x := mul 2 $image_mobile.Height }}
             
-            {{ if partial "isCrop" $mobile_size }}
+            {{ if partial "func/isCrop" $mobile_size }}
               {{ $image_mobile_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop) }}
               {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
               {{ $image_mobile_webp_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop " webp") }}

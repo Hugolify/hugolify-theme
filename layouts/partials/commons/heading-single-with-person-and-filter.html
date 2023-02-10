@@ -1,4 +1,4 @@
-{{ $person := partial "GetRealPerson" .context }}
+{{ $person := partial "func/GetRealPerson" .context }}
 {{ $section := printf "/%s" .section }}
 {{ $i18nAll := printf "%s.all" .section }}
 {{ $i18nTitle := printf "%s.list_person" .section }}

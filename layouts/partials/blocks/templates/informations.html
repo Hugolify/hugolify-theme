@@ -15,10 +15,10 @@
 
             <div class="content">
               {{ with .title }}
-                <p class="name">{{ partial "PrepareHTML" . }}</p>
+                <p class="name">{{ partial "func/PrepareHTML" . }}</p>
               {{ end }}
               {{ with .text }}
-                <p>{{ partial "PrepareHTML" . }}</p>
+                <p>{{ partial "func/PrepareHTML" . }}</p>
               {{ end }}
               {{ with .cta }}
                   {{ partial "commons/cta.html" . }}
@@ -45,14 +45,14 @@
                   {{ if $desktop }}
                     {{ $width := string $desktop }}
                     {{ $size := printf "%sx" $width }}
-                    {{ $desktop = partial "GetDividedImage" (dict
+                    {{ $desktop = partial "func/GetDividedImage" (dict
                       "size" $size
                       "divider" ($column | int)) }}
                   {{ end }}
                   {{ if $mobile }}
                     {{ $width := string $mobile }}
                     {{ $size := printf "%sx" $width }}
-                    {{ $mobile = partial "GetDividedImage" (dict
+                    {{ $mobile = partial "func/GetDividedImage" (dict
                       "size" $size
                       "divider" 2) }}
                   {{ end }}

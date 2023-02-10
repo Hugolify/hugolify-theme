@@ -9,10 +9,10 @@
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ol>
         {{ range $taxonomy_term, $taxonomy := . }}
-          {{ $item := partial "GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
+          {{ $item := partial "func/GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
           {{ $permalink := $item.Permalink }}
           {{ if or (eq $tax "authors") (eq $tax "concerned") }}
-            {{ $item = partial "GetRealPerson" $item }}
+            {{ $item = partial "func/GetRealPerson" $item }}
           {{ end }}
           {{ with $item }}
             

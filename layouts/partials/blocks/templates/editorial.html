@@ -1,4 +1,4 @@
-{{ $lazy := partial "isLazyImage" (dict "first" .first) }}
+{{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
 
 <section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}">
   <div class="container">
@@ -6,18 +6,18 @@
 
       <div class="content">
         {{ with .surtitle }}
-          <p class="surtitle">{{ partial "PrepareHTML" . }}</h1>
+          <p class="surtitle">{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .title }}
-          <h2>{{ partial "PrepareHTML" . }}</h2>
+          <h2>{{ partial "func/PrepareHTML" . }}</h2>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "PrepareHTML" . | markdownify }}</p>
+          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ with .cta}}
           {{ if and (isset . "url") (ne .url "") (isset . "text") (ne .text "") }}
-            {{ $title := i18n "link.blank_aria" (dict "Title" (partial "PrepareHTML" .text))}}
-            <a href="{{ .url }}" class="btn"{{ if .blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "PrepareHTML" .text }}</a>
+            {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}
+            <a href="{{ .url }}" class="btn"{{ if .blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "func/PrepareHTML" .text }}</a>
           {{ end }}
         {{ end }}
       </div>

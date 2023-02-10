@@ -17,7 +17,7 @@
         {{ $width := string $desktop }}
         {{ $height := string (mul ($desktop | int) ($ratio | int)) }}
         {{ $size := printf "%sx%s" $width $height }}
-        {{ $desktop = partial "GetDividedImage" (dict
+        {{ $desktop = partial "func/GetDividedImage" (dict
           "size" $size
           "divider" ($column | int)) }}
       {{ end }}
@@ -25,13 +25,13 @@
         {{ $width := string $mobile }}
         {{ $height := string (mul ($mobile | int) ($ratio | int)) }}
         {{ $size := printf "%sx%s" $width $height }}
-        {{ $mobile = partial "GetDividedImage" (dict
+        {{ $mobile = partial "func/GetDividedImage" (dict
           "size" $size
           "divider" 2) }}
       {{ end }}
       
       {{ range $index, $image := . }}
-        {{ $lazy := partial "isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
+        {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
 
         <div>
           {{ partial "commons/image-lightbox" (dict

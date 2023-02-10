@@ -5,10 +5,10 @@
   <aside class="{{ $item }}">
     <div class="content">
       {{ with .Title }}
-        <p class="name">{{ partial "PrepareHTML" . }}</p>
+        <p class="name">{{ partial "func/PrepareHTML" . }}</p>
       {{ end }}
       {{ with .Description }}
-        <p class="description">{{ partial "TruncateContent" (dict "content" .) }}</p>
+        <p class="description">{{ partial "func/TruncateContent" (dict "content" .) }}</p>
       {{ end }}
       {{ $i18n := i18n (printf "%s.discover" $section) }}
       <p><a href="{{ .Permalink }}">{{ $i18n }}</a></p>

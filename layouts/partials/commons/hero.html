@@ -6,13 +6,13 @@
 
       <div class="hero-content">
         {{ with .surtitle }}
-          <p class="surtitle">{{ partial "PrepareHTML" . }}</h1>
+          <p class="surtitle">{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .title }}
-          <h1>{{ partial "PrepareHTML" . }}</h1>
+          <h1>{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "PrepareHTML" . | markdownify }}</p>
+          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>

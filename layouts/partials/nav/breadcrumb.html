@@ -26,7 +26,7 @@
       {{- template "breadcrumbOptimized" (dict "p1" .p1.Parent "p2" .p2 "path" $split.Dir "position" $positionNext) -}}
     {{- else -}}
       {{/* Dissonant case, the supposed parent does not have the correct path, so we do an expensive search<br><br> */}}
-      {{- $page := partial "GetPageByUrl" $split.Dir -}}
+      {{- $page := partial "func/GetPageByUrl" $split.Dir -}}
       {{- if $page -}}
         {{- template "breadcrumbOptimized" (dict "p1" $page "p2" .p2 "path" $split.Dir "position" $positionNext) -}}
       {{- else -}}
@@ -51,7 +51,7 @@
       {{ if not .active -}}
         <a itemprop="item" href="{{ .page.Permalink }}">
       {{- end }}
-        <span itemprop="name">{{ partial "PrepareHTML" $title }}</span>
+        <span itemprop="name">{{ partial "func/PrepareHTML" $title }}</span>
       {{ if not .active -}}
         </a>
       {{- end }}

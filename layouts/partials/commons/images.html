@@ -2,13 +2,13 @@
 {{ $desktop := .desktop | default site.Params.image.desktop | default false }}
 {{ $mobile := .mobile | default site.Params.image.mobile | default false }}
 {{ range $index, $image := .images }}
-  {{ $lazy := partial "isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
+  {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
 
   {{ $figure_class := false }}
   {{ $image_desktop := $desktop }}
   {{ if .half }}
     {{ $figure_class = "half" }}
-    {{ $image_desktop = partial "GetDividedImage" (dict 
+    {{ $image_desktop = partial "func/GetDividedImage" (dict 
         "size" $desktop
         "divider" 2) }}
   {{ end }}

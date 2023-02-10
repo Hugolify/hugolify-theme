@@ -2,7 +2,7 @@
 {{- $file := printf "static%s" $logo -}}
 <a class="logo" href="{{ site.BaseURL }}">
   {{- if os.FileExists $file }}
-    {{- $fileDimensions := partial "GetImageDimensions" (dict "file" $file) -}}
+    {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
     <img src="{{ .logo }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
   {{ else }}
     {{- site.Title -}}

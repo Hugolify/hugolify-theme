@@ -5,7 +5,7 @@
       <div class="content">
         {{ with .text}}
         <blockquote>
-          <p>{{ partial "PrepareHTML" . }}</p>
+          <p>{{ partial "func/PrepareHTML" . }}</p>
         </blockquote>
         {{ end }}
 
@@ -22,9 +22,9 @@
           {{ end }}
           <div>
             {{ with .title}}
-              <cite>{{ partial "PrepareHTML" . }}</cite><br>
+              <cite>{{ partial "func/PrepareHTML" . }}</cite><br>
             {{ end }}
-            {{ partial "PrepareHTML" .text }}
+            {{ partial "func/PrepareHTML" .text }}
           </div>
         </figcaption>
         {{ end }}

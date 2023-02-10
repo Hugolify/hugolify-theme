@@ -18,7 +18,7 @@
           {{ range (where site.Sections ".Params.isPage" "!=" true) }}
             {{ if ne .Type "sitemap" }}
               <li>
-                <a href="#{{ .Type }}">{{ partial "PrepareHTML" .Title }}</a>
+                <a href="#{{ .Type }}">{{ partial "func/PrepareHTML" .Title }}</a>
               </li>
             {{ end }}
           {{ end }}

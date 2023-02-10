@@ -6,7 +6,7 @@
     safeHTML (
       chomp (
         plainify (
-          partial "CorrectPunctuation" $content
+          partial "func/CorrectPunctuation" $content
         )
       )
     ) 

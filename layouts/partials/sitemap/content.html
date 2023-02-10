@@ -3,13 +3,13 @@
     {{ if ne .Type "sitemap" }}
       {{ $permalink := .Permalink }}
       <h2 id="{{ .Type }}">
-        <a href="{{ $permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+        <a href="{{ $permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
       </h2>
       <ul>
         {{ range where .Site.Pages "Section" .Type }}
           {{ if ne $permalink .Permalink }}
             <li>
-              <a href="{{ .Permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+              <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
               {{ if or (eq .Type "posts") (eq .Type "publications") }}
                 - <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date | time.Format ":date_medium" }}</time> 
               {{ end }}
@@ -26,13 +26,13 @@
       {{ range $pages }}
         {{ $permalink := .Permalink }}
         <li id="{{ .Type }}">
-          <a href="{{ $permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+          <a href="{{ $permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
         </li>
         <ul>
           {{ range where .Site.Pages "Section" .Type }}
             {{ if ne $permalink .Permalink }}
               <li>
-                <a href="{{ .Permalink }}">{{ partial "PrepareHTML" .Title }}</a>
+                <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
                 {{ if eq .Type "posts" }}
                   - <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date | time.Format ":date_medium" }}</time> 
                 {{ end }}

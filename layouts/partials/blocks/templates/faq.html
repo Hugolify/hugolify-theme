@@ -6,11 +6,11 @@
     {{ range .items }}
       <details>
         {{ with .title }}
-          <summary>{{ partial "PrepareHTML" . }}</summary>
+          <summary>{{ partial "func/PrepareHTML" . }}</summary>
         {{ end }}
         {{ with .text }}
           <div>
-            {{ (partial "PrepareHTML" .) | markdownify }}
+            {{ (partial "func/PrepareHTML" .) | markdownify }}
           </div>
         {{ end }}
       </details>

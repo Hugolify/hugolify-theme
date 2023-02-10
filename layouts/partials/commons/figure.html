@@ -11,10 +11,10 @@
   {{ if or .legend .credit }}
   <figcaption>
     {{ with .legend }}
-      <p>{{ partial "PrepareHTML" . }}</p>
+      <p>{{ partial "func/PrepareHTML" . }}</p>
     {{ end }}
     {{ with .credit }}
-      <p class="credit">{{ partial "PrepareHTML" . | markdownify }}</p>
+      <p class="credit">{{ partial "func/PrepareHTML" . | markdownify }}</p>
     {{ end }}
   </figcaption>
   {{ end }}

@@ -13,10 +13,10 @@
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
 {{- with .Site.Data.seo.description -}}
-  {{- $seoDescription = partial "PrepareHTML" . -}}
+  {{- $seoDescription = partial "func/PrepareHTML" . -}}
 {{- end -}}
 {{- with .Description -}}
-  {{- $seoDescription = partial "PrepareHTML" . -}}
+  {{- $seoDescription = partial "func/PrepareHTML" . -}}
 {{- end -}}
 
 {{/*  IMAGE  */}}
@@ -47,20 +47,30 @@
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-<!-- Facebook Meta Tags -->
+<!-- Opengraph Meta Tags -->
+{{/* template "_internal/opengraph.html" . */}}
 <meta property="og:title" content="{{ $seoTitle }}">
 <meta property="og:description" content="{{ $seoDescription }}">
 {{- with $ogImage }}
 <meta property="og:image" content="{{ . }}">
 {{ end -}}
 <meta property="og:url" content="{{ $seoUrl }}">
+{{- if eq .Kind "home" }}
 <meta property="og:type" content="website">
+{{- else if (eq .Kind "page") }}
+<meta property="og:type" content="article">
+{{ end -}}
 
 <!-- Twitter Meta Tags -->
+{{/* template "_internal/twitter_cards.html" . */}}
 <meta name="twitter:title" content="{{ $seoTitle }}">
 <meta name="twitter:description" content="{{ $seoDescription }}">
 {{- with $twitterImage }}
 <meta name="twitter:image" content="{{ . }}">
-{{ end -}}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="" />
+{{ else }}
+<meta name="twitter:card" content="summary">
+{{ end -}}
+{{ with .Site.Social.twitter }}
+<meta name="twitter:site" content="@{{ . }}" />
+{{ end -}}

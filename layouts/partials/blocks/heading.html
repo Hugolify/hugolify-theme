@@ -1,10 +1,10 @@
 {{ if or .title .text }}
   <header class="heading">
     {{ with .title }}
-      <h2>{{ partial "PrepareHTML" . }}</h2>
+      <h2>{{ partial "func/PrepareHTML" . }}</h2>
     {{ end }}
     {{ with .text }}
-      <p>{{ partial "PrepareHTML" (partial "LineBreak" .) }}</p>
+      <p>{{ partial "func/PrepareHTML" (partial "func/LineBreak" .) }}</p>
     {{ end }}
   </header>
 {{ end }}
