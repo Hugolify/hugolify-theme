@@ -4,5 +4,9 @@
         margin-bottom: 0
     h2:not(:first-child)
         @include rfs($global-spacing, margin-top)
+    h3:not(:first-child)
+        @include rfs(calc(#{$global-spacing} / 2), margin-top)
     > *:last-child
         margin-bottom: 0
+
+    
