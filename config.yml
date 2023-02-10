@@ -28,6 +28,8 @@ module:
       mounts:
         - source: src
           target: assets/js/vendors/instafeed
+
+# Params
 params:
   logo: 
     header: "/assets/images/logo.svg"
@@ -66,4 +68,23 @@ params:
       mobile: "300x"
     gallery:
       mobile: "138x138"
-  
+
+# Privacy
+privacy:
+  instagram:
+    simple: false
+  twitter:
+    enableDNT: true
+    simple: false
+  vimeo:
+    enableDNT: true
+    simple: false
+  youtube:
+    privacyEnhanced: true
+
+# Services
+services:
+  instagram:
+    disableInlineCSS: false
+  twitter:
+    disableInlineCSS: false
