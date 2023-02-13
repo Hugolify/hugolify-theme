@@ -7,7 +7,7 @@
 
     {{ if .token }}
       {{ $limit := .count | default 5 }}
-      <div class="instagram" data-limit="{{ $limit }}" data-token="{{ .token }}"></div>
+      <div class="instagram js-instagram" data-limit="{{ $limit }}" data-token="0{{ .token }}"></div>
     {{ else }}
       <p>Access token is missing</p>
     {{ end }}

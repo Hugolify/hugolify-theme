@@ -1,28 +1,50 @@
 // https://github.com/stevenschobert/instafeed.js/
 import scrollspy from '../utils/scrollspy';
-import Instafeed from '../vendors/instafeed/instafeed.js'
 
 const instagrams = document.querySelectorAll('.block-instagram');
-const instagramTemplate = '<div><a href="{{link}}" target="_blank"><img title="{{caption}}" src="{{image}}" alt="" width="720" height="720"></a></div>';
+let instafeedLoaded = false;
+
+class BlockInstagram {
+    constructor (block) {
+        this.instagram = block.querySelector('.js-instagram');
+        if (this.instagram) {
+            if (!instafeedLoaded) {
+                this.addFiles();
+            } else {
+                this.init();
+            }
+        }
+    }
+
+    addFiles () {
+        this.instafeedJS = document.createElement('script'),
+        this.instafeedJS.type = 'text/javascript';
+        this.instafeedJS.src = 'https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.min.js';
+        (document.getElementsByTagName('body')[0]).appendChild(this.instafeedJS);
+        
+        this.instafeedJS.addEventListener("load", () => {
+            instafeedLoaded = true;
+            this.init();
+        });
+    }
+
+    init () {
+        let instagramTemplate = '<div><a href="{{link}}" target="_blank"><img title="{{caption}}" src="{{image}}" alt="" width="720" height="720"></a></div>';
+        let datas = this.instagram.dataset;
+        let instagramToken = datas.token;
+        let instagramLimit = parseInt(datas.limit, 10);
+        const feed = new Instafeed({
+            target: this.instagram,
+            limit: instagramLimit,
+            accessToken: instagramToken,
+            template: instagramTemplate
+        });
+        feed.run();
+    }
+}
 
 instagrams.forEach((instagram) => {
     scrollspy(instagram, () => {
-        let elm = instagram.querySelector('.instagram');
-        if (elm) {
-            let datas = elm.dataset;
-            let instagramToken = datas.token;
-            let instagramLimit = parseInt(datas.limit, 10);
-            let instafeedLoaded = false;
-            if (!instafeedLoaded) {
-                const feed = new Instafeed({
-                    target: elm,
-                    limit: instagramLimit,
-                    accessToken: instagramToken,
-                    template: instagramTemplate
-                });
-                feed.run();
-                instafeedLoaded = true;
-            }
-        }
+        new BlockInstagram(instagram);
     });
 });

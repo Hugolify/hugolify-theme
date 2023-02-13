@@ -9,7 +9,7 @@
     {{ $ratio := .ratio | default 1 }}
     {{ $column := .column | default 3 }}
     {{ with .gallery }}
-    <div class="gallery gallery-{{ $column }}">
+    <div class="gallery gallery-{{ $column }} js-gallery">
 
       {{ $desktop := site.Params.container.desktop | default false }}
       {{ $mobile := site.Params.container.mobile | default false }}
