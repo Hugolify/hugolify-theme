@@ -1,0 +1,10 @@
+{{ $hasHero := false }}
+{{ if isset .Params "hero" }}
+    {{ if isset .Params.hero "title" }}
+        {{ if ne .Params.hero.title "" }}
+            {{ $hasHero = true }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ return $hasHero }}

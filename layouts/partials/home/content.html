@@ -6,10 +6,26 @@
 
   <div class="container">
     {{ partial "commons/heading" . }}
-    {{ partial "posts/latest" . }}
-    {{ partial "projects/latest" . }}
-    {{ partial "casestudies/latest" . }}
-    {{ partial "publications/latest" . }}
+
+    {{ $posts := "posts/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $posts ) }}
+      {{ partial $posts . }}
+    {{ end }}
+
+    {{ $projects := "projects/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $projects ) }}
+      {{ partial $projects . }}
+    {{ end }}
+
+    {{ $casestudies := "casestudies/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $casestudies ) }}
+      {{ partial $casestudies . }}
+    {{ end }}
+
+    {{ $publications := "publications/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $publications ) }}
+      {{ partial $publications . }}
+    {{ end }}
   </div>
 
 {{ end }}

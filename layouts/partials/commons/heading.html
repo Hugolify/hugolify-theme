@@ -1,7 +1,4 @@
-{{ if or 
-  (not (isset .Params "hero"))
-  (eq .Params.hero.title "")
-}}
+{{ if not (partial "func/HasHero" .) }}
   {{ with .Title }}
     <header class="heading">
       <h1>{{ partial "func/PrepareHTML" . }}</h1>
