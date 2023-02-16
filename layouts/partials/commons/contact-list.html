@@ -1,0 +1,58 @@
+{{ with .Params.contact }}
+  {{ if or .email .phone .fax .linkedin .twitter .instagram }}
+    <aside class="contact-list">
+      <div>
+        <p>{{ i18n "contact.title" }}</p>
+        <ul>
+          {{ with .phone }}
+            {{ $tel := partial "func/PrepareHTML" . }}
+            <li><b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ $tel }}" target="_blank">{{ i18n "contact.phone" }} {{ $tel }}</a></li>
+          {{ end }}
+          {{ with .fax }}
+            {{ $fax := partial "func/PrepareHTML" . }}
+            <li><b>{{ i18n "contact.fax" }}</b> {{ $fax }}</li>
+          {{ end }}
+          {{ with .email }}
+            {{ $email := partial "func/PrepareHTML" . }}
+            {{ $title := i18n "link.blank_aria" (dict "Title" .) }}
+            <li><b>{{ i18n "contact.email" }}</b> <a href="mailto:{{ $email }}" target="_blank" title="{{ safeHTML $title }}">{{ $email | truncate 20 "…" }}</a></li>
+          {{ end }}
+        </ul>
+        {{ if or .linkedin .twitter .instagram }}
+        <ul class="nav nav-social">
+          {{ with .linkedin }}
+            <li class="linkedin">
+              {{ $url := partial "func/PrepareHTML" . }}
+              {{ $name := i18n "contact.linkedin" }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+              <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+                <span>{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+          {{ with .twitter }}
+            <li class="twitter">
+              {{ $username := partial "func/PrepareHTML" . }}
+              {{ $name := i18n "contact.twitter" }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+              <a href="https://twitter.com/{{ $username }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+                <span>{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+          {{ with .instagram }}
+            <li class="instagram">
+              {{ $username := partial "func/PrepareHTML" . }}
+              {{ $name := i18n "contact.instagram" }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+              <a href="https://instagram.com/{{ $username }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+                <span>{{ $name }}</span>
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </div>
+    </aside>
+  {{ end }}
+{{ end }}
