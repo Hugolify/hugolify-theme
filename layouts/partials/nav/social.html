@@ -1,8 +1,8 @@
 {{ with site.Data.menu.social }}
   <ul class="nav nav-social">
     {{ range .links }}
-      <li class="social-{{ lower (safeHTML .title) }}">
-        {{ partial "nav/link" (dict "link" .) }}
+      <li class="{{ lower (safeHTML .title) }}">
+        {{ partial "nav/link" (dict "link" . "span" true) }}
       </li>
     {{ end }}
   </ul>
