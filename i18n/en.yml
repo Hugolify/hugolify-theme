@@ -32,6 +32,10 @@ navigation:
   dropdown: Open submenu
   main: Main navigation
   menu: Menu
+newsletter:
+  placeholder: email@domain.com
+  label: Renseigner votre e-mail pour s’enregistrer à la newsletter
+  button: Sign in
 next: Next
 page404:
   title: Page not found

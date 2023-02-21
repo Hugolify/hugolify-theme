@@ -1,0 +1,35 @@
+{{ $index := .index }}
+{{ $url := .url | default false }}
+
+<section class="block-newsletter{{ with .background }} block-bg{{ end }} js-newsletter">
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{ $placeholder := i18n "newsletter.placeholder" }}
+    {{ $label := i18n "newsletter.label" }}
+    {{ $button := i18n "newsletter.button" }}
+
+    {{ $inputEmail := "email" }}
+    {{ if eq .platform "mailchimp"}}
+      {{ $inputEmail = "EMAIL" }}
+    {{ end }}
+    
+    {{ if $url }}
+    <div class="row">
+      <div class="col">
+        <form action="{{ $url }}" method="post" id="newsletter-form-{{ $index }}" class="js-newsletter-form">
+          {{ range .hiddens }}
+            <input type="hidden" value="{{ .value }}" name="{{ .name }}">
+          {{ end }}
+          <div class="input-group">
+            <input type="email" name="{{ $inputEmail }}" class="form-control" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
+            <button class="btn" type="button">{{ $button }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    {{ end }}
+
+  </div>
+</section>

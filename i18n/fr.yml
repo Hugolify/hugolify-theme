@@ -32,6 +32,10 @@ navigation:
   dropdown: Ouvrir le sous-menu
   main: Navigation principale
   menu: Menu
+newsletter:
+  placeholder: email@domaine.com
+  label: Renseigner votre e-mail pour s’enregistrer à la newsletter
+  button: S’enregistrer
 next: Suivant
 page404:
   title: Page introuvable
