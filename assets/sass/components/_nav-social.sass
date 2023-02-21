@@ -1,0 +1,13 @@
+$socials: 'discord', 'facebook', 'github', 'instagram', 'linkedin', 'messanger', 'pinterest', 'slack', 'twitch', 'twitter', 'vimeo', 'whatsapp', 'youtube'
+    
+.nav-social
+    --bs-nav-link-padding-x: .75rem
+    @each $social in $socials
+        .#{$social}
+             a
+                &::after
+                    content: none
+                &::before
+                    @include icon($social)
+                span
+                    display: none

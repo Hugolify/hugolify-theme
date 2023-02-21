@@ -23,24 +23,3 @@
         @extend .dropdown-menu-end
         a
             @extend .dropdown-item
-
-
-    &-social
-        --bs-nav-link-padding-x: .75rem
-        .instagram,
-        .linkedin,
-        .twitter
-            a
-                &::after
-                    content: none
-                span
-                    display: none
-        .linkedin
-            a::before
-                @include icon("linkedin")
-        .twitter
-            a::before
-                @include icon("twitter")
-        .instagram
-            a::before
-                @include icon("instagram")
