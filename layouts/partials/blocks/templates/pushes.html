@@ -29,21 +29,15 @@
             </div>
 
             {{ with .image }}
+              {{ $columnTotal := site.Params.column | default false }}
               {{ $desktop := site.Params.container.desktop | default false }}
               {{ $mobile := site.Params.container.mobile | default false }}
               {{ if $desktop }}
-                {{ $width := string $desktop }}
-                {{ $size := printf "%sx" $width }}
-                {{ $desktop = partial "func/GetDividedImage" (dict
-                  "size" $size
-                  "divider" ($column | int)) }}
+                {{ $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) }}
+                {{ $desktop = printf "%sx" (string $width) }}
               {{ end }}
               {{ if $mobile }}
-                {{ $width := string $mobile }}
-                {{ $size := printf "%sx" $width }}
-                {{ $mobile = partial "func/GetDividedImage" (dict
-                  "size" $size
-                  "divider" 2) }}
+                {{ $mobile = printf "%sx%s" (string $mobile) (string $mobile) }}
               {{ end }}
             
               {{ partial "commons/image" (dict

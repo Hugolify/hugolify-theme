@@ -1,16 +1,18 @@
 {{ $isFirst := .first }}
-{{ $desktop := .desktop | default site.Params.image.desktop | default false }}
-{{ $mobile := .mobile | default site.Params.image.mobile | default false }}
+{{ $desktop := site.Params.container.desktop | default false }}
+{{ $mobile := site.Params.image.mobile | default false }}
 {{ range $index, $image := .images }}
   {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
 
   {{ $figure_class := false }}
-  {{ $image_desktop := $desktop }}
-  {{ if .half }}
-    {{ $figure_class = "half" }}
-    {{ $image_desktop = partial "func/GetDividedImage" (dict 
-        "size" $desktop
-        "divider" 2) }}
+  {{ if $desktop }}
+    {{ $width := partial "func/GetColumnWidth" (dict "column" 12) }}
+    {{ $desktop = printf "%sx" (string $width) }}
+    {{ if .half }}
+      {{ $figure_class = "half" }}
+      {{ $width := partial "func/GetColumnWidth" (dict "column" 6) }}
+      {{ $desktop = printf "%sx" (string $width) }}
+    {{ end }}
   {{ end }}
   {{ partial "commons/figure.html" (dict
     "src" .src
@@ -18,7 +20,7 @@
     "legend" .legend
     "credit" .credit
     "figure_class" $figure_class
-    "desktop" $image_desktop
+    "desktop" $desktop
     "mobile" $mobile
     "lazy" $lazy
   ) }}

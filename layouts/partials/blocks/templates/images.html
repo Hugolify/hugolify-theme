@@ -7,13 +7,9 @@
 
     {{ with .images }}
       <div class="images">
-        {{ $desktop := site.Params.blocks.figure.desktop | default false }}
-        {{ $mobile := site.Params.blocks.figure.mobile | default false }}
         {{ partial "commons/images" (dict
           "images" .
-          "first" $first
-          "desktop" $desktop
-          "mobile" $mobile ) }}
+          "first" $first) }}
       </div>
     {{ end }}
 

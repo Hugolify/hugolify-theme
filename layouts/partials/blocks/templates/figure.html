@@ -1,13 +1,13 @@
 {{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
 
 {{ $class := partial "func/GetColClass" .grid }}
-{{ $divider := 1 }}
+{{ $columnWanted := 12 }}
 {{ if eq .grid "small" }}
-  {{ $divider = 1.8 }}
+  {{ $columnWanted = 6 }}
 {{ else if eq .grid "medium" }}
-  {{ $divider = 1.5 }}
+  {{ $columnWanted = 8 }}
 {{ else if eq .grid "large" }}
-  {{ $divider = 1.2 }}
+  {{ $columnWanted = 10 }}
 {{ end }}
 
 <section class="block-figure{{ with .background }} block-bg{{ end }}">
@@ -26,11 +26,8 @@
           {{ $desktop := site.Params.container.desktop | default false }}
           {{ $mobile := site.Params.image.mobile | default false }}
           {{ if $desktop }}
-            {{ $width := string $desktop }}
-            {{ $size := printf "%sx" $width }}
-            {{ $desktop = partial "func/GetDividedImage" (dict
-              "size" $size
-              "divider" $divider) }}
+            {{ $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) }}
+            {{ $desktop = printf "%sx" (string $width) }}
           {{ end }}
           {{ partial "commons/figure" (dict
             "src" $src 

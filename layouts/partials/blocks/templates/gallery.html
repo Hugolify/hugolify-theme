@@ -7,32 +7,25 @@
     {{ partial "blocks/heading.html" . }}
 
     {{ $ratio := .ratio | default 1 }}
-    {{ $column := .column | default 3 }}
+    {{ $column := float .column | default 3 }}
     {{ with .gallery }}
     <div class="gallery gallery-{{ $column }} js-gallery">
 
+      {{ $columnTotal := site.Params.column | default false }}
       {{ $desktop := site.Params.container.desktop | default false }}
       {{ $mobile := site.Params.container.mobile | default false }}
+
       {{ if $desktop }}
-        {{ $width := string $desktop }}
-        {{ $height := string (mul ($desktop | int) ($ratio | int)) }}
-        {{ $size := printf "%sx%s" $width $height }}
-        {{ $desktop = partial "func/GetDividedImage" (dict
-          "size" $size
-          "divider" ($column | int)) }}
+        {{ $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) }}
+        {{ $desktop = printf "%sx%s" (string $width) (string $width) }}
       {{ end }}
       {{ if $mobile }}
-        {{ $width := string $mobile }}
-        {{ $height := string (mul ($mobile | int) ($ratio | int)) }}
-        {{ $size := printf "%sx%s" $width $height }}
-        {{ $mobile = partial "func/GetDividedImage" (dict
-          "size" $size
-          "divider" 2) }}
+        {{ $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) }}
+        {{ $mobile = printf "%sx%s" (string $width) (string $width) }}
       {{ end }}
       
       {{ range $index, $image := . }}
         {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
-
         <div>
           {{ partial "commons/image-lightbox" (dict
               "image" . 

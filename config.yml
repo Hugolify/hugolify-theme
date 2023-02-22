@@ -31,9 +31,10 @@ params:
   logo: 
     header: "/assets/images/logo.svg"
     footer: "/assets/images/logo.svg"
+  column: 12
   gutter: 24
   container:
-    desktop: 1292
+    desktop: 1296
     mobile: 300
   hero:
     desktop: "416x"
@@ -59,9 +60,6 @@ params:
   blocks:
     editorial:
       desktop: "624x"
-      mobile: "300x"
-    figure:
-      desktop: "1292x"
       mobile: "300x"
     gallery:
       mobile: "138x138"

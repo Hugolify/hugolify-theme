@@ -2,11 +2,12 @@
     .items
         @extend .row
         @extend .gy-4
-        > *
-            @extend .col
         
         &-2
             @extend .row-cols-md-2
+            @include media-breakpoint-up(md)
+                .push
+                    --bs-aspect-ratio: calc(9 / 16 * 100%)
     .push
         h2
             @extend .h3

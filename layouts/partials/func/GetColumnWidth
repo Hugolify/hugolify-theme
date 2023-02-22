@@ -1,0 +1,8 @@
+{{ $container := .container | default site.Params.container.desktop }}
+{{ $gutter := .gutter | default site.Params.gutter }}
+{{ $columnTotal := .columnTotal | default site.Params.column }}
+{{ $columnWanted := (float .column) | default site.Params.column }}
+
+{{ $width := sub (mul (div (add $container $gutter) $columnTotal) $columnWanted) $gutter }}
+
+{{ return $width }}
