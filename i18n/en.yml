@@ -13,7 +13,7 @@ contact:
   website: Website
   whatsapp: WhatsApp
 credit:
-  hugolify: a low impact website crafted with <a href="https://www.hugolify.com" target="_blank">Hugolify</a>
+  hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
 filter: Filter
 header:
   accessibility:
@@ -24,8 +24,8 @@ home: Home
 lightbox:
   label: Enlarge image
 link:
-  blank: extern link
-  blank_aria: « {{ .Title }} » - extern link
+  blank: external link
+  blank_aria: « {{ .Title }} » - external link
 more: Read more
 navigation:
   close: Close
