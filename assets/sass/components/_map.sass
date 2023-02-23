@@ -4,3 +4,8 @@
     @extend .bg-light
     filter: grayscale(.7)
     overflow: hidden
+    @include media-breakpoint-down(sm)
+        --bs-aspect-ratio: 75%
+        margin-left: - $gutter-mobile
+        margin-right: - $gutter-mobile
+        width: calc(100% + #{$gutter-mobile} * 2)
