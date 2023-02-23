@@ -12,21 +12,37 @@
     <div class="items items-{{ $column }}">
       {{ range . }}
         <div>
+          
+          {{ $hasOnlyLink := false }}
+          {{ with .cta }}
+            {{ if and (or (not (isset . "text")) (eq .text "")) (and (isset . "url") (ne .url "")) }}
+              {{ $hasOnlyLink = true }}
+            {{ end }}
+          {{ end }}
 
-          <div class="push push-{{ .offset }}">
+          <div class="push push-{{ .offset }}"{{ with .background_color }} style="--push-background-color: {{ .}};"{{ end }}>
+
+            {{ if $hasOnlyLink }}
+              {{ $blank := .cta.blank | default false }}
+              {{ $title := i18n "link.blank" }}
+              <a href="{{ .cta.url }}" {{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>
+            {{ end }}
+
+            {{ if or .title .text .cta.text }}
             <div class="content">
-              {{ with .title }}
+              {{- with .title }}
                 {{- printf "<%s>" $tag | safeHTML -}}
                   {{ partial "func/PrepareHTML" . }}
                 {{- printf "</%s>" $tag | safeHTML -}}
-              {{ end }}
-              {{ with .text }}
+              {{ end -}}
+              {{- with .text }}
                 <p>{{ partial "func/PrepareHTML" . }}</p>
-              {{ end }}
+              {{ end -}}
               {{ with .cta }}
-                  {{ partial "commons/cta.html" . }}
-                {{ end }}
+                {{ partial "commons/cta.html" . }}
+              {{ end }}
             </div>
+            {{ end }}
 
             {{ with .image }}
               {{ $columnTotal := site.Params.column | default false }}
@@ -47,6 +63,13 @@
                 "mobile" $mobile
                 ) }}
             {{ end }}
+
+            {{ if $hasOnlyLink }}
+              {{ $blank := .blank | default false }}
+              {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}
+              </a>
+            {{ end }}
+            
           </div>
 
         </div>

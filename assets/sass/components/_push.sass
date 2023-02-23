@@ -1,12 +1,14 @@
 .push
+    --push-background-color: #{$body-color}
+    --push-color: #{$body-bg}
     --bs-card-spacer-y: 2rem
     --bs-card-spacer-x: 2rem
     @extend .card
     @extend .ratio
     @extend .ratio-21x9
-    background-color: $body-color
+    background-color: var(--push-background-color)
     border: 0
-    color: $body-bg
+    color: var(--push-color)
     position: relative
     overflow: hidden
     @include media-breakpoint-down(md)
