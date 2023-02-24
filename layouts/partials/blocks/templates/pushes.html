@@ -20,7 +20,7 @@
             {{ end }}
           {{ end }}
 
-          <div class="push push-{{ .offset }}"{{ with .background_color }} style="--push-background-color: {{ .}};"{{ end }}>
+          <div class="push push-{{ .offset }}"{{ if or .background_color .color }} style="{{ with .background_color }}--push-background-color: {{ .}};{{ end }}{{ with .color }}--push-color: {{ .}};{{ end }}"{{ end }}>
 
             {{ if $hasOnlyLink }}
               {{ $blank := .cta.blank | default false }}

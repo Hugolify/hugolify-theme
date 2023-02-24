@@ -11,6 +11,8 @@
     color: var(--push-color)
     position: relative
     overflow: hidden
+    h2
+        color: var(--push-color)
     @include media-breakpoint-down(md)
         &::before
             padding-top: 100%
@@ -39,3 +41,9 @@
     .btn
         @extend .btn-light
         @extend .stretched-link
+        margin-top: calc(#{$paragraph-margin-bottom} * 2)
+        &::before
+            @include icon("arrow-right-short")
+            font-size: 1.4rem
+            margin-right: .5rem
+            vertical-align: -0.35rem
