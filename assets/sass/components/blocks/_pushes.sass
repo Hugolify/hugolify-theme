@@ -5,9 +5,14 @@
         
         &-2
             @extend .row-cols-md-2
+            h2
+                @extend .display-5
             @include media-breakpoint-up(md)
                 .push
                     --bs-aspect-ratio: calc(9 / 16 * 100%)
     .push
         h2
-            @extend .h3
+            @extend .display-2
+            margin-bottom: 0
+        p
+            @extend .lead
