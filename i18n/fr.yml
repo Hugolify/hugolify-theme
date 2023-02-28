@@ -1,3 +1,5 @@
+accessibility:
+  alternative: Alternative à {{ .Title }}
 breadcrumb: fil d’Arianne
 close: Fermer
 contact: 

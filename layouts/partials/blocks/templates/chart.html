@@ -1,0 +1,10 @@
+{{ $id := printf "chart-%s" (.index | string) }}
+
+{{ with .}}
+  <section class="block-chart{{ with .background }} block-bg{{ end }}">
+    <div class="container">
+      {{ partial "blocks/heading.html" . }}
+      {{ partial "commons/chart.html" (dict "id" $id "context" .) }}
+    </div>
+  </section>
+{{ end }}

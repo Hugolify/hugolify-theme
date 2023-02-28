@@ -1,3 +1,5 @@
+accessibility:
+  alternative: Alternative to {{ .Title }}
 breadcrumb: Breadcrumb
 close: Close
 contact: 
