@@ -1,7 +1,7 @@
 {{ $section := .section }}
 
 {{ if $section }}
-<section class="block-latest{{ with .background }} block-bg{{ end }}">
+<section class="block-latest{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ partial "blocks/heading" . }}

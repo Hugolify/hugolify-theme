@@ -10,7 +10,7 @@
   {{ $columnWanted = 10 }}
 {{ end }}
 
-<section class="block-figure{{ with .background }} block-bg{{ end }}">
+<section class="block-figure{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ if $class }}

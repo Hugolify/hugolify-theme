@@ -1,27 +1,30 @@
 {{ $isFirst := .first }}
 {{ $desktop := site.Params.container.desktop | default false }}
 {{ $mobile := site.Params.image.mobile | default false }}
-{{ range $index, $image := .images }}
-  {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
 
-  {{ $figure_class := false }}
-  {{ if $desktop }}
-    {{ $width := partial "func/GetColumnWidth" (dict "column" 12) }}
-    {{ $desktop = printf "%sx" (string $width) }}
-    {{ if .half }}
-      {{ $figure_class = "half" }}
-      {{ $width := partial "func/GetColumnWidth" (dict "column" 6) }}
+<div class="images"{{ partial "func/SetAnim" (dict "element" "images") }}>
+  {{ range $index, $image := .images }}
+    {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
+
+    {{ $figure_class := false }}
+    {{ if $desktop }}
+      {{ $width := partial "func/GetColumnWidth" (dict "column" 12) }}
       {{ $desktop = printf "%sx" (string $width) }}
+      {{ if .half }}
+        {{ $figure_class = "half" }}
+        {{ $width := partial "func/GetColumnWidth" (dict "column" 6) }}
+        {{ $desktop = printf "%sx" (string $width) }}
+      {{ end }}
     {{ end }}
+    {{ partial "commons/figure.html" (dict
+      "src" .src
+      "alt" .alt
+      "legend" .legend
+      "credit" .credit
+      "figure_class" $figure_class
+      "desktop" $desktop
+      "mobile" $mobile
+      "lazy" $lazy
+    ) }}
   {{ end }}
-  {{ partial "commons/figure.html" (dict
-    "src" .src
-    "alt" .alt
-    "legend" .legend
-    "credit" .credit
-    "figure_class" $figure_class
-    "desktop" $desktop
-    "mobile" $mobile
-    "lazy" $lazy
-  ) }}
-{{ end }}
+</div>

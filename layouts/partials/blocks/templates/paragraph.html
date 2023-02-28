@@ -25,7 +25,7 @@
   {{ $class = printf "%s text-center" $class }}
 {{ end }}
 
-<section class="block-paragraph{{ with .background }} block-bg{{ end }}">
+<section class="block-paragraph{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ if ne .grid "full" }}

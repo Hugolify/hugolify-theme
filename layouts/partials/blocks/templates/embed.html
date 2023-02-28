@@ -1,4 +1,4 @@
-<section class="block-embed{{ with .background }} block-bg{{ end }}">
+<section class="block-embed{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ partial "blocks/heading.html" . }}

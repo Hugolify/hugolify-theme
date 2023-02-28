@@ -1,6 +1,6 @@
 {{ with .Params.hero }}
 {{ if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) }}
-<header class="hero">
+<header class="hero"{{ partial "func/SetAnim" (dict "element" "hero") }}>
   <div class="container">
     <div class="row">
 

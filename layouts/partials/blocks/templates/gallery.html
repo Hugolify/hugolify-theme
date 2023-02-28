@@ -1,7 +1,7 @@
 {{ $id := printf "gallery-%s" (.index | string) }}
 {{ $isFirst := .first }}
 
-<section class="block-gallery{{ with .background }} block-bg{{ end }}">
+<section class="block-gallery{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}

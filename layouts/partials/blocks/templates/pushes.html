@@ -1,5 +1,5 @@
 {{ $tag := cond (ne .title "") "h2" "h3" }}
-<section class="block-pushes{{ with .background }} block-bg{{ end }}">
+<section class="block-pushes{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}

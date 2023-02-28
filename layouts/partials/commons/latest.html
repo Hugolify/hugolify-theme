@@ -6,7 +6,7 @@
   {{ $section := . }}
   {{ $query := first $limit ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
   {{ if gt ($query | len) 0 }}
-  <section class="latest">
+  <section class="latest"{{ partial "func/SetAnim" (dict "element" "block") }}>
     <header class="heading">
       {{ $i18n := printf "%s.latest" $section }}
       <h2>{{ i18n $i18n }}</h2>

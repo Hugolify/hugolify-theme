@@ -1,6 +1,6 @@
 {{ if not (partial "func/HasHero" .) }}
   {{ with .Title }}
-    <header class="heading">
+    <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
       <h1>{{ partial "func/PrepareHTML" . }}</h1>
     </header>
   {{ end }}

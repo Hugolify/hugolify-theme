@@ -1,6 +1,6 @@
 {{ $isFirst := .first }}
 
-<section class="block-instagram{{ with .background }} block-bg{{ end }}">
+<section class="block-instagram{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}

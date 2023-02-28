@@ -1,6 +1,6 @@
 {{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
 
-<section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}">
+<section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     <div class="row">
 

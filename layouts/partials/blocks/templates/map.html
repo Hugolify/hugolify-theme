@@ -1,6 +1,6 @@
 {{ $class := partial "func/GetColClass" .grid }}
 
-<section class="block-map{{ with .background }} block-bg{{ end }}">
+<section class="block-map{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ if $class }}

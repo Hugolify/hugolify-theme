@@ -1,7 +1,7 @@
 {{ $index := .index }}
 {{ $url := .url | default false }}
 
-<section class="block-newsletter{{ with .background }} block-bg{{ end }} js-newsletter">
+<section class="block-newsletter{{ with .background }} block-bg{{ end }} js-newsletter"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}
