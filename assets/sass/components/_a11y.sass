@@ -1,7 +1,10 @@
 .nav-accessibility
+    height: 0
+    overflow: hidden
     position: absolute
     transform: translateY(-100%)
     z-index: $zindex-popover
     &:focus-within
+        height: auto
         position: relative
         transform: translateY(0)
