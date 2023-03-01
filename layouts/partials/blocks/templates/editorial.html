@@ -12,7 +12,13 @@
           <h2>{{ partial "func/PrepareHTML" . }}</h2>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+          <div class="text">
+            {{ if in (string .) "\n" }}
+              {{ partial "func/PrepareHTML" . | markdownify }}
+            {{ else }}
+              <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+            {{ end }}
+          </div>
         {{ end }}
         {{ with .cta}}
           {{ if and (isset . "url") (ne .url "") (isset . "text") (ne .text "") }}
