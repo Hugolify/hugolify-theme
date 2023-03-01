@@ -1,9 +1,19 @@
 .block-latest
-    .more
-        @extend .btn
-        @extend .btn-secondary
     .heading + div
         @include scroll-snap
         justify-content: center
     .bottom
         @include rfs($global-spacing, margin-top)
+    .more
+        @extend .btn
+        @extend .btn-secondary
+        @if variable-exists(bootstrap-icons-map)
+            &:hover
+                &::before
+                    transform: translateX(.3rem)
+            &::before
+                @include icon("arrow-right-short")
+                font-size: 1.4rem
+                margin-right: .5rem
+                transition: transform $transition-duration $transition-effect
+                vertical-align: -0.35rem
