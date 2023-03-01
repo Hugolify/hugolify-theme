@@ -11,7 +11,7 @@
     color: var(--push-color)
     position: relative
     overflow: hidden
-    h2
+    h2, h3
         color: var(--push-color)
     @include media-breakpoint-down(md)
         &::before
@@ -24,15 +24,20 @@
         justify-content: center
         z-index: 1
 
-    &-end
-        .content
-            align-items: flex-end
-    
+    @include media-breakpoint-up(md)
+        &-end
+            .content
+                align-items: flex-end
+                text-align: right
+        
     &-center
         .content
             align-items: center
             text-align: center
 
+    &-darken 
+        picture
+            opacity: .3
     img
         height: 100%
         object-fit: cover

@@ -1,4 +1,4 @@
-{{ $tag := cond (ne .title "") "h2" "h3" }}
+{{ $tag := cond (ne .title "") "h3" "h2" }}
 <section class="block-pushes{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
@@ -20,7 +20,25 @@
             {{ end }}
           {{ end }}
 
-          <div class="push push-{{ .offset }}"{{ if or .background_color .color }} style="{{ with .background_color }}--push-background-color: {{ .}};{{ end }}{{ with .color }}--push-color: {{ .}};{{ end }}"{{ end }}>
+          {{ $pushClass := "push" }}
+          {{ with .offset }}
+            {{ $pushClass = printf "%s push-%s" $pushClass . }}
+          {{ end }}
+          {{ with .darken }}
+            {{ $pushClass = printf "%s push-darken" $pushClass }}
+          {{ end }}
+
+          {{ $style := "" }}
+          {{ with .background_color }}
+            {{ $style = printf "--push-background-color: %s;" . }}
+          {{ end }}
+          {{ with .color }}
+            {{ $style = printf "%s --push-color: %s;" $style . }}
+          {{ end }}
+          {{ $style = printf " style='%s'" $style }}
+
+
+          <div class="{{ $pushClass }}"{{ if or .background_color .color }}{{ $style | safeHTMLAttr }}{{ end }}>
 
             {{ if $hasOnlyLink }}
               {{ $blank := .cta.blank | default false }}
