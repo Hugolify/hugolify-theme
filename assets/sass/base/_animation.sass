@@ -11,6 +11,9 @@
             transition-duration: $transition-duration
             transition-property: opacity, transform
             transition-timing-function: $transition-effect
+        picture
+            display: block
+            transition-delay: $transition-delay
         &[data-anim-show]
             .surtitle,
             h1,
@@ -28,10 +31,6 @@
             h1 + .description + .cta,
             address
                 transition-delay: calc(#{$transition-delay} * 0.6)
-            picture
-                display: block
-                transition-delay: $transition-delay
-
 
     [data-anim="heading"],
     [data-anim="content"],
@@ -133,7 +132,7 @@
             .surtitle,
             h2,
             .btn,
-            p,
+            .text,
             picture
                 opacity: 0
                 transform: translateY(2rem)
@@ -143,9 +142,9 @@
             h2
                 transition-delay: calc(#{$transition-delay} * 0.3)
             h2 + *,
-            p + .btn
+            .text + .btn
                 transition-delay: calc(#{$transition-delay} * 0.6)
-            h2 + p + .btn,
+            h2 + .text + .btn,
                 transition-delay: calc(#{$transition-delay} * 0.9)
             picture
                 display: block
@@ -155,7 +154,7 @@
                 .surtitle,
                 h2,
                 .btn,
-                p,
+                .text,
                 picture
                     opacity: 1
                     transform: translateY(0)
