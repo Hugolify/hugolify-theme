@@ -23,3 +23,11 @@
         @extend .text-muted
     > a
         text-decoration: none
+
+    @media (prefers-reduced-motion: no-preference)
+        a ~ .media
+            img
+                transition: transform $transition-duration $transition-effect
+        a:hover ~ .media
+            img
+                transform: scale(1.05)
