@@ -4,16 +4,7 @@
     {{ partial "blocks/heading.html" . }}
 
     {{ range .items }}
-      <details>
-        {{ with .title }}
-          <summary>{{ partial "func/PrepareHTML" . }}</summary>
-        {{ end }}
-        {{ with .text }}
-          <div>
-            {{ (partial "func/PrepareHTML" .) | markdownify }}
-          </div>
-        {{ end }}
-      </details>
+      {{ partial "commons/details.html" . }}
     {{ end }}
 
   </div>

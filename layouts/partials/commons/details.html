@@ -1,0 +1,10 @@
+<details{{ partial "func/SetAnim" (dict "element" "details") }}>
+  {{ with .title }}
+    <summary>{{ partial "func/PrepareHTML" . }}</summary>
+  {{ end }}
+  {{ with .text }}
+    <div>
+      {{ (partial "func/PrepareHTML" .) | markdownify }}
+    </div>
+  {{ end }}
+</details>
