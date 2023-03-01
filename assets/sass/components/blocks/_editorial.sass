@@ -7,6 +7,16 @@
             @extend .col-md-6
     .btn
         @extend .btn-primary
+        @if variable-exists(bootstrap-icons-map)
+            &:hover
+                &::before
+                    transform: translateX(.3rem)
+            &::before
+                @include icon("arrow-right-short")
+                font-size: 1.4rem
+                margin-right: .5rem
+                transition: transform $transition-duration $transition-effect
+                vertical-align: -0.35rem
     
     &-rtl
         .row

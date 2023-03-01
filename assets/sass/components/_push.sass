@@ -11,8 +11,10 @@
     color: var(--push-color)
     position: relative
     overflow: hidden
-    h2, h3
+    h2, h3, p
         color: var(--push-color)
+    p
+        margin-bottom: 0
     @include media-breakpoint-down(md)
         &::before
             padding-top: 100%
@@ -48,8 +50,12 @@
         @extend .stretched-link
         margin-top: calc(#{$paragraph-margin-bottom} * 2)
         @if variable-exists(bootstrap-icons-map)
+            &:hover
+                &::before
+                    transform: translateX(.3rem)
             &::before
                 @include icon("arrow-right-short")
                 font-size: 1.4rem
                 margin-right: .5rem
+                transition: transform $transition-duration $transition-effect
                 vertical-align: -0.35rem
