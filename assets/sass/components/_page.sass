@@ -1,16 +1,15 @@
 .page
-    --bs-card-spacer-x: 0
+    --bs-card-spacer-x: 1.25rem
+    --bs-card-spacer-y: 1.25rem
     --bs-card-border-width: 0
-    --bs-card-border-radius: 0
-    --bs-card-inner-border-radius: 0
-    --bs-card-bg: transparent
-    --bs-card-cap-bg: transparent
-    --bs-card-cap-padding-x: 0
-    --bs-card-cap-padding-y: 0
+    --bs-card-border-radius: 4px
+    --bs-card-bg: #{$light}
     @extend .card
     .media
         --bs-aspect-ratio: 43%
+        background-color: darken($light, 2)
     a
         @extend .stretched-link
     .cta
-        @extend .btn-primary
+        @extend .btn-link
+        margin-left: calc(#{$btn-padding-x} * -1)
