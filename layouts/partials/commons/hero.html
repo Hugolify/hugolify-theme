@@ -12,7 +12,7 @@
           <h1>{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+          <p class="description">{{ partial "func/PrepareHTML" . | markdownify }}</p>
         {{ end }}
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>

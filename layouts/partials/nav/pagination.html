@@ -14,7 +14,7 @@
 
 <!-- If there's more than one page. -->
 {{- if gt $paginator.TotalPages 1 -}}
-<nav role="navigation" aria-label="{{ i18n "pagination.label" }}">
+<nav role="navigation" aria-label="{{ i18n "pagination.label" }}"{{ partial "func/SetAnim" (dict "element" "pagination") }}>
   <ul class="pagination">
 
     <!-- First page. -->

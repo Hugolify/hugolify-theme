@@ -2,7 +2,7 @@
 {{ $desktop := site.Params.container.desktop | default false }}
 {{ $mobile := site.Params.image.mobile | default false }}
 
-<div class="images"{{ partial "func/SetAnim" (dict "element" "images") }}>
+<div class="images">
   {{ range $index, $image := .images }}
     {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) }}
 

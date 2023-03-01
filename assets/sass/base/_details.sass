@@ -1,7 +1,7 @@
 details
     border: $border-width solid $border-color
     border-radius: 1rem
-    transition: border 1s $transition, box-shadow 1s $transition
+    transition: border 1s $transition-effect, box-shadow 1s $transition-effect
     @media (prefers-reduced-motion: reduce)
         transition: none
     &:not(:last-of-type)
@@ -19,7 +19,7 @@ details
         @if variable-exists(bootstrap-icons-map)
             &::after
                 @include icon('arrow-down-short')
-                transition: transform 1s $transition
+                transition: transform 1s $transition-effect
                 @media (prefers-reduced-motion: reduce)
                     transition: none
 

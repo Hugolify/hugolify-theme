@@ -1,0 +1,174 @@
+@media (prefers-reduced-motion: no-preference)
+    [data-anim="hero"]
+        .surtitle,
+        h1,
+        .description,
+        .cta,
+        address,
+        picture
+            opacity: 0
+            transform: translateY(2rem)
+            transition-duration: $transition-duration
+            transition-property: opacity, transform
+            transition-timing-function: $transition-effect
+        &[data-anim-show]
+            .surtitle,
+            h1,
+            .description,
+            .cta,
+            address,
+            picture
+                opacity: 1
+                transform: translateY(0)
+            h1
+                transition-delay: calc(#{$transition-delay} * 0.2)
+            h1 + *,
+            .description + .cta
+                transition-delay: calc(#{$transition-delay} * 0.4)
+            h1 + .description + .cta,
+            address
+                transition-delay: calc(#{$transition-delay} * 0.6)
+            picture
+                display: block
+                transition-delay: $transition-delay
+
+
+    [data-anim="heading"],
+    [data-anim="content"],
+    [data-anim="sidebar"],
+    [data-anim="pagination"]
+        opacity: 0
+        transform: translateY(2rem)
+        transition-duration: $transition-duration
+        transition-property: opacity, transform
+        transition-timing-function: $transition-effect
+        &[data-anim-show]
+            opacity: 1
+            transform: translateY(0)
+
+    [data-anim="content"]
+        transition-delay: calc(#{$transition-delay} * 0.25)
+
+    [data-anim="sidebar"]
+        transition-delay: calc(#{$transition-delay} * 0.5)
+
+    [data-anim="pagination"]
+        transition-delay: $transition-delay
+
+    [data-anim="item"]
+        &,
+        picture
+            opacity: 0
+            transform: translateY(2rem)
+            transition-delay: calc(#{$transition-delay} * 0.5)
+            transition-duration: $transition-duration
+            transition-property: opacity, transform
+            transition-timing-function: $transition-effect
+        picture
+            transition-duration: $transition-duration, calc(#{$transition-duration} * 2)
+        &[data-anim-show]
+            &,
+            picture
+                opacity: 1
+                transform: translateY(0)
+
+    [data-anim="figure"]
+        opacity: 0
+        transform: translateY(2rem)
+        transition-delay: calc(#{$transition-delay} * 0.5)
+        transition-duration: $transition-duration
+        transition-property: opacity, transform
+        transition-timing-function: $transition-effect
+        &.half + &.half
+            transition-delay: calc(#{$transition-delay} * 0.6)
+        &[data-anim-show]
+            opacity: 1
+            transform: translateY(0)
+
+    [data-anim="details"]
+        opacity: 0
+        transform: translateY(2rem)
+        transition-delay: calc(#{$transition-delay} * 0.5)
+        transition-duration: $transition-duration
+        transition-property: opacity, transform
+        transition-timing-function: $transition-effect
+        &[data-anim-show]
+            opacity: 1
+            transform: translateY(0)
+
+    [data-anim="block"]
+        &,
+        .heading,
+        .items,
+        .items .content,
+        .items .btn,
+        .bottom
+            opacity: 0
+            transform: translateY(2rem)
+            transition-duration: $transition-duration
+            transition-property: opacity, transform
+            transition-timing-function: $transition-effect
+        .heading,
+        .bottom
+            transition-delay: calc(#{$transition-delay} * 0.5)
+        .items
+            transition-delay: $transition-delay
+        .items .content,
+        .items .btn
+            transition-delay: $transition-delay
+            transition-duration: $transition-duration, calc(#{$transition-duration} * 2)
+        .items .btn
+            transition-delay: calc(#{$transition-delay} * 1.5)
+        &[data-anim-show]
+            &,
+            .heading,
+            .items,
+            .items .content,
+            .items .btn,
+            .bottom
+                opacity: 1
+                transform: translateY(0)
+
+        &.block-editorial
+            .surtitle,
+            h2,
+            .btn,
+            p,
+            picture
+                opacity: 0
+                transform: translateY(2rem)
+                transition-duration: $transition-duration
+                transition-property: opacity, transform
+                transition-timing-function: $transition-effect
+            h2
+                transition-delay: calc(#{$transition-delay} * 0.3)
+            h2 + *,
+            p + .btn
+                transition-delay: calc(#{$transition-delay} * 0.6)
+            h2 + p + .btn,
+                transition-delay: calc(#{$transition-delay} * 0.9)
+            picture
+                display: block
+                transition-delay: calc(#{$transition-delay} * 0.5)
+                transition-duration: calc(#{$transition-duration} * 3)
+            &[data-anim-show]
+                .surtitle,
+                h2,
+                .btn,
+                p,
+                picture
+                    opacity: 1
+                    transform: translateY(0)
+
+        &.block-map
+            .map
+                opacity: 0
+                transform: translateY(2rem)
+                transition-delay: calc(#{$transition-delay} * 0.8)
+                transition-duration: $transition-duration
+                transition-property: opacity, transform
+                transition-timing-function: $transition-effect
+            &[data-anim-show]
+                .map
+                    opacity: 1
+                    transform: translateY(0)

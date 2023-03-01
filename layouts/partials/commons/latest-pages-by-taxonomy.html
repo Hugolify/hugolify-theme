@@ -13,7 +13,7 @@
 
 {{ if $pages }}
   <section class="latest latest-{{ $section }}">
-    <header class="heading">
+    <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
       <h2>{{ i18n (printf "%s.latest" $section) }}</h2>
       {{ if gt $count $limit }}
         {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}

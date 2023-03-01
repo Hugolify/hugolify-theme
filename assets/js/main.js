@@ -8,4 +8,6 @@ import './blocks/instagram';
 import './blocks/map';
 
 // Components
+import './components/animation';
+import './components/gauge';
 import './components/toc';

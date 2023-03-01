@@ -37,7 +37,11 @@
         stroke: $gauge-stroke-color
         stroke-width: $gauge-stroke-size
         stroke-linecap: round
-        animation: progress 1s ease-out forwards
+
+    @media (prefers-reduced-motion: no-preference)
+        &.show
+            .circle
+                animation: progress 1s ease-out forwards
 
     figcaption
         align-items: center

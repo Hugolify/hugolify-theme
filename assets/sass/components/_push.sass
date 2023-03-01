@@ -47,8 +47,9 @@
         @extend .btn-light
         @extend .stretched-link
         margin-top: calc(#{$paragraph-margin-bottom} * 2)
-        &::before
-            @include icon("arrow-right-short")
-            font-size: 1.4rem
-            margin-right: .5rem
-            vertical-align: -0.35rem
+        @if variable-exists(bootstrap-icons-map)
+            &::before
+                @include icon("arrow-right-short")
+                font-size: 1.4rem
+                margin-right: .5rem
+                vertical-align: -0.35rem
