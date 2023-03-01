@@ -1,6 +1,7 @@
 // Theme variables
 $header-height: 56px !default
 $header-background-color: #F8F9FA !default
+$header-color: invert($header-background-color) !default
 $hero-min-height: 400px !default
 $offset: $header-height + 15px !default
 
@@ -19,4 +20,7 @@ $gauge-size: 200px !default
 $gauge-stroke-color: #999999 !default
 $gauge-stroke-size: 2.4 !default
 
-$transition: cubic-bezier(.085,1.335,.285,.995)
+$transition-delay: 1s
+$transition-duration: 2s
+$transition-effect: cubic-bezier(.085,1.335,.285,.995)
+$transition: all $transition-duration $transition-effect $transition-delay

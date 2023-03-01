@@ -1,5 +1,6 @@
 header[role="banner"]
     background-color: $header-background-color
+    color: $header-color
     position: sticky
     top: 0
     z-index: $zindex-sticky
@@ -13,6 +14,9 @@ header[role="banner"]
             margin-right: - $navbar-toggler-padding-x
         > span
             @extend .navbar-toggler-icon
+    .logo,
+    .nav-link
+        color: $header-color
     .nav-primary
         margin-left: auto
         @include media-breakpoint-down(lg)
