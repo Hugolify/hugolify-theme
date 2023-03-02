@@ -1,0 +1,33 @@
+{{ $class := false }}
+
+{{ if eq .grid "xsmall" }}
+  {{ $class = "col-md-4" }}
+  {{ if eq .offset "center" }}
+    {{ $class = printf "%s offset-md-4" $class }}
+  {{ else if eq .offset "end" }}
+    {{ $class = printf "%s offset-md-8" $class }}
+  {{ end }}
+{{ else if eq .grid "small" }}
+  {{ $class = "col-md-6" }}
+  {{ if eq .offset "center" }}
+    {{ $class = printf "%s offset-md-3" $class }}
+  {{ else if eq .offset "end" }}
+    {{ $class = printf "%s offset-md-6" $class }}
+  {{ end }}
+{{ else if eq .grid "medium" }}
+  {{ $class = "col-md-8" }}
+  {{ if eq .offset "center" }}
+    {{ $class = printf "%s offset-md-2" $class }}
+  {{ else if eq .offset "end" }}
+    {{ $class = printf "%s offset-md-4" $class }}
+  {{ end }}
+{{ else if eq .grid "large" }}
+  {{ $class = "col-md-10" }}
+  {{ if eq .offset "center" }}
+    {{ $class = printf "%s offset-md-1" $class }}
+  {{ else if eq .offset "end" }}
+    {{ $class = printf "%s offset-md-2" $class }}
+  {{ end }}
+{{ end }}
+
+{{ return $class }}

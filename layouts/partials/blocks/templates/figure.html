@@ -1,6 +1,6 @@
 {{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
+{{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
 
-{{ $class := partial "func/GetColClass" .grid }}
 {{ $columnWanted := 12 }}
 {{ if eq .grid "small" }}
   {{ $columnWanted = 6 }}
