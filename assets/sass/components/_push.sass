@@ -3,21 +3,30 @@
     --push-color: #{$body-bg}
     --bs-card-spacer-y: 2rem
     --bs-card-spacer-x: 2rem
+    --bs-card-bg: var(--push-background-color)
+    --bs-card-border-radius: 0
+    --bs-card-border-width: 0
     @extend .card
     @extend .ratio
     @extend .ratio-21x9
-    background-color: var(--push-background-color)
-    border: 0
     color: var(--push-color)
     position: relative
     overflow: hidden
-    h2, h3, p
-        color: var(--push-color)
-    p
-        margin-bottom: 0
+    @include media-breakpoint-down(sm)
+        margin-left: - $gutter-mobile
+        margin-right: - $gutter-mobile
+        width: calc(100% + #{$gutter-mobile} * 2)
     @include media-breakpoint-down(md)
         &::before
             padding-top: 100%
+
+    h2, h3, p
+        color: var(--push-color)
+        margin-bottom: 0
+    h2, h3
+        @extend .display-2
+    p
+        @extend .lead
 
     .content
         align-items: flex-start

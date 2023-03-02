@@ -1,18 +1,13 @@
 .block-pushes
     .items
         @extend .row
+        @extend .row-cols-1
         @extend .gy-4
         
         &-2
-            @extend .row-cols-md-2
+            @extend .row-cols-lg-2
             h2, h3
                 @extend .display-5
-            @include media-breakpoint-up(md)
+            @include media-breakpoint-up(lg)
                 .push
                     --bs-aspect-ratio: calc(9 / 16 * 100%)
-    .push
-        h2, h3
-            @extend .display-2
-            margin-bottom: 0
-        p
-            @extend .lead
