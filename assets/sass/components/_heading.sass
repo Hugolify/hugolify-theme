@@ -12,6 +12,9 @@
         margin-bottom: 0
     .surtitle
         margin-bottom: .25em
+    .btn,
+    .more
+        margin-left: auto
 
     @include media-breakpoint-up(md)
         h1
@@ -22,9 +25,10 @@
         .metas
             margin-top: 1rem
             width: 100%
-    .btn,
-    .more
-        margin-left: auto
+    @include media-breakpoint-up(xl)
+        h1
+            max-width: 66.6666666667%
+
     @if variable-exists(bootstrap-icons-map)
         .more
             &::before
