@@ -38,6 +38,8 @@ params:
     desktop: 1296
     mobile: 300
   hero:
+    cover: "1600x400"
+    cover_mobile: "360x400"
     desktop: "416x"
     mobile: "300x"
   image:

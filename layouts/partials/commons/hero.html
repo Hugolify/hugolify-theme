@@ -1,6 +1,28 @@
 {{ with .Params.hero }}
 {{ if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) }}
-<header class="hero"{{ partial "func/SetAnim" (dict "element" "hero") }}>
+{{ $class := "hero" }}
+{{ with .align }}
+  {{ $class = printf "%s hero-%s" $class . }}
+{{ end }}
+<header class="{{ $class }}"{{ partial "func/SetAnim" (dict "element" "hero") }}>
+  {{ with .image }}
+    {{ if .background_image }}
+      {{ $picture_class := "hero-cover" }}
+      {{ $cover := site.Params.hero.cover }}
+      {{ $mobile := site.Params.hero.cover_mobile }}
+      {{ if .darken }}
+        {{ $picture_class = printf "%s hero-cover-darken" $picture_class }}
+      {{ end }}
+      {{ partial "commons/image.html" (dict
+          "src" .src
+          "alt" .alt
+          "desktop" $cover
+          "mobile" $mobile
+          "picture_class" $picture_class
+          "lazy" false
+      ) }}
+    {{ end }}
+  {{ end }}
   <div class="container">
     <div class="row">
 
@@ -27,17 +49,19 @@
       </div>
 
       {{ with .image }}
-        <div class="hero-media">
-          {{ $desktop := site.Params.hero.desktop }}
-          {{ $mobile := site.Params.hero.mobile }}
-          {{ partial "commons/image.html" (dict
-              "src" .src
-              "alt" .alt
-              "desktop" $desktop
-              "mobile" $mobile
-              "lazy" false
-          ) }}
-        </div>
+        {{ if ne .background_image true }}
+          <div class="hero-media">
+            {{ $desktop := site.Params.hero.desktop }}
+            {{ $mobile := site.Params.hero.mobile }}
+            {{ partial "commons/image.html" (dict
+                "src" .src
+                "alt" .alt
+                "desktop" $desktop
+                "mobile" $mobile
+                "lazy" false
+            ) }}
+          </div>
+        {{ end }}
       {{ end }}
 
     </div>

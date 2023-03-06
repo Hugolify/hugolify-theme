@@ -1,27 +1,17 @@
 .hero
     background-color: $header-background-color
     color: $header-color
+    position: relative
     .container
         @include rfs($global-spacing, padding-bottom)
         @include rfs($global-spacing, padding-top)
         align-items: center
         display: flex
         min-height: $hero-min-height
+        position: relative
     .row
         align-items: center
         flex-basis: calc(100% + var(--bs-gutter-x))
-    &-content
-        @extend .col-md-6
-        @extend .col-xl-5
-    &-content + &-content
-        @extend .offset-xl-2
-    &-media
-        @extend .col-md-6
-        @extend .col-xl-4
-        @extend .offset-xl-1
-        img
-            height: auto
-            width: 100%
     a:not(.btn)
         color: $header-color
     .btn
@@ -33,6 +23,41 @@
         @extend .btn-outline-primary
         margin-right: 0
 
+    &-cover
+        height: 100%
+        left: 0
+        position: absolute
+        top: 0
+        width: 100%
+        img
+            height: 100%
+            object-fit: cover
+            pointer-events: none
+            width: 100%
+    &-cover-darken
+        img
+            filter: brightness(.3)
+        & + * 
+            color: white
+            .btn + .btn
+                @extend .btn-outline-light
+    &-content
+        @extend .col-md-6
+        @extend .col-xl-5
+    &-center &-content
+        @extend .offset-md-3
+        @extend .col-xl-6
+    &-content + &-content
+        @extend .offset-xl-2
+    &-media
+        @extend .col-md-6
+        @extend .col-xl-4
+        @extend .offset-xl-1
+        img
+            height: auto
+            width: 100%
+    
+
     @include media-breakpoint-down(md)
         .cta
             display: flex
@@ -42,6 +67,10 @@
         img
             @include rfs($global-spacing, "margin-top")
 
-
-
-    
+    @include media-breakpoint-up(md)
+        &-center 
+            .hero-content
+                text-align: center
+        &-end 
+            .row
+                flex-direction: row-reverse
