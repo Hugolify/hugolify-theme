@@ -34,7 +34,13 @@
           <h1>{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
         {{ with .text }}
-          <p class="description">{{ partial "func/PrepareHTML" . | markdownify }}</p>
+          <div class="description">
+            {{ if in (string .) "\n" }}
+              {{ partial "func/PrepareHTML" . | markdownify }}
+            {{ else }}
+              <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+            {{ end }}
+          </div>
         {{ end }}
         {{ if .cta }}
           <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
