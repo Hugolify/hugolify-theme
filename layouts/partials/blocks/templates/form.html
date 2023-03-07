@@ -1,0 +1,52 @@
+{{ $idForm := printf "form-%s" (.index | string) }}
+{{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
+
+<section class="block-form{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+  <div class="container">
+
+    {{ if $class }}
+    <div class="row">
+      <div class="{{ $class }}">
+    {{ end }}
+    
+      {{ partial "blocks/heading.html" . }}
+
+      <form netlify name="{{ .name }}" id="{{ $idForm }}">
+
+        {{ range $index, $items := .items }}
+          {{ $id := printf "%s-%s-%s" $idForm .name ($index | string) }}
+          <div>
+            <label for="{{ $id }}" class="form-label">{{ .label }}{{ if .required }}<sup>*</sup>{{ end }}</label>
+            {{ if eq .type "textarea" }}
+              <textarea 
+                class="form-control"
+                id="{{ $id }}" 
+                {{ with .type }}type="{{ . }}"{{ end }}
+                {{ with .name }}name="{{ . }}"{{ end }}
+                {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+                {{ if .required }}required{{ end }}></textarea>
+            {{ else }}
+              <input 
+                class="form-control"
+                id="{{ $id }}" 
+                {{ with .type }}type="{{ . }}"{{ end }}
+                {{ with .name }}name="{{ . }}"{{ end }}
+                {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+                {{ if .required }}required{{ end }}>
+            {{ end }}
+          </div>
+        {{ end }}
+
+        <div class="actions">
+          <button type="submit" class="btn">{{ .submit }}</button>
+        </div>
+
+      </form>
+    
+    {{ if $class }}
+      </div>
+    </div>
+    {{ end }}
+
+  </div>
+</section>
