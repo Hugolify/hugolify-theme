@@ -1,0 +1,29 @@
+.block-testimonials
+    .testimonials
+        --bs-gutter-y: #{$grid-gutter-width}
+        @extend .row
+        @extend .row-cols-md-3
+        @include scroll-snap
+    .quote
+        --bs-card-bg: #{$light}
+        --bs-card-border-radius: 10px
+        --bs-card-border-width: 0
+        --bs-card-cap-bg: #{$light}
+        --bs-card-cap-padding-y: 1rem
+        @extend .card
+        height: 100%
+        @include media-breakpoint-up(md)
+            --bs-card-spacer-x: 2rem
+            --bs-card-spacer-y: 2rem
+            --bs-card-cap-padding-x: 2rem
+            --bs-card-cap-padding-y: 2rem
+        blockquote
+            @extend .card-body
+            p
+                font-size: $small-font-size
+                line-height: $line-height-base
+                @include media-breakpoint-up(md)
+                    font-size: $font-size-base
+        blockquote + figcaption
+            @extend .card-footer
+            justify-content: flex-start

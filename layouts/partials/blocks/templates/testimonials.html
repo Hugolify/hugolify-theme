@@ -1,0 +1,15 @@
+<section class="block-testimonials{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+  <div class="container">
+
+    {{ partial "blocks/heading.html" . }}
+
+    <div class="testimonials">
+      {{ range .items }}
+        <div>
+          {{ partial "commons/quote.html" . }}
+        </div>
+      {{ end }}
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<figure class="quote">
+  {{ with .text}}
+    <blockquote>
+      <p>{{ partial "func/PrepareHTML" . }}</p>
+    </blockquote>
+  {{ end }}
+
+  {{ with .author }}
+    <figcaption>
+      {{ with .image}}
+        {{ $desktop := site.Params.image.xsmall | default false }}
+        {{ partial "commons/image.html" (dict
+            "src" .src
+            "alt" .alt
+            "desktop" $desktop
+            "crop" "Top"
+          ) }}
+      {{ end }}
+      <div>
+        {{ with .title}}
+          <cite>{{ partial "func/PrepareHTML" . }}</cite><br>
+        {{ end }}
+        {{ partial "func/PrepareHTML" .text }}
+      </div>
+    </figcaption>
+  {{ end }}
+</figure>
