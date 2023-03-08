@@ -11,4 +11,5 @@ import './blocks/map';
 import './components/animation';
 import './components/carousel';
 import './components/gauge';
+import './components/stickyNav';
 import './components/toc';

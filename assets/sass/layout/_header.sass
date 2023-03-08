@@ -3,7 +3,15 @@ header[role="banner"]
     color: $header-color
     position: sticky
     top: 0
+    transition: top $transition-duration $transition-effect
     z-index: $zindex-sticky
+
+    html.is-scrolling-down &
+        &:not(:hover)
+            top: -$header-height
+    &.is-sticky
+        position: sticky
+
     > nav
         @extend .navbar
         @extend .navbar-expand-lg
@@ -15,9 +23,10 @@ header[role="banner"]
         > span
             --bs-navbar-toggler-icon-bg: #{escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$header-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>"))}
             @extend .navbar-toggler-icon
-    .logo,
-    .nav-link
+    .logo
         color: $header-color
+    .nav-link
+        --bs-nav-link-color: #{$header-color}
     .nav-primary
         margin-left: auto
         @include media-breakpoint-down(lg)

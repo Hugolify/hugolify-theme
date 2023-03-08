@@ -1,6 +1,10 @@
 .nav
     li
         @extend .nav-item
+        > span
+            @extend .nav-link
+            &:hover
+                color: initial
     a
         @extend .nav-link
         &.active,
@@ -8,6 +12,7 @@
             text-decoration-line: underline
             text-decoration-thickness: 1px
             text-underline-offset: 3px
+    
     .dropdown
         display: flex
         button
