@@ -15,22 +15,38 @@
 
         {{ range $index, $items := .items }}
           {{ $id := printf "%s-%s-%s" $idForm .name ($index | string) }}
-          <div>
+          {{ $name := .label | urlize }}
+          <div{{ if .full }} class="full"{{ end }}>
             <label for="{{ $id }}" class="form-label">{{ .label }}{{ if .required }}<sup>*</sup>{{ end }}</label>
             {{ if eq .type "textarea" }}
               <textarea 
                 class="form-control"
                 id="{{ $id }}" 
+                name="{{ $name }}"
+                rows="5"
                 {{ with .type }}type="{{ . }}"{{ end }}
-                {{ with .name }}name="{{ . }}"{{ end }}
                 {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
                 {{ if .required }}required{{ end }}></textarea>
+            {{ else if eq .type "select" }}
+              <select
+                class="form-select"
+                id="{{ $id }}"
+                name="{{ $name }}"
+                {{ if .required }}required{{ end }}>
+                {{ if not .required }}
+                  <option value="">--</option>
+                {{ end }}
+                {{ range .options }}
+                  {{ $nameOption := cond (isset . "name") .name .title }}
+                  <option value="{{ $nameOption }}">{{ .title }}</option>
+                {{ end }}
+              </select>
             {{ else }}
               <input 
                 class="form-control"
                 id="{{ $id }}" 
+                name="{{ $name }}"
                 {{ with .type }}type="{{ . }}"{{ end }}
-                {{ with .name }}name="{{ . }}"{{ end }}
                 {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
                 {{ if .required }}required{{ end }}>
             {{ end }}
