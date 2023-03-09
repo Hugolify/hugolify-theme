@@ -6,8 +6,7 @@ let previousY = 0,
     classMenuOpen = 'is-menu-open',
     header = document.querySelector('header[role="banner"]'),
     offset = header.offsetHeight,
-    dropdowns = header.querySelectorAll('[data-bs-toggle="dropdown"]'),
-    menu = header.querySelector('.menu');
+    dropdowns = header.querySelectorAll('[data-bs-toggle="dropdown"]');
 
 dropdowns.forEach((dropdown) => {
     dropdown.addEventListener('hidden.bs.dropdown', () => {
@@ -19,14 +18,6 @@ dropdowns.forEach((dropdown) => {
         document.documentElement.classList.add(classMenuOpen);
     });
 });
-
-// menu.addEventListener('show.bs.collapse', () => {
-//     document.documentElement.classList.add(classMenuOpen);
-// });
-
-// menu.addEventListener('hide.bs.collapse', () => {
-//     document.documentElement.classList.remove(classMenuOpen);
-// });
 
 events.forEach((event) => {
     window.addEventListener(event, () => {

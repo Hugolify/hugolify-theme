@@ -2,9 +2,11 @@
     li
         @extend .nav-item
         > span
-            @extend .nav-link
-            &:hover
-                color: initial
+            color: var(--bs-nav-link-color)
+            display: block
+            font-size: var(--bs-nav-link-font-size)
+            font-weight: var(--bs-nav-link-font-weight)
+            padding: $nav-link-padding-y $nav-link-padding-x
     a
         @extend .nav-link
         &.active,
