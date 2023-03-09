@@ -37,8 +37,8 @@
                   <option value="">--</option>
                 {{ end }}
                 {{ range .options }}
-                  {{ $nameOption := cond (isset . "name") .name .title }}
-                  <option value="{{ $nameOption }}">{{ .title }}</option>
+                  {{ $value := cond (isset . "value") .value .title }}
+                  <option value="{{ $value }}">{{ .title }}</option>
                 {{ end }}
               </select>
             {{ else }}
