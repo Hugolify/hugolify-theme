@@ -7,6 +7,13 @@
             font-size: var(--bs-nav-link-font-size)
             font-weight: var(--bs-nav-link-font-weight)
             padding: $nav-link-padding-y $nav-link-padding-x
+            & + button::before
+                content: ''
+                left: 0
+                height: 100%
+                position: absolute
+                top: 0
+                width: 100%
     a
         @extend .nav-link
         &.active,
@@ -23,10 +30,10 @@
             border: 0
             margin-left: calc(var(--bs-nav-link-padding-x) * -1)
             padding: 0 .5rem
-    ul 
-        --bs-dropdown-link-hover-bg: transparent
-        --bs-dropdown-link-active-bg: transparent
-        --bs-dropdown-link-active-color: #{$primary}
-        @extend .dropdown-menu-end
-        a
-            @extend .dropdown-item
+        &-menu
+            --bs-dropdown-link-hover-bg: transparent
+            --bs-dropdown-link-active-bg: transparent
+            --bs-dropdown-link-active-color: #{$primary}
+            @extend .dropdown-menu-end
+            a
+                @extend .dropdown-item
