@@ -6,7 +6,7 @@ header[role="banner"]
     transition: top $transition-duration $transition-effect
     z-index: $zindex-sticky
 
-    html.is-scrolling-down &
+    html:not(.is-menu-open).is-scrolling-down &
         &:not(:hover)
             top: -$header-height
     &.is-sticky
