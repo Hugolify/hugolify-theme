@@ -7,7 +7,6 @@ let splideLoaded = false;
 class Carousel {
     constructor (carousel) {
         this.carousel = carousel;
-        console.log(carousel);
 
         if (!splideLoaded) {
             this.addFiles();
