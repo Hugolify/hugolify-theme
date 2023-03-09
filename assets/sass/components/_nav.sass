@@ -24,7 +24,9 @@
     
     .dropdown
         display: flex
-        button
+        > button:first-child
+            @extend .nav-link
+        > button:not(:first-child)
             appearance: none
             background-color: transparent
             border: 0
