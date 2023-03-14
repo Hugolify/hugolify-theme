@@ -65,12 +65,12 @@
           {{ end }}
 
           {{ if $desktop_size }}
-            {{ $params :=  printf "-/resize/%s" $desktop_size }}
+            {{ $params :=  printf "-/resize/%s/" $desktop_size }}
             {{ if partial "func/isCrop" $desktop_size }}
-              {{ $params =  printf "-/scale_crop/%s/%s" $desktop_size $crop }}
+              {{ $params =  printf "-/scale_crop/%s/%s/" $desktop_size $crop }}
             {{ end }}
             {{ $image_desktop = printf "%s%s" . $params }}
-            {{ $image_desktop_webp = printf "%s%s/-/format/webp/" . $params }}
+            {{ $image_desktop_webp = printf "%s%s-/format/webp/" . $params }}
             {{ $datas = getJSON (printf "%s-/resize/%s/-/json/" . $desktop_size) }}
             {{ with $datas }}
               {{ $image_width = index . "width" }}
@@ -79,14 +79,14 @@
           {{ end }}
 
           {{ if $mobile_size }}
-            {{ $params :=  printf "-/resize/%s" $mobile_size }}
+            {{ $params :=  printf "-/resize/%s/" $mobile_size }}
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $params =  printf "-/scale_crop/%s/%s" $mobile_size $crop }}
+              {{ $params =  printf "-/scale_crop/%s/%s/" $mobile_size $crop }}
             {{ end }}
             {{ $image_mobile = printf "%s%s" . $params }}
-            {{ $image_mobile_retina = printf "%s%s/-/quality/smart_retina/" . $params }}
-            {{ $image_mobile_webp = printf "%s%s/-/format/webp/" . $params }}
-            {{ $image_mobile_webp_retina = printf "%s%s/-/format/webp/-/quality/smart_retina/" . $params }}
+            {{ $image_mobile_retina = printf "%s%s-/quality/smart_retina/" . $params }}
+            {{ $image_mobile_webp = printf "%s%s-/format/webp/" . $params }}
+            {{ $image_mobile_webp_retina = printf "%s%s-/format/webp/-/quality/smart_retina/" . $params }}
           {{ end }}
 
         {{ else }}
