@@ -79,14 +79,17 @@
           {{ end }}
 
           {{ if $mobile_size }}
+            {{ $mobile_size_retina := partial "func/GetMultiplyImage" (dict "size" $mobile_size) }}
             {{ $params :=  printf "-/resize/%s/" $mobile_size }}
+            {{ $params_retina :=  printf "-/resize/%s/" $mobile_size_retina }}
             {{ if partial "func/isCrop" $mobile_size }}
               {{ $params =  printf "-/scale_crop/%s/%s/" $mobile_size $crop }}
+              {{ $params_retina =  printf "-/scale_crop/%s/%s/" $mobile_size_retina $crop }}
             {{ end }}
             {{ $image_mobile = printf "%s%s" . $params }}
-            {{ $image_mobile_retina = printf "%s%s-/quality/smart_retina/" . $params }}
+            {{ $image_mobile_retina = printf "%s%s-/quality/smart/" . $params_retina }}
             {{ $image_mobile_webp = printf "%s%s-/format/webp/" . $params }}
-            {{ $image_mobile_webp_retina = printf "%s%s-/format/webp/-/quality/smart_retina/" . $params }}
+            {{ $image_mobile_webp_retina = printf "%s%s-/quality/smart/-/format/webp/" . $params_retina }}
           {{ end }}
 
         {{ else }}
@@ -116,21 +119,20 @@
           {{ if $mobile_size }}
 
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $image_mobile = $image.Fill $mobile_size }}
+              {{ $image_mobile = $image.Fill (printf "%s %s" $mobile_size $crop) }}
             {{ else }}
-              {{ $image_mobile = $image.Resize $mobile_size }}
+              {{ $image_mobile = $image.Resize (printf "%s %s" $mobile_size $crop) }}
             {{ end }}
-            {{ $width_2x := mul 2 $image_mobile.Width }}
-            {{ $height_2x := mul 2 $image_mobile.Height }}
+            {{ $mobile_size_retina := partial "func/GetMultiplyImage" (dict "size" $mobile_size) }}
             
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $image_mobile_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop) }}
+              {{ $image_mobile_retina = $image.Fill (print $mobile_size_retina " " $crop) }}
               {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-              {{ $image_mobile_webp_retina = $image.Fill (print $width_2x "x" $height_2x " " $crop " webp") }}
+              {{ $image_mobile_webp_retina = $image.Fill (print $mobile_size_retina " " $crop " webp") }}
             {{ else }}
-              {{ $image_mobile_retina = $image.Resize (print $width_2x "x" $height_2x) }}
+              {{ $image_mobile_retina = $image.Resize $mobile_size_retina }}
               {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
-              {{ $image_mobile_webp_retina = $image.Resize (print $width_2x "x" $height_2x " webp") }}
+              {{ $image_mobile_webp_retina = $image.Resize (print $mobile_size_retina " webp") }}
             {{ end }}
 
             {{ $image_mobile_retina = $image_mobile_retina.RelPermalink }}

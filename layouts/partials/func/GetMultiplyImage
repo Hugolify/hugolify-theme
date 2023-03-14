@@ -1,0 +1,17 @@
+{{ $multiply := (.multiply | float) | default 2 }}
+{{ $image_size := .size | default false }}
+
+{{ if $image_size }}
+  {{ $image_size_array := split $image_size "x" }}
+  {{ $image_width := index $image_size_array 0 | default "" }}
+  {{ $image_height := index $image_size_array 1 | default "" }}
+  {{ if ne ($image_width) "" }}
+    {{ $image_width = mul $multiply (int $image_width) }}
+  {{ end }}
+  {{ if ne ($image_height) "" }}
+    {{ $image_height = mul $multiply (int $image_height) }}
+  {{ end }}
+  {{ $image_size = printf "%vx%v" $image_width $image_height }}
+{{ end }}
+
+{{ return $image_size }}
