@@ -4,6 +4,12 @@
 {{ $itemprop := .itemprop | default false }}
 {{ $desktop_size := .desktop | default false }}
 {{ $mobile_size := .mobile | default false }}
+{{ $mobile_size_2x := false }}
+{{ $mobile_size_3x := false }}
+{{ if $mobile_size }}
+  {{ $mobile_size_2x = partial "func/GetMultiplyImage" (dict "size" $mobile_size) }}
+  {{ $mobile_size_3x = partial "func/GetMultiplyImage" (dict "size" $mobile_size "multiply" 3) }}
+{{ end }}
 {{ $alt := .alt | default "" }}
 {{ $crop := .crop | default "Center" }}
 {{ $file := "" }}
@@ -13,21 +19,23 @@
   {{ $file = .src }}
 {{ end }}
 
-{{ with $file }}
+{{- with $file -}}
 
   {{ $image := . }}
   {{ if not (in . "ucarecdn") }}
     {{ $image = resources.Get . }}
   {{ end }}
 
-  {{ if $image }}
+  {{- if $image -}}
     
     {{ $image_desktop := false }}
     {{ $image_desktop_webp := false }}
     {{ $image_mobile := false }}
-    {{ $image_mobile_retina := false }}
+    {{ $image_mobile_2x := false }}
+    {{ $image_mobile_3x := false }}
     {{ $image_mobile_webp := false }}
-    {{ $image_mobile_webp_retina := false }}
+    {{ $image_mobile_webp_2x := false }}
+    {{ $image_mobile_webp_3x := false }}
     {{ $image_width := false }}
     {{ $image_height := false }}
 
@@ -54,7 +62,7 @@
 
       {{ else }}
 
-        {{ if in . "ucarecdn" }}
+        {{- if in . "ucarecdn" -}}
 
           {{ $crop = $crop | lower }}
 
@@ -79,79 +87,88 @@
           {{ end }}
 
           {{ if $mobile_size }}
-            {{ $mobile_size_retina := partial "func/GetMultiplyImage" (dict "size" $mobile_size) }}
             {{ $params :=  printf "-/resize/%s/" $mobile_size }}
-            {{ $params_retina :=  printf "-/resize/%s/" $mobile_size_retina }}
+            {{ $params_2x :=  printf "-/resize/%s/" $mobile_size_2x }}
+            {{ $params_3x :=  printf "-/resize/%s/" $mobile_size_3x }}
             {{ if partial "func/isCrop" $mobile_size }}
               {{ $params =  printf "-/scale_crop/%s/%s/" $mobile_size $crop }}
-              {{ $params_retina =  printf "-/scale_crop/%s/%s/" $mobile_size_retina $crop }}
+              {{ $params_2x =  printf "-/scale_crop/%s/%s/" $mobile_size_2x $crop }}
+              {{ $params_3x =  printf "-/scale_crop/%s/%s/" $mobile_size_3x $crop }}
             {{ end }}
             {{ $image_mobile = printf "%s%s" . $params }}
-            {{ $image_mobile_retina = printf "%s%s-/quality/smart/" . $params_retina }}
+            {{ $image_mobile_2x = printf "%s%s-/quality/smart/" . $params_2x }}
+            {{ $image_mobile_3x = printf "%s%s-/quality/smart/" . $params_3x }}
             {{ $image_mobile_webp = printf "%s%s-/format/webp/" . $params }}
-            {{ $image_mobile_webp_retina = printf "%s%s-/quality/smart/-/format/webp/" . $params_retina }}
+            {{ $image_mobile_webp_2x = printf "%s%s-/quality/smart/-/format/webp/" . $params_2x }}
+            {{ $image_mobile_webp_3x = printf "%s%s-/quality/smart/-/format/webp/" . $params_3x }}
           {{ end }}
 
-        {{ else }}
+        {{- else -}}
 
-          {{ if $desktop_size }}
+          {{- if $desktop_size -}}
 
-          {{ if partial "func/isCrop" $desktop_size }}
+            {{ if partial "func/isCrop" $desktop_size }}
               {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
               {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
             {{ else }}
               {{ $image_desktop = $image.Resize $desktop_size }}
               {{ $image_desktop_webp = $image.Resize (printf "%s webp" $desktop_size) }}
             {{ end }}
-
             {{ $image_width = $image_desktop.Width }}
             {{ $image_height = $image_desktop.Height }}
             {{ $image_desktop = $image_desktop.RelPermalink }}
             {{ $image_desktop_webp = $image_desktop_webp.RelPermalink }}
 
           {{ else }}
+
             {{ $image_width = $image.Width }}
             {{ $image_height = $image.Height }}
             {{ $image_desktop = $image }}
             {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s webp" $image_width $image_height $crop) }}
-          {{ end }}
+         
+          {{- end -}}
 
-          {{ if $mobile_size }}
+          {{- if $mobile_size -}}
 
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $image_mobile = $image.Fill (printf "%s %s" $mobile_size $crop) }}
+              {{ $image_mobile = $image.Fill (print $mobile_size " " $crop) }}
             {{ else }}
-              {{ $image_mobile = $image.Resize (printf "%s %s" $mobile_size $crop) }}
+              {{ $image_mobile = $image.Resize (print $mobile_size " " $crop) }}
             {{ end }}
-            {{ $mobile_size_retina := partial "func/GetMultiplyImage" (dict "size" $mobile_size) }}
             
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $image_mobile_retina = $image.Fill (print $mobile_size_retina " " $crop) }}
+              {{ $image_mobile_2x = $image.Fill (print $mobile_size_2x " " $crop) }}
+              {{ $image_mobile_3x = $image.Fill (print $mobile_size_3x " " $crop) }}
               {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-              {{ $image_mobile_webp_retina = $image.Fill (print $mobile_size_retina " " $crop " webp") }}
+              {{ $image_mobile_webp_2x = $image.Fill (print $mobile_size_2x " " $crop " webp") }}
+              {{ $image_mobile_webp_3x = $image.Fill (print $mobile_size_3x " " $crop " webp") }}
             {{ else }}
-              {{ $image_mobile_retina = $image.Resize $mobile_size_retina }}
+              {{ $image_mobile_2x = $image.Resize $mobile_size_2x }}
+              {{ $image_mobile_3x = $image.Resize $mobile_size_3x }}
               {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
-              {{ $image_mobile_webp_retina = $image.Resize (print $mobile_size_retina " webp") }}
+              {{ $image_mobile_webp_2x = $image.Resize (print $mobile_size_2x " webp") }}
+              {{ $image_mobile_webp_3x = $image.Resize (print $mobile_size_3x " webp") }}
             {{ end }}
 
-            {{ $image_mobile_retina = $image_mobile_retina.RelPermalink }}
+            {{ $image_mobile_2x = $image_mobile_2x.RelPermalink }}
+            {{ $image_mobile_3x = $image_mobile_3x.RelPermalink }}
             {{ $image_mobile_webp = $image_mobile_webp.RelPermalink }}
-            {{ $image_mobile_webp_retina = $image_mobile_webp_retina.RelPermalink }}
+            {{ $image_mobile_webp_2x = $image_mobile_webp_2x.RelPermalink }}
+            {{ $image_mobile_webp_3x = $image_mobile_webp_3x.RelPermalink }}
           {{ end }}
 
-        {{ end }}
+        {{- end -}}
 
-        {{ with $image_desktop }}
-          {{ with $image_desktop_webp }}
+        {{- with $image_desktop }}
+          {{- with $image_desktop_webp }}
             <source srcset="{{ . }}" type="image/webp"{{ if $image_mobile}} media="(min-width: 577px)"{{ end }}>
-          {{ end }}
+          {{ end -}}
           {{ with $image_mobile }}
-            {{ with $image_mobile_webp }}
-              <source srcset="{{ . }}, {{ $image_mobile_webp_retina }} 2x" type="image/webp" media="(max-width: 576px)">
-            {{ end }}
-            <source srcset="{{ . }}, {{ $image_mobile_retina }} 2x" type="image/jpg" media="(max-width: 576px)">
-          {{ end }}
+            {{- with $image_mobile_webp }}
+              <source srcset="{{ . }}, {{ $image_mobile_webp_2x }} 2x, {{ $image_mobile_webp_3x }} 3x" type="image/webp" media="(max-width: 576px)">
+            {{ end -}}
+            <source srcset="{{ .RelPermalink }}, {{ $image_mobile_2x }} 2x, {{ $image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
+          {{ end -}}
           <img src="{{ . }}" alt="{{ $alt }}" 
             {{ with $image_width }}width="{{ . }}"{{ end }} 
             {{ with $image_height }}height="{{ . }}"{{ end }} 
@@ -164,6 +181,6 @@
 
     </picture>
 
-  {{ end }}
+  {{- end -}}
 
-{{ end }}
+{{- end -}}
