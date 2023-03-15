@@ -1,0 +1,11 @@
+{{ $hasImageHero := false }}
+{{ if isset .Params "hero" }}
+    {{ if isset .Params.hero "image" }}
+        {{ if isset .Params.hero.image "src" }}
+            {{ if ne .Params.hero.image.src "" }}
+                {{ $hasImageHero = true }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+{{ return $hasImageHero }}

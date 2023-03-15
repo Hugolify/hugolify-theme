@@ -1,0 +1,6 @@
+{{ $hasBlock := false }}
+{{ if isset .Params "blocks" }}
+    {{ $hasBlock = true }}
+{{ end }}
+
+{{ return $hasBlock }}
