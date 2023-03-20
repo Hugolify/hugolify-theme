@@ -9,36 +9,33 @@
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ol>
         {{ range $taxonomy_term, $taxonomy := . }}
-          {{ $item := partial "func/GetTaxonomy" (dict "slug" $taxonomy_term "taxonomy" $tax)  }}
-          {{ $permalink := $item.Permalink }}
+          {{ $page := .Page }}
           {{ if or (eq $tax "authors") (eq $tax "concerned") }}
-            {{ $item = partial "func/GetRealPerson" $item }}
+            {{ $page = partial "func/GetRealPerson" $page }}
           {{ end }}
-          {{ with $item }}
-            
-            <li>
-              {{ if $mini_card }}
-                {{ with .Params.image }}
-                  {{ $desktop := site.Params.image.xsmall | default false }}
-                  {{ $mobile := site.Params.image.xsmall | default false }}
-                  {{ partial "commons/image.html" (dict
-                    "src" .src
-                    "alt" .alt
-                    "picture_class" "avatar"
-                    "desktop" $desktop
-                    "mobile" $mobile
-                    "crop" "top"
-                  ) }}
-                {{ end }}
-                <div>
-              {{ end }}
-              <a href="{{ $permalink }}">{{ .Title }}</a>
-              {{ if $mini_card }}
-                </div>
-              {{ end }}
-            </li>
 
-          {{ end }}
+          <li>
+            {{ if $mini_card }}
+              {{ with $page.Params.image }}
+                {{ $desktop := site.Params.image.xsmall | default false }}
+                {{ $mobile := site.Params.image.xsmall | default false }}
+                {{ partial "commons/image.html" (dict
+                  "src" .src
+                  "alt" .alt
+                  "picture_class" "avatar"
+                  "desktop" $desktop
+                  "mobile" $mobile
+                  "crop" "top"
+                ) }}
+              {{ end }}
+              <div>
+            {{ end }}
+            <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+            {{ if $mini_card }}
+              </div>
+            {{ end }}
+          </li>
+
         {{ end }}
       </ol>
     </div>
