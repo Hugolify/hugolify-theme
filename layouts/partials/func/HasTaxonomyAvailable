@@ -1,0 +1,14 @@
+{{ $isAvailable := false }}
+{{ $taxonomy := .taxonomy }}
+
+{{ with .section }}
+  {{ range where site.Pages "Section" . }}
+    {{ if isset .Params $taxonomy }}
+      {{ if gt (len (index .Params $taxonomy)) 0 }}
+        {{ $isAvailable = true }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $isAvailable }}
