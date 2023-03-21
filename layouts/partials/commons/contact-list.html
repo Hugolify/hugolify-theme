@@ -1,6 +1,6 @@
 {{ with .Params.contact }}
   {{ if or .email .phone .fax .linkedin .twitter .instagram }}
-    <aside class="contact-list">
+    <aside class="contact-list"{{ partial "func/SetAnim" (dict "element" "content") }}>
       <div>
         <p>{{ i18n "contact.title" }}</p>
         <ul>

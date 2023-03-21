@@ -1,7 +1,7 @@
 .contact-list
     --bs-card-border-width: 0
+    --bs-card-bg: #{$gray-100}
     @extend .card
-    background-color: $light
     > div
         @extend .card-body
         > p
@@ -13,6 +13,7 @@
         &:not(.nav-social)
             @include font-size(.875rem)
     .nav-social
+        margin-bottom: calc(var(--bs-nav-link-padding-y) * -1)
         margin-left: calc(var(--bs-nav-link-padding-x) * -1)
         margin-top: .5rem
     a::after
