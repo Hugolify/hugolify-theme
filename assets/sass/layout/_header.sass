@@ -27,6 +27,8 @@ header[role="banner"]
         color: $header-color
     .nav-link
         --bs-nav-link-color: #{$header-color}
+        &:hover
+            --bs-nav-link-hover-color: #{$header-color}
     .nav-primary
         margin-left: auto
         @include media-breakpoint-down(lg)
