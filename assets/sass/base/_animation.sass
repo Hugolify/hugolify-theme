@@ -61,10 +61,16 @@
             transform: translateY(2rem)
             transition-delay: calc(#{$transition-delay} * 0.5)
             transition-duration: $transition-duration
-            transition-property: opacity, transform
             transition-timing-function: $transition-effect
+            transition-property: opacity, transform
+        .block-latest &,
+        .block-selected &
+            @include media-breakpoint-down(lg)
+                transform: none
         picture
+            transform: translateY(2rem)
             transition-duration: $transition-duration, calc(#{$transition-duration} * 2)
+            transition-property: opacity, transform
         &[data-anim-show]
             &,
             picture
