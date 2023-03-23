@@ -48,6 +48,8 @@
         @extend .col-xl-6
     &-content + &-content
         @extend .offset-xl-2
+        @include media-breakpoint-down(lg)
+            margin-top: $grid-gutter-width
     &-media
         @extend .col-md-6
         @extend .col-xl-4
