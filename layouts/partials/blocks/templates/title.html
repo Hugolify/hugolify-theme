@@ -1,9 +1,7 @@
 {{ with . }}
   <section class="block-title{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
     <div class="container">
-      {{ with .title }}
-        <h2>{{ partial "func/PrepareHTML" . }}</h2>
-      {{ end }}
+      {{ partial "blocks/heading.html" . }}
     </div>
   </section>
 {{ end }}

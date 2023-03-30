@@ -1,4 +1,4 @@
-{{ if or .title .text }}
+{{ if or .surtitle .title .text }}
   <header class="heading">
     {{ with .surtitle }}
       <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
