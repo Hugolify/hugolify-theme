@@ -1,0 +1,8 @@
+<li class="instagram">
+  {{ $username := partial "func/PrepareHTML" . }}
+  {{ $name := i18n "contact.instagram" }}
+  {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
+  <a href="https://instagram.com/{{ $username }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">
+    <span>{{ $name }}</span>
+  </a>
+</li>

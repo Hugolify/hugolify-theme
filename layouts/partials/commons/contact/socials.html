@@ -1,0 +1,16 @@
+{{ if or .linkedin .twitter .instagram }}
+  <ul class="nav nav-social">
+    {{ with .linkedin }}
+      {{ partial "commons/contact/linkedin.html" . }}
+    {{ end }}
+    {{ with .twitter }}
+      {{ partial "commons/contact/twitter.html" . }}
+    {{ end }}
+    {{ with .instagram }}
+      {{ partial "commons/contact/instagram.html" . }}
+    {{ end }}
+    {{ with .youtube }}
+      {{ partial "commons/contact/youtube.html" . }}
+    {{ end }}
+  </ul>
+{{ end }}
