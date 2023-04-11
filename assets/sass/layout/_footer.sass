@@ -1,6 +1,6 @@
 footer[role="contentinfo"]
-    @include rfs($global-spacing, padding-bottom)
-    @include rfs($global-spacing, padding-top)
+    @include padding-bottom($global-spacing)
+    @include padding-top($global-spacing)
     background-color: $footer-background-color
     .logo + p
         margin-top: .5rem
@@ -17,8 +17,8 @@ footer[role="contentinfo"]
         margin-bottom: 0
         text-align: center
         &::before
-            @include rfs($hr-margin-y, margin-bottom)
-            @include rfs($hr-margin-y, margin-top)
+            @include margin-bottom($hr-margin-y)
+            @include margin-top($hr-margin-y)
             background-color: darken($footer-background-color, 5)
             content: ''
             display: block

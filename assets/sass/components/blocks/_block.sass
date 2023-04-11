@@ -1,7 +1,7 @@
 /*! purgecss start ignore */
 [class*="block-"]
-    @include rfs($global-spacing, padding-bottom)
-    @include rfs($global-spacing, padding-top)
+    @include padding-bottom($global-spacing)
+    @include padding-top($global-spacing)
     @include media-breakpoint-up(lg)
         .heading
             align-items: center

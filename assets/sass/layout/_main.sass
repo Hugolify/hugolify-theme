@@ -1,6 +1,6 @@
 main
-    @include rfs(calc(#{$global-spacing} * 2), padding-bottom)
-    @include rfs($global-spacing, padding-top)
+    @include padding-bottom($global-spacing-double)
+    @include padding-top($global-spacing)
     outline: 0
 
     .row >
