@@ -3,6 +3,10 @@
         > div
             position: sticky
             top: $offset
+            @media (prefers-reduced-motion: no-preference)
+                transition: top .3s ease
+            html.is-scrolling-down &
+                top: 1rem
     > div
         > p
             @extend .d-none
