@@ -1,3 +1,4 @@
+{{ $current := .current | default false }}
 {{ $tax := .tax | default false }}
 {{ $mini_card := .mini_card | default false }}
 {{ if $tax }}
@@ -30,7 +31,11 @@
               {{ end }}
               <div>
             {{ end }}
-            <a href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+            {{ $class := "" }}
+            {{ if eq $current $page }}
+              {{ $class = " class='active'" }}
+            {{ end }}
+            <a href="{{ $page.Permalink }}"{{ $class | safeHTMLAttr }}>{{ $page.Title }}</a>
             {{ if $mini_card }}
               </div>
             {{ end }}
