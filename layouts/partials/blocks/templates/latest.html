@@ -1,4 +1,8 @@
 {{ $section := .section }}
+{{ $atf := false }}
+{{ if .first }}
+  {{ $atf = true }}
+{{ end }}
 
 {{ if $section }}
 <section class="block-latest{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
@@ -13,7 +17,7 @@
     {{ end }}
     {{ with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
       {{ $partial := printf "%s/items" $section }}
-      {{ partial $partial (dict "pages" . "scrollsnap" true) }}
+      {{ partial $partial (dict "pages" . "scrollsnap" true "abovethefold" $atf) }}
     {{ end }}
 
     {{ $show_button := .show_more | default true }}

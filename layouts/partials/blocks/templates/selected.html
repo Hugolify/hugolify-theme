@@ -1,4 +1,9 @@
 {{ $section := .section }}
+{{ $atf := false }}
+{{ if .first }}
+  {{ $atf = true }}
+{{ end }}
+
 {{ if $section }}
 <section class="block-selected block-selected-{{ $section }}{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
@@ -16,7 +21,7 @@
       {{ end }}
       {{ if gt $items 0 }}
         {{ $partial := printf "%s/items" $section }}
-        {{ partial $partial $items }}
+        {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
       {{ end }}
     {{ end }}
 
