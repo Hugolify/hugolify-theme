@@ -1,11 +1,8 @@
 {{ with .}}
   <section class="block-cta{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
     <div class="container">
-
       {{ partial "blocks/heading.html" . }}
-
       {{ partial "commons/cta.html" .cta }}
-
     </div>
   </section>
 {{ end }}

@@ -1,13 +1,15 @@
-{{ if or .surtitle .title .text }}
-  <header class="heading">
-    {{ with .surtitle }}
-      <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .title }}
-      <h2>{{ partial "func/PrepareHTML" . }}</h2>
-    {{ end }}
-    {{ with .text }}
-      <p>{{ partial "func/PrepareHTML" (partial "func/LineBreak" .) }}</p>
-    {{ end }}
-  </header>
+{{ with .heading }}
+  {{ if or .surtitle .title .text }}
+    <header class="heading">
+      {{ with .surtitle }}
+        <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+      {{ end }}
+      {{ with .title }}
+        <h2>{{ partial "func/PrepareHTML" . }}</h2>
+      {{ end }}
+      {{ with .text }}
+        <p>{{ partial "func/PrepareHTML" (partial "func/LineBreak" .) }}</p>
+      {{ end }}
+    </header>
+  {{ end }}
 {{ end }}
