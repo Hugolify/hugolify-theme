@@ -150,6 +150,7 @@
               {{ $image_mobile_webp_3x = $image.Resize (print $mobile_size_3x " webp") }}
             {{ end }}
 
+            {{ $image_mobile = $image_mobile.RelPermalink }}
             {{ $image_mobile_2x = $image_mobile_2x.RelPermalink }}
             {{ $image_mobile_3x = $image_mobile_3x.RelPermalink }}
             {{ $image_mobile_webp = $image_mobile_webp.RelPermalink }}
@@ -167,7 +168,7 @@
             {{- with $image_mobile_webp }}
               <source srcset="{{ . }}, {{ $image_mobile_webp_2x }} 2x, {{ $image_mobile_webp_3x }} 3x" type="image/webp" media="(max-width: 576px)">
             {{ end -}}
-            <source srcset="{{ .RelPermalink }}, {{ $image_mobile_2x }} 2x, {{ $image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
+            <source srcset="{{ . }}, {{ $image_mobile_2x }} 2x, {{ $image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
           {{ end -}}
           <img src="{{ . }}" alt="{{ $alt }}" 
             {{ with $image_width }}width="{{ . }}"{{ end }} 
