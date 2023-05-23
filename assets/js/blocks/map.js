@@ -16,18 +16,18 @@ class BlockMap {
 
     addFiles () {
         // JS
-        this.leafletJS = document.createElement('script'),
+        this.leafletJS = document.createElement('script');
         this.leafletJS.type = 'text/javascript';
         this.leafletJS.src = 'https://unpkg.com/leaflet@1.9.3/dist/leaflet.js';
-        (document.getElementsByTagName('body')[0]).appendChild(this.leafletJS);
+        document.getElementsByTagName('body')[0].appendChild(this.leafletJS);
         
         // CSS
         this.leafletCSS = document.createElement('link');
         this.leafletCSS.rel = 'stylesheet';
         this.leafletCSS.href = 'https://unpkg.com/leaflet@1.9.3/dist/leaflet.css';
-        (document.getElementsByTagName('head')[0]).appendChild(this.leafletCSS);
+        document.getElementsByTagName('head')[0].appendChild(this.leafletCSS);
         
-        this.leafletJS.addEventListener("load", () => {
+        this.leafletJS.addEventListener('load', () => {
             leafletLoaded = true;
             this.init();
         });

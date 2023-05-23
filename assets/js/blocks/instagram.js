@@ -17,22 +17,22 @@ class BlockInstagram {
     }
 
     addFiles () {
-        this.instafeedJS = document.createElement('script'),
+        this.instafeedJS = document.createElement('script');
         this.instafeedJS.type = 'text/javascript';
         this.instafeedJS.src = 'https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.min.js';
-        (document.getElementsByTagName('body')[0]).appendChild(this.instafeedJS);
+        document.getElementsByTagName('body')[0].appendChild(this.instafeedJS);
         
-        this.instafeedJS.addEventListener("load", () => {
+        this.instafeedJS.addEventListener('load', () => {
             instafeedLoaded = true;
             this.init();
         });
     }
 
     init () {
-        let instagramTemplate = '<div><a href="{{link}}" target="_blank"><img title="{{caption}}" src="{{image}}" alt="" width="720" height="720"></a></div>';
-        let datas = this.instagram.dataset;
-        let instagramToken = datas.token;
-        let instagramLimit = parseInt(datas.limit, 10);
+        let instagramTemplate = '<div><a href="{{link}}" target="_blank"><img title="{{caption}}" src="{{image}}" alt="" width="720" height="720"></a></div>',
+            datas = this.instagram.dataset,
+            instagramToken = datas.token,
+            instagramLimit = parseInt(datas.limit, 10);
         const feed = new Instafeed({
             target: this.instagram,
             limit: instagramLimit,

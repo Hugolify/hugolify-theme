@@ -17,12 +17,12 @@ class BlockChart {
     }
 
     addFiles () {
-        this.chartjsJS = document.createElement('script'),
+        this.chartjsJS = document.createElement('script');
         this.chartjsJS.type = 'text/javascript';
         this.chartjsJS.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js';
-        (document.getElementsByTagName('body')[0]).appendChild(this.chartjsJS);
+        document.getElementsByTagName('body')[0].appendChild(this.chartjsJS);
         
-        this.chartjsJS.addEventListener("load", () => {
+        this.chartjsJS.addEventListener('load', () => {
             chartjsLoaded = true;
             this.init();
         });
@@ -42,7 +42,7 @@ class BlockChart {
 
         } else {
 
-            let items = JSON.parse(this.chart.dataset.items)
+            let items = JSON.parse(this.chart.dataset.items);
             let backgroundColors = items.map(function(e) {
                 return e.color;
             });
@@ -54,7 +54,7 @@ class BlockChart {
             });
 
             if (backgroundColor) {
-                backgroundColors = backgroundColor
+                backgroundColors = backgroundColor;
             }
 
             data = {
@@ -80,19 +80,19 @@ class BlockChart {
                 }
             }
         };
-        if(type === "line") {
+        if (type === 'line') {
             this.config.options.scales = {};
             this.config.options.scales.y = {};
             this.config.options.scales.y.beginAtZero = true;
         }
-        if(type === "radar") {
+        if (type === 'radar') {
             this.config.options.scale = {};
             this.config.options.scale.min = 0;
         }
 
         let chart = new Chart(this.canvas, this.config);
     }
-};
+}
 
 charts.forEach((chart) => {
     scrollspy(chart, () => {
