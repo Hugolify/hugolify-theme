@@ -48,6 +48,9 @@
 
             {{ if or .title .text .cta.text }}
             <div class="content">
+              {{ if .card }}
+                <div>
+              {{ end }}
               {{- with .title }}
                 {{- printf "<%s>" $tag | safeHTML -}}
                   {{ partial "func/PrepareHTML" . }}
@@ -58,6 +61,9 @@
               {{ end -}}
               {{ with .cta }}
                 {{ partial "commons/cta.html" . }}
+              {{ end }}
+              {{ if .card }}
+                </div>
               {{ end }}
             </div>
             {{ end }}

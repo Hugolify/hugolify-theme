@@ -12,6 +12,7 @@
     color: var(--push-color)
     position: relative
     overflow: hidden
+
     @include media-breakpoint-down(sm)
         margin-left: - $gutter-mobile
         margin-right: - $gutter-mobile
@@ -35,6 +36,25 @@
         justify-content: center
         z-index: 1
 
+        > div
+            background-color: $body-bg
+            color: $body-color
+            padding: 2rem
+            width: 100%
+            @include media-breakpoint-up(md)
+                width: 50%
+            @include media-breakpoint-up(xl)
+                width: 33%
+            h2, h3
+                @extend .display-5
+            h2, h3, p
+                color: $body-color
+            p
+                font-size: $font-size-base
+            .btn
+                @extend .btn-primary
+
+
     @include media-breakpoint-up(md)
         &-end
             .content
@@ -49,6 +69,7 @@
     &-darken 
         picture
             opacity: .3
+
     img
         height: 100%
         object-fit: cover

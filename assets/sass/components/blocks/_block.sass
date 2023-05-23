@@ -2,10 +2,11 @@
 [class*="block-"]
     @include padding-bottom($global-spacing)
     @include padding-top($global-spacing)
+    .heading
+        flex-direction: column
     @include media-breakpoint-up(lg)
         .heading
             align-items: center
-            flex-direction: column
             margin-left: auto
             margin-bottom: $global-spacing
             margin-right: auto

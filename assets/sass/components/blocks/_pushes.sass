@@ -7,7 +7,14 @@
         &-2
             @extend .row-cols-lg-2
             h2, h3
-                @extend .display-5
+                @extend .display-6
+            .content > div
+                @include media-breakpoint-up(lg)
+                    width: 100%
+                    h2, h3
+                        font-size: calc(#{$font-size-base} * 1.5)
+                @include media-breakpoint-up(xl)
+                    width: 60%
             @include media-breakpoint-up(lg)
                 .push
                     --bs-aspect-ratio: calc(9 / 16 * 100%)
