@@ -11,7 +11,7 @@
     </li>
     <li>
       {{ $name := i18n "contact.twitter" -}}
-      <a href="https://twitter.com/intent/tweet?text={{ .Title }} {{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+      <a href="https://twitter.com/intent/tweet?text={{ .Title }}%20{{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
         {{- $name -}}
       </a>
     </li>
@@ -29,7 +29,7 @@
     </li>
     <li>
       {{ $name := i18n "contact.whatsapp" -}}
-      <a href="whatsapp://send?text={{ .Title }} {{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+      <a href="whatsapp://send?text={{ .Title }}%20{{ .Permalink | absURL }}" data-action="share/whatsapp/share" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
         {{- $name -}}
       </a>
     </li>
