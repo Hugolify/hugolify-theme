@@ -1,9 +1,9 @@
 <header role="banner">
   <nav role="navigation" aria-label="{{ i18n "navigation.main" }}">
     <div class="container">
-      {{ partial "header/logo.html" }}
+      {{ partialCached "header/logo.html" . }}
       {{ if site.Data.menu.primary }}
-        {{ partial "header/button" }}
+        {{ partialCached "header/button" . }}
         {{ partial "header/offcanvas" . }}
       {{ end }}
     </div>

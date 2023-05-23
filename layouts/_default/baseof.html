@@ -13,13 +13,13 @@
     {{- partialCached "commons/schema.html" . -}}
     {{- partialCached "nav/accessibility.html" . -}}
     {{- partialCached "header/top.html" . -}}
-    {{- partialCached "header/header.html" . .Section -}}
+    {{- partial "header/header.html" . -}}
     {{- block "hero" . }}{{- end }}
     <main id="main" role="main" tabindex="-1">
       {{- block "main" . }}{{- end }}
     </main>
     {{- partial "nav/breadcrumb.html" . -}}
-    {{- partialCached "footer/footer.html" . -}}
+    {{- partial "footer/footer.html" . -}}
     {{- partialCached "footer/cookie-banner.html" . -}}
     {{- partialCached "footer/js.html" . -}}
     {{- partialCached "footer/scripts.html" . -}}
