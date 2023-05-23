@@ -1,4 +1,4 @@
 {{ $format := .format | default 2006 }}
 {{ with .date }}
-  <time datetime="{{ . }}" itemprop="datePublished">{{ . | time.Format $format }}</time>
+  <time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" | safeHTML }}" itemprop="datePublished">{{ . | time.Format $format }}</time>
 {{ end }}
