@@ -16,8 +16,8 @@
                 border-bottom: 1px solid $border-color
                 padding-bottom: calc(#{$global-spacing} / 2)
         .list
-            p::before
-                margin-right: .25em
+            a:not(:hover)
+                text-decoration-color: transparent
             &[class*="tags"]
                 @extend .list-tags
                 border-top: 0
