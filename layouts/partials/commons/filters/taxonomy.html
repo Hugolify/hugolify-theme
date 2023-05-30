@@ -35,7 +35,7 @@
             {{ if eq $current $page }}
               {{ $class = " class='active'" }}
             {{ end }}
-            <a href="{{ $page.Permalink }}"{{ $class | safeHTMLAttr }}>{{ $page.Title }}</a>
+            <a href="{{ .Page.Permalink }}"{{ $class | safeHTMLAttr }}>{{ $page.Title }}</a>
             {{ if $mini_card }}
               </div>
             {{ end }}
