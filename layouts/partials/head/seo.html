@@ -7,8 +7,14 @@
   {{- $seoTitle = chomp (htmlUnescape .) -}}
 {{- end -}}
 {{- if .Title -}}
-  {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape .Title)) $seoTitle -}}
+  {{ $title := .Title }}
+  {{ if and (eq .Kind "term") (or (eq .Section "authors") (eq .Section "concerned")) }}
+    {{ $page := partial "func/GetRealPerson" . }}
+    {{ $title = $page.Title }}
+  {{ end }}
+  {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape $title)) $seoTitle -}}
 {{- end -}}
+
 
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
