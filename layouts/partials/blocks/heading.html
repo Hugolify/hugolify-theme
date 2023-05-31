@@ -8,7 +8,7 @@
         <h2>{{ partial "func/PrepareHTML" . }}</h2>
       {{ end }}
       {{ with .text }}
-        <p>{{ partial "func/PrepareHTML" (partial "func/LineBreak" . | markdownify) }}</p>
+        <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
       {{ end }}
     </header>
   {{ end }}
