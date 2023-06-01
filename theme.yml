@@ -4,7 +4,7 @@ licenselink: "https://github.com/hugolify/hugolify-theme/blob/main/LICENSE"
 description: "Hugolify theme base"
 tags: []
 features: []
-min_version: "0.111.3"
+min_version: "0.112.5"
 
 author:
   name: "Sébastien Moulène"
