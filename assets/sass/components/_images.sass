@@ -10,7 +10,10 @@
     figure,
     picture
       margin-bottom: $grid-gutter-width
-    figure picture
+    figure picture,
+    figure:last-child,
+    figure.half:nth-last-child(2)
       margin-bottom: 0
+
     img
         @extend .img-fluid
