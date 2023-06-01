@@ -17,6 +17,8 @@
                 @extend .row-cols-lg-#{$i}
     h3
         @extend .h5
+        @include media-breakpoint-down(md)
+            margin-bottom: calc(#{$spacer} / 2)
     .gauge
         margin-left: auto
         margin-right: auto

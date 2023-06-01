@@ -3,7 +3,11 @@
     @include padding-bottom($global-spacing)
     @include padding-top($global-spacing)
     .heading
+        align-items: unset
         flex-direction: column
+    h2 + p
+        margin-top: calc(#{$spacer} / 2)
+    
     @include media-breakpoint-up(lg)
         .heading
             align-items: center
@@ -12,10 +16,10 @@
             margin-right: auto
             max-width: 66%
             text-align: center
-        [class*="col-"] .heading
-            max-width: 100%
         h2 + p
             margin-top: $headings-margin-bottom
+        [class*="col-"] .heading
+            max-width: 100%
         .bottom
             text-align: center
 

@@ -1,4 +1,16 @@
 .block-chart
+    text-align: center
+    @include media-breakpoint-down(md)
+        .container,
+        .row > *
+            padding-left: 0
+            padding-right: 0
+        .row
+            margin-left: 0
+            margin-right: 0
+        .heading
+            margin-left: $gutter-mobile
+            margin-right: $gutter-mobile
     .container .row
         text-align: right
     canvas + .btn
