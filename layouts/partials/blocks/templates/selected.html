@@ -13,12 +13,17 @@
     {{ with .items }}
       {{ $items := slice }}
       {{ range . }}
-        {{ $path := printf "%s/%s" $section . }}
+        {{ $filename := . }}
+        {{ $path := printf "%s/%s" $section $filename }}
         {{ $item := site.GetPage $path }}
+        {{ if not $item }}
+          {{ $item = where (where site.Pages "Section" $section ) "Params.title" "==" . }}
+        {{ end }}
         {{ with $item }}
           {{ $items = $items | append . }}
         {{ end }}
       {{ end }}
+      
       {{ if gt $items 0 }}
         {{ $partial := printf "%s/items" $section }}
         {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
