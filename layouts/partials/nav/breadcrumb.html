@@ -44,11 +44,7 @@
   {{- if not (eq .page.RelPermalink "/pages/") -}}
     {{- $title := .page.Params.breadcrumb_title -}}
     {{- if not $title -}}
-      {{- $title = .page.Title -}}
-      {{ if and (eq .page.Kind "term") (or (eq .page.Section "authors") (eq .page.Section "concerned")) }}
-        {{ $page := partial "func/GetRealPerson" .page }}
-        {{ $title = $page.Title }}
-      {{ end }}
+      {{ $title = partial "func/GetRealTitle" .page }}
     {{- end -}}
     {{- $title = chomp $title }}
     <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"{{ if .active }} aria-current="page"{{ end }}>

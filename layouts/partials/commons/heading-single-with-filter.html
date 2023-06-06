@@ -1,6 +1,7 @@
 {{ $section := printf "/%s" .section }}
 {{ $i18nAll := printf "%s.all" .section }}
 {{ $partialFilter := printf "%s/filters/button" .section }}
+{{ $context := .context }}
 
 <header class="heading heading-filter"{{ partial "func/SetAnim" (dict "element" "heading") }}>
   {{ with site.GetPage $section }}
@@ -8,8 +9,6 @@
     <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
   </p>
   {{ end }}
-  {{ with .context.Title }}
-    <h1>{{ partial "func/PrepareHTML" . }}</h1>
-  {{ end }}
-  {{ partial $partialFilter .context }}
+  <h1>{{ partial "func/GetRealTitle" $context }}</h1>
+  {{ partial $partialFilter $context }}
 </header>

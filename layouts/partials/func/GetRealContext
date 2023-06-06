@@ -1,0 +1,16 @@
+{{ $context := . }}
+{{ $realContext := $context }}
+{{ if eq $context.Kind "term" }}
+    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") }}
+        {{ $page := partial "func/GetRealPerson" $context }}
+        {{ $realContext = $page }}
+    {{ else if or (eq $context.Section "persons_expertises") (eq $context.Section "posts_expertises") (eq $context.Section "publications_expertises") }}
+        {{ $page := partial "func/GetRealExpertise" $context }}
+        {{ $realContext = $page }}
+    {{ else if eq $context.Section "persons_offices" }}
+        {{ $page := partial "func/GetRealOffice" $context }}
+        {{ $realContext = $page }}
+    {{ end }}
+{{ end }}
+
+{{ return $realContext }}

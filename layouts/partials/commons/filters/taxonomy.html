@@ -10,11 +10,7 @@
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ol>
         {{ range $taxonomy_term, $taxonomy := . }}
-          {{ $page := .Page }}
-          {{ if or (eq $tax "authors") (eq $tax "concerned") }}
-            {{ $page = partial "func/GetRealPerson" $page }}
-          {{ end }}
-
+          {{- $page := partial "func/GetRealContext" .Page -}}
           <li>
             {{ if $mini_card }}
               {{ with $page.Params.image }}
