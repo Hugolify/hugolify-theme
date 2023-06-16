@@ -17,6 +17,8 @@
         overflow: hidden
         text-overflow: ellipsis
         white-space: nowrap
+        @include media-breakpoint-down(lg)
+            max-width: calc(100vw - (var(--bs-card-spacer-x) * 2) - (#{$gutter-mobile} * 2))
     .nav-social
         margin-bottom: calc(var(--bs-nav-link-padding-y) * -1)
         margin-left: calc(var(--bs-nav-link-padding-x) * -1)
