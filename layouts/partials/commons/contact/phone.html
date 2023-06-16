@@ -1,4 +1,4 @@
 {{ $tel := partial "func/PrepareHTML" . }}
 <li class="phone">
-  <b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ $tel }}" target="_blank">{{ i18n "contact.phone" }} {{ $tel }}</a>
+  <b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ replace (replace . " " "") "(0)" "" }}" target="_blank">{{ i18n "contact.phone" }} {{ $tel }}</a>
 </li>
