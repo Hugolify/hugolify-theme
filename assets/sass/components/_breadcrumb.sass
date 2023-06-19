@@ -3,7 +3,6 @@
     border-top: $border-width solid $border-color
     overflow: hidden
     nav
-        @extend .container
         overflow: auto
     ol
         @extend .breadcrumb
@@ -21,6 +20,6 @@
         &:last-child
             padding-right: calc(var(--bs-gutter-x) * .5)
     [aria-current="page"]
-        @extend .active
+        color: var(--bs-breadcrumb-item-active-color)
  
 

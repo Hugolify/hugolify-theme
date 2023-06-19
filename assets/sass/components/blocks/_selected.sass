@@ -4,8 +4,7 @@
         justify-content: center
     .bottom
         @include margin-top($global-spacing)
-    .more
-        @extend .btn
+    .btn
         @extend .btn-secondary
         @if variable-exists(bootstrap-icons-map)
             &:hover

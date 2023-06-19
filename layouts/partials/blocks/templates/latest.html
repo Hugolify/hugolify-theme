@@ -26,7 +26,7 @@
       {{ with $index }}
         <div class="bottom">
           {{ $i18n := printf "%s.more" $section }}
-          <a href="{{ .Permalink }}" class="more">{{ i18n $i18n }}</a>
+          <a href="{{ .Permalink }}" class="btn">{{ i18n $i18n }}</a>
         </div>
       {{ end }}
     {{ end }}

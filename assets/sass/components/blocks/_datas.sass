@@ -1,22 +1,24 @@
 .block-datas
     text-align: center
     .items
-        @extend .row
-        @extend .row-cols-1
-        @extend .row-cols-md-3
-        @extend .gy-4
+        @include make-row()
+        --bs-gutter-y: #{$grid-gutter-width}
         justify-content: center
         list-style: none
         margin-bottom: 0
         padding-left: 0
         > *
-            @extend .col
+            @include make-col-ready()
+            @include media-breakpoint-up(lg)
+                @include make-col(4)
 
         @for $i from 3 through 6
             &-#{$i}
-                @extend .row-cols-lg-#{$i}
+                > *
+                    @include media-breakpoint-up(lg)
+                        @include make-col($grid-columns / $i)
     h3
-        @extend .h5
+        @include font-size($h5-font-size)
         @include media-breakpoint-down(md)
             margin-bottom: calc(#{$spacer} / 2)
     .gauge

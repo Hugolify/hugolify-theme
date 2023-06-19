@@ -1,6 +1,6 @@
 {{- if .Parent -}}
   <div class="breadcrumb-wrapper">
-    <nav aria-label="{{ i18n "breadcrumb" }}">
+    <nav class="container" aria-label="{{ i18n "breadcrumb" }}">
       {{- $path := strings.TrimSuffix "/" .RelPermalink -}}
       {{- $length := len (split $path "/") }}
       <ol itemscope itemtype="https://schema.org/BreadcrumbList">

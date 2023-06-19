@@ -1,10 +1,14 @@
 form
-    @extend .row
-    @extend .row-cols-md-2
+    @include make-row()
+    > *
+        @include make-col-ready()
+        @include media-breakpoint-up(lg)
+            @include make-col(6)
     > div:not(:last-child)
         margin-bottom: $spacer * 2
     .btn
         @extend .btn-primary
     .full,
     .actions
-        @extend .col-12
+        @include media-breakpoint-up(lg)
+            @include make-col(12)

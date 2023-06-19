@@ -1,9 +1,12 @@
 .block-testimonials
     .testimonials
+        @include make-row()
         --bs-gutter-y: #{$grid-gutter-width}
-        @extend .row
-        @extend .row-cols-md-3
         @include scroll-snap
+        > *
+            @include make-col-ready()
+            @include media-breakpoint-up(md)
+                @include make-col(4)
     .quote
         --bs-card-bg: #{$light}
         --bs-card-border-radius: 10px

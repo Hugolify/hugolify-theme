@@ -1,11 +1,14 @@
 .block-pushes
     .items
-        @extend .row
-        @extend .row-cols-1
-        @extend .gy-4
+        @include make-row()
+        --bs-gutter-y: #{$grid-gutter-width}
+        > *
+            @include make-col-ready()
         
         &-2
-            @extend .row-cols-lg-2
+            @include media-breakpoint-up(lg)
+                > *
+                    @include make-col(6)
             h2, h3
                 @extend .display-6
             .content > div
@@ -20,4 +23,6 @@
                     --bs-aspect-ratio: calc(9 / 16 * 100%)
 
         &-3
-            @extend .row-cols-lg-3
+            @include media-breakpoint-up(lg)
+                > *
+                    @include make-col(4)

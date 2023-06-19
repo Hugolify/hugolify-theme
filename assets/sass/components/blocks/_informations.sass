@@ -1,25 +1,27 @@
 .block-informations
     .items
-        @extend .row
-        @extend .gy-4
+        @include make-row()
+        --bs-gutter-y: #{$grid-gutter-width}
         justify-content: center
         text-align: center
         > *
-            @extend .col
+            @include make-col-ready()
 
         @for $i from 2 through 6
             &-#{$i}
-                @extend .row-cols-md-#{$i - 1}
-                @extend .row-cols-lg-#{$i}
+                > *
+                    @include media-breakpoint-up(lg)
+                        @include make-col($grid-columns / $i)
         
         &:not(.items-1)
             @include scroll-snap
 
-    .card
+    .item
         --bs-card-spacer-y: 1.5rem
         --bs-card-spacer-x: 1.5rem
         --bs-card-bg: #{$gray-200}
         --bs-card-cap-bg: #{$gray-200}
+        @extend .card
         border: 0
         height: 100%
         text-align: left

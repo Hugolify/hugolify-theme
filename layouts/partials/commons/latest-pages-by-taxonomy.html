@@ -18,7 +18,7 @@
       {{ if gt $count $limit }}
         {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
         {{ with $item }}
-          <a href="{{ .Permalink }}" class="more">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
+          <a href="{{ .Permalink }}" class="btn">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
         {{ end }}
       {{ end }}
     </header>
