@@ -1,4 +1,8 @@
-{{ with site.Data.menu.legal }}
+{{- $menu := site.Data.menu.legal -}}
+{{ with index $menu .Site.Language.Lang }}
+  {{- $menu = . -}}
+{{ end }}
+{{ with $menu }}
   <ul class="nav nav-legal">
     {{ range .links }}
       <li>
