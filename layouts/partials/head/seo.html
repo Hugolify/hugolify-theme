@@ -6,16 +6,21 @@
 {{- with .Site.Data.seo.title -}}
   {{- $seoTitle = chomp (htmlUnescape .) -}}
 {{- end -}}
+{{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{- $seoTitle = partial "func/PrepareHTML" .title -}}
+{{- end -}}
 {{- if .Title -}}
   {{- $title := partial "func/GetRealTitle" . -}}
   {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape $title)) $seoTitle -}}
 {{- end -}}
 
-
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
 {{- with .Site.Data.seo.description -}}
   {{- $seoDescription = partial "func/PrepareHTML" . -}}
+{{- end -}}
+{{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{- $seoDescription = partial "func/PrepareHTML" .description -}}
 {{- end -}}
 {{- with .Description -}}
   {{- $seoDescription = partial "func/PrepareHTML" . -}}
