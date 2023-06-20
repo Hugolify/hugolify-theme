@@ -1,6 +1,6 @@
 {{- $logo := .logo | default "" -}}
 {{- $file := printf "static%s" $logo -}}
-<a class="logo" href="{{ site.BaseURL }}">
+<a class="logo" href="{{ site.Home.Permalink }}">
   {{- if os.FileExists $file }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
     <img src="{{ .logo }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
