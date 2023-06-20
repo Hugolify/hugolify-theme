@@ -26,12 +26,7 @@ header[role="banner"]
             @extend .navbar-toggler-icon
     .logo
         color: $header-color
-    .nav-link
-        --bs-nav-link-color: #{$header-color}
-        &:hover
-            --bs-nav-link-hover-color: #{$header-color}
-    .nav-primary
-        margin-left: auto
+    .nav
         @include media-breakpoint-down(lg)
             align-items: center
             flex-direction: column
@@ -40,8 +35,15 @@ header[role="banner"]
                 font-size: px2rem(20)
             ul li
                 font-size: px2rem(16)
-        @include media-breakpoint-up(lg)
-            margin-right: - $nav-link-padding-x
+        &:last-child
+            @include media-breakpoint-up(lg)
+                margin-right: - $nav-link-padding-x
+    .nav-primary
+        margin-left: auto
+    .nav-link
+        --bs-nav-link-color: #{$header-color}
+        &:hover
+            --bs-nav-link-hover-color: #{$header-color}
     .dropdown-toggle
         &::after
             border-top-color: $header-color
@@ -58,3 +60,5 @@ header[role="banner"]
 
         .content
             @extend .offcanvas-body
+            @include media-breakpoint-up(lg)
+                align-items: baseline
