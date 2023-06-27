@@ -24,6 +24,12 @@
         @extend .btn-outline-primary
         margin-right: 0
 
+    @if variable-exists(bootstrap-icons-map)
+        .btn[href^="#"] 
+            &::after
+                @include icon('arrow-down-short')
+                margin-left: .5rem
+
     &-cover
         height: 100%
         left: 0
