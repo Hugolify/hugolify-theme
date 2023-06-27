@@ -42,8 +42,16 @@
             {{ end }}
           </div>
         {{ end }}
-        {{ if .cta }}
-          <div class="cta" {{ if .cta_second }}role="group"{{ end }}>
+        {{ if partial "func/HasCTA" . }}
+          {{ $hasCTA_second := false }}
+          {{ if isset . "cta_second" }}
+            {{ if isset .cta_second "text" }}
+                {{ if ne .cta_second.text "" }}
+                    {{ $hasCTA_second = true }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+          <div class="cta" {{ if $hasCTA_second }}role="group"{{ end }}>
             {{ with .cta }}
               {{ partial "commons/cta.html" . }}
             {{ end }}

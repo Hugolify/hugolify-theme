@@ -1,7 +1,7 @@
 {{ with . }}
   {{ $blank := .blank | default false }}
-  {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}
-  {{ if .text }}
+  {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text)) }}
+  {{ if and .url .text }}
     <a {{ printf "href=%q" .url | safeHTMLAttr }} class="btn"{{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>{{ partial "func/PrepareHTML" .text }}</a>
   {{ end }}
 {{ end }}

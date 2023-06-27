@@ -1,0 +1,10 @@
+{{ $hasCTA := false }}
+{{ if isset . "cta" }}
+    {{ if isset .cta "text" }}
+        {{ if ne .cta.text "" }}
+            {{ $hasCTA = true }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{ return $hasCTA }}
