@@ -1,3 +1,10 @@
+{{ $description := false }}
 {{- with .Site.Data.seo.description -}}
+  {{ $description := . }}
+{{- end -}}
+{{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{ $description := .description }}
+{{- end -}}
+{{- with $description -}}
   <p>{{- partial "func/PrepareHTML" . -}}</p>
 {{- end -}}
