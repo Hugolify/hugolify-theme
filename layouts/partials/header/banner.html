@@ -1,6 +1,6 @@
-{{ with site.Data.top }}
+{{ with site.Data.banner }}
   {{ if ne .text "" }}
-    <div class="top top-{{ .state }}" role="alert">
+    <div class="banner banner-{{ .state }}" role="alert">
       <div class="container">
         {{ with .text }}
           <p>{{ . | markdownify }}</p>
