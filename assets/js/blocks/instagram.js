@@ -19,7 +19,8 @@ class BlockInstagram {
     addFiles () {
         this.instafeedJS = document.createElement('script');
         this.instafeedJS.type = 'text/javascript';
-        this.instafeedJS.src = 'https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.min.js';
+        // this.instafeedJS.src = 'https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.min.js';
+        this.instafeedJS.src = '/assets/js/instafeed.min.js';
         document.getElementsByTagName('body')[0].appendChild(this.instafeedJS);
         
         this.instafeedJS.addEventListener('load', () => {

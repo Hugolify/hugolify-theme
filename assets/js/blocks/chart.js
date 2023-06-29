@@ -19,7 +19,8 @@ class BlockChart {
     addFiles () {
         this.chartjsJS = document.createElement('script');
         this.chartjsJS.type = 'text/javascript';
-        this.chartjsJS.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js';
+        // this.chartjsJS.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
+        this.chartjsJS.src = '/assets/js/chart.umd.js';
         document.getElementsByTagName('body')[0].appendChild(this.chartjsJS);
         
         this.chartjsJS.addEventListener('load', () => {
