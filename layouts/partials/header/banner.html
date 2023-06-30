@@ -1,6 +1,14 @@
 {{ with site.Data.banner }}
-  {{ if ne .text "" }}
-    <div class="banner banner-{{ .state }}" role="alert">
+  {{ $text := false }}
+  {{- with .text -}}
+    {{ $text = . }}
+  {{- end -}}
+  {{- with index . .Site.Language.Lang -}}
+    {{ $text = .text }}
+  {{- end -}}
+
+  {{ if .text }}
+    <div class="banner{{ with .state }} banner-{{ . }}{{ end }}" role="alert">
       <div class="container">
         {{ with .text }}
           <p>{{ . | markdownify }}</p>
