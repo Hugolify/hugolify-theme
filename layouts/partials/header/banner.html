@@ -3,8 +3,10 @@
   {{- with .text -}}
     {{ $text = . }}
   {{- end -}}
-  {{- with index . .Site.Language.Lang -}}
-    {{ $text = .text }}
+  {{- if .Site.IsMultiLingual -}}
+    {{- with index . .Site.Language.Lang -}}
+      {{ $text = .text }}
+    {{- end -}}
   {{- end -}}
 
   {{ if .text }}
