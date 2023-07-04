@@ -11,11 +11,11 @@
     
       {{ partial "blocks/heading.html" . }}
 
-      <form netlify name="{{ .name }}" id="{{ $idForm }}">
+      <form netlify method="POST" name="{{ .name }}" id="{{ $idForm }}">
 
         {{ range $index, $items := .items }}
-          {{ $id := printf "%s-%s-%s" $idForm .name ($index | string) }}
           {{ $name := .label | urlize }}
+          {{ $id := print $idForm "-" ($index | string) }}
           <div{{ if .full }} class="full"{{ end }}>
             <label for="{{ $id }}" class="form-label">{{ .label }}{{ if .required }}<sup>*</sup>{{ end }}</label>
             {{ if eq .type "textarea" }}
