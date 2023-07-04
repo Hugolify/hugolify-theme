@@ -14,15 +14,14 @@
       <form netlify method="POST" name="{{ .name }}" id="{{ $idForm }}">
 
         {{ range $index, $items := .items }}
-          {{ $name := .label | urlize }}
-          {{ $id := print $idForm "-" ($index | string) }}
+          {{ $id := print $idForm "-" (.type | string) "-"  ($index | string) }}
           <div{{ if .full }} class="full"{{ end }}>
             <label for="{{ $id }}" class="form-label">{{ .label }}{{ if .required }}<sup>*</sup>{{ end }}</label>
             {{ if eq .type "textarea" }}
               <textarea 
                 class="form-control"
                 id="{{ $id }}" 
-                name="{{ $name }}"
+                name="{{ $id }}"
                 rows="5"
                 {{ with .type }}type="{{ . }}"{{ end }}
                 {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
@@ -31,7 +30,7 @@
               <select
                 class="form-select"
                 id="{{ $id }}"
-                name="{{ $name }}"
+                name="{{ $id }}"
                 {{ if .required }}required{{ end }}>
                 {{ if not .required }}
                   <option value="">--</option>
@@ -45,7 +44,7 @@
               <input 
                 class="form-control"
                 id="{{ $id }}" 
-                name="{{ $name }}"
+                name="{{ $id }}"
                 {{ with .type }}type="{{ . }}"{{ end }}
                 {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
                 {{ if .required }}required{{ end }}>
