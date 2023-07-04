@@ -1,9 +1,15 @@
 {{- $logo := .logo | default "" -}}
+{{- $lazy := .lazy | default false -}}
 {{- $file := printf "static%s" $logo -}}
 <a class="logo" href="{{ site.Home.Permalink }}">
   {{- if os.FileExists $file }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
-    <img src="{{ .logo }}" alt="{{ site.Title }}" height="{{ index $fileDimensions 1 }}" width="{{ index $fileDimensions 0 }}">
+    <img 
+      {{ if $lazy }}loading="lazy" decoding="async"{{ else }}fetchpriority="high"{{ end }}
+      src="{{ .logo }}" 
+      alt="{{ site.Title }}" 
+      height="{{ index $fileDimensions 1 }}" 
+      width="{{ index $fileDimensions 0 }}">
   {{ else }}
     {{- site.Title -}}
   {{ end -}}
