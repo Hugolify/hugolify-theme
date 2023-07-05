@@ -9,10 +9,12 @@
     <figcaption>
       {{ with .image}}
         {{ $desktop := site.Params.image.xsmall | default false }}
+        {{ $mobile := site.Params.image.xsmall | default false }}
         {{ partial "commons/image.html" (dict
             "src" .src
             "alt" .alt
             "desktop" $desktop
+            "mobile" $mobile
             "crop" "Top"
           ) }}
       {{ end }}
