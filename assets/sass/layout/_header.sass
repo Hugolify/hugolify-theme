@@ -56,6 +56,10 @@ header[role="banner"]
                 @extend .offcanvas-title
             button
                 @extend .btn-close
+                background-image: escape-svg($btn-close-bg)
+                background-position: center
+                background-repeat: no-repeat
+                background-size: 1rem auto
         .content
             @extend .offcanvas-body
             @include media-breakpoint-up(lg)
