@@ -1,11 +1,10 @@
 div.press
+    --bs-card-bg: #{$light}
     --bs-card-border-width: 0
+    --bs-card-spacer-x: #{$global-spacing}
+    --bs-card-spacer-y: #{$global-spacing}
+    --bs-card-title-spacer-y: 0
     @extend .card
-    background-color: $light
-    .content
-        @include padding($global-spacing)
-    .name
-        margin-bottom: 0
     .metas
         margin-bottom: $paragraph-margin-bottom
     .btn

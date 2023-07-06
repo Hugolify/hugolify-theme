@@ -5,7 +5,5 @@
     @extend .row-cols-md-3
     @include media-breakpoint-up(md)
         --bs-gutter-y: #{$global-spacing}
-    > *
-        @extend .col
     & + nav
         @include margin-top($global-spacing)
