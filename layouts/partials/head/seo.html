@@ -29,6 +29,11 @@
 {{- with .Description -}}
   {{- $seoDescription = partial "func/PrepareHTML" . -}}
 {{- end -}}
+{{- with .Params.seo -}}
+  {{- with .description -}}
+    {{- $seoDescription = partial "func/PrepareHTML" . -}}
+  {{- end -}}
+{{- end -}}
 
 {{/*  IMAGE  */}}
 {{- $seoImage := "" -}}
