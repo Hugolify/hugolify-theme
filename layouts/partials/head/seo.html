@@ -48,13 +48,17 @@
 {{- if not .IsHome -}}
   {{ with .Params.image -}}
     {{- $image := resources.Get .src -}}
-    {{- if not (hasSuffix $image ".svg") -}}
-      {{- $seoImage = $image.Permalink -}}
+    {{- with $image -}}
+      {{- if not (hasSuffix . ".svg") -}}
+        {{- $seoImage = .Permalink -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- with .Params.seo -}}
     {{- $image := resources.Get .image -}}
-    {{- $seoImage = $image.Permalink -}}
+    {{- with $image -}}
+      {{- $seoImage = .Permalink -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 {{- $ogImage := $seoImage -}}
