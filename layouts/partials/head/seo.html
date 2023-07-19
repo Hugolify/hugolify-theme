@@ -49,7 +49,7 @@
   {{ with .Params.image -}}
     {{- $image := resources.Get .src -}}
     {{- with $image -}}
-      {{- if not (hasSuffix . ".svg") -}}
+      {{- if not (strings.hasSuffix . ".svg") -}}
         {{- $seoImage = .Permalink -}}
       {{- end -}}
     {{- end -}}
