@@ -1,5 +1,5 @@
 {{ if ge (len .TableOfContents) 100 }}
-<div class="toc"{{ partial "func/SetAnim" (dict "element" "sidebar") }}>
+<div class="toc">
   <div>
     <p>{{ i18n "toc" }}</p>
     {{ partial "commons/toc/button" . }}
