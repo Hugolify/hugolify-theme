@@ -7,8 +7,8 @@
     {{ else if or (eq $context.Section "persons_expertises") (eq $context.Section "posts_expertises") (eq $context.Section "publications_expertises") }}
         {{ $page := partial "func/GetRealExpertise" $context }}
         {{ $title = $page.Title }}
-    {{ else if eq $context.Section "persons_offices" }}
-        {{ $page := partial "func/GetRealOffice" $context }}
+    {{ else if eq $context.Section "persons_places" }}
+        {{ $page := partial "func/GetRealPlace" $context }}
         {{ $title = $page.Title }}
     {{ end }}
 {{ end }}

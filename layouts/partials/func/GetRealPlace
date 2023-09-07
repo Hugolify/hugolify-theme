@@ -1,0 +1,10 @@
+{{ $place := . }}
+{{ $exists := os.FileExists $place }}
+
+{{ if not $exists }}
+  {{ with site.GetPage (printf "/places/%s" (.Title | urlize)) }}
+    {{ $place = . }}
+  {{ end }}
+{{ end }}
+
+{{ return $place }}
