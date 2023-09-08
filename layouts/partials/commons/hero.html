@@ -4,6 +4,9 @@
 {{ with .align }}
   {{ $class = printf "%s hero-%s" $class . }}
 {{ end }}
+{{ with .image }}
+  {{ $class = printf "%s hero-with-image" $class }}
+{{ end }}
 <header class="{{ $class }}"{{ partial "func/SetAnim" (dict "element" "hero") }}>
   {{ with .image }}
     {{ if .background_image }}

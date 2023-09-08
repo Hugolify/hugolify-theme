@@ -51,6 +51,9 @@
     &-content
         @extend .col-md-6
         @extend .col-xl-5
+    &:not(&-with-image) &-content
+        @extend .col-md-10
+        @extend .col-xl-10
     &-center &-content
         @extend .offset-md-3
         @extend .col-xl-6
