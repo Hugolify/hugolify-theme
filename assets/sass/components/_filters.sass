@@ -4,7 +4,10 @@
         @extend .offcanvas-header
         .title
             @extend .offcanvas-title
-            @extend .h5
+            @include font-size($h5-font-size)
+            color: $headings-color
+            font-family: $headings-font-family
+            font-weight: $headings-font-weight
         button
             @extend .btn-close
     .content

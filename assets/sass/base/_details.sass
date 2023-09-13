@@ -10,11 +10,14 @@ details
         box-shadow: 0 0 5px 5px rgba(0,0,0,.05)
     
     summary
-        @extend .h4
+        @include font-size($h4-font-size)
         align-items: baseline
+        color: $headings-color
         display: flex
+        font-family: $headings-font-family
+        font-weight: $headings-font-weight
         justify-content: space-between
-        margin-bottom: 0
+        line-height: $headings-line-height
         padding: 1rem
         @if variable-exists(bootstrap-icons-map)
             &::after
