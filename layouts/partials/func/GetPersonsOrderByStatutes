@@ -1,0 +1,52 @@
+/* Selection of pages or context */ 
+{{ $persons := . }}
+
+/* Check if a selection of pages or current page */ 
+{{ $pagination := false }}
+{{ $type := printf "%T" $persons }}
+/* if current page */ 
+{{ if (findRE "^(\\*hugolib\\.Page|.*hugolib\\.pageState)" $type) }}
+  /* Add context to $pagination */ 
+  {{ $pagination = $persons }}
+  /* Add pages to $persons */ 
+  {{ $persons = $persons.Pages }}
+{{ end }}
+
+{{ $pages := slice }}
+
+/* Sort by status */
+{{ if site.GetPage "section" "persons_statutes" }}
+  /* Create slice of maps, where each map contains the page and term weight. */
+  {{ $taxonomy := "persons_statutes" }}
+  {{ $s := slice }}
+  {{ range $persons }}
+    {{ $termWeight := 99999999 }}
+    {{ with (index (.GetTerms $taxonomy) 0).Weight }}
+      {{ $termWeight = . }}
+    {{ end }}
+    {{ $s = $s | append (dict
+        "page" .
+        "termWeight" $termWeight
+      )
+    }}
+  {{ end }}
+
+  /* Create a slice of pages, sorted by the term weight. */
+  {{ $p := slice }}
+  {{ range (sort $s "termWeight") }}
+    {{ $p = $p | append .page }}
+  {{ end }}
+
+  /* Render the page collection. */
+  {{ $pages = $p }}
+  {{ if $pagination }}
+    {{ $pages = ($pagination.Paginate $p).Pages }}
+  {{ end }}
+{{ else }}
+  {{ $pages = $persons }}
+  {{ if $pagination }}
+    {{ $pages = ($pagination.Paginate $persons).Pages }}
+  {{ end }}
+{{ end }}
+
+{{ return $pages }}
