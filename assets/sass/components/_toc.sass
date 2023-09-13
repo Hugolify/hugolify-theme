@@ -11,9 +11,13 @@
         > p
             @extend .d-none
             @extend .d-lg-block
-            @extend .h5
+            @include font-size($h5-font-size)
+            color: $headings-color
+            font-family: $headings-font-family
+            font-weight: $headings-font-weight
+            line-height: $headings-line-height
+            margin-bottom: $headings-margin-bottom
         > button
-            @extend .btn
             @extend .btn-light
             @extend .d-lg-none
             @if variable-exists(bootstrap-icons-map)
@@ -51,7 +55,6 @@
             z-index: auto
     .header
         @extend .offcanvas-header
-        @extend .h5
         button
             @extend .btn-close
             background-image: escape-svg($btn-close-bg)
@@ -60,6 +63,9 @@
             background-size: 1rem auto
     .title
         @extend .offcanvas-title
-        @extend .h5
+        @include font-size($h5-font-size)
+        color: $headings-color
+        font-family: $headings-font-family
+        font-weight: $headings-font-weight
     .content
         @extend .offcanvas-body

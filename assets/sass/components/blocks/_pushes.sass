@@ -10,7 +10,7 @@
                 > *
                     @include make-col(6)
             h2, h3
-                @extend .display-6
+                @include font-size(map-get($display-font-sizes, 6))
             .content > div
                 @include media-breakpoint-up(lg)
                     width: 100%

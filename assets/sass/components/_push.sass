@@ -25,7 +25,7 @@
         color: var(--push-color)
         margin-bottom: 0
     h2, h3
-        @extend .display-2
+        @include font-size(map-get($display-font-sizes, 2))
     p
         @extend .lead
 
@@ -46,7 +46,7 @@
             @include media-breakpoint-up(xl)
                 width: 33%
             h2, h3
-                @extend .display-5
+                @include font-size(map-get($display-font-sizes, 2))
             h2, h3, p
                 color: $body-color
             p
