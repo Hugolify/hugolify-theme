@@ -67,34 +67,16 @@
 {{/*  PERMALINK  */}}
 {{- $seoUrl := .Permalink -}}
 
-<!-- HTML Meta Tags -->
+{{/*  TYPE  */}}
+{{- $seoType := cond .IsPage "article" "website" -}}
+
+{{/*  DATE  */}}
+{{- $seoDate := cond .IsPage .Date false -}}
+
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-<!-- Opengraph Meta Tags -->
-{{/* template "_internal/opengraph.html" . */}}
-<meta property="og:title" content="{{ $seoTitle }}">
-<meta property="og:description" content="{{ $seoDescription }}">
-{{- with $ogImage }}
-<meta property="og:image" content="{{ . }}">
-{{ end -}}
-<meta property="og:url" content="{{ $seoUrl }}">
-{{- if eq .Kind "home" }}
-<meta property="og:type" content="website">
-{{- else if (eq .Kind "page") }}
-<meta property="og:type" content="article">
-{{ end -}}
+{{ $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
+{{ partial "head/opengraph.html" $seo }}
+{{ partial "head/twitter.html" $seo }}
 
-<!-- Twitter Meta Tags -->
-{{/* template "_internal/twitter_cards.html" . */}}
-<meta name="twitter:title" content="{{ $seoTitle }}">
-<meta name="twitter:description" content="{{ $seoDescription }}">
-{{- with $twitterImage }}
-<meta name="twitter:image" content="{{ . }}">
-<meta name="twitter:card" content="summary_large_image">
-{{ else }}
-<meta name="twitter:card" content="summary">
-{{ end -}}
-{{ with .Site.Social.twitter }}
-<meta name="twitter:site" content="@{{ . }}" />
-{{ end -}}

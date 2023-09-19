@@ -1,0 +1,13 @@
+<!-- Twitter Meta Tags -->
+{{/* template "_internal/twitter_cards.html" . */}}
+<meta name="twitter:title" content="{{ .title }}">
+<meta name="twitter:description" content="{{ .description }}">
+{{- with .image }}
+<meta name="twitter:image" content="{{ . }}">
+<meta name="twitter:card" content="summary_large_image">
+{{ else }}
+<meta name="twitter:card" content="summary">
+{{ end -}}
+{{ with site.Social.twitter }}
+<meta name="twitter:site" content="@{{ . }}" />
+{{ end -}}

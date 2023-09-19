@@ -1,0 +1,18 @@
+<!-- Opengraph Meta Tags -->
+{{/* template "_internal/opengraph.html" . */}}
+<meta property="og:title" content="{{ .title }}">
+<meta property="og:description" content="{{ .description }}">
+{{- with .image }}
+  <meta property="og:image" content="{{ . }}">
+{{ end -}}
+<meta property="og:url" content="{{ .url }}">
+<meta property="og:type" content="{{ .type }}">
+<meta property="og:locale" content="{{ site.Language.Lang }}">
+{{ with site.Title -}}
+  <meta property="og:site_name" content="{{ . }}">
+{{ end -}}
+{{ if eq .type "article" -}}
+  {{ if not .date.IsZero -}}
+    <meta property="article:published_time" {{ .date.Format "2006-01-02T15:04:05-07:00" | printf "content=%q" | safeHTMLAttr }}>
+  {{ end -}}
+{{ end -}}

@@ -108,3 +108,6 @@
   </ul>
 </nav>
 {{- end -}}
+
+<!-- Store paginator to canonical <head> -->
+{{ .Store.Set "paginator" $paginator }}
