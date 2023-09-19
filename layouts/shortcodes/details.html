@@ -1,0 +1,4 @@
+{{ $title := .Get "title" }}
+{{ $text := .Get "text" }}
+{{ $details := dict "title" $title "text" $text }}
+{{ partial "commons/details.html" $details }}
