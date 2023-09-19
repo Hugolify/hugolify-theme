@@ -1,13 +1,7 @@
 {{ with .}}
   <section class="block-alert{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
     <div class="container">
-
-      <div class="alert alert-{{ .state }}">
-        {{ with .text }}
-          <p>{{ . | markdownify }}</p>
-        {{ end }}
-      </div>
-
+      {{ partial "commons/alert.html" . }}
     </div>
   </section>
 {{ end }}

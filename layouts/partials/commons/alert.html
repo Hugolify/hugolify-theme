@@ -1,0 +1,14 @@
+{{ with . }}
+  {{ $class := "alert" }}
+  {{ with .state }}
+    {{ $class = print $class " alert-" . }}
+  {{ end }}
+  {{ $text := .text | default false }}
+  {{ if $text }}
+    <div class="{{ $class }}">
+      {{ with $text }}
+        <p>{{ . | markdownify }}</p>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}

@@ -1,0 +1,4 @@
+{{ $text := .Get "text" }}
+{{ $state := .Get "state" }}
+{{ $alert := dict "text" $text "state" $state }}
+{{ partial "commons/alert.html" $alert }}
