@@ -16,7 +16,11 @@ contact:
   whatsapp: WhatsApp
 credit:
   hugolify: un site éco-conçu produit avec <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - lien externe">Hugolify</a>
+document:
+  one: Document
+  other: Documents
 filter: Filtrer
+from: De
 header:
   accessibility:
     footer: Accéder au bas de la page
@@ -64,4 +68,5 @@ reading_time:
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
+to: À
 toc: Table des matières

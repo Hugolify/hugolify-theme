@@ -16,7 +16,11 @@ contact:
   whatsapp: WhatsApp
 credit:
   hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
+document:
+  one: Document
+  other: Documents
 filter: Filter
+from: From
 header:
   accessibility:
     footer: Go to the bottom of the page
@@ -64,4 +68,5 @@ reading_time:
 share:
   share_on: Share on {{ .Website }}
   title: Share
+to: To
 toc: Table of contents
