@@ -2,16 +2,19 @@ accessibility:
   alternative: Alternative to {{ .Title }}
 breadcrumb: Breadcrumb
 close: Close
-contact: 
+contact:
   email: "Email:"
   fax: "Fax:"
   facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
+  me: "Contact me"
   pinterest: Pinterest
+  rdv: Make an appointment
   tel: "Phone:"
   title: Contact
   twitter: Twitter
+  us: "Contact us"
   website: Website
   whatsapp: WhatsApp
 credit:
