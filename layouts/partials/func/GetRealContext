@@ -1,7 +1,7 @@
 {{ $context := . }}
 {{ $realContext := $context }}
 {{ if eq $context.Kind "term" }}
-    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") }}
+    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
         {{ $page := partial "func/GetRealPerson" $context }}
         {{ $realContext = $page }}
     {{ else if or (eq $context.Section "persons_expertises") (eq $context.Section "posts_expertises") (eq $context.Section "publications_expertises") }}
