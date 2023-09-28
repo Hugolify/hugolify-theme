@@ -1,0 +1,33 @@
+{{- $images := .images | default false -}}
+{{- $ratio := .ratio | default 1 -}}
+{{- $column := .column | default 3 -}}
+{{- $id := .gallery | default "gallery" -}}
+{{- $isFirst := .first | default false -}}
+{{- $columnTotal := site.Params.column | default false -}}
+{{- $desktop := site.Params.container.desktop | default false -}}
+{{- $mobile := site.Params.container.mobile | default false -}}
+{{- if $desktop -}}
+  {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
+  {{- $desktop = printf "%sx%s" (string $width) (string $width) -}}
+{{- end -}}
+{{- if $mobile -}}
+  {{- $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
+  {{- $mobile = printf "%sx%s" (string $width) (string $width) -}}
+{{- end -}}
+
+{{- if $images }}
+  <div class="gallery gallery-{{ $column }} js-gallery">
+    {{ range $index, $image := $images }}
+      {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
+      <div>
+        {{ partial "commons/image-lightbox" (dict
+            "image" .
+            "desktop" $desktop
+            "mobile" $mobile
+            "lazy" $lazy 
+            "group" $id
+            ) }}
+      </div>
+    {{ end }}
+  </div>
+{{ end -}}

@@ -1,44 +1,13 @@
-{{ $id := printf "gallery-%s" (.index | string) }}
-{{ $isFirst := .first }}
-
+{{- $id := printf "gallery-%s" (.index | string) -}}
+{{- $isFirst := .first -}}
 <section class="block-gallery{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
-    
     {{ partial "blocks/heading.html" . }}
 
     {{ $ratio := .ratio | default 1 }}
     {{ $column := float .column | default 3 }}
     {{ with .gallery }}
-    <div class="gallery gallery-{{ $column }} js-gallery">
-
-      {{ $columnTotal := site.Params.column | default false }}
-      {{ $desktop := site.Params.container.desktop | default false }}
-      {{ $mobile := site.Params.container.mobile | default false }}
-
-      {{ if $desktop }}
-        {{ $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) }}
-        {{ $desktop = printf "%sx%s" (string $width) (string $width) }}
-      {{ end }}
-      {{ if $mobile }}
-        {{ $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) }}
-        {{ $mobile = printf "%sx%s" (string $width) (string $width) }}
-      {{ end }}
-      
-      {{ range $index, $image := . }}
-        {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
-        <div>
-          {{ partial "commons/image-lightbox" (dict
-              "image" . 
-              "desktop" $desktop
-              "mobile" $mobile
-              "lazy" $lazy 
-              "group" $id
-              ) }}
-        </div>
-      {{ end }}
-
-    </div>
+      {{ partial "commons/gallery" (dict "images" . "ratio" $ratio "column" $column "id" $id "isFirst" $isFirst) }}
     {{ end }}
-
   </div>
 </section>

@@ -1,11 +1,11 @@
 import scrollspy from '../utils/scrollspy';
 
-const maps = document.querySelectorAll('.block-map');
+const maps = document.querySelectorAll('.js-map');
 let leafletLoaded = false;
 
-class BlockMap {
-    constructor (block) {
-        this.map = block.querySelector('.js-map');
+class Map {
+    constructor (div) {
+        this.map = div;
 
         if (!leafletLoaded) {
             this.addFiles();
@@ -39,6 +39,7 @@ class BlockMap {
         let location = JSON.parse(this.map.dataset.location),
             coordinate = location.coordinates.reverse(),
             zoom = JSON.parse(this.map.dataset.zoom),
+            markerHidden = this.map.dataset.markerHidden || false,
             newIcon = false,
             map = false;
 
@@ -57,19 +58,20 @@ class BlockMap {
 
         // new icon
         // https://leafletjs.com/reference.html#icon
-        newIcon = L.icon({
-            iconUrl: '/assets/images/map-marker.svg',
-            iconSize:     [50, 50],
-            iconAnchor:   [25, 40]
-        });
-
-        // add marker to map
-        L.marker(coordinate, {icon: newIcon}).addTo(map);
+        if (!markerHidden) {
+            newIcon = L.icon({
+                iconUrl: '/assets/images/map-marker.svg',
+                iconSize:     [50, 50],
+                iconAnchor:   [25, 40]
+            });
+            // add marker to map
+            L.marker(coordinate, {icon: newIcon}).addTo(map);
+        }
     }
 }
 
 maps.forEach((map) => {
     scrollspy(map, () => {
-        new BlockMap(map);
+        new Map(map);
     });
 });

@@ -24,14 +24,19 @@ document:
   other: Documents
 filter: Filtrer
 from: De
+gallery:
+  enlarge: Agrandir l’image
+  one: Galerie photo
+  other: Galerie photos
 header:
   accessibility:
     footer: Accéder au bas de la page
     main: Contenu principal
     menu: Navigation principale
 home: Accueil
-lightbox:
-  label: Agrandir l’image
+image:
+  one: Image
+  other: Images
 link:
   blank: lien externe
   blank_aria: « {{ .Title }} » - lien externe
@@ -64,6 +69,9 @@ pagination:
   page: Page {{ .Number }}
   previous: Précédent
   previous_section: "<span>{{ .Section }}</span> précédent"
+photo:
+  one: Photo
+  other: Photos
 previous: Précédent
 reading_time:
   one: Une minute de lecture

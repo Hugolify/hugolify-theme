@@ -1,12 +1,12 @@
 import scrollspy from '../utils/scrollspy';
 import Tobii from '../vendors/tobii'
 
-const galleries = document.querySelectorAll('.block-gallery');
+const galleries = document.querySelectorAll('.js-gallery');
 let lightboxLoaded = false;
 
-class BlockGallery {
-    constructor (block) {
-        this.gallery = block.querySelector('.js-gallery');
+class Gallery {
+    constructor (div) {
+        this.gallery = div;
         if (this.gallery) {
             if (!lightboxLoaded) {
                 this.init();
@@ -31,6 +31,6 @@ class BlockGallery {
 
 galleries.forEach((gallery) => {
     scrollspy(gallery, () => {
-        new BlockGallery(gallery);
+        new Gallery(gallery);
     });
 });

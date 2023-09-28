@@ -1,4 +1,5 @@
-{{ $class := partial "func/GetColClass" .grid }}
+{{- $class := partial "func/GetColClass" .grid -}}
+{{- $zoom := .zoom -}}
 
 <section class="block-map{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
@@ -10,9 +11,8 @@
 
         {{ partial "blocks/heading.html" . }}
 
-        {{ $zoom := .zoom }}
         {{ with .location }}
-        <div class="map js-map" data-location="{{ . }}" data-zoom="{{ $zoom }}"></div>
+          {{ partial "commons/map" (dict "location" . "zoom" $zoom) }}
         {{ end }}
 
     {{ if $class }}
