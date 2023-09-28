@@ -1,4 +1,5 @@
 .gallery
+    --bs-gutter-y: #{$grid-gutter-width}
     @extend .row
     @extend .row-cols-2
     @extend .row-cols-md-3
@@ -7,3 +8,5 @@
         &-#{$i}
             @extend .row-cols-lg-#{$i}
 
+    figure
+        margin-bottom: 0
