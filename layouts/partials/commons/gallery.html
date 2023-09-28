@@ -8,11 +8,13 @@
 {{- $mobile := site.Params.container.mobile | default false -}}
 {{- if $desktop -}}
   {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
-  {{- $desktop = printf "%sx%s" (string $width) (string $width) -}}
+  {{- $height := int (mul $width $ratio) -}}
+  {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
 {{- end -}}
 {{- if $mobile -}}
   {{- $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
-  {{- $mobile = printf "%sx%s" (string $width) (string $width) -}}
+  {{- $height := int (mul $width $ratio) -}}
+  {{- $mobile = printf "%sx%s" (string $width) (string $height) -}}
 {{- end -}}
 
 {{- if $images }}
