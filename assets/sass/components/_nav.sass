@@ -16,11 +16,14 @@
                 width: 100%
     a
         @extend .nav-link
+        text-decoration-color: transparent
+        text-decoration-line: underline
+        text-decoration-thickness: 1px
+        text-underline-offset: 3px
+        transition: text-decoration-color .2s ease
         &.active,
         &:hover
-            text-decoration-line: underline
-            text-decoration-thickness: 1px
-            text-underline-offset: 3px
+            text-decoration-color: inherit
     
     .dropdown
         display: flex

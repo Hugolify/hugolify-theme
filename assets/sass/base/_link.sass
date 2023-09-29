@@ -3,6 +3,9 @@ a
     text-decoration-line: underline
     text-decoration-thickness: 1px
     text-underline-offset: 3px
+    transition: text-decoration-color .2s ease
+    &:hover
+        text-decoration-color: transparent
     @if variable-exists(bootstrap-icons-map)
         &[target="_blank"]
             &::after
