@@ -1,27 +1,33 @@
-{{ $filename := .filename }}
-{{ $section := .section }}
-{{ $taxonomy := .taxonomy }}
-{{ $name := .name }}
-{{ $limit := .limit | default 3 }}
+{{- $filename := .filename -}}
+{{- $section := .section -}}
+{{- $taxonomy := .taxonomy -}}
+{{- $additionalParams := .additionalParams -}}
+{{- $title := .title | default (i18n (printf "%s.latest" $section)) -}}
+{{- $name := .name -}}
+{{- $limit := .limit | default 3 -}}
 
-{{ $pages := partial "func/GetTaxonomyPageBySlug" (dict 
+{{- $pages := partial "func/GetTaxonomyPageBySlug" (dict 
   "section" $section
   "taxonomy" $taxonomy
-  "slug" $filename) }}
-{{ $count := $pages | len }}
-{{ $pages = first $limit $pages }}
+  "slug" $filename
+  "additionalParams" $additionalParams
+  ) -}}
 
 {{ if $pages }}
-  <section class="latest latest-{{ $section }}">
-    <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
-      <h2>{{ i18n (printf "%s.latest" $section) }}</h2>
-      {{ if gt $count $limit }}
-        {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
-        {{ with $item }}
-          <a href="{{ .Permalink }}" class="btn">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
+  {{ $count := $pages | len }}
+  {{ $pages = first $limit $pages }}
+  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+    <div class="container">
+      <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
+        <h2>{{ $title }}</h2>
+        {{ if gt $count $limit }}
+          {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
+          {{ with $item }}
+            <a href="{{ .Permalink }}" class="more">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
+          {{ end }}
         {{ end }}
-      {{ end }}
-    </header>
-    {{ partial (printf "%s/items" $section) $pages }}
+      </header>
+      {{ partial (printf "%s/items" $section) $pages }}
+    </div>
   </section>
 {{ end }}

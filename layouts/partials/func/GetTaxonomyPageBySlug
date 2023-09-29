@@ -2,11 +2,15 @@
 {{ $section := .section | default "posts" }}
 {{ $taxonomy := .taxonomy | default "authors" }}
 {{ $taxonomy = printf "Params.%s" $taxonomy }}
+{{ $additionalParams := .additionalParams | default false }}
 {{ $pages := false }}
 
 {{ if $slug }}
   {{ $pages = where site.RegularPages "Section" $section }}
-  {{ $pages = $pages | intersect (where site.RegularPages $taxonomy "intersect" (slice $slug) ) }}
+  {{ $pages = $pages | intersect (where site.RegularPages $taxonomy "intersect" (slice $slug)) }}
+  {{ if $additionalParams }}
+    {{ $pages = $pages | intersect ($additionalParams) }}
+  {{ end }}
 {{ end }}
 
 {{ return $pages }}
