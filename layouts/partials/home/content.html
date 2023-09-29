@@ -26,6 +26,21 @@
     {{ if templates.Exists ( printf "partials/%s" $publications ) }}
       {{ partial $publications . }}
     {{ end }}
+
+    {{ $places := "places/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $places ) }}
+      {{ partial $places . }}
+    {{ end }}
+
+    {{ $expertises := "expertises/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $expertises ) }}
+      {{ partial $expertises . }}
+    {{ end }}
+
+    {{ $realestates := "realestates/latest.html" }}
+    {{ if templates.Exists ( printf "partials/%s" $realestates ) }}
+      {{ partial $realestates . }}
+    {{ end }}
   </div>
 
 {{ end }}
