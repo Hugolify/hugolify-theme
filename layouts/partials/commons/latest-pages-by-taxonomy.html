@@ -4,6 +4,7 @@
 {{- $additionalParams := .additionalParams -}}
 {{- $title := .title | default (i18n (printf "%s.latest" $section)) -}}
 {{- $name := .name -}}
+{{- $showMore := .more | default true -}}
 {{- $limit := .limit | default 3 -}}
 
 {{- $pages := partial "func/GetTaxonomyPageBySlug" (dict 
@@ -20,7 +21,7 @@
     <div class="container">
       <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
         <h2>{{ $title }}</h2>
-        {{ if gt $count $limit }}
+        {{ if and $showMore (gt $count $limit) }}
           {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
           {{ with $item }}
             <a href="{{ .Permalink }}" class="more">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
