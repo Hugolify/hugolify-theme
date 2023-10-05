@@ -81,3 +81,12 @@ share:
   title: Partager
 to: À
 toc: Table des matières
+units:
+  GB: Go
+  MB: Mo
+  kB: ko
+  B: o
+  gigabytes: Gigaoctets
+  megabytes: Mégaoctets
+  kilobytes: Kilooctets
+  bytes: octets

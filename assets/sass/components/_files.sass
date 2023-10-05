@@ -1,26 +1,37 @@
-.documents
+.files
     --bs-gutter-y: #{$grid-gutter-width}
     @extend .row 
     @extend .row-cols-1
     @extend .row-cols-md-2
-    @extend .row-cols-lg-3
+    @extend .row-cols-xxl-3
     list-style: none
     padding-left: 0
     
     a
-        background-color: $gray-300
+        background-color: $gray-200
         border-radius: $card-border-radius
         color: $black
-        display: block
+        display: flex
         font-size: $small-font-size
         padding: $card-spacer-y $card-spacer-x
         text-decoration: none
+        @media (prefers-reduced-motion: no-preference)
+            transition: background .3s ease
         &:hover
             background-color: $gray-400
         
         @if variable-exists(bootstrap-icons-map)
             &::before
                 @include icon("file-earmark-arrow-down-fill")
-                font-size: 1rem
+                font-size: 1.6rem
                 margin-right: .5rem
+                margin-top: .3rem
 
+        b
+            display: block
+        
+        abbr:not(:last-child)
+            margin-right: .5rem
+            &::after
+                content: '-'
+                margin-left: .5rem

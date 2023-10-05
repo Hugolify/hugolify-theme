@@ -81,3 +81,12 @@ share:
   title: Share
 to: To
 toc: Table of contents
+units:
+  GB: GB
+  MB: MB
+  kB: kB
+  B: B
+  gigabytes: Gigabytes
+  megabytes: Megabytes
+  kilobytes: Kilobytes
+  bytes: bytes
