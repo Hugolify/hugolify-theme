@@ -1,0 +1,16 @@
+{{ $size := false }}
+{{ $file := .file }}
+{{ $dir := .dir }}
+
+{{ if $file }}
+  {{ $f := index (last 1 (split $file "/")) 0 }}
+  {{ range readDir (print "/static/" $dir ) }}
+    {{ if eq .Name $f }}
+      {{ $s := partial "func/GetHumanSize" .Size }}
+      {{ $unit := printf `<abbr title="%s">%s</abbr>` $s.full_unit $s.unit }}
+      {{ $size = safeHTML (printf "%s%s" (string $s.weight) $unit) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $size }}

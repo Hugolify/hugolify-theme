@@ -1,0 +1,25 @@
+# From https://github.com/noesya/osuny-hugo-theme-aaa/blob/main/layouts/partials/GetHumanSize
+{{ $weight := . }}
+{{ $unit := i18n "units.B" }}
+{{ $full_unit := i18n "units.bytes" }}
+
+{{ if ge $weight (pow 1024 3) }}
+  {{ $weight = math.Ceil (div $weight (pow 1024 3)) }}
+  {{ $unit = i18n "units.GB" }}
+  {{ $full_unit = i18n "units.gigabytes" }}
+{{ else if ge $weight (pow 1024 2) }}
+  {{ $weight = math.Ceil (div $weight (pow 1024 2)) }}
+  {{ $unit = i18n "units.MB" }}
+  {{ $full_unit = i18n "units.megabytes" }}
+{{ else if ge $weight 1024 }}
+  {{ $weight = math.Ceil (div $weight 1024) }}
+  {{ $unit = i18n "units.kB" }}
+  {{ $full_unit = i18n "units.kilobytes" }}
+{{ end }}
+
+{{ return (dict 
+    "weight" $weight
+    "unit" $unit
+    "full_unit" $full_unit
+  )
+}}

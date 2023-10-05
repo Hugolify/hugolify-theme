@@ -1,0 +1,9 @@
+{{ $extension := false }}
+{{ $file := . }}
+
+{{ if $file }}
+  {{ $extension = trim (path.Ext $file) "." }}
+  {{ $extension = safeHTML (printf `<abbr>%s</abbr>` (upper $extension)) }}
+{{ end }}
+
+{{ return $extension }}
