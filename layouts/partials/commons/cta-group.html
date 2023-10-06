@@ -1,0 +1,15 @@
+{{- $cta := .cta | default false -}}
+{{- $cta_second := .cta_second | default false -}}
+{{- $hasGroup := false -}}
+{{- if and (partial "func/HasCTA" $cta) (partial "func/HasCTA" $cta_second) -}}
+  {{- $hasGroup = true -}}
+{{- end -}}
+
+{{ if $hasGroup }}<div class="cta" role="group">{{ end }}
+  {{ with $cta }}
+    {{ partial "commons/cta.html" . }}
+  {{ end }}
+  {{ with $cta_second }}
+    {{ partial "commons/cta.html" . }}
+  {{ end }}
+{{ if $hasGroup }}</div>{{ end }}

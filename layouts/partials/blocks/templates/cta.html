@@ -2,7 +2,7 @@
   <section class="block-cta{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
     <div class="container">
       {{ partial "blocks/heading.html" . }}
-      {{ partial "commons/cta.html" .cta }}
+      {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
     </div>
   </section>
 {{ end }}

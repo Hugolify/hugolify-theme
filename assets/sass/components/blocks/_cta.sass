@@ -1,5 +1,9 @@
 .block-cta
     @include media-breakpoint-up(lg)
         text-align: center
-    .btn
+    .btn:first-of-type
         @extend .btn-primary
+    .btn + .btn
+        @extend .btn-outline-primary
+        margin-left: .5rem
+        margin-right: 0
