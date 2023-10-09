@@ -1,0 +1,10 @@
+.related
+    @include margin-top($global-spacing)
+    @include padding-bottom($global-spacing-double)
+    @include padding-top($global-spacing-double)
+    background-color: $light
+    main > &
+        @include margin-bottom(- $global-spacing-double)
+    .container
+        > div
+            @include scroll-snap

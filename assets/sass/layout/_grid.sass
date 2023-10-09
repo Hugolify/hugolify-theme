@@ -23,6 +23,10 @@
                 grid-row: 4
             .sidebar + .toc + nav
                 grid-row: 5
+            .related
+                grid-column: 1/13
+                grid-row: 6
+
 
         @include media-breakpoint-up(xxl)
             .sidebar,
@@ -41,4 +45,7 @@
                 margin-bottom: $grid-gutter-width
                 order: 2
             nav
-                order: 5
+                order: 6
+            .related
+                order: 7
+
