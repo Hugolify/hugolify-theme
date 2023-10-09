@@ -1,21 +1,21 @@
 {
-    "name": "hugolify-theme",
-    "version": "1.7.18",
-    "homepage": "https://www.hugolify.io",
-    "repository": "https://github.com/hugolify/hugolify-theme",
-    "bugs": {
-        "url": "https://github.com/hugolify/hugolify-theme/issues"
-    },
-    "author": {
-        "email": "sebousan@gmail.com",
-        "name": "Sébastien Moulène",
-        "url": "https://www.sebastienmoulene.com/"
-    },
-    "keywords": [
-        "hugolify",
-        "hugo",
-        "hugo-theme",
-        "bootstrap"
-    ],
-    "license": "MIT"
+  "name": "hugolify-theme",
+  "version": "1.7.19",
+  "homepage": "https://www.hugolify.io",
+  "repository": "https://github.com/hugolify/hugolify-theme",
+  "bugs": {
+    "url": "https://github.com/hugolify/hugolify-theme/issues"
+  },
+  "author": {
+    "email": "sebousan@gmail.com",
+    "name": "Sébastien Moulène",
+    "url": "https://www.sebastienmoulene.com/"
+  },
+  "keywords": [
+    "hugolify",
+    "hugo",
+    "hugo-theme",
+    "bootstrap"
+  ],
+  "license": "MIT"
 }
