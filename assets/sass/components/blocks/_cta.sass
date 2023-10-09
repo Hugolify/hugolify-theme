@@ -1,9 +1,14 @@
 .block-cta
+    .cta
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        gap: .5rem
     @include media-breakpoint-up(lg)
         text-align: center
+        .cta
+            justify-content: center
     .btn:first-of-type
         @extend .btn-primary
     .btn + .btn
         @extend .btn-outline-primary
-        margin-left: .5rem
-        margin-right: 0
