@@ -1,15 +1,10 @@
-<section class="block-testimonials{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{ partial "blocks/heading.html" . }}
-
-    <div class="testimonials">
-      {{ range .items }}
-        <div>
-          {{ partial "commons/quote.html" . }}
-        </div>
-      {{ end }}
-    </div>
-
-  </div>
-</section>
+{{ $isCarousel := .isCarousel | default false }}
+{{ if .items }}
+  <section class="block-testimonials{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+    {{ if $isCarousel }}
+      {{ partial "blocks/templates/testimonials/carousel.html" . }}
+    {{ else }}
+      {{ partial "blocks/templates/testimonials/grid.html" . }}
+    {{ end }}
+  </section>
+{{ end }}
