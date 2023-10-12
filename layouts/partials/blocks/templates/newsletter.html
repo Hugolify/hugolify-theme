@@ -1,35 +1,38 @@
-{{ $index := .index }}
-{{ $url := .url | default false }}
+{{- $index := .index -}}
+{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" "center") -}}
+{{- $form := .form | default false -}}
+{{- $context := . -}}
 
+{{ with $form }}
 <section class="block-newsletter{{ with .background }} block-bg{{ end }} js-newsletter"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
-    
-    {{ partial "blocks/heading.html" . }}
 
-    {{ $placeholder := i18n "newsletter.placeholder" }}
-    {{ $label := i18n "newsletter.label" }}
-    {{ $button := i18n "newsletter.button" }}
+    {{- partial "blocks/heading.html" $context -}}
 
-    {{ $inputEmail := "email" }}
-    {{ if eq .platform "mailchimp"}}
-      {{ $inputEmail = "EMAIL" }}
-    {{ end }}
+    {{- $placeholder := i18n "newsletter.placeholder" -}}
+    {{- $label := i18n "newsletter.label" -}}
+    {{- $button := i18n "newsletter.button" -}}
     
-    {{ if $url }}
+    {{ if $class }}
     <div class="row">
-      <div class="col">
-        <form action="{{ $url }}" method="post" id="newsletter-form-{{ $index }}" class="js-newsletter-form">
+      <div class="{{ $class }}">
+    {{ end }}
+
+        <form action="{{ .url }}" method="post" id="newsletter-form-{{ $index }}" class="js-newsletter-form">
           {{ range .hiddens }}
             <input type="hidden" value="{{ .value }}" name="{{ .name }}">
           {{ end }}
           <div class="input-group">
-            <input type="email" name="{{ $inputEmail }}" class="form-control" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
-            <button class="btn" type="button">{{ $button }}</button>
+            <input type="email" name="EMAIL" class="form-control" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
+            <button class="btn" type="submit">{{ $button }}</button>
           </div>
         </form>
+
+    {{ if $class }}
       </div>
     </div>
     {{ end }}
 
   </div>
 </section>
+{{ end }}
