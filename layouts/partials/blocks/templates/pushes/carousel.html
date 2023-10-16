@@ -1,0 +1,22 @@
+{{ $params := .params }}
+{{ with .context }}
+  <div class="container">
+    {{- partial "blocks/heading.html" . -}}
+
+    {{- $global_params := false }}
+    {{- with .carousel -}}
+      {{ $global_params = partial "func/GetGlobalParamsCarousel" . }}
+    {{- end -}}
+    <div class="splide js-carousel" {{ if $global_params }}data-splide="{{ $global_params }}"{{ end }}>
+      <div class="splide__track">
+        <ul class="splide__list">
+          {{ range .items }}
+            <div class="splide__slide">
+              {{ partial "blocks/templates/pushes/push.html" (dict "push" . "params" $params) }}
+            </div>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+{{ end }}

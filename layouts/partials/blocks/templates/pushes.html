@@ -1,105 +1,13 @@
-{{ $tag := cond (ne .title "") "h3" "h2" }}
-<section class="block-pushes{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    
-    {{ partial "blocks/heading.html" . }}
-
-    {{ $column := 3 }}
-    {{ with .column }}
-      {{ $column = . }}
+{{- $layout := .layout | default false -}}
+{{- $column := .column | default 1 -}}
+{{- $tag := cond (ne .title "") "h3" "h2" -}}
+{{- $params := index (slice (dict "tag" $tag "column" $column)) 0 -}}
+{{ if .items }}
+  <section class="block-pushes{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+    {{ if eq $layout "carousel" }}
+      {{ partial "blocks/templates/pushes/carousel.html" (dict "context" . "params" $params) }}
+    {{ else }}
+      {{ partial "blocks/templates/pushes/grid.html" (dict "context" . "params" $params) }}
     {{ end }}
-    {{ with .items }}
-    <div class="items items-{{ $column }}">
-      {{ range . }}
-        <div>
-          
-          {{ $hasOnlyLink := false }}
-          {{ with .cta }}
-            {{ if and (or (not (isset . "text")) (eq .text "")) (and (isset . "url") (ne .url "")) }}
-              {{ $hasOnlyLink = true }}
-            {{ end }}
-          {{ end }}
-
-          {{ $pushClass := "push" }}
-          {{ with .offset }}
-            {{ $pushClass = printf "%s push-%s" $pushClass . }}
-          {{ end }}
-          {{ with .darken }}
-            {{ $pushClass = printf "%s push-darken" $pushClass }}
-          {{ end }}
-
-          {{ $style := "" }}
-          {{ with .background_color }}
-            {{ $style = printf "--push-background-color: %s;" . }}
-          {{ end }}
-          {{ with .color }}
-            {{ $style = printf "%s --push-color: %s;" $style . }}
-          {{ end }}
-          {{ $style = printf " style='%s'" $style }}
-
-
-          <div class="{{ $pushClass }}"{{ if or .background_color .color }}{{ $style | safeHTMLAttr }}{{ end }}>
-
-            {{ if $hasOnlyLink }}
-              {{ $blank := .cta.blank | default false }}
-              {{ $title := i18n "link.blank" }}
-              <a href="{{ .cta.url }}" {{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>
-            {{ end }}
-
-            {{ if or .title .text .cta.text }}
-            <div class="content">
-              {{ if .card }}
-                <div>
-              {{ end }}
-              {{- with .title }}
-                {{- printf "<%s>" $tag | safeHTML -}}
-                  {{ partial "func/PrepareHTML" . }}
-                {{- printf "</%s>" $tag | safeHTML -}}
-              {{ end -}}
-              {{- with .text }}
-                <p>{{ partial "func/PrepareHTML" . }}</p>
-              {{ end -}}
-              {{ with .cta }}
-                {{ partial "commons/cta.html" . }}
-              {{ end }}
-              {{ if .card }}
-                </div>
-              {{ end }}
-            </div>
-            {{ end }}
-
-            {{ with .image }}
-              {{ $columnTotal := site.Params.column | default false }}
-              {{ $desktop := site.Params.container.desktop | default false }}
-              {{ $mobile := site.Params.container.mobile | default false }}
-              {{ if $desktop }}
-                {{ $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) }}
-                {{ $desktop = printf "%sx" (string $width) }}
-              {{ end }}
-              {{ if $mobile }}
-                {{ $mobile = printf "%sx%s" (string $mobile) (string $mobile) }}
-              {{ end }}
-            
-              {{ partial "commons/image" (dict
-                "src" .src 
-                "alt" .alt 
-                "desktop" $desktop
-                "mobile" $mobile
-                ) }}
-            {{ end }}
-
-            {{ if $hasOnlyLink }}
-              {{ $blank := .blank | default false }}
-              {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}
-              </a>
-            {{ end }}
-            
-          </div>
-
-        </div>
-      {{ end }}
-    </div>
-    {{ end }}
-
-  </div>
-</section>
+  </section>
+{{ end }}

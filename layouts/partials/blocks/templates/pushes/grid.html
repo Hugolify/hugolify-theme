@@ -1,0 +1,15 @@
+{{ $params := .params }}
+{{ with .context }}
+  <div class="container">
+    {{- partial "blocks/heading.html" . -}}
+    {{ with .items }}
+      <div class="items items-{{ $params.column }}">
+        {{ range . }}
+          <div>
+            {{- partial "blocks/templates/pushes/push.html" (dict "push" . "params" $params) -}}
+          </div>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+{{ end }}
