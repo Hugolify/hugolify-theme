@@ -1,0 +1,8 @@
+<div class="container">
+  {{ partial "blocks/heading.html" . }}
+</div>
+
+{{ partial "commons/carousel.html" (dict 
+  "context" . 
+  "partial" "commons/quote.html" 
+  ) }}

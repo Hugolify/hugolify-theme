@@ -1,0 +1,10 @@
+<div class="container">
+  {{ partial "blocks/heading.html" . }}
+  <div class="testimonials">
+    {{ range .items }}
+      <div>
+        {{ partial "commons/quote.html" . }}
+      </div>
+    {{ end }}
+  </div>
+</div>
