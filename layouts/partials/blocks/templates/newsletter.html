@@ -11,19 +11,19 @@
 
     {{- $placeholder := i18n "newsletter.placeholder" -}}
     {{- $label := i18n "newsletter.label" -}}
-    {{- $button := i18n "newsletter.button" -}}
+    {{- $button := .button | default (i18n "newsletter.button") -}}
     
     {{ if $class }}
     <div class="row">
       <div class="{{ $class }}">
     {{ end }}
 
-        <form action="{{ .url }}" method="post" id="newsletter-form-{{ $index }}" class="js-newsletter-form">
+        <form action="{{ .url }}" method="post" id="newsletter-form-{{ $index }}" class="newsletter js-newsletter-form">
           {{ range .hiddens }}
             <input type="hidden" value="{{ .value }}" name="{{ .name }}">
           {{ end }}
-          <div class="input-group">
-            <input type="email" name="EMAIL" class="form-control" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
+          <div>
+            <input type="email" name="EMAIL" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
             <button class="btn" type="submit">{{ $button }}</button>
           </div>
         </form>
