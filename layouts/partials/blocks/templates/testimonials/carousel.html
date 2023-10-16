@@ -1,14 +1,8 @@
 <div class="container">
   {{ partial "blocks/heading.html" . }}
 </div>
-<div class="splide js-carousel" data-splide='{"type":"loop","perPage":3,"autoplay":true,"focus":"center","gap":"1.5rem","padding":"3rem","arrows":false,"breakpoints":{"1024":{"perPage":2},"768":{"padding":30,"focus":0},"640":{"perPage":1}}}'>
-  <div class="splide__track">
-    <ul class="splide__list">
-      {{ range .items }}
-        <div class="splide__slide">
-          {{ partial "commons/quote.html" . }}
-        </div>
-      {{ end }}
-    </ul>
-  </div>
-</div>
+
+{{ partial "commons/carousel.html" (dict 
+  "context" . 
+  "partial" "commons/quote.html" 
+  ) }}

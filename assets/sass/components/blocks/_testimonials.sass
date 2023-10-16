@@ -11,7 +11,7 @@
         --bs-card-bg: #{$light}
         --bs-card-border-radius: 10px
         --bs-card-border-width: 0
-        --bs-card-cap-bg: #{$light}
+        --bs-card-cap-bg: transparent
         --bs-card-cap-padding-y: 1rem
         @extend .card
         height: 100%
@@ -30,3 +30,20 @@
         blockquote + figcaption
             @extend .card-footer
             justify-content: flex-start
+    .splide
+        &__track
+            overflow: hidden
+        &__list
+            display: flex
+        &__slide
+            flex-shrink: 0
+            opacity: .5
+            transition: opacity .3s ease
+            width: calc(100% / 3 + #{$grid-gutter-width})
+            &.is-next,
+            &.is-prev
+                opacity: .75
+            &.is-active
+                opacity: 1
+        &__pagination
+            bottom: -2rem
