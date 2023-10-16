@@ -1,4 +1,6 @@
-{{ $tel := partial "func/PrepareHTML" . }}
+{{- $tel := partial "func/PrepareHTML" . -}}
+{{- $title := i18n "contact.tel_with_value" (dict "Value" $tel) -}}
+{{- $phone := replace (replace $tel " " "") "(0)" "" -}}
 <li class="phone">
-  <b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ replace (replace . " " "") "(0)" "" }}" target="_blank">{{ i18n "contact.phone" }} {{ $tel }}</a>
+  <b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ $phone }}" target="_blank" title="{{ safeHTML $title }}">{{ $tel }}</a>
 </li>

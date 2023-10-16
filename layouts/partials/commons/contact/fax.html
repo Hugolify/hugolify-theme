@@ -1,4 +1,5 @@
-{{ $fax := partial "func/PrepareHTML" . }}
-<li class="fax">
+{{- $fax := partial "func/PrepareHTML" . -}}
+{{- $title := i18n "contact.fax_with_value" (dict "Value" $fax) -}}
+<li class="fax" aria-label="{{ $title }}">
   <b>{{ i18n "contact.fax" }}</b> {{ $fax }}
 </li>

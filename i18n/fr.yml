@@ -4,7 +4,9 @@ breadcrumb: fil d’Arianne
 close: Fermer
 contact: 
   email: "E-mail :"
+  email_with_value: "E-mail : {{ .Value }}"
   fax: "Fax :"
+  fax_with_value: "Fax : {{ .Value }}"
   facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
@@ -12,6 +14,7 @@ contact:
   pinterest: Pinterest
   rdv: Prendre rendez-vous
   tel: "Téléphone :"
+  tel_with_value: "Téléphone : {{ .Value }}"
   title: Contact
   twitter: Twitter
   us: "Contactez-nous"

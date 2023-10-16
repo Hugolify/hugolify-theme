@@ -1,3 +1,4 @@
+{{ if or .phone .fax .email }}
 <ul>
   {{ with .phone }}
     {{ partial "commons/contact/phone.html" . }}
@@ -9,3 +10,4 @@
     {{ partial "commons/contact/email.html" . }}
   {{ end }}
 </ul>
+{{ end }}
