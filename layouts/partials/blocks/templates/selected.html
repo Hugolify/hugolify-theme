@@ -1,7 +1,7 @@
-{{ $section := .section }}
-{{ $atf := false }}
+{{- $section := .section -}}
+{{- $atf := false -}}
 {{ if .first }}
-  {{ $atf = true }}
+  {{- $atf = true -}}
 {{ end }}
 
 {{ if $section }}
@@ -11,23 +11,25 @@
     {{ partial "blocks/heading" . }}
 
     {{ with .items }}
-      {{ $items := slice }}
+      {{- $items := slice -}}
       {{ range . }}
-        {{ $filename := . }}
-        {{ $path := printf "%s/%s" $section $filename }}
-        {{ $item := site.GetPage $path }}
+        {{- $filename := . -}}
+        {{- $path := printf "%s/%s" $section $filename -}}
+        {{- $item := site.GetPage $path -}}
         {{ if not $item }}
-          {{ $item = where (where site.Pages "Section" $section ) "Params.title" "==" . }}
+          {{- $item = where (where site.Pages "Section" $section ) "Params.title" "==" . -}}
         {{ end }}
         {{ with $item }}
-          {{ $items = $items | append . }}
+          {{- $items = $items | append . -}}
         {{ end }}
       {{ end }}
       
       {{ if gt $items 0 }}
-        {{ $partial := printf "%s/items" $section }}
-        {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
-      {{ end }}
+        {{- $partial := printf "%s/items" $section -}}
+        <div class="items">
+          {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
+        </div>
+        {{ end }}
     {{ end }}
 
     {{ $show_button := .show_more | default true }}

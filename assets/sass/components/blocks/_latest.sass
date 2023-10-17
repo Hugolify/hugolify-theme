@@ -1,18 +1,18 @@
 .block-latest
-    .heading + div
+    .items > div
         @include scroll-snap
         justify-content: center
     .bottom
         @include margin-top($global-spacing)
-    .btn
-        @extend .btn-secondary
-        @if variable-exists(bootstrap-icons-map)
-            &:hover
+        .btn
+            @extend .btn-secondary
+            @if variable-exists(bootstrap-icons-map)
+                &:hover
+                    &::before
+                        transform: translateX(.3rem)
                 &::before
-                    transform: translateX(.3rem)
-            &::before
-                @include icon("arrow-right-short")
-                font-size: 1.4rem
-                margin-right: .5rem
-                transition: transform $transition-duration $transition-effect
-                vertical-align: -0.35rem
+                    @include icon("arrow-right-short")
+                    font-size: 1.4rem
+                    margin-right: .5rem
+                    transition: transform $transition-duration $transition-effect
+                    vertical-align: -0.35rem
