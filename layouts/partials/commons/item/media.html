@@ -1,0 +1,19 @@
+{{- $context := .context -}}
+{{- $desktop := .desktop -}}
+{{- $mobile := .mobile -}}
+{{- $lazy := true -}}
+{{ if $context.Scratch.Get "notLazy" }}
+  {{- $lazy = false -}}
+{{ end }}
+<div class="media">
+  {{ with $context.Params.image }}
+    {{ partial "commons/image.html" (dict
+      "src" .src
+      "alt" .alt
+      "desktop" $desktop
+      "mobile" $mobile
+      "itemprop" "image"
+      "lazy" $lazy
+    ) }}
+  {{ end }}
+</div>
