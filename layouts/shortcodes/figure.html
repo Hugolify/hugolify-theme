@@ -3,7 +3,7 @@
 {{ $legend := .Get "legend" | default false }}
 {{ $credit := .Get "credit" | default false }}
 {{ $desktop := site.Params.image.desktop | default false }}
-{{ $mobile := site.Params.image.mobile | default false }}
+{{ $mobile := site.Params.image.mobile_full | default false }}
 {{ partial "commons/figure" (dict
   "src" $src 
   "alt" $alt 
