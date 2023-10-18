@@ -17,7 +17,13 @@
         {{- $path := printf "%s/%s" $section $filename -}}
         {{- $item := site.GetPage $path -}}
         {{ if not $item }}
-          {{- $item = where (where site.Pages "Section" $section ) "Params.title" "==" . -}}
+          {{ $pages := site.RegularPages }}
+          {{ if ne $section "pages"  }}
+            {{ $pages = where site.RegularPages "Section" $section }}
+          {{ else }}
+            {{ $pages = where site.Pages "Params.isPage" true }}
+          {{ end }}
+          {{- $item = where $pages "Params.title" "==" . -}}
         {{ end }}
         {{ with $item }}
           {{- $items = $items | append . -}}
@@ -29,7 +35,7 @@
         <div class="items">
           {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
         </div>
-        {{ end }}
+      {{ end }}
     {{ end }}
 
     {{ $show_button := .show_more | default true }}

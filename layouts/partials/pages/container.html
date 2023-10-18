@@ -1,7 +1,7 @@
 {{ if or (.Pages) (.Content) }}
   <div class="container">
     {{ with .Pages }}
-      {{ partial "pages/items" . }}
+      {{ partial "pages/items" .Pages }}
     {{ else }}
       {{ partial "pages/grid" . }}
     {{ end }}
