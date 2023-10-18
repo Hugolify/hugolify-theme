@@ -1,5 +1,5 @@
 {{ $dict := . }}
 {{ if reflect.IsMap . }}
-  {{ $dict = (dict "pages" .pages "abovethefold" .abovethefold "scrollsnap" .scrollsnap "section" "pages") }}
+  {{ $dict = (dict "pages" .pages "abovethefold" .abovethefold "scrollsnap" .scrollsnap) }}
 {{ end }}
 {{ partial "commons/items" $dict }}
