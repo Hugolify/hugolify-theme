@@ -17,6 +17,12 @@
                 margin-right: .5rem
                 transition: transform $transition-duration $transition-effect
                 vertical-align: -0.35rem
+    .media
+        picture
+            @include media-breakpoint-down(md)
+                display: block
+                margin-left: - $gutter-mobile
+                margin-right: - $gutter-mobile
     
     &-rtl
         .row

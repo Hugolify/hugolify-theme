@@ -1,3 +1,10 @@
 .block-figure
     figure
         margin-bottom: 0
+    @include media-breakpoint-down(md)
+        figure
+            margin-left: - $gutter-mobile
+            margin-right: - $gutter-mobile
+        figcaption
+            padding-left: $gutter-mobile
+            padding-right: $gutter-mobile

@@ -60,11 +60,11 @@ params:
       scrollsnap: "240x103"
     image:
       desktop: "856x"
-      mobile: "300x"
+      mobile: "360x"
   blocks:
     editorial:
       desktop: "624x"
-      mobile: "300x"
+      mobile: "360x"
     gallery:
       mobile: "138x138"
 

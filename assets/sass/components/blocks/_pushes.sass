@@ -2,12 +2,12 @@
     .items
         @include make-row()
         --bs-gutter-y: #{$grid-gutter-width}
-        > *
+        > div
             @include make-col-ready()
         
         &-2
             @include media-breakpoint-up(lg)
-                > *
+                > div
                     @include make-col(6)
             h2, h3
                 @include font-size(map-get($display-font-sizes, 6))
@@ -24,5 +24,13 @@
 
         &-3
             @include media-breakpoint-up(lg)
-                > *
+                > div
                     @include make-col(4)
+
+    @include media-breakpoint-down(md)
+        .carousel
+            .push
+                margin-left: 0
+                margin-right: 0
+                width: 100%
+

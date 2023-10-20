@@ -6,7 +6,7 @@
   {{- with .carousel -}}
     {{ $global_params = partial "func/GetGlobalParamsCarousel" . }}
   {{- end -}}
-  <div class="splide js-carousel" {{ if $global_params }}data-splide="{{ $global_params }}"{{ end }}>
+  <div class="splide carousel js-carousel" {{ if $global_params }}data-splide="{{ $global_params }}"{{ end }}>
     <div class="splide__track">
       <ul class="splide__list">
         {{ range .items }}
