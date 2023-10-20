@@ -4,20 +4,20 @@
     "@type": "WebPage",
     "headline": {{ .Title }},
     
-    {{ with .Params.image }}
-      "image": {{ . | absURL }},
-    {{ end }}
+  {{- with .Params.image }}
+    "image": {{ .src | absURL }},
+  {{- end -}}
 
-    {{ with .Date }}
-      "datePublished": {{ . }},
-    {{ end }}
+  {{- with .Date }}
+    "datePublished": {{ . }},
+  {{- end -}}
 
-    {{ with .Params.description }}
-      "abstract": {{ . | plainify | safeHTML }},
-    {{ end }}
+  {{- with .Params.description }}
+    "abstract": {{ . | plainify | safeHTML }},
+  {{- end -}}
 
-    {{ with .Content }}
-      "description": {{ . | plainify | safeHTML }},
-    {{ end }}
+  {{ with .Content }}
+    "description": {{ . | plainify | safeHTML }},
+  {{- end -}}
   }
 </script>
