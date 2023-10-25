@@ -1,7 +1,7 @@
 {{- $logo := .logo | default "" -}}
 {{- $lazy := .lazy | default false -}}
 {{- $file := printf "static%s" $logo -}}
-<a class="logo" href="{{ site.Home.Permalink }}">
+<a class="logo" href="{{ site.Home.Permalink }}" aria-title="{{- site.Title -}}">
   {{- if os.FileExists $file }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
     <img 
