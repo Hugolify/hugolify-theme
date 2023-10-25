@@ -54,7 +54,7 @@
             alt="{{ $alt }}" 
             height="{{ $image_height }}" 
             width="{{ $image_width }}"
-            {{ if $lazy }} loading="lazy"{{ end }}
+            {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
             {{ if $class }} class="{{$class}}"{{ end }}
             {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}
             >
