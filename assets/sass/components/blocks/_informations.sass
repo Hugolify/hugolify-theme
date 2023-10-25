@@ -25,29 +25,30 @@
         border: 0
         height: 100%
         text-align: left
-        .media
-            background: transparent
-            padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
-            &-icon
-                > *
-                    position: static
-            &-image,
-            &-logo
-                @extend .ratio-21x9
-            &-logo
-                picture
-                    align-items: center
-                    display: flex
-                    justify-content: center
-                img
-                    border-radius: 0
-                    max-height: 70%
-                    max-width: 60%
-            &-image
-                img
-                    object-fit: cover
-            &-none
-                padding: 0
+
+    .media
+        background: transparent
+        padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
+        &-icon
+            > *
+                position: static
+        &-image,
+        &-logo
+            @extend .ratio-21x9
+        &-logo
+            picture
+                align-items: center
+                display: flex
+                justify-content: center
+            img
+                border-radius: 0
+                max-height: 70%
+                max-width: 60%
+        &-image
+            img
+                object-fit: cover
+        &-none
+            padding: 0
     
     .icon
         font-size: 2rem
