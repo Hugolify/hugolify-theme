@@ -4,12 +4,12 @@
         --bs-gutter-y: #{$grid-gutter-width}
         justify-content: center
         text-align: center
-        > *
+        > div
             @include make-col-ready()
 
         @for $i from 2 through 6
             &-#{$i}
-                > *
+                > div
                     @include media-breakpoint-up(lg)
                         @include make-col($grid-columns / $i)
         
@@ -25,12 +25,15 @@
         border: 0
         height: 100%
         text-align: left
+        .media
+            background: transparent
+            padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
+            &-none
+                padding: 0
 
     .media
-        background: transparent
-        padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x)
         &-icon
-            > *
+            > .icon
                 position: static
         &-image,
         &-logo
@@ -47,8 +50,6 @@
         &-image
             img
                 object-fit: cover
-        &-none
-            padding: 0
     
     .icon
         font-size: 2rem
