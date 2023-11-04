@@ -25,4 +25,9 @@
 
 .block-bg
     background-color: $light
+
+    main:has(> &:last-child)
+        padding-bottom: 0
+    main > &:last-child
+        @include padding-bottom($global-spacing-double)
 /*! purgecss end ignore */
