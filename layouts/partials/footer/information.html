@@ -1,0 +1,9 @@
+{{- with .Site.Data.footer -}}
+  {{- if or .title .text -}}
+    <div class="information">
+      <p class="footer-title">{{- partial "func/PrepareHTML" .title -}}</p>
+      <p>{{- partial "func/LineBreak" (partial "func/PrepareHTML" .text) -}}</p>
+      {{- partial "commons/cta" .cta -}}
+    </div>
+  {{- end -}}
+{{- end -}}

@@ -5,13 +5,13 @@
   {{ $title := i18n "link.blank_aria" (dict "Title" .title) }}
     <a href="{{ .url }}"{{ if .blank }} title="{{ safeHTML $title }}" target="_blank"{{ end }}{{ if hasPrefix $currentPage .url }} class="active" aria-current="page" {{ end }}>
       {{- if $hasSpan }}<span>{{ end }}
-        {{- .title -}}
+        {{- partial "func/PrepareHTML" .title -}}
       {{ if $hasSpan }}</span>{{ end -}}
     </a>
   {{ else }}
     <span>
       {{- if $hasSpan }}<span>{{ end }}
-        {{- .title -}}
+        {{- partial "func/PrepareHTML" .title -}}
       {{ if $hasSpan }}</span>{{ end -}}
     </span>
   {{ end }}

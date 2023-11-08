@@ -4,19 +4,57 @@ footer[role="contentinfo"]
     background-color: $footer-background-color
     color: $footer-color
     .logo + p
+        margin-bottom: 0
         margin-top: .5rem
+    .top
+        @include media-breakpoint-up(md)
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr 1fr
+            .logo
+                grid-row: 1
+            .description
+                grid-column: 1/3
+                grid-row: 2
+                max-width: 80%
+            div
+                grid-column: 4
+                grid-row: 1/4
+            .information
+                grid-column: 3
     .bottom
         display: flex
         flex-wrap: wrap
         justify-content: space-between
         padding-top: $grid-gutter-width
-    .nav
+    .information
+        p:last-child
+            margin-bottom: 0
+        p + p
+            margin-top: $nav-link-padding-y
+        .btn
+            @extend .btn-link
+            font-size: $small-font-size
+            margin-top: -.5rem
+            padding: .5rem 0
+            &::before
+                @include icon("arrow-right")
+                font-size: px2rem(16)
+                margin-right: .25rem
+                vertical-align: middle
+    .footer-title
+        @extend .nav-title
+    .nav,
+    .nav-title
         margin-left: calc(var(--bs-nav-link-padding-x) * -1)
         margin-right: calc(var(--bs-nav-link-padding-x) * -1)
+    .nav-secondary
+        flex-direction: column
     .nav-link
         --bs-nav-link-color: #{$footer-color}
+        text-decoration-color: var(--bs-nav-link-color)
         &:hover
             --bs-nav-link-hover-color: #{$footer-color}
+            text-decoration-color: transparent
     .hugolify
         @include font-size($small-font-size)
         margin-bottom: 0
@@ -31,3 +69,12 @@ footer[role="contentinfo"]
         &,
         a
             color: $color-credit
+
+    @include media-breakpoint-down(md)
+        .bottom,
+        .nav-legal
+            flex-direction: column
+        .nav-social:not(:first-child)
+            margin-top: $spacer
+        .top div
+            padding-top: $grid-gutter-width

@@ -3,11 +3,14 @@
   {{- $menu = . -}}
 {{ end }}
 {{ with $menu }}
-  <ul class="nav nav-secondary">
-    {{ range .links }}
-      <li>
-        {{ partial "nav/link" (dict "link" .) }}
-      </li>
-    {{ end }}
-  </ul>
+  <div>
+    {{ with .title }}<p class="nav-title">{{ partial "func/PrepareHTML" . }}</p>{{ end }}
+    <ul class="nav nav-secondary">
+      {{ range .links }}
+        <li>
+          {{ partial "nav/link" (dict "link" .) }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
 {{ end }}

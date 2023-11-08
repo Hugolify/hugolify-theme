@@ -1,4 +1,10 @@
 .nav
+    &-title
+        --bs-nav-link-padding-x: #{$nav-link-padding-x}
+        --bs-nav-link-padding-y: #{$nav-link-padding-y}
+        font-weight: $font-weight-bold
+        margin-bottom: 0
+        padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x)
     li
         @extend .nav-item
         > span
