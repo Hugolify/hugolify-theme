@@ -32,6 +32,8 @@ footer[role="contentinfo"]
         p + p
             margin-top: $nav-link-padding-y
         .btn
+            --bs-btn-color: #{$footer-color}
+            --bs-btn-hover-color: #{$footer-color}
             @extend .btn-link
             font-size: $small-font-size
             margin-top: -.5rem
@@ -51,9 +53,10 @@ footer[role="contentinfo"]
         flex-direction: column
     .nav-link
         --bs-nav-link-color: #{$footer-color}
+        --bs-nav-link-hover-color: #{$footer-color}
         text-decoration-color: var(--bs-nav-link-color)
+        &:focus,
         &:hover
-            --bs-nav-link-hover-color: #{$footer-color}
             text-decoration-color: transparent
     .hugolify
         @include font-size($small-font-size)
