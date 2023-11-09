@@ -1,11 +1,24 @@
 div.press
     --bs-card-bg: #{$light}
     --bs-card-border-width: 0
-    --bs-card-spacer-x: #{$global-spacing}
-    --bs-card-spacer-y: #{$global-spacing}
+    --bs-card-spacer-x: #{$spacer}
+    --bs-card-spacer-y: #{$spacer}
     --bs-card-title-spacer-y: 0
     @extend .card
     .metas
         margin-bottom: $paragraph-margin-bottom
     .btn
         @extend .btn-primary
+
+    @include media-breakpoint-between(md, xxl)
+        .metas
+            align-items: flex-start
+            flex-direction: column
+            > *:not(:first-child):not(.share)
+                margin-left: 0
+                &::before
+                    content: none
+
+    @include media-breakpoint-up(xl)
+        --bs-card-spacer-x: calc(#{$spacer} * 2)
+        --bs-card-spacer-y: calc(#{$spacer} * 2)
