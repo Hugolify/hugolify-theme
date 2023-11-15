@@ -18,6 +18,10 @@
 {{ else }}
   {{ $file = .src }}
 {{ end }}
+{{ $filter := "Box" }}
+{{ if .screenshot }}
+  {{ $filter = "Linear" }}
+{{ end }}
 
 {{- with $file -}}
 
@@ -108,11 +112,11 @@
           {{- if $desktop_size -}}
 
             {{ if partial "func/isCrop" $desktop_size }}
-              {{ $image_desktop = $image.Fill (printf "%s %s" $desktop_size $crop) }}
-              {{ $image_desktop_webp = $image.Fill (printf "%s %s webp" $desktop_size $crop) }}
+              {{ $image_desktop = $image.Fill (printf "%s %s %s" $desktop_size $filter $crop) }}
+              {{ $image_desktop_webp = $image.Fill (printf "%s %s %s webp" $desktop_size $filter $crop) }}
             {{ else }}
               {{ $image_desktop = $image.Resize $desktop_size }}
-              {{ $image_desktop_webp = $image.Resize (printf "%s webp" $desktop_size) }}
+              {{ $image_desktop_webp = $image.Resize (printf "%s %s webp" $desktop_size $filter) }}
             {{ end }}
             {{ $image_width = $image_desktop.Width }}
             {{ $image_height = $image_desktop.Height }}
@@ -124,7 +128,7 @@
             {{ $image_width = $image.Width }}
             {{ $image_height = $image.Height }}
             {{ $image_desktop = $image }}
-            {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s webp" $image_width $image_height $crop) }}
+            {{ $image_desktop_webp = $image.Resize (printf "%dx%d %s %s webp" $image_width $image_height $filter $crop) }}
          
           {{- end -}}
 
@@ -137,17 +141,17 @@
             {{ end }}
             
             {{ if partial "func/isCrop" $mobile_size }}
-              {{ $image_mobile_2x = $image.Fill (print $mobile_size_2x " " $crop) }}
-              {{ $image_mobile_3x = $image.Fill (print $mobile_size_3x " " $crop) }}
-              {{ $image_mobile_webp = $image.Fill (printf "%s %s webp" $mobile_size $crop) }}
-              {{ $image_mobile_webp_2x = $image.Fill (print $mobile_size_2x " " $crop " webp") }}
-              {{ $image_mobile_webp_3x = $image.Fill (print $mobile_size_3x " " $crop " webp") }}
+              {{ $image_mobile_2x = $image.Fill (printf "%s %s %s" $mobile_size_2x $filter $crop) }}
+              {{ $image_mobile_3x = $image.Fill (printf "%s %s %s" $mobile_size_3x $filter $crop) }}
+              {{ $image_mobile_webp = $image.Fill (printf "%s %s %s webp" $mobile_size $filter $crop) }}
+              {{ $image_mobile_webp_2x = $image.Fill (printf "%s %s %s webp" $mobile_size_2x $filter $crop) }}
+              {{ $image_mobile_webp_3x = $image.Fill (printf "%s %s %s webp" $mobile_size_3x $filter $crop) }}
             {{ else }}
               {{ $image_mobile_2x = $image.Resize $mobile_size_2x }}
               {{ $image_mobile_3x = $image.Resize $mobile_size_3x }}
-              {{ $image_mobile_webp = $image.Resize (printf "%s webp" $mobile_size) }}
-              {{ $image_mobile_webp_2x = $image.Resize (print $mobile_size_2x " webp") }}
-              {{ $image_mobile_webp_3x = $image.Resize (print $mobile_size_3x " webp") }}
+              {{ $image_mobile_webp = $image.Resize (printf "%s %s webp" $mobile_size $filter) }}
+              {{ $image_mobile_webp_2x = $image.Resize (printf "%s %s webp" $mobile_size_2x $filter) }}
+              {{ $image_mobile_webp_3x = $image.Resize (printf "%s %s webp" $mobile_size_3x $filter) }}
             {{ end }}
 
             {{ $image_mobile = $image_mobile.RelPermalink }}

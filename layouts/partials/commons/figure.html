@@ -1,3 +1,6 @@
+{{ if .screenshot }}
+  <div class="screenshot">
+{{ end }}
 <figure{{ if .figure_class }} class="{{.figure_class}}"{{ end }}{{ partial "func/SetAnim" (dict "element" "figure") }}>
   {{ if .src }}
     {{ partial "commons/image.html" (dict
@@ -6,6 +9,7 @@
           "desktop" .desktop
           "mobile" .mobile
           "lazy" .lazy
+          "screenshot" .screenshot
         ) }}
   {{ end }}
   {{ if or .legend .credit }}
@@ -19,3 +23,6 @@
   </figcaption>
   {{ end }}
 </figure>
+{{ if .screenshot }}
+</div>
+{{ end }}
