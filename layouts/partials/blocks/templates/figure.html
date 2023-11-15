@@ -1,47 +1,49 @@
-{{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
-{{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
+{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
+{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) -}}
+{{- $screenshot := .screenshot | default false -}}
 
-{{ $columnWanted := 12 }}
-{{ if eq .grid "small" }}
-  {{ $columnWanted = 6 }}
-{{ else if eq .grid "medium" }}
-  {{ $columnWanted = 8 }}
-{{ else if eq .grid "large" }}
-  {{ $columnWanted = 10 }}
-{{ end }}
+{{- $columnWanted := 12 -}}
+{{- if eq .grid "small" -}}
+  {{- $columnWanted = 6 -}}
+{{- else if eq .grid "medium" -}}
+  {{- $columnWanted = 8 -}}
+{{- else if eq .grid "large" -}}
+  {{- $columnWanted = 10 -}}
+{{- end -}}
 
 <section class="block-figure{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
-    {{ partial "blocks/heading.html" . }}
+    {{- partial "blocks/heading.html" . -}}
 
     {{ if $class }}
     <div class="row">
       <div class="{{ $class }}">
     {{ end }}
 
-        {{ with .figure }}
-          {{ $src := .src | default false }}
-          {{ $alt := .alt | default false }}
-          {{ $legend := .legend | default false }}
-          {{ $credit := .credit | default false }}
-          {{ $desktop := site.Params.container.desktop | default false }}
-          {{ $mobile := site.Params.image.mobile_full | default false }}
-          {{ if $desktop }}
-            {{ $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) }}
-            {{ $desktop = printf "%sx" (string $width) }}
-          {{ end }}
-          {{ partial "commons/figure" (dict
-            "src" $src 
-            "alt" $alt 
-            "desktop" $desktop
-            "mobile" $mobile
-            "lazy" $lazy 
-            "legend" $legend 
-            "credit" $credit
-            ) }}
+      {{ with .figure }}
+        {{ $src := .src | default false }}
+        {{ $alt := .alt | default false }}
+        {{ $legend := .legend | default false }}
+        {{ $credit := .credit | default false }}
+        {{ $desktop := site.Params.container.desktop | default false }}
+        {{ $mobile := site.Params.image.mobile_full | default false }}
+        {{ if $desktop }}
+          {{ $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) }}
+          {{ $desktop = printf "%sx" (string $width) }}
         {{ end }}
-    
+        {{ partial "commons/figure" (dict
+          "src" $src 
+          "alt" $alt 
+          "desktop" $desktop
+          "mobile" $mobile
+          "lazy" $lazy 
+          "legend" $legend 
+          "credit" $credit
+          "screenshot" $screenshot
+          ) }}
+      {{ end }}
+      
     {{ if $class }}
       </div>
     </div>
