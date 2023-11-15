@@ -18,6 +18,7 @@
             {{ range .links}}
               <li>
                 {{ partial "nav/link" (dict "link" . "currentPage" $currentPage) }}
+                {{ partial "nav/text" . }}
               </li>
             {{ end }}
           </ul>
