@@ -5,7 +5,7 @@
 {{- with .image }}
   <meta property="og:image" content="{{ . }}">
 {{ end -}}
-<meta property="og:url" content="{{ .url }}">
+<meta property="og:url" content="{{ .url | safeURL }}">
 <meta property="og:type" content="{{ .type }}">
 <meta property="og:locale" content="{{ site.Language.Lang }}">
 {{ with site.Title -}}

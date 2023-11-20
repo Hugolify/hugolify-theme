@@ -24,7 +24,7 @@
         {{ end }}
         {{ if .url}}
           {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}
-          <a href="{{ .url }}" title="{{ $title }}" target="_blank">
+          <a href="{{ .url | safeURL }}" title="{{ $title }}" target="_blank">
         {{ end }}
         {{ partial "func/PrepareHTML" .text }}
         {{ with .url}}

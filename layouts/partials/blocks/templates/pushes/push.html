@@ -31,7 +31,7 @@
     {{ if $hasOnlyLink }}
       {{- $blank := .cta.blank | default false -}}
       {{- $title := i18n "link.blank" -}}
-      <a href="{{ .cta.url }}" {{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>
+      <a href="{{ .cta.url | safeURL }}" {{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>
     {{ end }}
 
     {{ if or .title .text .cta.text }}

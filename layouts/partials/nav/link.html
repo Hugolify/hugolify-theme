@@ -2,8 +2,8 @@
 {{ $hasSpan := .span | default false }}
 {{ with .link }}
   {{ if isset . "url"}}
-  {{ $title := i18n "link.blank_aria" (dict "Title" .title) }}
-    <a href="{{ .url }}"{{ if .blank }} title="{{ safeHTML $title }}" target="_blank"{{ end }}{{ if hasPrefix $currentPage .url }} class="active" aria-current="page" {{ end }}>
+    {{ $title := i18n "link.blank_aria" (dict "Title" .title) }}
+    <a href="{{ .url | safeURL }}"{{ if .blank }} title="{{ safeHTML $title }}" target="_blank"{{ end }}{{ if hasPrefix $currentPage .url }} class="active" aria-current="page" {{ end }}>
       {{- if $hasSpan }}<span>{{ end }}
         {{- partial "func/PrepareHTML" .title -}}
       {{ if $hasSpan }}</span>{{ end -}}
