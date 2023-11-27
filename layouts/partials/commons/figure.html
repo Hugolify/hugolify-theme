@@ -1,7 +1,7 @@
 {{ if .screenshot }}
   <div class="screenshot">
 {{ end }}
-<figure{{ if .figure_class }} class="{{.figure_class}}"{{ end }}{{ partial "func/SetAnim" (dict "element" "figure") }}>
+<figure {{- with .figure_class }} class="{{.}}"{{ end }}{{ partial "func/SetAnim" (dict "element" "figure") }}>
   {{ if .src }}
     {{ partial "commons/image.html" (dict
           "src" .src
