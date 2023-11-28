@@ -17,5 +17,8 @@
     "hugo-theme",
     "bootstrap"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@hugolify/prettier-config": "^0.3.1"
+  }
 }
