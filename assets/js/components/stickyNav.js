@@ -1,40 +1,40 @@
 const events = ['scroll', 'touchmove'];
 let previousY = 0,
-    y = 0,
-    classSticky = 'is-sticky',
-    classScrollingDown = 'is-scrolling-down',
-    classMenuOpen = 'is-menu-open',
-    header = document.querySelector('header[role="banner"]'),
-    offset = header.offsetHeight,
-    dropdowns = header.querySelectorAll('[data-bs-toggle="dropdown"]');
+  y = 0,
+  classSticky = 'is-sticky',
+  classScrollingDown = 'is-scrolling-down',
+  classMenuOpen = 'is-menu-open',
+  header = document.querySelector('header[role="banner"]'),
+  offset = header.offsetHeight,
+  dropdowns = header.querySelectorAll('[data-bs-toggle="dropdown"]');
 
 dropdowns.forEach((dropdown) => {
-    dropdown.addEventListener('hidden.bs.dropdown', () => {
-        if (!header.querySelector('[aria-expanded="true"]')) {
-            document.documentElement.classList.remove(classMenuOpen);
-        }
-    });
-    dropdown.addEventListener('show.bs.dropdown', () => {
-        document.documentElement.classList.add(classMenuOpen);
-    });
+  dropdown.addEventListener('hidden.bs.dropdown', () => {
+    if (!header.querySelector('[aria-expanded="true"]')) {
+      document.documentElement.classList.remove(classMenuOpen);
+    }
+  });
+  dropdown.addEventListener('show.bs.dropdown', () => {
+    document.documentElement.classList.add(classMenuOpen);
+  });
 });
 
 events.forEach((event) => {
-    window.addEventListener(event, () => {
-        y = window.scrollY;
+  window.addEventListener(event, () => {
+    y = window.scrollY;
 
-        if (y > offset) {
-            header.classList.add(classSticky);
-        } else {
-            header.classList.remove(classSticky);
-        }
+    if (y > offset) {
+      header.classList.add(classSticky);
+    } else {
+      header.classList.remove(classSticky);
+    }
 
-        if (y > previousY && y > offset) {
-            document.documentElement.classList.add(classScrollingDown);
-        } else {
-            document.documentElement.classList.remove(classScrollingDown);
-        }
+    if (y > previousY && y > offset) {
+      document.documentElement.classList.add(classScrollingDown);
+    } else {
+      document.documentElement.classList.remove(classScrollingDown);
+    }
 
-        previousY = y;
-    });
+    previousY = y;
+  });
 });

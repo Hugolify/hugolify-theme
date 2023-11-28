@@ -3,21 +3,21 @@ accessibility:
 breadcrumb: Breadcrumb
 close: Close
 contact:
-  email: "Email:"
-  email_with_value: "Email: {{ .Value }}"
-  fax: "Fax:"
-  fax_with_value: "Fax: {{ .Value }}"
+  email: 'Email:'
+  email_with_value: 'Email: {{ .Value }}'
+  fax: 'Fax:'
+  fax_with_value: 'Fax: {{ .Value }}'
   facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
-  me: "Contact me"
+  me: 'Contact me'
   pinterest: Pinterest
   rdv: Make an appointment
-  tel: "Phone:"
-  tel_with_value: "Phone: {{ .Value }}"
+  tel: 'Phone:'
+  tel_with_value: 'Phone: {{ .Value }}'
   title: Contact
   twitter: Twitter
-  us: "Contact us"
+  us: 'Contact us'
   website: Website
   whatsapp: WhatsApp
 credit:
@@ -76,7 +76,7 @@ pagination:
 photo:
   one: Photo
   other: Photos
-previous: Previous 
+previous: Previous
 reading_time:
   one: One minute to read
   other: '{{.Time}} minutes to read'

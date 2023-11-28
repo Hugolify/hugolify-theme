@@ -2,22 +2,22 @@ accessibility:
   alternative: Alternative à {{ .Title }}
 breadcrumb: fil d’Arianne
 close: Fermer
-contact: 
-  email: "E-mail :"
-  email_with_value: "E-mail : {{ .Value }}"
-  fax: "Fax :"
-  fax_with_value: "Fax : {{ .Value }}"
+contact:
+  email: 'E-mail :'
+  email_with_value: 'E-mail : {{ .Value }}'
+  fax: 'Fax :'
+  fax_with_value: 'Fax : {{ .Value }}'
   facebook: Facebook
   instagram: Instagram
   linkedin: Linkedin
-  me: "Contactez-moi"
+  me: 'Contactez-moi'
   pinterest: Pinterest
   rdv: Prendre rendez-vous
-  tel: "Téléphone :"
-  tel_with_value: "Téléphone : {{ .Value }}"
+  tel: 'Téléphone :'
+  tel_with_value: 'Téléphone : {{ .Value }}'
   title: Contact
   twitter: Twitter
-  us: "Contactez-nous"
+  us: 'Contactez-nous'
   website: Site web
   whatsapp: WhatsApp
 credit:
@@ -69,10 +69,10 @@ pagination:
   label: Pagination
   last: Dernière page
   next: Suivant
-  next_section: "<span>{{ .Section }}</span> suivant"
+  next_section: '<span>{{ .Section }}</span> suivant'
   page: Page {{ .Number }}
   previous: Précédent
-  previous_section: "<span>{{ .Section }}</span> précédent"
+  previous_section: '<span>{{ .Section }}</span> précédent'
 photo:
   one: Photo
   other: Photos

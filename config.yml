@@ -29,44 +29,44 @@ module:
 # Params
 params:
   animation: false
-  logo: 
-    header: "/assets/images/logo.svg"
-    footer: "/assets/images/logo.svg"
+  logo:
+    header: '/assets/images/logo.svg'
+    footer: '/assets/images/logo.svg'
   column: 12
   gutter: 24
   container:
     desktop: 1296
     mobile: 300
   hero:
-    cover: "1600x400"
-    cover_mobile: "360x400"
-    desktop: "416x"
-    mobile: "300x"
+    cover: '1600x400'
+    cover_mobile: '360x400'
+    desktop: '416x'
+    mobile: '300x'
   image:
-    xlarge: "1600x"
-    xsmall: "50x50"
-    desktop: "856x"
-    mobile: "300x"
-    mobile_full: "360x"
-    scrollsnap: "240x"
+    xlarge: '1600x'
+    xsmall: '50x50'
+    desktop: '856x'
+    mobile: '300x'
+    mobile_full: '360x'
+    scrollsnap: '240x'
   thumbnail:
-    desktop: "414x177"
-    mobile: "300x129"
-    scrollsnap: "240x103"
+    desktop: '414x177'
+    mobile: '300x129'
+    scrollsnap: '240x103'
   pages:
     thumbnail:
-      desktop: "414x177"
-      mobile: "300x129"
-      scrollsnap: "240x103"
+      desktop: '414x177'
+      mobile: '300x129'
+      scrollsnap: '240x103'
     image:
-      desktop: "856x"
-      mobile: "360x"
+      desktop: '856x'
+      mobile: '360x'
   blocks:
     editorial:
-      desktop: "624x"
-      mobile: "360x"
+      desktop: '624x'
+      mobile: '360x'
     gallery:
-      mobile: "138x138"
+      mobile: '138x138'
 
 # Privacy
 privacy:
