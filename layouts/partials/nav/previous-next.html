@@ -1,7 +1,8 @@
 {{ if or .PrevInSection .NextInSection }}
   {{ $sections := lower (i18n (printf "%s.title" .Type)) }}
   {{ $section := i18n (printf "%s.title" .Type) 1 }}
-  <nav role="navigation" aria-label="{{ i18n "pagination.between" (dict "Section" $sections) }}"{{ partial "func/SetAnim" (dict "element" "pagination") }}>
+  {{ $label := i18n "pagination.between" (dict "Section" $sections) }}
+  <nav role="navigation" aria-label="{{ $label }}"{{ partial "func/SetAnim" (dict "element" "pagination") }}>
     <ul class="pagination-between">
       <li>
         {{ with .PrevInSection }}

@@ -41,6 +41,8 @@
     --bs-pagination-focus-bg: transparent
     @extend .pagination
     @include margin-top($global-spacing)
+    @include padding-top($global-spacing)
+    border-top: $border-width solid $border-color
     li
         &:first-child
             margin-right: .5rem
@@ -62,3 +64,62 @@
         margin-right: .5rem
     .next::after
         margin-left: .5rem
+    .surtitle
+        display: block
+        margin-bottom: .5rem
+
+    &-with-title
+        @include media-breakpoint-down(md)
+            flex-direction: column
+        li
+            @include media-breakpoint-up(md)
+                width: 50%
+        a
+            display: flex
+            flex-direction: column
+            justify-content: center
+            padding: 2rem
+        .previous
+            &::before
+                position: absolute
+                left: 0
+                top: 50%
+                transform: translate(0,-50%)
+        .next
+            text-align: right
+            &::after
+                position: absolute
+                right: 0
+                top: 50%
+                transform: translate(0,-50%)
+
+    &-with-image
+        --bs-pagination-color: #{$body-color}
+        @include media-breakpoint-down(md)
+            flex-direction: column
+        li
+            @include media-breakpoint-down(md)
+                &:first-child
+                    margin-bottom: 2rem
+                    margin-right: 0
+                &:last-child
+                    margin-left: 0
+            @include media-breakpoint-up(md)
+                width: 50%
+        a
+            font-size: 1.25rem
+            line-height: 1.2
+            padding: 0
+            &:hover
+                text-decoration: none
+        img
+            height: auto
+            margin-top: 1rem
+            max-width: 100%
+
+        .previous::before,
+        .next::after
+            content: none
+        .next
+            @include media-breakpoint-up(md)
+                text-align: right
