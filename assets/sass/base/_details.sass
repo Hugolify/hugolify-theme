@@ -11,17 +11,23 @@ details
     
     summary
         @include font-size($h4-font-size)
-        align-items: baseline
         color: $headings-color
-        display: flex
         font-family: $headings-font-family
         font-weight: $headings-font-weight
-        justify-content: space-between
         line-height: $headings-line-height
         padding: 1rem
         @if variable-exists(bootstrap-icons-map)
+            display: block
+            padding-right: 3rem
+            position: relative
+            &::-webkit-details-marker
+                display: none
             &::after
                 @include icon('arrow-down-short')
+                font-size: 1.75rem
+                position: absolute
+                right: 1rem
+                top: 1rem
                 @media (prefers-reduced-motion: no-preference)
                     transition: transform 1s $transition-effect
 
