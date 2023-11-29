@@ -6,7 +6,29 @@
         @include margin-top($global-spacing)
     h3:not(:first-child)
         @include margin-top($global-spacing-semi)
+    > blockquote
+        border-left: $border-width solid $border-color
+        margin-bottom: 2rem
+        margin-top: 2rem
+        padding-left: $spacer
+    > .quote
+        background-color: $light
+        margin-bottom: 2rem
+        margin-top: 2rem
+        padding: 2rem
+        position: relative
+        &::before
+            content: "“"
+            font-family: serif
+            font-size: 10rem
+            line-height: 1
+            opacity: .05
+            pointer-events: none
+            position: absolute
+            top: 0
+
     > *:last-child
         margin-bottom: 0
+    
 
     
