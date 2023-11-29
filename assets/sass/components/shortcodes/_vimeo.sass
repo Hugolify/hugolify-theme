@@ -2,3 +2,7 @@
     @extend .ratio
     @extend .ratio-16x9
     margin-bottom: $paragraph-margin-bottom
+    @include media-breakpoint-down(md)
+        margin-left: - $gutter-mobile
+        margin-right: - $gutter-mobile
+        width: auto
