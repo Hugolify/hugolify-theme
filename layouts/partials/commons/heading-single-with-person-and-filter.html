@@ -1,17 +1,21 @@
-{{ $person := partial "func/GetRealPerson" .context }}
-{{ $section := printf "/%s" .section }}
-{{ $i18nAll := printf "%s.all" .section }}
-{{ $i18nTitle := printf "%s.list_person" .section }}
-{{ $partialFilter := printf "%s/filters/button" .section }}
+{{- $person := partial "func/GetRealPerson" .context -}}
+{{- $section := printf "/%s" .section -}}
+{{- $i18nAll := printf "%s.all" .section -}}
+{{- $i18nTitle := printf "%s.list_person" .section -}}
+{{- $partialFilter := printf "%s/filters/button" .section -}}
 
 <header class="heading heading-filter"{{ partial "func/SetAnim" (dict "element" "heading") }}>
-  {{ with site.GetPage $section }}
-  <p class="surtitle">
-    <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
-  </p>
-  {{ end }}
+  {{- with site.GetPage $section }}
+    <p class="surtitle">
+      <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
+    </p>
+  {{ end -}}
   {{ with $person }}
-    <h1>{{ i18n $i18nTitle (dict "Person" .Title) }}</h1>
+    {{- $title := partial "func/PrepareHTML" .Title -}}
+    {{- if not .File -}}
+      {{- $title = $title | humanize -}}
+    {{- end -}}
+    <h1>{{ i18n $i18nTitle (dict "Person" $title) }}</h1>
   {{ end }}
   {{ partial $partialFilter .context }}
 </header>

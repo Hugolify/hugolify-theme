@@ -12,26 +12,36 @@
         {{ range $taxonomy_term, $taxonomy := . }}
           {{- $page := partial "func/GetRealContext" .Page -}}
           <li>
+            {{- $title := partial "func/PrepareHTML" $page.Title -}}
+            {{- if not $page.File -}}
+              {{- $title = $title | humanize -}}
+            {{- end -}}
             {{ if $mini_card }}
-              {{ with $page.Params.image }}
-                {{ $desktop := site.Params.image.xsmall | default false }}
-                {{ $mobile := site.Params.image.xsmall | default false }}
-                {{ partial "commons/image.html" (dict
-                  "src" .src
-                  "alt" .alt
-                  "picture_class" "avatar"
-                  "desktop" $desktop
-                  "mobile" $mobile
-                  "crop" "top"
-                ) }}
-              {{ end }}
+              {{- if $page.Params.image -}}
+                {{- with $page.Params.image -}}
+                  {{- $desktop := site.Params.image.xsmall | default false -}}
+                  {{- $mobile := site.Params.image.xsmall | default false -}}
+                  {{- partial "commons/image.html" (dict
+                    "src" .src
+                    "alt" .alt
+                    "picture_class" "avatar"
+                    "desktop" $desktop
+                    "mobile" $mobile
+                    "crop" "top"
+                  ) -}}
+                {{- end -}}
+              {{- else -}}
+                <div class="avatar"></div>
+              {{- end -}}
               <div>
             {{ end }}
-            {{ $class := "" }}
-            {{ if eq $current $page }}
-              {{ $class = " class='active'" }}
-            {{ end }}
-            <a href="{{ .Page.Permalink }}"{{ $class | safeHTMLAttr }}>{{ $page.Title }}</a>
+            {{- $class := "" -}}
+            {{- if eq $current $page -}}
+              {{- $class = " class='active'" -}}
+            {{- end -}}
+            <a href="{{ .Page.Permalink }}"{{ $class | safeHTMLAttr }}>
+              {{- $title -}}
+            </a>
             {{ if $mini_card }}
               </div>
             {{ end }}
