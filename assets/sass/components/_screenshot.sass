@@ -1,6 +1,12 @@
 .screenshot
     position: relative
-    figure::before,
+    > span
+        background-color: $color-screenshot
+        border-top-left-radius: .5rem
+        border-top-right-radius: .5rem
+        display: block
+        height: px2rem(20)
+    > span::before,
     &::before,
     &::after
         border-radius: 50%
@@ -10,12 +16,13 @@
         position: absolute
         top: px2rem(6)
         width: px2rem(8)
+        z-index: 1
     &::before
         background-color: $color-screenshot-1
     &::after
         background-color: $color-screenshot-2
         left: px2rem(29)
-    figure::before
+    > span::before
         background-color: $color-screenshot-3
         left: px2rem(42)
     figcaption
@@ -24,11 +31,14 @@
         padding-top: .5rem
         p
             font-size: px2rem(14)
+    video,
     picture
-        background-color: $color-screenshot
-        border-radius: .5rem
+        border-bottom-left-radius: .5rem
+        border-bottom-right-radius: .5rem
         box-shadow: 0 .2rem .5rem 0 rgba(0, 0, 0, 0.2)
         overflow: hidden
-        padding-top: px2rem(20)
+    video,
     img
+        display: block
+        height: auto
         width: 100%

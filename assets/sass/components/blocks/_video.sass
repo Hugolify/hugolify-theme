@@ -1,0 +1,17 @@
+.block-video
+    figure
+        margin-bottom: 0
+    @include media-breakpoint-down(md)
+        figure
+            margin-left: - $gutter-mobile
+            margin-right: - $gutter-mobile
+        figcaption
+            padding-left: $gutter-mobile
+            padding-right: $gutter-mobile
+        .screenshot 
+            figure
+                margin-left: 0
+                margin-right: 0
+            figcaption
+                padding-left: 0
+                padding-right: 0

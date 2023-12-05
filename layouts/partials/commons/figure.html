@@ -1,5 +1,6 @@
 {{ if .screenshot }}
   <div class="screenshot">
+    <span></span>
 {{ end }}
 <figure {{- with .figure_class }} class="{{.}}"{{ end }}{{ partial "func/SetAnim" (dict "element" "figure") }}>
   {{ if .src }}

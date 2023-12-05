@@ -85,6 +85,7 @@ share:
   title: Share
 to: To
 toc: Table of contents
+transcription: Transcription
 units:
   GB: GB
   MB: MB
@@ -94,3 +95,7 @@ units:
   megabytes: Megabytes
   kilobytes: Kilobytes
   bytes: bytes
+video:
+  pause: Pause
+  play: Play
+  stop: Stop
