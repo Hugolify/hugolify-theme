@@ -85,6 +85,7 @@ share:
   title: Partager
 to: À
 toc: Table des matières
+transcription: Transcription
 units:
   GB: Go
   MB: Mo
@@ -94,3 +95,7 @@ units:
   megabytes: Mégaoctets
   kilobytes: Kilooctets
   bytes: octets
+video:
+  pause: Pause
+  play: Play
+  stop: Stop

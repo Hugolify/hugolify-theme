@@ -1,0 +1,15 @@
+{{ with .video }}
+  {{- if .screenshot }}
+    <div class="screenshot">
+      <span></span>
+  {{ end }}
+    <figure>
+      {{ partial "commons/video.html" . }}
+      {{ with .legend }}
+        <figcaption>{{ partial "func/PrepareHTML" . }}</figcaption>
+      {{ end }}
+    </figure>
+  {{ if .screenshot }}
+    </div>
+  {{ end -}}
+{{ end }}
