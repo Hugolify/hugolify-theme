@@ -8,9 +8,11 @@
         {{ with .surtitle }}
           <p class="surtitle">{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
+
         {{ with .title }}
           <h2>{{ partial "func/PrepareHTML" . }}</h2>
         {{ end }}
+
         {{ with .text }}
           <div class="text">
             {{ if in (string .) "\n" }}
@@ -20,6 +22,11 @@
             {{ end }}
           </div>
         {{ end }}
+
+        {{ with .notes }}
+          {{ partial "commons/notes.html" . }}
+        {{ end }}
+
         {{ with .cta}}
           {{ if and (isset . "url") (ne .url "") (isset . "text") (ne .text "") }}
             {{ $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text))}}

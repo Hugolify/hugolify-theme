@@ -3,6 +3,8 @@
   {{ $class = printf "%s text-center" $class }}
 {{ end }}
 
+{{ $index := .index}}
+
 <section class="block-paragraph{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
@@ -26,6 +28,10 @@
           <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
         {{ end }}
       </div>
+    {{ end }}
+
+    {{ with .notes }}
+      {{ partial "commons/notes.html" (dict "notes" . "blockId" $index ) }}
     {{ end }}
 
     {{ with .cta }}

@@ -1,0 +1,16 @@
+{{ $blockId := .blockId }}
+{{ $notes := .notes }}
+<footer class="notes">
+    <h3>Notes</h3>
+    <ul >
+        {{ range $index, $note := $notes }}
+        <li>
+            {{ partial "commons/note.html" (dict
+                "blockId" $blockId
+                "id" (add $index 1)
+                "text" $note.text
+            )}}
+        </li>
+        {{ end }}
+    </ul>
+</footer>
