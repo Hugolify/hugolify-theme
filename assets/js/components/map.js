@@ -6,7 +6,7 @@ let leafletLoaded = false;
 
 class Map {
   constructor(div) {
-    this.map = div;
+    this.mapElm = div;
 
     if (!leafletLoaded) {
       this.addFiles();
@@ -37,38 +37,97 @@ class Map {
   }
 
   init() {
-    let location = JSON.parse(this.map.dataset.location),
-      coordinate = location.coordinates.reverse(),
-      zoom = JSON.parse(this.map.dataset.zoom),
-      markerHidden = this.map.dataset.markerHidden || false,
-      newIcon = false,
-      map = false;
+    this.bounds = [];
+    this.map = false;
+    this.zoom = 10;
+    if (this.mapElm.hasAttribute('data-zoom')) {
+      this.zoom = this.mapElm.dataset.zoom;
+    }
 
-    // options
-    map = L.map(this.map, {
+    if (this.mapElm.hasAttribute('data-markers')) {
+      this.initMarkers();
+    } else {
+      this.initOnlyOneMarker();
+    }
+  }
+
+  initOnlyOneMarker() {
+    let location = JSON.parse(this.mapElm.dataset.location),
+      coordinate = location.coordinates.reverse(),
+      markerHidden = this.mapElm.dataset.markerHidden || false;
+
+    // Add map
+    this.map = this.initMap(coordinate);
+
+    // Add tiles
+    this.initTileLayer();
+
+    // Add marker
+    if (!markerHidden) {
+      this.addMarker(location);
+    }
+  }
+
+  initMarkers() {
+    let locations = JSON.parse(this.mapElm.dataset.markers),
+      coordinate = locations[0].coordinates,
+      bounds = false;
+
+    // Add map
+    this.map = this.initMap(coordinate);
+
+    // Add tiles
+    this.initTileLayer();
+
+    // Add markers
+    for (var i = 0; i < locations.length; i++) {
+      this.addMarker(locations[i]);
+    }
+
+    // Center map
+    bounds = new L.LatLngBounds(this.bounds);
+    this.map.fitBounds(bounds);
+  }
+
+  initMap(coordinate) {
+    return L.map(this.mapElm, {
       center: coordinate,
-      zoom: zoom,
+      zoom: this.zoom,
       scrollWheelZoom: false
     });
+  }
 
-    // add tiles
+  initTileLayer() {
     // https://leafletjs.com/reference.html#tilelayer
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(this.map);
+  }
 
-    // new icon
+  addMarker(location) {
     // https://leafletjs.com/reference.html#icon
-    if (!markerHidden) {
-      newIcon = L.icon({
-        iconUrl: '/assets/images/map-marker.svg',
-        iconSize: [50, 50],
-        iconAnchor: [25, 40]
-      });
-      // add marker to map
-      L.marker(coordinate, { icon: newIcon }).addTo(map);
+    let newIcon = L.icon({
+      iconUrl: '/assets/images/map-marker.svg',
+      iconSize: [50, 50],
+      iconAnchor: [25, 40]
+    });
+
+    // add coorinates to bounds
+    this.bounds.push(location.coordinates);
+
+    // add marker to map
+    let marker = L.marker(location.coordinates, { icon: newIcon }).addTo(
+      this.map
+    );
+    // add popup
+    if (location.title) {
+      marker.bindPopup(location.title);
     }
+    // center click to marker
+    marker.on('click', (e) => {
+      this.map.setView(e.target.getLatLng());
+    });
   }
 }
 
