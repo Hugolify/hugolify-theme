@@ -1,10 +1,12 @@
 {{- $pages := . -}}
+{{- $large := false -}}
 {{- $atf := false -}}
 {{- $scrollsnap := false -}}
 {{- $groupbyyear := false -}}
 {{- $currentyear := false -}}
 {{ if reflect.IsMap . }}
   {{- $pages = .pages -}}
+  {{- $large = .large -}}
   {{- $atf = .abovethefold -}}
   {{- $groupbyyear = .groupbyyear -}}
   {{ with .scrollsnap }}
@@ -17,7 +19,7 @@
     {{ if eq (index . 0).Kind "section" }}
       {{- $section = "pages" -}}
     {{ end }}
-    <div class="{{ $section }}">
+    <div class="{{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
       {{ range $index, $items := . }}
         {{ if $groupbyyear }}
           {{ $year := .Date.Format "2006" }}
@@ -33,7 +35,9 @@
           {{ if $scrollsnap }}
             {{ .Scratch.Set "scrollsnap" true }}
           {{ end }}
-          {{ partial (print $section "/item.html") . }}
+          {{ $file := "item" }}
+          {{- if $large}}{{ $file = "item-large" }}{{ end }}
+          {{ partial (print $section "/" $file ".html") . }}
           {{ if $scrollsnap }}
             {{ .Scratch.Delete "scrollsnap" }}
           {{ end }}
