@@ -1,8 +1,9 @@
 .map
     @extend .ratio
     @extend .ratio-21x9
+    @include margin-bottom($spacer)
+    @include margin-top($spacer)
     background-color: $light
-    filter: grayscale(.7)
     overflow: hidden
     @include media-breakpoint-down(sm)
         --bs-aspect-ratio: 75%

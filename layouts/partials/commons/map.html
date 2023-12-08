@@ -1,8 +1,5 @@
 {{- $location := .location -}}
 {{- $marker_hidden := .marker_hidden | default false -}}
-{{- $defaultZoom := 15 -}}
-{{- if $marker_hidden -}}
-  {{- $defaultZoom = 14 -}}
-{{- end -}}
+{{- $defaultZoom := cond $marker_hidden 14 15 -}}
 {{- $zoom := .zoom | default $defaultZoom -}}
-<div class="map js-map" data-location="{{ $location }}" data-zoom="{{ $zoom }}"{{ if $marker_hidden }} data-marker-hidden="true"{{ end }}></div>
+<div class="map js-map" data-markers="{{ $location }}" data-zoom="{{ $zoom }}"{{ if $marker_hidden }} data-marker-hidden="true"{{ end }}></div>

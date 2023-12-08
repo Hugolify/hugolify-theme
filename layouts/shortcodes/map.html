@@ -1,0 +1,5 @@
+{{ $location := .Get "markers" | default false }}
+{{ $zoom := .Get "zoom" | default false }}
+{{ with $location }}
+  {{ partial "commons/map" (dict "location" . "zoom" $zoom) }}
+{{ end }}

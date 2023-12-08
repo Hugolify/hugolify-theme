@@ -44,28 +44,7 @@ class Map {
       this.zoom = this.mapElm.dataset.zoom;
     }
 
-    if (this.mapElm.hasAttribute('data-markers')) {
-      this.initMarkers();
-    } else {
-      this.initOnlyOneMarker();
-    }
-  }
-
-  initOnlyOneMarker() {
-    let location = JSON.parse(this.mapElm.dataset.location),
-      coordinate = location.coordinates.reverse(),
-      markerHidden = this.mapElm.dataset.markerHidden || false;
-
-    // Add map
-    this.map = this.initMap(coordinate);
-
-    // Add tiles
-    this.initTileLayer();
-
-    // Add marker
-    if (!markerHidden) {
-      this.addMarker(location);
-    }
+    this.initMarkers();
   }
 
   initMarkers() {
@@ -84,9 +63,11 @@ class Map {
       this.addMarker(locations[i]);
     }
 
-    // Center map
-    bounds = new L.LatLngBounds(this.bounds);
-    this.map.fitBounds(bounds);
+    // Center map if more one marker
+    if (locations.length > 1) {
+      bounds = new L.LatLngBounds(this.bounds);
+      this.map.fitBounds(bounds);
+    }
   }
 
   initMap(coordinate) {
@@ -113,17 +94,19 @@ class Map {
       iconAnchor: [25, 40]
     });
 
-    // add coorinates to bounds
+    // add coordinates to bounds
     this.bounds.push(location.coordinates);
 
     // add marker to map
     let marker = L.marker(location.coordinates, { icon: newIcon }).addTo(
       this.map
     );
+
     // add popup
     if (location.title) {
       marker.bindPopup(location.title);
     }
+
     // center click to marker
     marker.on('click', (e) => {
       this.map.setView(e.target.getLatLng());

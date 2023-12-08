@@ -1,24 +1,31 @@
 {{- $class := partial "func/GetColClass" .grid -}}
 {{- $zoom := .zoom -}}
-
 <section class="block-map{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
-    {{ if $class }}
+    {{- if $class }}
     <div class="row">
       <div class="{{ $class }}">
     {{ end }}
 
         {{ partial "blocks/heading.html" . }}
 
-        {{ with .location }}
-          {{ partial "commons/map" (dict "location" . "zoom" $zoom) }}
-        {{ end }}
+        {{- with .location }}
+          {{/*  DecapCMS reverse coordinates  */}}
+          {{ $marker := . }}
+          {{ $oldCoordinates := (unmarshal .).coordinates }}
+          {{ $newCoordinates := partial "func/ReverseSlice" $oldCoordinates }}
+          {{ $oldCoordinates = string ($oldCoordinates | jsonify) }}
+          {{ $newCoordinates = string ($newCoordinates | jsonify) }}
+          {{ $marker = replace $marker $oldCoordinates $newCoordinates }}
+          {{/*  / DecapCMS reverse coordinates  */}}
+          {{ partial "commons/map" (dict "location" (slice $marker) "zoom" $zoom) }}
+        {{ end -}}
 
     {{ if $class }}
       </div>
     </div>
-    {{ end }}
+    {{ end -}}
     
   </div>
 </section>
