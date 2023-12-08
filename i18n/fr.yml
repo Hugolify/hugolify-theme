@@ -1,5 +1,7 @@
 accessibility:
   alternative: Alternative à {{ .Title }}
+address:
+  direction: Comment y aller ?
 breadcrumb: fil d’Arianne
 close: Fermer
 contact:

@@ -1,5 +1,7 @@
 accessibility:
   alternative: Alternative to {{ .Title }}
+address:
+  direction: How to go?
 breadcrumb: Breadcrumb
 close: Close
 contact:
