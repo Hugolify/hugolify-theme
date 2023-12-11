@@ -1,9 +1,9 @@
+{{ $index := .index}}
+
 {{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
 {{ if eq .align "center" }}
   {{ $class = printf "%s text-center" $class }}
 {{ end }}
-
-{{ $index := .index}}
 
 <section class="block-paragraph{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
@@ -13,26 +13,10 @@
       <div class="{{ $class }}">
     {{ end }}
 
-    {{ with .surtitle }}
-      <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .title }}
-      <h2>{{ partial "func/PrepareHTML" . }}</h2>
-    {{ end }}
-    
-    {{ with .text }}
-      <div class="text">
-        {{ if in (string .) "\n" }}
-          {{ partial "func/PrepareHTML" . | markdownify }}
-        {{ else }}
-          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
-        {{ end }}
-      </div>
-    {{ end }}
-
-    {{ with .notes }}
-      {{ partial "commons/notes.html" (dict "notes" . "blockId" $index ) }}
-    {{ end }}
+    {{ partial "blocks/content-with-notes.html" (dict 
+      "context" .
+      "blockId" $index 
+    ) }}
 
     {{ with .cta }}
       {{ partial "commons/cta.html" . }}

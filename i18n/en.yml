@@ -57,6 +57,9 @@ newsletter:
   label: Renseigner votre e-mail pour s’enregistrer à la newsletter
   button: Sign in
 next: Next
+notes:
+  title: Notes
+  back_to_text: Go back to the text
 page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.

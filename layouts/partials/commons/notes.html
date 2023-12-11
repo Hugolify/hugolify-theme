@@ -1,15 +1,18 @@
-{{ $blockId := .blockId }}
 {{ $notes := .notes }}
+{{ $blockId := .blockId | default "" }}
+
 <footer class="notes">
-    <h3>Notes</h3>
-    <ul >
+    <h3>{{ i18n "notes.title" }}</h3>
+    <ul>
         {{ range $index, $note := $notes }}
+        {{ $id := add $index 1}}
         <li>
-            {{ partial "commons/note.html" (dict
-                "blockId" $blockId
-                "id" (add $index 1)
-                "text" $note.text
-            )}}
+            <p id="nb-{{ $blockId }}-{{ $id }}" tabindex="-1">
+                <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
+                  {{ $id}}
+                </a>
+                <span>{{ $note.text }}</span>
+              </p>
         </li>
         {{ end }}
     </ul>

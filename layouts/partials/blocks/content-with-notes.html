@@ -1,0 +1,37 @@
+{{ $surtitle := .context.surtitle }}
+{{ $title := .context.title }}
+{{ $text := .context.text }}
+{{ $notes := .context.notes }}
+{{ $blockId := .blockId | default "" }}
+
+{{ with $surtitle }}
+    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+{{ end }}
+
+{{ with $title }}
+    <h2>{{ partial "func/PrepareHTML" . }}</h2>
+{{ end }}
+
+{{ with $text }}
+    {{ $html := partial "func/PrepareHTML" . | markdownify }}
+    
+    {{ if $notes}}
+        {{ $html = partial "func/PrepareNotes" (dict 
+            "html" $html 
+            "blockId" $blockId 
+            "notes" $notes
+        )}}
+    {{ end }}
+    
+    <div class="text">
+    {{ if in (string .) "\n" }}
+        {{ $html }}
+    {{ else }}
+        <p>{{ $html }}</p>
+    {{ end }}
+    </div>
+
+    {{ with $notes }}
+        {{ partial "commons/notes.html" (dict "notes" . "blockId" $blockId ) }}
+    {{ end }}
+{{ end }}
