@@ -14,4 +14,5 @@ import './components/gauge';
 import './components/map';
 import './components/stickyNav';
 import './components/toc';
+import './components/tooltip';
 import './components/video';

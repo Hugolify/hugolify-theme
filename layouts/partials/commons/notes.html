@@ -1,0 +1,22 @@
+{{ $notes := .notes }}
+{{ $blockId := .blockId | default "" }}
+{{ $lenNotes := len $notes }}
+
+{{ if gt $lenNotes 0 }}
+<footer class="notes">
+    <h3>{{ i18n "notes.title" $lenNotes }}</h3>
+    <ul>
+        {{ range $index, $note := $notes }}
+        {{ $id := add $index 1}}
+        <li>
+            <p id="nb-{{ $blockId }}-{{ $id }}" tabindex="-1">
+                <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
+                  {{ $id}}
+                </a>
+                <span>{{ $note.text }}</span>
+              </p>
+        </li>
+        {{ end }}
+    </ul>
+</footer>
+{{ end }}

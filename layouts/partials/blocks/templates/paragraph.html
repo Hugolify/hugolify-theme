@@ -1,3 +1,5 @@
+{{ $index := .index}}
+
 {{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
 {{ if eq .align "center" }}
   {{ $class = printf "%s text-center" $class }}
@@ -11,22 +13,9 @@
       <div class="{{ $class }}">
     {{ end }}
 
-    {{ with .surtitle }}
-      <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .title }}
-      <h2>{{ partial "func/PrepareHTML" . }}</h2>
-    {{ end }}
-    
-    {{ with .text }}
-      <div class="text">
-        {{ if in (string .) "\n" }}
-          {{ partial "func/PrepareHTML" . | markdownify }}
-        {{ else }}
-          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
-        {{ end }}
-      </div>
-    {{ end }}
+    {{ partial "blocks/content-with-notes.html" (dict 
+      "context" .
+    ) }}
 
     {{ with .cta }}
       {{ partial "commons/cta.html" . }}

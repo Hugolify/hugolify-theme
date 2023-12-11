@@ -11,4 +11,6 @@ import Offcanvas from 'js/bootstrap/src/offcanvas';
 // import Scrollspy from 'js/bootstrap/src/scrollspy';
 // import Tab from 'js/bootstrap/src/tab';
 // import Toast from 'js/bootstrap/src/toast';
-// import Tooltip from 'js/bootstrap/src/tooltip';
+import Tooltip from 'js/bootstrap/src/tooltip';
+
+export { Collapse, Dropdown, Modal, Offcanvas, Tooltip };

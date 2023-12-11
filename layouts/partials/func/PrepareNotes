@@ -1,0 +1,32 @@
+{{ $html := .html }}
+{{ $notes := .notes }}
+{{ $blockId := .blockId | default "" }}
+
+{{ $notesLinks := findRESubmatch `\[\*\]` $html }}
+{{ range $index, $_ := $notesLinks }}  
+  {{ $noteIndex := add $index 1}}
+  {{ $id := print "-" $noteIndex | print $blockId }}
+  
+  {{ $linkId := print "nh-" $id }}
+  {{ $noteId := print "nb-" $id }}
+
+  {{ $noteContent := index (index $notes $index) "text"}}
+
+  {{ $replacement := printf `
+    <sup>
+      <a
+        id="%s"
+        href="#%s"
+        aria-describedby="%s"
+        title="%s"
+        data-bs-toggle="tooltip"
+      >
+        <span>[</span>%d<span>]</span>
+      </a>
+    </sup>
+  ` $linkId $noteId $noteId $noteContent $noteIndex }}
+
+  {{ $html = replaceRE `\[\*\]` $replacement $html 1 }} 
+{{ end }}
+
+{{ return safeHTML ($html) }}
