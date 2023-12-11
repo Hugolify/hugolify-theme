@@ -58,7 +58,9 @@ newsletter:
   button: S’enregistrer
 next: Suivant
 notes:
-  title: Notes
+  title:
+    one: Note
+    other: Notes
   back_to_text: Retour au texte
 page404:
   title: Page introuvable
