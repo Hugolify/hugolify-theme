@@ -15,6 +15,7 @@
 
     {{ partial "blocks/content-with-notes.html" (dict 
       "context" .
+      "blockId" $index
     ) }}
 
     {{ with .cta }}
