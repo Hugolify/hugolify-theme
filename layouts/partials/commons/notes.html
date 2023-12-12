@@ -12,7 +12,7 @@
           <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
             {{ $id}}
           </a>
-          <span>{{ $note.text }}</span>
+          <span>{{ $note.text | markdownify }}</span>
         </li>
         {{ end }}
     </ol>
