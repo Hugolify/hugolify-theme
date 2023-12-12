@@ -3,20 +3,18 @@
 {{ $lenNotes := len $notes }}
 
 {{ if gt $lenNotes 0 }}
-<footer class="notes">
-    <h3>{{ i18n "notes.title" $lenNotes }}</h3>
-    <ul>
+<footer class="notes list">
+    <p>{{ i18n "notes.title" $lenNotes }}</p>
+    <ol>
         {{ range $index, $note := $notes }}
         {{ $id := add $index 1}}
-        <li>
-            <p id="nb-{{ $blockId }}-{{ $id }}" tabindex="-1">
-                <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
-                  {{ $id}}
-                </a>
-                <span>{{ $note.text }}</span>
-              </p>
+        <li id="nb-{{ $blockId }}-{{ $id }}" tabindex="-1">
+          <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
+            {{ $id}}
+          </a>
+          <span>{{ $note.text }}</span>
         </li>
         {{ end }}
-    </ul>
+    </ol>
 </footer>
 {{ end }}
