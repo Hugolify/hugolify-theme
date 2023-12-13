@@ -61,7 +61,7 @@ notes:
   title:
     one: Note
     other: Notes
-  back_to_text: Retour au texte
+  back_to_text: Retour au texte {{ . }}.
 page404:
   title: Page introuvable
   text: La page que vous recherchez n'existe pas ou a été déplacée.

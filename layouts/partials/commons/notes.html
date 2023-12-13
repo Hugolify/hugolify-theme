@@ -8,11 +8,11 @@
     <ol>
         {{ range $index, $note := $notes }}
         {{ $id := add $index 1}}
-        <li id="nb-{{ $blockId }}-{{ $id }}" tabindex="-1">
-          <a title="{{ i18n "notes.back_to_text" }} {{ $id }}." href="#nh-{{ $blockId }}-{{ $id }}">
-            {{ $id}}
+        <li id="nb-{{- $blockId -}}-{{- $id -}}" tabindex="-1">
+          <a title="{{- i18n "notes.back_to_text" $id -}}" href="#nh-{{- $blockId -}}-{{- $id -}}">
+            {{- $id -}}
           </a>
-          <span>{{ $note.text | markdownify }}</span>
+          <span>{{ partial "func/PrepareHTML" $note.text | markdownify }}</span>
         </li>
         {{ end }}
     </ol>
