@@ -1,4 +1,5 @@
 {{- $class := partial "func/GetColClass" .grid -}}
+{{- $show_places := .show_places | default false -}}
 {{- $zoom := .zoom -}}
 <section class="block-map{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
@@ -10,16 +11,27 @@
 
         {{ partial "blocks/heading.html" . }}
 
-        {{- with .location }}
-          {{/*  DecapCMS reverse coordinates  */}}
-          {{ $marker := . }}
-          {{ $oldCoordinates := (unmarshal .).coordinates }}
-          {{ $newCoordinates := partial "func/ReverseSlice" $oldCoordinates }}
-          {{ $oldCoordinates = string ($oldCoordinates | jsonify) }}
-          {{ $newCoordinates = string ($newCoordinates | jsonify) }}
-          {{ $marker = replace $marker $oldCoordinates $newCoordinates }}
-          {{/*  / DecapCMS reverse coordinates  */}}
-          {{ partial "commons/map" (dict "location" (slice $marker) "zoom" $zoom) }}
+        {{ if $show_places }}
+          {{/*  Show all places with coordinates  */}}
+          {{- $partial := "func/GetMarkers" -}}
+          {{- if templates.Exists (printf "partials/%s" $partial) }}
+            {{- $markers := partial $partial (where site.RegularPages "Section" "places") -}}
+            {{- if $markers -}}
+              {{ partial "commons/map" (dict "location" $markers) }}
+            {{- end -}}
+          {{- end -}}
+        {{ else }}
+          {{- with .location }}
+            {{/*  DecapCMS reverse coordinates  */}}
+            {{- $marker := . -}}
+            {{- $oldCoordinates := (unmarshal .).coordinates -}}
+            {{- $newCoordinates := partial "func/ReverseSlice" $oldCoordinates -}}
+            {{- $oldCoordinates = string ($oldCoordinates | jsonify) -}}
+            {{- $newCoordinates = string ($newCoordinates | jsonify) -}}
+            {{- $marker = replace $marker $oldCoordinates $newCoordinates -}}
+            {{/*  / DecapCMS reverse coordinates  */}}
+            {{ partial "commons/map" (dict "location" (slice $marker) "zoom" $zoom) }}
+          {{ end -}}
         {{ end -}}
 
     {{ if $class }}
