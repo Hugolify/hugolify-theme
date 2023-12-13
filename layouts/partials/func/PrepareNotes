@@ -12,20 +12,19 @@
 
   {{ $noteContent := index (index $notes $index) "text"}}
 
-  {{ $replacement := printf `
-    <sup>
-      <a
-        id="%s"
-        href="#%s"
+  {{ $replacement := "" }}
+  {{ if $noteContent }}
+    {{ 
+      $replacement = printf `<sup><a
+        id="%s" href="#%s"
         aria-describedby="%s"
         title="%s"
         data-bs-toggle="tooltip"
-      >
-        <span>[</span>%d<span>]</span>
-      </a>
-    </sup>
-  ` $linkId $noteId $noteId $noteContent $noteIndex }}
-
+      ><span>[</span>%d<span>]</span></a></sup>` 
+      $linkId $noteId $noteId $noteContent $noteIndex 
+    }}
+  {{ end }}
+  
   {{ $html = replaceRE `\[\*\]` $replacement $html 1 }} 
 {{ end }}
 

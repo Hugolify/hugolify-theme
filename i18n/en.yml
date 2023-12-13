@@ -61,7 +61,7 @@ notes:
   title:
     one: Note
     other: Notes
-  back_to_text: Go back to the text
+  back_to_text: Go back to the text {{ . }}.
 page404:
   title: Page not found
   text: The page you are looking for doesn’t exist or has been moved.
