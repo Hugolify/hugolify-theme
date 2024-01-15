@@ -1,4 +1,4 @@
-{{- if eq site.Params.cookie_banner.enable hugo.IsProduction }}
+{{- if and site.Params.cookie_banner.enable hugo.IsProduction }}
   {{- $id_ga := site.Config.Services.GoogleAnalytics.ID | default false -}}
   {{- $cookie_page_default := "https://gdpr.eu/cookies/" -}}
   {{- $cookie_page := site.Params.cookie_banner.page | default $cookie_page_default -}}
