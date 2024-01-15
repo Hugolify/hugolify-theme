@@ -1,11 +1,9 @@
-name: 'Hugolify Theme'
-license: 'MIT'
+name: Hugolify Theme
+license: MIT
 licenselink: 'https://github.com/hugolify/hugolify-theme/blob/main/LICENSE'
-description: 'Hugolify core theme'
-tags: []
-features: []
-min_version: '0.114.0'
-
+description: Hugolify core theme
+homepage: 'https://www.hugolify.io'
+min_version: 0.120.0
 author:
-  name: 'Sébastien Moulène'
+  name: Sébastien Moulène
   homepage: 'https://www.sebastienmoulene.com'

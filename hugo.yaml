@@ -29,6 +29,8 @@ module:
 # Params
 params:
   animation: false
+  cookie_banner:
+    enable: false
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
