@@ -1,0 +1,6 @@
+{{/* from github.com/kaushalmodi/hugo-debugprint */}}
+{{- if site.IsServer -}}
+  {{- if templates.Exists "partials/debugprint.html" -}}
+    {{- partial "debugprint.html" . -}}
+  {{- end -}}
+{{- end -}}
