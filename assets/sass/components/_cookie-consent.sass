@@ -1,0 +1,19 @@
+.cookie-consent
+    background-color: $modal-content-bg
+    bottom: 1rem
+    border-radius: $modal-content-border-radius
+    display: none
+    left: 1rem
+    max-width: 500px
+    padding: $modal-inner-padding
+    position: fixed
+    right: 1rem
+    z-index: $zindex-modal
+    @include media-breakpoint-up(md)
+        bottom: 2rem
+        left: 2rem
+        right: 2rem
+    .btn
+        @extend .btn-secondary
+        @extend .btn-sm
+

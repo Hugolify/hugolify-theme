@@ -22,6 +22,11 @@ contact:
   us: 'Contact us'
   website: Website
   whatsapp: WhatsApp
+cookie_banner:
+  accept: Accept
+  refuse: Refuse
+  text: 'By continuing to browse this site, you accept the use of Cookies to offer you personalized features and to carry out audience measurements. To find out more and configure these cookies:'
+  title: Cookie banner
 credit:
   hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
 document:

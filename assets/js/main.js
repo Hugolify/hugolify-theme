@@ -1,6 +1,5 @@
 // Vendors
 import './vendors/bootstrap';
-// import './vendors/cookie';
 
 // Blocks
 import './blocks/chart';

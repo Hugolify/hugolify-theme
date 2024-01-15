@@ -1,0 +1,129 @@
+{{- if eq site.Params.cookie_banner.enable hugo.IsProduction }}
+  {{- $id_ga := site.Config.Services.GoogleAnalytics.ID | default false -}}
+  {{- $cookie_page_default := "https://gdpr.eu/cookies/" -}}
+  {{- $cookie_page := site.Params.cookie_banner.page | default $cookie_page_default -}}
+  {{- $cookie_label := partial "func/PrepareHTML" (i18n "cookie_banner.label") -}}
+  {{- $cookie_text := partial "func/PrepareHTML" (i18n "cookie_banner.text") -}}
+  {{- $cookie_refuse := partial "func/PrepareHTML" (i18n "cookie_banner.refuse") -}}
+  {{- $cookie_accept := partial "func/PrepareHTML" (i18n "cookie_banner.accept") -}}
+  <div class="cookie-consent js-cookie-consent" tabindex="-1" role="dialog" aria-label="{{ $cookie_label }}">
+    <div>
+      <p>
+        {{- $cookie_text }}
+        <a href="{{ $cookie_page | safeURL }}" {{- if eq $cookie_page $cookie_page_default }} target="_blank" ref="noopener"{{ end }}>{{ i18n "more" }}</a>
+      </p>
+    </div>
+    <div role="group">
+      <button type="button" class="btn js-cookie-consent-refuse">{{ $cookie_refuse }}</button>
+      <button type="button" class="btn js-cookie-consent-accept">{{ $cookie_accept }}</button>
+    </div>
+  </div>
+
+  <script>
+    const cookie_banner = document.querySelector('.js-cookie-consent');
+    
+    class CookieBanner {
+      constructor(elm) {
+        this.elm = elm;
+        this.id_ga = {{ $id_ga }};
+        this.init();
+        this.initEvents();
+      }
+
+      createCookie(name,value,days) {
+        let expires = "";
+        if (days) {
+          let date = new Date();
+          date.setTime(date.getTime() + (days*24*60*60*1000));
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/" + ";secure;SameSite=None";
+      }
+
+      readCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for(let i=0;i < ca.length;i++) {
+          let c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+      }
+
+      deleteCookiesByPattern(pattern) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i];
+          const eqPos = cookie.indexOf("=");
+          const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          if (name.includes(pattern)) {
+            document.cookie = name + "=; Domain=" + location.host + "; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; SameSite=None";
+          }
+        }
+      }
+
+      loadScriptAsync(scriptSrc, callback) {
+        if (typeof callback !== 'function') {
+            throw new Error('Not a valid callback for async script load');
+        }
+        let script = document.createElement('script');
+        script.onload = callback;
+        script.src = scriptSrc;
+        document.body.appendChild(script);
+      }
+    
+      init() {
+        if(this.readCookie('cookie-consent')=='true') {
+          this.initCookies();
+        } else if (this.readCookie('cookie-consent')!='false') {
+          this.removeCookies();
+          this.elm.style.display = 'block';
+        } else if (this.readCookie('cookie-consent')=='false') {
+          this.removeCookies();
+          this.elm.style.display = 'none';
+        }
+      }
+
+      initCookies() {
+        if (this.id_ga) {
+          this.initGoogleAnalytics();
+        }
+      }
+
+      removeCookies() {
+        if (this.id_ga) {
+          this.deleteCookiesByPattern("_ga");
+        }
+      }
+
+      initEvents() {
+        this.elm.querySelector('.js-cookie-consent-accept').addEventListener("click", () => {
+          this.createCookie('cookie-consent','true',31);
+          this.elm.style.display = 'none';
+          // location.reload();
+        });
+    
+        this.elm.querySelector('.js-cookie-consent-refuse').addEventListener("click", () => {
+          this.createCookie('cookie-consent','false',31);
+          this.elm.style.display = 'none';
+          // location.reload();
+        });
+      }
+
+      initGoogleAnalytics() {
+        this.loadScriptAsync('https://www.googletagmanager.com/gtag/js?id='+this.id_ga, function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', this.id_ga, { 'anonymize_ip': true, cookie_flags: 'secure;samesite=none' });
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      'use strict';
+      new CookieBanner(cookie_banner);
+    });
+  </script>
+{{ end -}}
