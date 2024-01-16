@@ -45,3 +45,11 @@
         height: 100%
         object-fit: cover
         width: 100%
+
+@mixin more
+    @if variable-exists(bootstrap-icons-map)
+        &::before
+            @include icon("arrow-right")
+            font-size: 1rem
+            margin-right: .5rem
+            vertical-align: -0.25em
