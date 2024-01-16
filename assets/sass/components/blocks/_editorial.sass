@@ -5,6 +5,8 @@
             @extend .col-md-6
         .media
             @extend .col-md-6
+    h2, p
+        text-wrap: balance
     .btn
         @extend .btn-primary
         @if variable-exists(bootstrap-icons-map)
@@ -19,7 +21,6 @@
                         transform: translateX(.3rem)
                 &::before
                     transition: transform $transition-duration $transition-effect
-
     .media
         picture
             @include media-breakpoint-down(md)
