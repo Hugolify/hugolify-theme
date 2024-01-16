@@ -1,6 +1,7 @@
 {{- $context := .context -}}
 {{- $desktop := .desktop -}}
 {{- $mobile := .mobile -}}
+{{- $crop := .crop -}}
 {{- $lazy := true -}}
 {{ if $context.Scratch.Get "notLazy" }}
   {{- $lazy = false -}}
@@ -14,7 +15,7 @@
       "mobile" $mobile
       "itemprop" "image"
       "lazy" $lazy
-      "crop" (.crop | default false)
+      "crop" $crop
     ) }}
   {{ end }}
 </div>
