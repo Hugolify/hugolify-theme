@@ -1,0 +1,13 @@
+{{ $discount := .discount }}
+{{ $price := .price }}
+
+{{ with $discount }}
+  {{ if hasSuffix . "%" }}
+    {{ $percent := float (strings.TrimRight "%" .) }}
+    {{ $price = sub $price (div (mul $percent $price) 100) }}
+  {{ else }}
+    {{ $price = sub $price . }}
+  {{ end }}
+{{ end }}
+
+{{ return $price }}

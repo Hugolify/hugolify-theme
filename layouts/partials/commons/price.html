@@ -1,0 +1,6 @@
+{{ $discount := .discount | default false }}
+{{ $price := .price | default false }}
+{{ with $price }}
+  {{ $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) }}
+  {{ partial "func/GetHumanPrice" $realPrice }} {{- if $discount }} <del>{{ partial "func/GetHumanPrice" . }}</del> <span>-{{ $discount}}</span>{{ end }}
+{{ end }}

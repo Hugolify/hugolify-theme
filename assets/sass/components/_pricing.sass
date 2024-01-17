@@ -1,2 +1,14 @@
 .pricing
     white-space: nowrap
+    del
+        color: $text-muted
+        font-size: .75em
+    span
+        --bs-badge-color: #{$gray-800}
+        --bs-badge-font-size: .75em
+        --bs-badge-font-weight: #{$font-weight-bold}
+        --bs-badge-padding-x: .75rem
+        --bs-badge-padding-y: .5rem
+        @extend .badge
+        background-color: $gray-200
+        text-transform: uppercase
