@@ -1,8 +1,9 @@
+{{- $animation := partial "func/SetAnim" (dict "element" "figure") -}}
 {{ if .screenshot }}
-  <div class="screenshot">
+  <div class="screenshot" {{- $animation }}>
     <span></span>
 {{ end }}
-<figure {{- with .figure_class }} class="{{.}}"{{ end }}{{ partial "func/SetAnim" (dict "element" "figure") }}>
+<figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }}{{ end }}>
   {{ if .src }}
     {{ partial "commons/image.html" (dict
           "src" .src
