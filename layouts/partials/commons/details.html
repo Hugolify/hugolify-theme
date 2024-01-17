@@ -1,4 +1,4 @@
-<details{{ partial "func/SetAnim" (dict "element" "details") }}>
+<details {{- partial "func/SetAnim" (dict "element" "details") }}>
   {{ with .title }}
     <summary>{{ partial "func/PrepareHTML" . }}</summary>
   {{ end }}
