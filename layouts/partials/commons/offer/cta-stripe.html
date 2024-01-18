@@ -1,0 +1,8 @@
+{{ with . }}
+<script async src="https://js.stripe.com/v3/buy-button.js"></script>
+<stripe-buy-button
+  buy-button-id="{{ .id }}"
+  publishable-key="{{ .key }}"
+>
+</stripe-buy-button>
+{{ end }}
