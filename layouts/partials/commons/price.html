@@ -1,6 +1,14 @@
-{{ $discount := .discount | default false }}
-{{ $price := .price | default false }}
+{{- $discount := .discount | default false -}}
+{{- $price := .price | default false -}}
 {{ with $price }}
-  {{ $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) }}
-  {{ partial "func/GetHumanPrice" $realPrice }} {{- if $discount }} <del>{{ partial "func/GetHumanPrice" . }}</del> <span>-{{ $discount}}</span>{{ end }}
-{{ end }}
+  {{- $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) -}}
+  {{ partial "func/GetHumanPrice" $realPrice }} 
+  {{- if $discount }} 
+    {{- $realDiscount := $discount -}}
+    {{ if not (hasSuffix $discount "%") }}
+      {{- $realDiscount = partial "func/GetHumanPrice" $discount -}}
+    {{ end }}
+    <del>{{ partial "func/GetHumanPrice" . }}</del>
+    <span>-{{ $realDiscount}}</span>
+  {{- end }}
+{{ end -}}

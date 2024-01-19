@@ -6,7 +6,7 @@
     {{ $percent := float (strings.TrimRight "%" .) }}
     {{ $price = sub $price (div (mul $percent $price) 100) }}
   {{ else }}
-    {{ $price = sub $price . }}
+    {{ $price = sub $price (float .) }}
   {{ end }}
 {{ end }}
 
