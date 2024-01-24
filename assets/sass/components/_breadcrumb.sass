@@ -1,7 +1,10 @@
 .breadcrumb-wrapper
-    border-bottom: $border-width solid $border-color
-    border-top: $border-width solid $border-color
+    background-color: $breadcrumb-background-color
+    border-bottom: $border-width solid $breadcrumb-background-color
+    border-top: $border-width solid $breadcrumb-border-color
     overflow: hidden
+    &, a
+        color: $breadcrumb-color
     nav
         overflow: auto
     ol
@@ -20,6 +23,6 @@
         &:last-child
             padding-right: calc(var(--bs-gutter-x) * .5)
     [aria-current="page"]
-        color: var(--bs-breadcrumb-item-active-color)
+        color: var(--bs-breadcrumb-item-active-color, $breadcrumb-color)
  
 
