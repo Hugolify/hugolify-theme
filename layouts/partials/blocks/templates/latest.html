@@ -1,11 +1,11 @@
 {{- $section := .section -}}
 {{- $atf := false -}}
-{{ if .first }}
+{{- if .first -}}
   {{- $atf = true -}}
-{{ end }}
+{{- end -}}
 
 {{ if $section }}
-<section class="block-latest{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-latest block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ partial "blocks/heading" . }}
