@@ -58,9 +58,10 @@ navigation:
   main: Navigation principale
   menu: Menu
 newsletter:
-  placeholder: email@domaine.com
+  button: S’abonner
   label: Renseigner votre e-mail pour s’enregistrer à la newsletter
-  button: S’enregistrer
+  placeholder: email@domaine.com
+  title: Newsletter
 next: Suivant
 notes:
   title:
