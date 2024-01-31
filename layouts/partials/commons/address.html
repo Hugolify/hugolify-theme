@@ -13,7 +13,7 @@
       {{ with .country }}
         <p>{{ partial "func/PrepareHTML" . }}</p>
       {{ end }}
-      {{ with $direction }}
+      {{ if $direction }}
         {{ $i18n_direction := i18n "address.direction" }}
         {{ $i18n_title := i18n "link.blank_aria" (dict "Title" $i18n_direction) }}
         <a class="direction" href="https://www.google.fr/maps/dir//{{ .street }} {{ .zipcode }} {{ .city }} {{ .country }}" target="_blank" title="{{ $i18n_title }}">{{ $i18n_direction }}</a>
