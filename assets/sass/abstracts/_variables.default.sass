@@ -9,8 +9,8 @@ $menu-background-color: $header-background-color !default
 $offset: $header-height + 15px !default
 
 $global-spacing: 2.8rem !default
-$global-spacing-double: 5.6rem !default
-$global-spacing-semi: 1.4rem !default
+$global-spacing-double: $global-spacing * 2 !default
+$global-spacing-semi: $global-spacing / 2 !default
 $gutter-mobile: 1.875rem !default
 
 $footer-background-color: #F8F9FA !default
@@ -18,7 +18,7 @@ $footer-color: invert($footer-background-color) !default
 
 $breadcrumb-background-color: $body-bg !default
 $breadcrumb-color: $body-color !default
-$breadcrumb-border-color: rgba($breadcrumb-color, .2) !default
+$breadcrumb-border-color: $border-color !default
 
 $color-fail: #FF3333 !default
 $color-average: #FFAA33 !default
