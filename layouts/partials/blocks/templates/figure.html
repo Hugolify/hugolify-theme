@@ -1,6 +1,5 @@
 {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 {{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) -}}
-{{- $screenshot := .screenshot | default false -}}
 
 {{- $columnWanted := 12 -}}
 {{- if eq .grid "small" -}}
@@ -10,8 +9,19 @@
 {{- else if eq .grid "large" -}}
   {{- $columnWanted = 10 -}}
 {{- end -}}
+        
+{{- $desktop := site.Params.container.desktop | default false -}}
+{{- $mobile := site.Params.image.mobile_full | default false -}}
+{{- if $desktop -}}
+  {{- $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) -}}
+  {{- $desktop = printf "%sx" (string $width) -}}
+{{- end -}}
+{{- $s := newScratch -}}
+{{- $s.Set "fig" .figure -}}
+{{- $s.SetInMap "fig" "desktop" $desktop -}}
+{{- $s.SetInMap "fig" "mobile" $mobile -}}
 
-<section class="block-figure{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-figure{{ with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{- partial "blocks/heading.html" . -}}
@@ -21,29 +31,8 @@
       <div class="{{ $class }}">
     {{ end }}
 
-      {{ with .figure }}
-        {{ $src := .src | default false }}
-        {{ $alt := .alt | default false }}
-        {{ $legend := .legend | default false }}
-        {{ $credit := .credit | default false }}
-        {{ $desktop := site.Params.container.desktop | default false }}
-        {{ $mobile := site.Params.image.mobile_full | default false }}
-        {{ if $desktop }}
-          {{ $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) }}
-          {{ $desktop = printf "%sx" (string $width) }}
-        {{ end }}
-        {{ partial "commons/figure" (dict
-          "src" $src 
-          "alt" $alt 
-          "desktop" $desktop
-          "mobile" $mobile
-          "lazy" $lazy 
-          "legend" $legend 
-          "credit" $credit
-          "screenshot" $screenshot
-          ) }}
-      {{ end }}
-      
+      {{ partial "commons/figure" .figure }}
+
     {{ if $class }}
       </div>
     </div>
