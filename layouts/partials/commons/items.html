@@ -4,43 +4,41 @@
 {{- $scrollsnap := false -}}
 {{- $groupbyyear := false -}}
 {{- $currentyear := false -}}
-{{ if reflect.IsMap . }}
+{{- if reflect.IsMap . -}}
   {{- $pages = .pages -}}
   {{- $large = .large -}}
   {{- $atf = .abovethefold -}}
   {{- $groupbyyear = .groupbyyear -}}
-  {{ with .scrollsnap }}
+  {{- with .scrollsnap -}}
     {{- $scrollsnap = true -}}
-  {{ end }}
-{{ end }}
+  {{- end -}}
+{{- end -}}
 {{ with $pages }}
   {{ if gt . 0 }}
     {{- $section := (index . 0).Type -}}
-    {{ if eq (index . 0).Kind "section" }}
+    {{- if eq (index . 0).Kind "section" -}}
       {{- $section = "pages" -}}
-    {{ end }}
+    {{- end -}}
     <div class="{{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
       {{ range $index, $items := . }}
         {{ if $groupbyyear }}
-          {{ $year := .Date.Format "2006" }}
+          {{- $year := .Date.Format "2006" -}}
           {{ if ne $year $currentyear }}
             <h2 class="year">{{ $year }}</h2>
-            {{ $currentyear = $year }}
+            {{- $currentyear = $year -}}
           {{ end }}
         {{ end }}
         <div>
-          {{ if and ($atf) (lt $index 2) }}
-            {{ .Scratch.Set "notLazy" true }}
-          {{ end }}
-          {{ if $scrollsnap }}
-            {{ .Scratch.Set "scrollsnap" true }}
-          {{ end }}
-          {{ $file := "item" }}
-          {{- if $large}}{{ $file = "item-large" }}{{ end }}
-          {{ partial (print $section "/" $file ".html") . }}
-          {{ if $scrollsnap }}
-            {{ .Scratch.Delete "scrollsnap" }}
-          {{ end }}
+          {{- if and ($atf) (lt $index 2) -}}
+            {{- .Scratch.Set "notLazy" true -}}
+          {{- end -}}
+          {{- if $scrollsnap -}}
+            {{- .Scratch.Set "scrollsnap" true -}}
+          {{- end }}
+          {{- if $large -}}
+            {{- .Scratch.Set "large" true -}}
+          {{- end -}}
+          {{ partial (print $section "/item.html") . }}
         </div>
       {{ end }}
     </div>
