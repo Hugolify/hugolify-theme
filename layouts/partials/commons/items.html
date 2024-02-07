@@ -19,6 +19,12 @@
     {{- if eq (index . 0).Kind "section" -}}
       {{- $section = "pages" -}}
     {{- end -}}
+    {{- $partial := print $section "/item.html" -}}
+    {{- $hasPartial := cond (templates.Exists (printf "partials/%s" $partial)) true false -}}
+    {{- if not $hasPartial -}}
+      {{- $section = "pages" -}}
+      {{- $partial = "pages/item.html" -}}
+    {{- end -}}
     <div class="{{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
       {{ range $index, $items := . }}
         {{ if $groupbyyear }}
@@ -38,7 +44,7 @@
           {{- if $large -}}
             {{- .Scratch.Set "large" true -}}
           {{- end -}}
-          {{ partial (print $section "/item.html") . }}
+          {{ partial $partial . }}
         </div>
       {{ end }}
     </div>
