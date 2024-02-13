@@ -17,8 +17,8 @@
       </div>
 
       {{ with .image}}
-        {{ $desktop := site.Params.blocks.editorial.desktop | default false }}
-        {{ $mobile := site.Params.blocks.editorial.mobile | default false }}
+        {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
+        {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
         <div class="media">
           {{ partial "commons/image.html" (dict
               "src" .src
@@ -26,7 +26,6 @@
               "desktop" $desktop
               "mobile" $mobile
               "lazy" $lazy 
-              "class" "img-fluid"
             ) }}
         </div>
       {{ end }}
