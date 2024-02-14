@@ -1,0 +1,115 @@
+{{/*  Get params  */}}
+{{- $file := .file -}}
+{{- $file_mobile := .file_mobile -}}
+{{- $desktop_size := .desktop_size -}}
+{{- $mobile_size := .mobile_size -}}
+{{- $mobile_size_2x := .mobile_size_2x -}}
+{{- $mobile_size_3x := .mobile_size_3x -}}
+{{- $crop := .crop -}}
+{{- $filter := .filter -}}
+
+{{/*  Get ressource  */}}
+{{- $image := false -}}
+{{- $image_sm := false -}}
+{{- with $file -}}
+  {{- $image = resources.Get . -}}
+  {{- if $file_mobile -}}
+    {{- $image_sm = resources.Get $file_mobile -}}
+  {{- else -}}
+    {{- $image_sm = $image -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*  Return params  */}}
+{{- $image_desktop := false -}}
+{{- $image_desktop_webp := false -}}
+{{- $image_mobile := false -}}
+{{- $image_mobile_2x := false -}}
+{{- $image_mobile_3x := false -}}
+{{- $image_mobile_webp := false -}}
+{{- $image_mobile_webp_2x := false -}}
+{{- $image_mobile_webp_3x := false -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+
+{{- if $image -}}
+
+  {{- if strings.HasSuffix $file "svg" }}
+    
+    {{/*  Return SVG  */}}
+    {{- $fileAssets := print "/assets/" .file -}}
+    {{- $fileDimensions := partial "func/GetImageDimensions" (dict "context" . "file" $fileAssets) -}}
+    {{- $image_desktop = $image.RelPermalink -}}
+    {{- $image_width = index $fileDimensions 0 -}}
+    {{- $image_height = index $fileDimensions 1 -}}
+  
+  {{- else -}}
+
+    {{/*  Return desktop image  */}}
+    {{- if $desktop_size -}}
+
+      {{- if partial "func/isCrop" $desktop_size -}}
+        {{- $image_desktop = $image.Fill (printf "%s %s %s" $desktop_size $filter $crop) -}}
+        {{- $image_desktop_webp = $image.Fill (printf "%s %s %s webp" $desktop_size $filter $crop) -}}
+      {{- else -}}
+        {{- $image_desktop = $image.Resize (printf "%s %s" $desktop_size $filter) -}}
+        {{- $image_desktop_webp = $image.Resize (printf "%s %s webp" $desktop_size $filter) -}}
+      {{- end -}}
+      {{- $image_width = $image_desktop.Width -}}
+      {{- $image_height = $image_desktop.Height -}}
+      {{- $image_desktop = $image_desktop.RelPermalink -}}
+      {{- $image_desktop_webp = $image_desktop_webp.RelPermalink -}}
+
+    {{- else -}}
+
+      {{- $image_width = $image.Width -}}
+      {{- $image_height = $image.Height -}}
+      {{- $image_desktop = $image -}}
+      {{- $image_desktop_webp = $image.Resize (printf "%dx%d %s %s webp" $image_width $image_height $filter $crop) -}}
+            
+    {{- end -}}
+
+    {{/*  Return mobile image  */}}
+    {{- if $mobile_size -}}
+
+      {{- if partial "func/isCrop" $mobile_size -}}
+        {{- $image_mobile = $image_sm.Fill (printf "%s %s %s" $mobile_size $filter $crop) -}}
+        {{- $image_mobile_2x = $image_sm.Fill (printf "%s %s %s" $mobile_size_2x $filter $crop) -}}
+        {{- $image_mobile_3x = $image_sm.Fill (printf "%s %s %s" $mobile_size_3x $filter $crop) -}}
+        {{- $image_mobile_webp = $image_sm.Fill (printf "%s %s %s webp" $mobile_size $filter $crop) -}}
+        {{- $image_mobile_webp_2x = $image_sm.Fill (printf "%s %s %s webp" $mobile_size_2x $filter $crop) -}}
+        {{- $image_mobile_webp_3x = $image_sm.Fill (printf "%s %s %s webp" $mobile_size_3x $filter $crop) -}}
+      {{- else -}}
+        {{- $image_mobile = $image_sm.Resize (printf "%s %s" $mobile_size $filter) -}}
+        {{- $image_mobile_2x = $image_sm.Resize (printf "%s %s" $mobile_size_2x $filter) -}}
+        {{- $image_mobile_3x = $image_sm.Resize (printf "%s %s" $mobile_size_3x $filter) -}}
+        {{- $image_mobile_webp = $image_sm.Resize (printf "%s %s webp" $mobile_size $filter) -}}
+        {{- $image_mobile_webp_2x = $image_sm.Resize (printf "%s %s webp" $mobile_size_2x $filter) -}}
+        {{- $image_mobile_webp_3x = $image_sm.Resize (printf "%s %s webp" $mobile_size_3x $filter) -}}
+      {{- end -}}
+
+      {{- $image_mobile = $image_mobile.RelPermalink -}}
+      {{- $image_mobile_2x = $image_mobile_2x.RelPermalink -}}
+      {{- $image_mobile_3x = $image_mobile_3x.RelPermalink -}}
+      {{- $image_mobile_webp = $image_mobile_webp.RelPermalink -}}
+      {{- $image_mobile_webp_2x = $image_mobile_webp_2x.RelPermalink -}}
+      {{- $image_mobile_webp_3x = $image_mobile_webp_3x.RelPermalink -}}
+
+    {{- end -}} 
+
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict  
+  "image_desktop" $image_desktop 
+  "image_desktop_webp" $image_desktop_webp
+  "image_mobile" $image_mobile 
+  "image_mobile_2x" $image_mobile_2x 
+  "image_mobile_3x" $image_mobile_3x 
+  "image_mobile_webp" $image_mobile_webp 
+  "image_mobile_webp_2x" $image_mobile_webp_2x 
+  "image_mobile_webp_3x" $image_mobile_webp_3x 
+  "image_width" $image_width 
+  "image_height" $image_height
+  -}}

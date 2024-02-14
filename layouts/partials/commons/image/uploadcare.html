@@ -1,0 +1,81 @@
+{{/*  Get params  */}}
+{{- $file := .file -}}
+{{- $file_mobile := .file_mobile -}}
+{{- $desktop_size := .desktop_size -}}
+{{- $mobile_size := .mobile_size -}}
+{{- $mobile_size_2x := .mobile_size_2x -}}
+{{- $mobile_size_3x := .mobile_size_3x -}}
+{{- $crop := lower .crop -}}
+{{- $quality := site.Params.image.quality | default "normal" -}}
+
+{{/*  Return params  */}}
+{{- $image_desktop := false -}}
+{{- $image_desktop_webp := false -}}
+{{- $image_mobile := false -}}
+{{- $image_mobile_2x := false -}}
+{{- $image_mobile_3x := false -}}
+{{- $image_mobile_webp := false -}}
+{{- $image_mobile_webp_2x := false -}}
+{{- $image_mobile_webp_3x := false -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+
+{{/*  Get datas image  */}}
+{{- $datas := getJSON (printf "%s-/json/" $file) -}}
+{{- with $datas -}}
+  {{- $image_width = index . "width" -}}
+  {{- $image_height = index . "height" -}}
+{{- end -}}
+
+{{- if $file -}}
+
+  {{- $quality := printf "-/quality/%s/" $quality -}}
+
+  {{/*  Return desktop image  */}}
+  {{- with $desktop_size -}}
+    {{- $params :=  printf "-/resize/%s/%s" . $quality -}}
+    {{- if partial "func/isCrop" . -}}
+      {{- $params =  printf "-/scale_crop/%s/%s/%s" . $crop $quality -}}
+    {{- end -}}
+    {{- $image_desktop = printf "%s%s" $file $params -}}
+    {{- $image_desktop_webp = printf "%s%s-/format/webp/" $file $params -}}
+    {{- $datas = getJSON (printf "%s-/resize/%s/-/json/" $file .) -}}
+    {{- with $datas -}}
+      {{- $image_width = index . "width" -}}
+      {{- $image_height = index . "height" -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/*  Return mobile image  */}}
+  {{- if $mobile_size -}}
+    {{- $params :=  printf "-/resize/%s/%s" $mobile_size $quality -}}
+    {{- $params_2x :=  printf "-/resize/%s/%s" $mobile_size_2x $quality -}}
+    {{- $params_3x :=  printf "-/resize/%s/%s" $mobile_size_3x $quality -}}
+    {{- if partial "func/isCrop" $mobile_size -}}
+      {{- $params =  printf "-/scale_crop/%s/%s/%s" $mobile_size $crop $quality -}}
+      {{- $params_2x =  printf "-/scale_crop/%s/%s/%s" $mobile_size_2x $crop $quality -}}
+      {{- $params_3x =  printf "-/scale_crop/%s/%s/%s" $mobile_size_3x $crop $quality -}}
+    {{- end -}}
+    {{- $image_mobile = printf "%s%s" $file_mobile $params -}}
+    {{- $image_mobile_2x = printf "%s%s" $file_mobile $params_2x -}}
+    {{- $image_mobile_3x = printf "%s%s" $file_mobile $params_3x -}}
+    {{- $image_mobile_webp = printf "%s%s-/format/webp/" $file_mobile $params -}}
+    {{- $image_mobile_webp_2x = printf "%s%s-/format/webp/" $file_mobile $params_2x -}}
+    {{- $image_mobile_webp_3x = printf "%s%s-/format/webp/" $file_mobile $params_3x -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict  
+  "image_desktop" $image_desktop 
+  "image_desktop_webp" $image_desktop_webp
+  "image_mobile" $image_mobile 
+  "image_mobile_2x" $image_mobile_2x 
+  "image_mobile_3x" $image_mobile_3x 
+  "image_mobile_webp" $image_mobile_webp 
+  "image_mobile_webp_2x" $image_mobile_webp_2x 
+  "image_mobile_webp_3x" $image_mobile_webp_3x 
+  "image_width" $image_width 
+  "image_height" $image_height
+  -}}
+

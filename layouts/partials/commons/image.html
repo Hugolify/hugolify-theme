@@ -1,7 +1,11 @@
+{{/* DOM Params  */}}
+{{- $alt := .alt | default "" -}}
 {{- $lazy := .lazy | default true -}}
 {{- $class := .class | default false -}}
 {{- $picture_class := .picture_class | default false -}}
 {{- $itemprop := .itemprop | default false -}}
+
+{{/* Image Params  */}}
 {{- $desktop_size := .desktop | default false -}}
 {{- $mobile_size := .mobile | default false -}}
 {{- $mobile_size_2x := false -}}
@@ -10,178 +14,57 @@
   {{- $mobile_size_2x = partial "func/GetMultiplyImage" (dict "size" $mobile_size) -}}
   {{- $mobile_size_3x = partial "func/GetMultiplyImage" (dict "size" $mobile_size "multiply" 3) -}}
 {{- end -}}
-{{- $alt := .alt | default "" -}}
 {{- $crop := .crop | default "Center" -}}
-{{- $file := "" -}}
+{{- $file := .src -}}
+{{- $file_mobile := .src_mobile | default $file -}}
 {{- if .static -}}
   {{- $file = delimit (slice "/static" .src) "" -}}
-{{- else -}}
-  {{- $file = .src -}}
+  {{- if $file_mobile -}}
+    {{- $file_mobile = delimit (slice "/static" .src_mobile) "" -}}
+  {{- end -}}
 {{- end -}}
 {{- $filter := site.Params.image.filter | default "Box" -}}
 {{- if or .screenshot .linear -}}
   {{- $filter = "Linear" -}}
 {{- end -}}
 
-{{- with $file -}}
-
-  {{- $image := . -}}
-  {{- if not (in . "ucarecdn") -}}
-    {{- $image = resources.Get . -}}
-  {{- end -}}
-
-  {{- if $image -}}
-    
-    {{- $image_desktop := false -}}
-    {{- $image_desktop_webp := false -}}
-    {{- $image_mobile := false -}}
-    {{- $image_mobile_2x := false -}}
-    {{- $image_mobile_3x := false -}}
-    {{- $image_mobile_webp := false -}}
-    {{- $image_mobile_webp_2x := false -}}
-    {{- $image_mobile_webp_3x := false -}}
-    {{- $image_width := false -}}
-    {{- $image_height := false -}}
-
-    <picture {{ if $picture_class }}class="{{ $picture_class }}"{{ end }}>
-
-      {{- if strings.HasSuffix $file "svg" }}
-
-        {{- $fileAssets := print "/assets/" $file -}}
-        {{- $fileDimensions := partial "func/GetImageDimensions" (dict "context" . "file" $fileAssets) -}}
-        {{ with $image }}
-          {{- $image_desktop = .RelPermalink -}}
-          {{- $image_width = index $fileDimensions 0 -}}
-          {{- $image_height = index $fileDimensions 1 -}}
-          <img 
-            src="{{ $image_desktop }}" 
-            alt="{{ $alt }}" 
-            height="{{ $image_height }}" 
-            width="{{ $image_width }}"
-            {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
-            {{ if $class }} class="{{$class}}"{{ end }}
-            {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}
-            >
-        {{ end }}
-
-      {{ else }}
-
-        {{- if in . "ucarecdn" -}}
-
-          {{- $crop = $crop | lower -}}
-
-          {{- $datas := getJSON (printf "%s-/json/" .) -}}
-          {{- with $datas -}}
-            {{- $image_width = index . "width" -}}
-            {{- $image_height = index . "height" -}}
-          {{- end -}}
-
-          {{ if $desktop_size }}
-            {{- $params :=  printf "-/resize/%s/" $desktop_size -}}
-            {{- if partial "func/isCrop" $desktop_size -}}
-              {{- $params =  printf "-/scale_crop/%s/%s/" $desktop_size $crop -}}
-            {{- end -}}
-            {{- $image_desktop = printf "%s%s" . $params }}
-            {{- $image_desktop_webp = printf "%s%s-/format/webp/" . $params -}}
-            {{- $datas = getJSON (printf "%s-/resize/%s/-/json/" . $desktop_size) -}}
-            {{- with $datas -}}
-              {{- $image_width = index . "width" -}}
-              {{- $image_height = index . "height" -}}
-            {{- end -}}
-          {{- end }}
-
-          {{- if $mobile_size -}}
-            {{- $params :=  printf "-/resize/%s/" $mobile_size -}}
-            {{- $params_2x :=  printf "-/resize/%s/" $mobile_size_2x -}}
-            {{- $params_3x :=  printf "-/resize/%s/" $mobile_size_3x -}}
-            {{- if partial "func/isCrop" $mobile_size -}}
-              {{- $params =  printf "-/scale_crop/%s/%s/" $mobile_size $crop -}}
-              {{- $params_2x =  printf "-/scale_crop/%s/%s/" $mobile_size_2x $crop -}}
-              {{- $params_3x =  printf "-/scale_crop/%s/%s/" $mobile_size_3x $crop -}}
-            {{- end -}}
-            {{- $image_mobile = printf "%s%s" . $params -}}
-            {{- $image_mobile_2x = printf "%s%s-/quality/smart/" . $params_2x -}}
-            {{- $image_mobile_3x = printf "%s%s-/quality/smart/" . $params_3x -}}
-            {{- $image_mobile_webp = printf "%s%s-/format/webp/" . $params -}}
-            {{- $image_mobile_webp_2x = printf "%s%s-/quality/smart/-/format/webp/" . $params_2x -}}
-            {{- $image_mobile_webp_3x = printf "%s%s-/quality/smart/-/format/webp/" . $params_3x -}}
-          {{- end -}}
-
-        {{- else -}}
-
-          {{- if $desktop_size -}}
-
-            {{- if partial "func/isCrop" $desktop_size -}}
-              {{- $image_desktop = $image.Fill (printf "%s %s %s" $desktop_size $filter $crop) -}}
-              {{- $image_desktop_webp = $image.Fill (printf "%s %s %s webp" $desktop_size $filter $crop) -}}
-            {{- else -}}
-              {{- $image_desktop = $image.Resize (printf "%s %s" $desktop_size $filter) -}}
-              {{- $image_desktop_webp = $image.Resize (printf "%s %s webp" $desktop_size $filter) -}}
-            {{- end -}}
-            {{- $image_width = $image_desktop.Width -}}
-            {{- $image_height = $image_desktop.Height -}}
-            {{- $image_desktop = $image_desktop.RelPermalink -}}
-            {{- $image_desktop_webp = $image_desktop_webp.RelPermalink -}}
-
-          {{- else -}}
-
-            {{- $image_width = $image.Width -}}
-            {{- $image_height = $image.Height -}}
-            {{- $image_desktop = $image -}}
-            {{- $image_desktop_webp = $image.Resize (printf "%dx%d %s %s webp" $image_width $image_height $filter $crop) -}}
-         
-          {{- end -}}
-
-          {{- if $mobile_size -}}
-
-            {{- if partial "func/isCrop" $mobile_size -}}
-              {{- $image_mobile = $image.Fill (printf "%s %s %s" $mobile_size $filter $crop) -}}
-              {{- $image_mobile_2x = $image.Fill (printf "%s %s %s" $mobile_size_2x $filter $crop) -}}
-              {{- $image_mobile_3x = $image.Fill (printf "%s %s %s" $mobile_size_3x $filter $crop) -}}
-              {{- $image_mobile_webp = $image.Fill (printf "%s %s %s webp" $mobile_size $filter $crop) -}}
-              {{- $image_mobile_webp_2x = $image.Fill (printf "%s %s %s webp" $mobile_size_2x $filter $crop) -}}
-              {{- $image_mobile_webp_3x = $image.Fill (printf "%s %s %s webp" $mobile_size_3x $filter $crop) -}}
-            {{- else -}}
-              {{- $image_mobile = $image.Resize (printf "%s %s" $mobile_size $filter) -}}
-              {{- $image_mobile_2x = $image.Resize (printf "%s %s" $mobile_size_2x $filter) -}}
-              {{- $image_mobile_3x = $image.Resize (printf "%s %s" $mobile_size_3x $filter) -}}
-              {{- $image_mobile_webp = $image.Resize (printf "%s %s webp" $mobile_size $filter) -}}
-              {{- $image_mobile_webp_2x = $image.Resize (printf "%s %s webp" $mobile_size_2x $filter) -}}
-              {{- $image_mobile_webp_3x = $image.Resize (printf "%s %s webp" $mobile_size_3x $filter) -}}
-            {{- end -}}
-
-            {{- $image_mobile = $image_mobile.RelPermalink -}}
-            {{- $image_mobile_2x = $image_mobile_2x.RelPermalink -}}
-            {{- $image_mobile_3x = $image_mobile_3x.RelPermalink -}}
-            {{- $image_mobile_webp = $image_mobile_webp.RelPermalink -}}
-            {{- $image_mobile_webp_2x = $image_mobile_webp_2x.RelPermalink -}}
-            {{- $image_mobile_webp_3x = $image_mobile_webp_3x.RelPermalink -}}
-          {{- end -}}
-
-        {{- end -}}
-
-        {{- with $image_desktop }}
-          {{- with $image_desktop_webp }}
-            <source srcset="{{ . }}" type="image/webp"{{ if $image_mobile}} media="(min-width: 577px)"{{ end }}>
-          {{ end -}}
-          {{ with $image_mobile }}
-            {{- with $image_mobile_webp }}
-              <source srcset="{{ . }}, {{ $image_mobile_webp_2x }} 2x, {{ $image_mobile_webp_3x }} 3x" type="image/webp" media="(max-width: 576px)">
-            {{ end -}}
-            <source srcset="{{ . }}, {{ $image_mobile_2x }} 2x, {{ $image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
-          {{ end -}}
-          <img src="{{ . }}" alt="{{ $alt }}" 
-            {{ with $image_width }}width="{{ . }}"{{ end }} 
-            {{ with $image_height }}height="{{ . }}"{{ end }} 
-            {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
-            {{ if $class }} class="{{$class}}"{{ end }}
-            {{ if $itemprop }} itemprop="{{$itemprop}}"{{ end }}>
-        {{ end }}
-
-      {{ end }}
-
-    </picture>
-
-  {{- end -}}
-
+{{/* Get Images */}}
+{{ $imageRenderParams := dict 
+    "file" $file 
+    "file_mobile" $file_mobile 
+    "desktop_size" $desktop_size 
+    "mobile_size" $mobile_size 
+    "mobile_size_2x" $mobile_size_2x 
+    "mobile_size_3x" $mobile_size_3x 
+    "crop" $crop 
+    "filter" $filter
+}}
+{{- $imageParams := false -}}
+{{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
+{{- if in $file "ucarecdn" -}}
+  {{ $imageParams =  partial "commons/image/uploadcare" $imageRenderParams }}
+{{- else -}}
+  {{ $imageParams = partial "commons/image/hugo" $imageRenderParams }}
 {{- end -}}
+{{ $params := merge $imageParams $domParams }}
+
+{{/* Display image  */}}
+{{- with $params }}
+  <picture {{- with $picture_class }} class="{{ . }}"{{ end }}>
+    {{- if .image_desktop_webp }}
+      <source srcset="{{ .image_desktop_webp }}" type="image/webp"{{ if .image_mobile}} media="(min-width: 577px)"{{ end }}>
+    {{- end -}}
+    {{ if .image_mobile }}
+      {{- if .image_mobile_webp }}
+        <source srcset="{{ .image_mobile_webp }}, {{ .image_mobile_webp_2x }} 2x, {{ .image_mobile_webp_3x }} 3x" type="image/webp" media="(max-width: 576px)">
+      {{ end -}}
+      <source srcset="{{ .image_mobile }}, {{ .image_mobile_2x }} 2x, {{ .image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
+    {{ end -}}
+    <img src="{{ .image_desktop }}" alt="{{ $alt }}" 
+      {{ with .image_width }}width="{{ . }}"{{ end }} 
+      {{ with .image_height }}height="{{ . }}"{{ end }} 
+      {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
+      {{ with $class }} class="{{ . }}"{{ end }}
+      {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
+  </picture>
+{{ end }}
