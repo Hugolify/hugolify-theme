@@ -21,12 +21,6 @@
                         transform: translateX(.3rem)
                 &::before
                     transition: transform $transition-duration $transition-effect
-    .media
-        picture
-            @include media-breakpoint-down(md)
-                display: block
-                margin-left: - $gutter-mobile
-                margin-right: - $gutter-mobile
     img
         height: auto
         width: 100%
@@ -34,3 +28,11 @@
         .row
             flex-direction: row-reverse
     
+    @include media-breakpoint-down(md)
+        .media
+            margin-bottom: $spacer
+            order: -1
+            picture
+                display: block
+                margin-left: - $gutter-mobile
+                margin-right: - $gutter-mobile
