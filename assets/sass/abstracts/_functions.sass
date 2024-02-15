@@ -11,6 +11,6 @@
     $width: calc( (#{$nb} * #{$col_w}) + ((#{$nb} - 1) *  #{$grid-gutter-width}) )
     @return #{$width}
 
-@function offset($nb)
-    $width: calc( #{col($nb)} + #{$grid-gutter-width} )
+@function offset($nb, $columns: $grid-columns)
+    $width: calc( #{col($nb, $columns)} + #{$grid-gutter-width} )
     @return #{$width}
