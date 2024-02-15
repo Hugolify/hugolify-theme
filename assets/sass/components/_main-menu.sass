@@ -1,0 +1,39 @@
+.main-menu
+    --bs-offcanvas-bg: #{$menu-background-color}
+    @extend .offcanvas
+    @extend .offcanvas-end
+    .header
+        @extend .offcanvas-header
+        .title
+            @extend .offcanvas-title
+        button
+            @extend .btn-close
+            background-image: escape-svg($btn-close-bg)
+            background-position: center
+            background-repeat: no-repeat
+            background-size: 1rem auto
+    .content
+        @extend .offcanvas-body
+        @include media-breakpoint-up(lg)
+            align-items: baseline
+    .nav
+        @include media-breakpoint-down(lg)
+            align-items: center
+            flex-direction: column
+            text-align: center
+            li
+                font-size: px2rem(20)
+            ul li
+                font-size: px2rem(16)
+        &:last-child
+            @include media-breakpoint-up(lg)
+                margin-right: - $nav-link-padding-x
+    .nav-primary
+        margin-left: auto
+    .nav-link
+        --bs-nav-link-color: #{$header-color}
+        &:hover
+            --bs-nav-link-hover-color: #{$header-color}
+    .dropdown-toggle
+        &::after
+            border-top-color: $header-color

@@ -7,7 +7,7 @@ header[role="banner"]
     @media (prefers-reduced-motion: no-preference)
         transition: top .3s ease
 
-    html:not(.is-menu-open).is-scrolling-down &
+    html:not(.is-dropdown-menu-open).is-scrolling-down &
         &:not(:hover)
             top: -$header-height
     &.is-sticky
@@ -16,6 +16,7 @@ header[role="banner"]
     > nav
         @extend .navbar
         @extend .navbar-expand-lg
+    
     .btn-menu
         @extend .navbar-toggler
         border: 0
@@ -24,43 +25,6 @@ header[role="banner"]
         > span
             --bs-navbar-toggler-icon-bg: #{escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$header-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>"))}
             @extend .navbar-toggler-icon
+    
     .logo
         color: $header-color
-    .nav
-        @include media-breakpoint-down(lg)
-            align-items: center
-            flex-direction: column
-            text-align: center
-            li
-                font-size: px2rem(20)
-            ul li
-                font-size: px2rem(16)
-        &:last-child
-            @include media-breakpoint-up(lg)
-                margin-right: - $nav-link-padding-x
-    .nav-primary
-        margin-left: auto
-    .nav-link
-        --bs-nav-link-color: #{$header-color}
-        &:hover
-            --bs-nav-link-hover-color: #{$header-color}
-    .dropdown-toggle
-        &::after
-            border-top-color: $header-color
-    .offcanvas
-        --bs-offcanvas-bg: #{$menu-background-color}
-        @extend .offcanvas-end
-        .header
-            @extend .offcanvas-header
-            .title
-                @extend .offcanvas-title
-            button
-                @extend .btn-close
-                background-image: escape-svg($btn-close-bg)
-                background-position: center
-                background-repeat: no-repeat
-                background-size: 1rem auto
-        .content
-            @extend .offcanvas-body
-            @include media-breakpoint-up(lg)
-                align-items: baseline
