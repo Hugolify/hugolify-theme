@@ -1,14 +1,10 @@
 {{- $paginator := .Paginator -}}
-
 <!-- Number of links either side of the current page. -->
 {{- $adjacent_links := 2 -}}
-
 <!-- $max_links = ($adjacent_links * 2) + 1 -->
 {{- $max_links := (add (mul $adjacent_links 2) 1) -}}
-
 <!-- $lower_limit = $adjacent_links + 1 -->
 {{- $lower_limit := (add $adjacent_links 1) -}}
-
 <!-- $upper_limit = $paginator.TotalPages - $adjacent_links -->
 {{- $upper_limit := (sub $paginator.TotalPages $adjacent_links) -}}
 
@@ -18,7 +14,7 @@
   <ul class="pagination">
 
     <!-- First page. -->
-    <li{{ if eq $paginator.PageNumber 1 }} class="disabled"{{ end }}>
+    <li {{- if eq $paginator.PageNumber 1 }} class="disabled"{{ end }}>
       <a href="{{ $paginator.First.URL }}"
           class="first"
           title="{{ i18n "pagination.first" }}"
@@ -27,7 +23,7 @@
     </li>
 
     <!-- Previous page. -->
-    <li{{ if eq $paginator.HasPrev false }} class="disabled"{{ end }}>
+    <li {{- if eq $paginator.HasPrev false }} class="disabled"{{ end }}>
       <a href="{{ if $paginator.HasPrev }}{{ $paginator.Prev.URL }}{{ else }}{{ $paginator.First.URL }}{{ end }}"
           class="previous"
           title="{{ i18n "pagination.previous" }}"
@@ -78,7 +74,7 @@
 
       <!-- Output page numbers. -->
       {{- if eq ($.Scratch.Get "page_number_flag") true -}}
-        <li{{ if eq . $paginator }} class="active"{{ end }}>
+        <li {{- if eq . $paginator }} class="active"{{ end }}>
           <a href="{{ .URL }}" title="{{ i18n "pagination.page" (dict "Number" .PageNumber) }}">
             {{- .PageNumber -}}
           </a>
@@ -88,7 +84,7 @@
     {{- end -}}
 
     <!-- Next page. -->
-    <li{{ if eq $paginator.HasNext false }} class="disabled"{{ end }}>
+    <li {{- if eq $paginator.HasNext false }} class="disabled"{{ end }}>
       <a href="{{ if $paginator.HasNext }}{{ $paginator.Next.URL }}{{else}}{{ $paginator.Last.URL }}{{ end }}"
           class="next"
           title="{{ i18n "pagination.next" }}"
@@ -97,7 +93,7 @@
     </li>
 
     <!-- Last page. -->
-    <li{{ if eq $paginator.PageNumber $paginator.TotalPages }} class="disabled"{{ end }}>
+    <li {{- if eq $paginator.PageNumber $paginator.TotalPages }} class="disabled"{{ end }}>
       <a href="{{ $paginator.Last.URL }}" 
           class="last"
           title="{{ i18n "pagination.last" }}"
@@ -110,4 +106,4 @@
 {{- end -}}
 
 <!-- Store paginator to canonical <head> -->
-{{ .Store.Set "paginator" $paginator }}
+{{- .Store.Set "paginator" $paginator -}}

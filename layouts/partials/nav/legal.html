@@ -1,16 +1,16 @@
 {{- $menu := site.Data.menu.legal -}}
-{{ with index $menu .Site.Language.Lang }}
+{{- with index $menu .Site.Language.Lang -}}
   {{- $menu = . -}}
-{{ end }}
-{{ with $menu }}
+{{- end -}}
+{{- with $menu }}
 <div>
   {{ with .title }}<p class="nav-title">{{ partial "func/PrepareHTML" . }}</p>{{ end }}
   <ul class="nav nav-legal">
-    {{ range .links }}
+    {{- range .links }}
       <li>
-        {{ partial "nav/link" (dict "link" .) }}
+        {{- partial "nav/link" (dict "link" .) -}}
       </li>
-    {{ end }}
+    {{- end }}
   </ul>
 </div>
-{{ end }}
+{{ end -}}

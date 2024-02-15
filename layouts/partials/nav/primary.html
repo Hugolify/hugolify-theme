@@ -1,16 +1,16 @@
 {{- $currentPage := .RelPermalink -}}
 {{- $menu := site.Data.menu.primary -}}
-{{ with index $menu .Site.Language.Lang }}
+{{- with index $menu .Site.Language.Lang -}}
   {{- $menu = . -}}
-{{ end }}
-{{ with $menu }}
+{{- end -}}
+{{- with $menu }}
   <ul class="nav nav-primary">
     {{ range .links }}
-      {{ $hasChildren := false }}
-      {{ if .links}}{{ $hasChildren = true }}{{ end }}
-      <li {{ if $hasChildren }}class="dropdown"{{ end }}>
-        {{ partial "nav/link" (dict "link" . "currentPage" $currentPage) }}
-        {{ if $hasChildren }}
+      {{- $hasChildren := false -}}
+      {{- if .links}}{{ $hasChildren = true }}{{ end -}}
+      <li {{- if $hasChildren }} class="dropdown"{{ end }}>
+        {{- partial "nav/link" (dict "link" . "currentPage" $currentPage) -}}
+        {{- if $hasChildren }}
           <button class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
           </button>
@@ -22,8 +22,8 @@
               </li>
             {{ end }}
           </ul>
-        {{ end }}
+        {{ end -}}
       </li>
-    {{ end }}
+    {{ end -}}
   </ul>
-{{ end }}
+{{ end -}}

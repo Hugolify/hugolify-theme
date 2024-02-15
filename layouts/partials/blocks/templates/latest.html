@@ -4,23 +4,22 @@
   {{- $atf = true -}}
 {{- end -}}
 
-{{ if $section }}
+{{- if $section }}
 <section class="block-latest block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ partial "blocks/heading" . }}
 
-    {{- $scratch := .Scratch -}}
     {{- $count := 3 -}}
-    {{ with .count }}
+    {{- with .count -}}
       {{- $count = . -}}
-    {{ end }}
-    {{ with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
+    {{- end -}}
+    {{- with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
       {{- $partial := printf "%s/items" $section -}}
       <div class="items">
         {{ partial $partial (dict "pages" . "scrollsnap" true "abovethefold" $atf) }}
       </div>
-    {{ end }}
+    {{ end -}}
 
     {{- $show_button := .show_more | default true -}}
     {{ if $show_button }}
@@ -34,4 +33,4 @@
     {{ end }}
   </div>
 </section>
-{{ end }}
+{{ end -}}

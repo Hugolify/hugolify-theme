@@ -1,22 +1,22 @@
-{{ if .Site.IsMultiLingual }}
-  {{ $pageTrans := .Page.Translations }}
+{{- if .Site.IsMultiLingual }}
+  {{- $pageTrans := .Page.Translations -}}
   <ul class="nav nav-language">
     <li class="dropdown">
       <a href="{{ .Page.Permalink }}" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" role="button">{{ upper .Site.Language.Lang }}</a>
       <ul class="dropdown-menu">
-        {{ range .Site.Languages }}
-          {{ if ne . $.Site.Language }}
-            {{ $p := where $pageTrans "Language.Lang" .Lang }}
-            {{ $url := printf "/%s" .Lang }}
-            {{ with (index $p 0) }}
-              {{ $url = .Permalink }}
-            {{ end }}
+        {{- range .Site.Languages -}}
+          {{- if ne . $.Site.Language -}}
+            {{- $p := where $pageTrans "Language.Lang" .Lang -}}
+            {{- $url := printf "/%s" .Lang -}}
+            {{- with (index $p 0) -}}
+              {{- $url = .Permalink -}}
+            {{- end -}}
             <li>
               <a href="{{ $url }}">{{ .LanguageName }}</a>
             </li>
-          {{ end }}
-        {{ end }}
+          {{ end -}}
+        {{- end -}}
       </ul>
     </li>
   </ul>
-{{ end }}
+{{ end -}}
