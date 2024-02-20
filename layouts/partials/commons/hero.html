@@ -36,15 +36,7 @@
         {{ with .title }}
           <h1>{{ partial "func/PrepareHTML" . }}</h1>
         {{ end }}
-        {{ with .text }}
-          <div class="description">
-            {{ if in (string .) "\n" }}
-              {{ partial "func/PrepareHTML" . | markdownify }}
-            {{ else }}
-              <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
-            {{ end }}
-          </div>
-        {{ end }}
+        {{ partial "commons/text" (dict "text" .text "class" "description") }}
         {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
       </div>
 

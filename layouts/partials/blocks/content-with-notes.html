@@ -1,37 +1,30 @@
-{{ $surtitle := .context.surtitle }}
-{{ $title := .context.title }}
-{{ $text := .context.text }}
-{{ $notes := .context.notes }}
-{{ $blockId := .blockId | default "" }}
+{{- $surtitle := .context.surtitle -}}
+{{- $title := .context.title -}}
+{{- $text := .context.text -}}
+{{- $notes := .context.notes -}}
+{{- $blockId := .blockId | default "" -}}
 
-{{ with $surtitle }}
-    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+{{- with $surtitle }}
+  <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
 {{ end }}
 
-{{ with $title }}
-    <h2>{{ partial "func/PrepareHTML" . }}</h2>
+{{- with $title }}
+  <h2>{{ partial "func/PrepareHTML" . }}</h2>
 {{ end }}
 
-{{ with $text }}
-    {{ $html := partial "func/PrepareHTML" . | markdownify }}
-    
-    {{ if $notes}}
-        {{ $html = partial "func/PrepareNotes" (dict 
-            "html" $html 
-            "blockId" $blockId 
-            "notes" $notes
-        )}}
-    {{ end }}
-    
-    <div class="text">
-    {{ if in (string .) "\n" }}
-        {{ $html }}
-    {{ else }}
-        <p>{{ $html }}</p>
-    {{ end }}
-    </div>
+{{- with $text }}
+  {{- $text = partial "commons/text" (dict "text" $text) -}}
+  {{- if $notes -}}
+    {{- partial "func/PrepareNotes" (dict 
+        "html" $text 
+        "blockId" $blockId 
+        "notes" $notes
+    ) -}}
+  {{- else -}}
+    {{ $text }}
+  {{- end -}}
 
-    {{ with $notes }}
-        {{ partial "commons/notes.html" (dict "notes" . "blockId" $blockId ) }}
-    {{ end }}
+  {{- with $notes }}
+    {{ partial "commons/notes.html" (dict "notes" . "blockId" $blockId ) }}
+  {{- end }}
 {{ end }}

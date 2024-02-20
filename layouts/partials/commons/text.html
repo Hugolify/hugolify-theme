@@ -1,0 +1,12 @@
+{{- $text := .text -}}
+{{- $class := .class | default "text" -}}
+{{ with $text }}
+  {{- $text = partial "func/PrepareHTML" . | markdownify -}}
+  <div class="{{ $class }}">
+    {{- if in (string .) "\n" }}
+      {{ $text }}
+    {{- else -}}
+      <p>{{ $text }}</p>
+    {{- end }}
+  </div>
+{{ end }}
