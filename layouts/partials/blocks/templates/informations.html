@@ -3,11 +3,11 @@
     
     {{ partial "blocks/heading.html" . }}
 
-    {{ $column := 3 }}
-    {{ with .column }}
-      {{ $column = . }}
-    {{ end }}
-    {{ with .items }}
+    {{- $column := 3 -}}
+    {{- with .column -}}
+      {{- $column = . -}}
+    {{- end -}}
+    {{- with .items }}
     <div class="items items-{{ $column }}">
       {{ range . }}
         <div>
@@ -21,18 +21,18 @@
                 <p>{{ partial "func/PrepareHTML" . }}</p>
               {{ end }}
               {{ with .cta }}
-                  {{ partial "commons/cta.html" . }}
-                {{ end }}
+                {{ partial "commons/cta.html" . }}
+              {{ end }}
             </div>
 
-            {{ $class := "none" }}
-            {{ if .icon }}
-              {{ $class = "icon" }}
-            {{ else if .image.isLogo }}
-              {{ $class = "logo" }}
-            {{ else if .image.src }}
-              {{ $class = "image" }}
-            {{ end }}
+            {{- $class := "none" -}}
+            {{- if .icon -}}
+              {{- $class = "icon" -}}
+            {{- else if .image.isLogo -}}
+              {{- $class = "logo" -}}
+            {{- else if .image.src -}}
+              {{- $class = "image" -}}
+            {{- end }}
 
             <div class="media media-{{ $class }}">
               {{- with .icon -}}
@@ -40,13 +40,13 @@
               {{- else -}}
 
                 {{ with .image }}
-                  {{ $columnTotal := site.Params.column | default false }}
-                  {{ $desktop := site.Params.container.desktop | default false }}
-                  {{ $mobile := site.Params.image.scrollsnap | default false }}
-                  {{ if $desktop }}
-                    {{ $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) }}
-                    {{ $desktop = printf "%sx" (string $width) }}
-                  {{ end }}
+                  {{- $columnTotal := site.Params.column | default false -}}
+                  {{- $desktop := site.Params.container.desktop | default false -}}
+                  {{- $mobile := site.Params.image.scrollsnap | default false -}}
+                  {{- if $desktop -}}
+                    {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
+                    {{- $desktop = printf "%sx" (string $width) -}}
+                  {{- end -}}
                   {{ partial "commons/image" (dict
                     "src" .src 
                     "alt" .alt 
@@ -62,7 +62,7 @@
         </div>
       {{ end }}
     </div>
-    {{ end }}
+  {{ end -}}
 
   </div>
 </section>
