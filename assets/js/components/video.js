@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var lazyVideos = [].slice.call(document.querySelectorAll('.js-video'));
+  let lazyVideos = [].slice.call(
+    document.querySelectorAll('.js-video.is-lazy')
+  );
   if (lazyVideos.length > 0) {
     if ('IntersectionObserver' in window) {
-      var lazyVideoObserver = new IntersectionObserver(function (
+      let lazyVideoObserver = new IntersectionObserver(function (
         entries,
         observer
       ) {
         entries.forEach(function (video) {
           if (video.isIntersecting) {
-            for (var source in video.target.children) {
-              var videoSource = video.target.children[source];
+            for (let source in video.target.children) {
+              let videoSource = video.target.children[source];
               if (
                 typeof videoSource.tagName === 'string' &&
                 videoSource.tagName === 'SOURCE'
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             video.target.load();
-            video.target.classList.remove('lazy');
+            video.target.classList.remove('is-lazy');
             lazyVideoObserver.unobserve(video.target);
           }
         });
