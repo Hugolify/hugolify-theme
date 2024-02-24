@@ -1,0 +1,32 @@
+.timeline
+    list-style-type: none
+    margin-bottom: 0
+    padding-left: 0
+    position: relative
+    &::before
+        background-color: $secondary
+        content: ''
+        height: 100%
+        left: .5rem
+        position: absolute
+        width: 1px
+    li
+        padding-left: 2rem
+        position: relative
+        &::before
+            background-color: $secondary
+            border-radius: 50%
+            content: ''
+            height: 1rem
+            left: 0
+            position: absolute
+            width: 1rem
+        &:not(:last-child)
+            @include margin-bottom($spacer)
+    p
+        margin-bottom: 0
+    .date
+        color: $text-muted
+    .title
+        @include font-size($h3-font-size)
+        font-family: $headings-font-family

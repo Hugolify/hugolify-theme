@@ -1,0 +1,17 @@
+<ol class="timeline">
+  {{ range . }}
+    <li>
+      <article class="step">
+        {{ with .date }}
+          <p class="date">{{ partial "func/PrepareHTML" . }}</p>
+        {{ end }}
+        {{ with .title }}
+          <p class="title">{{ partial "func/PrepareHTML" . }}</p>
+        {{ end }}
+        {{ with .text }}
+          <p>{{ partial "func/PrepareHTML" . }}</p>
+        {{ end }}
+      </article>
+    </li>
+  {{ end }}
+</ol>
