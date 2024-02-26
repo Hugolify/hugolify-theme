@@ -6,7 +6,7 @@ a
     transition: text-decoration-color .2s ease
     &:hover
         text-decoration-color: transparent
-    @if variable-exists(bootstrap-icons-map)
+    @if variable-exists(icons-map)
         &[target="_blank"]
             &::after
                 @include icon("box-arrow-up-right")

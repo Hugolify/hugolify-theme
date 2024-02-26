@@ -26,7 +26,7 @@
         @extend .btn-outline-primary
         margin-right: 0
 
-    @if variable-exists(bootstrap-icons-map)
+    @if variable-exists(icons-map)
         .btn[href^="#"] 
             &::after
                 @include icon('arrow-down-short')

@@ -16,7 +16,7 @@ details
         font-weight: $headings-font-weight
         line-height: $headings-line-height
         padding: 1rem
-        @if variable-exists(bootstrap-icons-map)
+        @if variable-exists(icons-map)
             display: block
             padding-right: 3rem
             position: relative
@@ -38,7 +38,7 @@ details
 
     &[open]
         border-color: $primary
-        @if variable-exists(bootstrap-icons-map)
+        @if variable-exists(icons-map)
             summary
                 &::after
                     transform: rotate(-180deg)
