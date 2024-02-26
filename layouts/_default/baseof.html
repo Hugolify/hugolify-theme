@@ -3,7 +3,10 @@
   <head>
     {{ block "head" . }}{{ end }}
   </head>
-  {{ $body_class := printf "%s-%s" .Kind .Type }}
+  {{- $body_class := printf "%s-%s" .Kind .Type -}}
+  {{- with .Params.body_class -}}
+    {{- $body_class = printf "%s %s" $body_class . -}}
+  {{- end }}
   <body class="preload {{ $body_class }}">
     {{- partialCached "commons/schema.html" . -}}
     {{- partialCached "nav/accessibility.html" . -}}
