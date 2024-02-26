@@ -76,7 +76,7 @@
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-{{ $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
+{{- $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate -}}
 {{ partial "head/opengraph.html" $seo }}
 {{ partial "head/twitter.html" $seo }}
 

@@ -1,10 +1,10 @@
-{{ $IsMultiLingual := .Site.IsMultiLingual }}
-{{ $Lang := .Site.Language.Lang }}
-{{ with .Site.Data.banner }}
-  {{ $state := false }}
-  {{ $text := false }}
+{{- $IsMultiLingual := .Site.IsMultiLingual -}}
+{{- $Lang := .Site.Language.Lang -}}
+{{- with .Site.Data.banner -}}
+  {{- $state := false -}}
+  {{- $text := false -}}
   {{- with .text -}}
-    {{ $text = . }}
+    {{- $text = . -}}
   {{- end -}}
   {{- with .state -}}
     {{ $state = . }}
@@ -20,13 +20,13 @@
     {{- end -}}
   {{- end -}}
 
-  {{ if $text }}
+  {{- if $text }}
     <div class="banner{{ with $state }} banner-{{ . }}{{ end }}" role="alert">
       <div class="container">
-        {{ with $text }}
+        {{- with $text }}
           <p>{{ . | markdownify }}</p>
-        {{ end }}
+        {{- end }}
       </div>
     </div>
-  {{ end }}
-{{ end }}
+  {{ end -}}
+{{- end -}}

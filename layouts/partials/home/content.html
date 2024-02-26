@@ -1,46 +1,20 @@
-{{ if isset .Params "blocks" }}
+{{- if isset .Params "blocks" -}}
   
   {{ partial "blocks/list" . }}
 
-{{ else }}
+{{- else -}}
 
   <div class="container">
     {{ partial "commons/heading" . }}
-
-    {{ $posts := "posts/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $posts ) }}
-      {{ partial $posts . }}
-    {{ end }}
-
-    {{ $projects := "projects/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $projects ) }}
-      {{ partial $projects . }}
-    {{ end }}
-
-    {{ $casestudies := "casestudies/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $casestudies ) }}
-      {{ partial $casestudies . }}
-    {{ end }}
-
-    {{ $publications := "publications/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $publications ) }}
-      {{ partial $publications . }}
-    {{ end }}
-
-    {{ $places := "places/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $places ) }}
-      {{ partial $places . }}
-    {{ end }}
-
-    {{ $expertises := "expertises/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $expertises ) }}
-      {{ partial $expertises . }}
-    {{ end }}
-
-    {{ $realestates := "realestates/latest.html" }}
-    {{ if templates.Exists ( printf "partials/%s" $realestates ) }}
-      {{ partial $realestates . }}
-    {{ end }}
+    
+    {{- $context := . -}}
+    {{- $sections := slice "posts" "products" "projects" "casestudies" "publications" "places" "expertises" "services" "realestates" -}}
+    {{- range $sections -}}
+      {{- $partial := printf "%s/latest.html" . -}}
+      {{- if templates.Exists ( printf "partials/%s" $partial ) -}}
+        {{ partial $partial $context }}
+      {{- end -}}
+    {{- end -}}
   </div>
 
-{{ end }}
+{{- end -}}

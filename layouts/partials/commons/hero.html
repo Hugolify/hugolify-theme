@@ -1,21 +1,21 @@
-{{ with .Params.hero }}
-{{ if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) }}
-{{ $class := "hero" }}
-{{ with .align }}
-  {{ $class = printf "%s hero-%s" $class . }}
-{{ end }}
-{{ with .image }}
-  {{ $class = printf "%s hero-with-image" $class }}
-{{ end }}
+{{- with .Params.hero -}}
+{{- if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) -}}
+{{- $class := "hero" -}}
+{{- with .align -}}
+  {{- $class = printf "%s hero-%s" $class . -}}
+{{- end -}}
+{{- with .image -}}
+  {{- $class = printf "%s hero-with-image" $class -}}
+{{- end -}}
 <header class="{{ $class }}"{{ partial "func/SetAnim" (dict "element" "hero") }}>
   {{ with .image }}
     {{ if .background_image }}
-      {{ $picture_class := "hero-cover" }}
-      {{ $cover := site.Params.hero.cover }}
-      {{ $mobile := site.Params.hero.cover_mobile }}
-      {{ if .darken }}
-        {{ $picture_class = printf "%s hero-cover-darken" $picture_class }}
-      {{ end }}
+      {{- $picture_class := "hero-cover" -}}
+      {{- $cover := site.Params.hero.cover -}}
+      {{- $mobile := site.Params.hero.cover_mobile -}}
+      {{- if .darken -}}
+        {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
+      {{- end -}}
       {{ partial "commons/image.html" (dict
           "src" .src
           "alt" .alt
@@ -43,8 +43,8 @@
       {{ with .image }}
         {{ if ne .background_image true }}
           <div class="hero-media">
-            {{ $desktop := site.Params.hero.desktop }}
-            {{ $mobile := site.Params.hero.mobile }}
+            {{- $desktop := site.Params.hero.desktop -}}
+            {{- $mobile := site.Params.hero.mobile -}}
             {{ partial "commons/image.html" (dict
                 "src" .src
                 "alt" .alt
@@ -59,5 +59,5 @@
     </div>
   </div>
 </header>
-{{ end }}
-{{ end }}
+{{- end -}}
+{{- end -}}
