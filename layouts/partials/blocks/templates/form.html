@@ -14,12 +14,14 @@
       <form netlify method="POST" name="{{ .name }}" id="{{ $idForm }}">
 
         {{ range $index, $items := .items }}
-          {{ $id := print $idForm "-" (.type | string) "-"  ($index | string) }}
-          <div{{ if .full }} class="full"{{ end }}>
-            <label for="{{ $id }}" class="form-label">{{ .label }}{{ if .required }}<sup>*</sup>{{ end }}</label>
+          {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
+          {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
+          <div {{- if .full }} class="full"{{ end }}>
+            {{ if and (ne .type "checkbox") (ne .type "radio") }}
+            <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+            {{ end }}
             {{ if eq .type "textarea" }}
               <textarea 
-                class="form-control"
                 id="{{ $id }}" 
                 name="{{ $id }}"
                 rows="5"
@@ -28,7 +30,6 @@
                 {{ if .required }}required{{ end }}></textarea>
             {{ else if eq .type "select" }}
               <select
-                class="form-select"
                 id="{{ $id }}"
                 name="{{ $id }}"
                 {{ if .required }}required{{ end }}>
@@ -42,19 +43,25 @@
               </select>
             {{ else }}
               <input 
-                class="form-control"
                 id="{{ $id }}" 
                 name="{{ $id }}"
                 {{ with .type }}type="{{ . }}"{{ end }}
+                {{ if $condHelp }}aria-describedby="help-{{ $id }}"{{ end }}
                 {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
                 {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
                 {{ if .required }}required{{ end }}>
+            {{ end }}
+            {{ if or (eq .type "checkbox") (eq .type "radio") }}
+              <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+            {{ end }}
+            {{ if $condHelp }}
+              <p id="help-{{ $id }}" class="help">{{ i18n (print "form." .type) }}</p>
             {{ end }}
           </div>
         {{ end }}
 
         <div class="actions">
-          <button type="submit" class="btn">{{ .submit }}</button>
+          <button type="submit" class="btn">{{ partial "func/PrepareHTML" .submit }}</button>
         </div>
 
       </form>

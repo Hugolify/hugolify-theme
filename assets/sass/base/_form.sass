@@ -1,14 +1,36 @@
 form
-    @include make-row()
-    > *
-        @include make-col-ready()
-        @include media-breakpoint-up(lg)
-            @include make-col(6)
-    > div:not(:last-child)
-        margin-bottom: $spacer * 2
-    .btn
+    label
+        @extend .form-label
+
+    input[type=date],
+    input[type=email],
+    input[type=month],
+    input[type=number],
+    input[type=password],
+    input[type=search],
+    input[type=tel],
+    input[type=text],
+    input[type=time],
+    input[type=url],
+    input[type=week],
+    textarea
+        @extend .form-control
+
+    input[type=checkbox],
+    input[type=radio]
+        @extend .form-check-input
+        & + label
+            @extend .form-check-label
+
+    input[type=range]
+        @extend .form-range
+
+    select
+        @extend .form-select
+
+    .help
+        @extend .form-text
+        margin-bottom: 0
+    
+    [type=submit]
         @extend .btn-primary
-    .full,
-    .actions
-        @include media-breakpoint-up(lg)
-            @include make-col(12)
