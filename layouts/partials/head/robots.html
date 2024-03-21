@@ -1,0 +1,6 @@
+{{- $production := eq (getenv "HUGO_ENV") "production" | or (eq site.Params.env "production") -}}
+{{- if $production }}
+  <meta name="robots" content="index, follow">
+{{ else }}
+  <meta name="robots" content="noindex, nofollow">
+{{ end -}}

@@ -6,4 +6,6 @@
   {{ partial "head/seo.html" . }}
   {{ partial "head/favicons.html" . }}
   {{ partial "head/rss.html" . }}
+  {{ partialCached "head/robots.html" . }}
+  {{ partialCached "head/scripts.html" . }}
 {{ end }}
