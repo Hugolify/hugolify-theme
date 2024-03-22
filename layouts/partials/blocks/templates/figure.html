@@ -16,27 +16,25 @@
   {{- $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) -}}
   {{- $desktop = printf "%sx" (string $width) -}}
 {{- end -}}
-{{- $s := newScratch -}}
-{{- $s.Set "fig" .figure -}}
-{{- $s.SetInMap "fig" "desktop" $desktop -}}
-{{- $s.SetInMap "fig" "mobile" $mobile -}}
 
-<section class="block-figure{{ with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-figure {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{- partial "blocks/heading.html" . -}}
 
-    {{ if $class }}
+    {{- if $class -}}
     <div class="row">
       <div class="{{ $class }}">
-    {{ end }}
+    {{- end -}}
 
-      {{ partial "commons/figure" .figure }}
+    {{- with .figure -}}
+      {{- partial "commons/figure" . -}}
+    {{- end -}}
 
-    {{ if $class }}
+    {{- if $class -}}
       </div>
     </div>
-    {{ end }}
+    {{- end -}}
 
   </div>
 </section>

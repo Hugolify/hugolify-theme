@@ -1,11 +1,11 @@
 {{- $animation := partial "func/SetAnim" (dict "element" "figure") -}}
-{{ if .screenshot }}
+{{- if .screenshot }}
   <div class="screenshot" {{- $animation }}>
     <span></span>
 {{ end }}
 <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }}{{ end }}>
-  {{ if .src }}
-    {{ partial "commons/image.html" (dict
+  {{- if .src }}
+    {{- partial "commons/image.html" (dict
           "src" .src
           "alt" .alt
           "desktop" .desktop
@@ -14,15 +14,15 @@
           "linear" .linear
           "screenshot" .screenshot
         ) }}
-  {{ end }}
+  {{- end }}
   {{ if or .legend .credit }}
   <figcaption>
-    {{ with .legend }}
+    {{- with .legend }}
       <p>{{ partial "func/PrepareHTML" . }}</p>
-    {{ end }}
-    {{ with .credit }}
+    {{- end }}
+    {{- with .credit }}
       <p class="credit">{{ partial "func/PrepareHTML" . | markdownify }}</p>
-    {{ end }}
+    {{- end }}
   </figcaption>
   {{ end }}
 </figure>

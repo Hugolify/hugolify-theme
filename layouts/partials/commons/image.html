@@ -42,11 +42,11 @@
 {{- $imageParams := false -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
 {{- if in $file "ucarecdn" -}}
-  {{ $imageParams =  partial "commons/image/uploadcare" $imageRenderParams }}
+  {{- $imageParams =  partial "commons/image/uploadcare" $imageRenderParams }}
 {{- else -}}
-  {{ $imageParams = partial "commons/image/hugo" $imageRenderParams }}
+  {{- $imageParams = partial "commons/image/hugo" $imageRenderParams -}}
 {{- end -}}
-{{ $params := merge $imageParams $domParams }}
+{{- $params := merge $imageParams $domParams -}}
 
 {{/* Display image  */}}
 {{- with $params }}
@@ -61,10 +61,10 @@
       <source srcset="{{ .image_mobile }}, {{ .image_mobile_2x }} 2x, {{ .image_mobile_3x }} 3x" type="image/jpg" media="(max-width: 576px)">
     {{ end -}}
     <img src="{{ .image_desktop }}" alt="{{ $alt }}" 
-      {{ with .image_width }}width="{{ . }}"{{ end }} 
-      {{ with .image_height }}height="{{ . }}"{{ end }} 
-      {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end }}
-      {{ with $class }} class="{{ . }}"{{ end }}
+      {{- with .image_width }} width="{{ . }}"{{ end -}} 
+      {{ with .image_height }} height="{{ . }}"{{ end -}} 
+      {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}
+      {{ with $class }} class="{{ . }}"{{ end -}}
       {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
   </picture>
 {{ end }}
