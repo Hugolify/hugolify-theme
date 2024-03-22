@@ -24,6 +24,7 @@ contact:
   whatsapp: WhatsApp
 cookie_banner:
   accept: Accepter
+  label: Avis sur les cookies
   refuse: Refuser
   text: 'En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de Cookies pour vous proposer notamment des fonctionnalités personnalisées et pour réaliser des mesures d’audience. Pour en savoir plus et paramétrer ces cookies :'
   title: Bandeau cookie

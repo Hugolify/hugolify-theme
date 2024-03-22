@@ -24,6 +24,7 @@ contact:
   whatsapp: WhatsApp
 cookie_banner:
   accept: Accept
+  label: Cookie notice
   refuse: Refuse
   text: 'By continuing to browse this site, you accept the use of Cookies to offer you personalized features and to carry out audience measurements. To find out more and configure these cookies:'
   title: Cookie banner
