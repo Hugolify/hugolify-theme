@@ -1,14 +1,15 @@
 {{- $logo := .logo | default "" -}}
 {{- $lazy := .lazy | default false -}}
 {{- $file := printf "static%s" $logo -}}
-{{- $home := i18n "navigation.home" -}}
+{{- $home := i18n "navigation.home" (dict "Title" site.Title) -}}
 <a class="logo" href="{{ site.Home.Permalink }}" aria-label="{{ $home }}">
   {{- if os.FileExists $file }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
     <img 
       {{ if $lazy }}loading="lazy" decoding="async"{{ else }}fetchpriority="high"{{ end }}
       src="{{ .logo }}" 
-      alt="{{ site.Title }}" 
+      alt="" 
+      role="presentation" 
       height="{{ index $fileDimensions 1 }}" 
       width="{{ index $fileDimensions 0 }}">
   {{ else }}

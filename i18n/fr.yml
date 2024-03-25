@@ -59,7 +59,7 @@ more: En savoir plus
 navigation:
   close: Fermer
   dropdown: Ouvrir le sous-menu
-  home: Aller à l’accueil
+  home: '{{ .Title }}, aller à l’accueil'
   main: Navigation principale
   menu: Menu
 newsletter:
