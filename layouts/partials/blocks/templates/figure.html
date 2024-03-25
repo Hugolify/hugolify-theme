@@ -17,6 +17,8 @@
   {{- $desktop = printf "%sx" (string $width) -}}
 {{- end -}}
 
+{{- if .figure -}}
+{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile) -}}
 <section class="block-figure {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
@@ -27,7 +29,7 @@
       <div class="{{ $class }}">
     {{- end -}}
 
-    {{- with .figure -}}
+    {{- with $figure -}}
       {{- partial "commons/figure" . -}}
     {{- end -}}
 
@@ -38,3 +40,4 @@
 
   </div>
 </section>
+{{- end -}}
