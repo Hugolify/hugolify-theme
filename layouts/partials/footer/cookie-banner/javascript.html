@@ -56,12 +56,8 @@
     init() {
       if(this.readCookie('cookie-consent')=='true') {
         this.initCookies();
-      } else if (this.readCookie('cookie-consent')!='false') {
+      } else if (this.readCookie('cookie-consent')!='false' || this.readCookie('cookie-consent')=='false') {
         this.removeCookies();
-        this.elm.classList.add('show');
-      } else if (this.readCookie('cookie-consent')=='false') {
-        this.removeCookies();
-        this.elm.classList.remove('show');
       }
     }
 
@@ -72,6 +68,7 @@
     }
 
     removeCookies() {
+      this.elm.classList.remove('show');
       if (this.id_ga) {
         this.deleteCookiesByPattern("_ga");
       }
@@ -81,13 +78,12 @@
       this.elm.querySelector('.js-cookie-consent-accept').addEventListener("click", () => {
         this.createCookie('cookie-consent','true',31);
         this.elm.style.display = 'none';
-        // location.reload();
+        this.initCookies();
       });
   
       this.elm.querySelector('.js-cookie-consent-refuse').addEventListener("click", () => {
         this.createCookie('cookie-consent','false',31);
         this.elm.style.display = 'none';
-        // location.reload();
       });
     }
 
