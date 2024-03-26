@@ -56,12 +56,13 @@
     init() {
       if(this.readCookie('cookie-consent')=='true') {
         this.initCookies();
-      } else if (this.readCookie('cookie-consent')!='false' || this.readCookie('cookie-consent')=='false') {
+      } else if (this.readCookie('cookie-consent')=='false') {
         this.removeCookies();
       }
     }
 
     initCookies() {
+      this.elm.classList.remove('show');
       if (this.id_ga) {
         this.initGoogleAnalytics();
       }
@@ -77,13 +78,12 @@
     initEvents() {
       this.elm.querySelector('.js-cookie-consent-accept').addEventListener("click", () => {
         this.createCookie('cookie-consent','true',31);
-        this.elm.style.display = 'none';
         this.initCookies();
       });
   
       this.elm.querySelector('.js-cookie-consent-refuse').addEventListener("click", () => {
         this.createCookie('cookie-consent','false',31);
-        this.elm.style.display = 'none';
+        this.elm.classList.remove('show');
       });
     }
 
