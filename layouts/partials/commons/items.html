@@ -29,10 +29,10 @@
       {{ range $index, $items := . }}
         {{ if $groupbyyear }}
           {{- $year := .Date.Format "2006" -}}
-          {{ if ne $year $currentyear }}
+          {{- if ne $year $currentyear }}
             <h2 class="year">{{ $year }}</h2>
             {{- $currentyear = $year -}}
-          {{ end }}
+          {{- end }}
         {{ end }}
         <div>
           {{- if and ($atf) (lt $index 2) -}}
@@ -45,6 +45,9 @@
             {{- .Scratch.Set "large" true -}}
           {{- end -}}
           {{ partial $partial . }}
+          {{- .Scratch.Delete "notLazy" -}}
+          {{- .Scratch.Delete "scrollsnap" -}}
+          {{- .Scratch.Delete "large" -}}
         </div>
       {{ end }}
     </div>
