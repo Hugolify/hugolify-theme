@@ -37,6 +37,17 @@ class Carousel {
   }
 
   init() {
+    this.initI18n();
+    this.initCarousel();
+  }
+
+  initI18n() {
+    Splide.defaults = {
+      i18n: window.i18n.carousel
+    };
+  }
+
+  initCarousel() {
     new Splide(this.carousel).mount();
   }
 }

@@ -3,6 +3,19 @@ accessibility:
 address:
   direction: Comment y aller ?
 breadcrumb: fil d’Arianne
+carousel:
+  carousel: Carrousel
+  first: Aller à la première diapositive
+  last: Aller à la dernière diapositive
+  next: Diapositive suivante
+  pagex: Aller à la page %s
+  pause: Mettre pause au défilement automatique
+  play: Lancer le défilement automatique
+  previous: Diapositive précédente
+  select: Changer la ou les diapositives à afficher
+  slide: Diapositive
+  slidelabel: Diapositive %s de %s
+  slidex: Aller à la diapositive %s
 close: Fermer
 contact:
   email: 'E-mail :'

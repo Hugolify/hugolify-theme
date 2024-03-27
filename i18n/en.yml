@@ -3,6 +3,19 @@ accessibility:
 address:
   direction: How to go?
 breadcrumb: Breadcrumb
+carousel:
+  carousel: Carousel
+  first: Go to first slide
+  last: Go to last slide
+  next: Next slide
+  pagex: Go to page %s
+  pause: Pause autoplay
+  play: Start autoplay
+  previous: Previous slide
+  select: Change slide or slides to show
+  slide: Slide
+  slidelabel: Slide %s of %s
+  slidex: Go to slide %s
 close: Close
 contact:
   email: 'Email:'
