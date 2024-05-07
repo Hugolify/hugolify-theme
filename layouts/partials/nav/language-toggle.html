@@ -1,0 +1,18 @@
+{{- if .Site.IsMultiLingual }}
+{{- $pageTrans := .Page.Translations -}}
+<ul class="nav nav-language">
+  <li>
+    {{- range .Site.Languages -}} 
+      {{- if ne . $.Site.Language -}}
+        {{- $p := where $pageTrans "Language.Lang" .Lang -}}
+        {{- $url := printf "/%s" .Lang -}}
+        {{- with (index $p 0) -}}
+          {{- $url = .Permalink -}}
+        {{- end -}}
+          <a href="{{ $url }}" title="{{ .LanguageName }}">{{ upper .Lang }}</a>
+        {{- break -}}
+      {{ end -}}
+    {{- end -}}
+  </li>
+</ul>
+{{ end -}}
