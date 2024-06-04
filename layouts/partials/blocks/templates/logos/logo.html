@@ -1,0 +1,39 @@
+{{- $lazy := .lazy | default true -}}
+{{- $title := .title | default "" -}}
+{{- $column := float .column | default 4 -}}
+{{- $columnTotal := site.Params.column | default false -}}
+{{- $desktop := site.Params.container.desktop | default false -}}
+{{- $mobile := site.Params.container.mobile | default false -}}
+{{- $ratio := .ratio | default 1 -}}
+{{- if $desktop -}}
+  {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
+  {{- $desktop = printf "%sx" (string $width) -}}
+{{- end -}}
+{{- if $mobile -}}
+  {{- $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
+  {{- $mobile = printf "%sx" (string $width) -}}
+{{- end -}}
+
+{{- with .url }}
+  {{- $i18n_title := i18n "link.blank_aria" (dict "Title" $title) -}}
+  <a href="{{ . }}" target="_blank" title="{{ $i18n_title }}">
+{{ end -}}
+
+{{- with .src }}
+  {{- partial "commons/image.html" (dict
+    "src" .
+    "alt" $title
+    "desktop" $desktop
+    "mobile" $mobile
+    "lazy" $lazy
+    "linear" true
+  ) }}
+{{ else }}
+  {{- with .title }}
+    <span>{{ . }}</span>
+  {{ end -}}
+{{ end -}}
+
+{{- with .url }}
+  </a>
+{{ end -}}
