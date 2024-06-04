@@ -1,0 +1,10 @@
+{{- $layout := .layout | default false -}}
+{{ if .items }}
+  <section class="block-logos {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+    {{ if eq $layout "carousel" }}
+      {{ partial "blocks/templates/logos/carousel.html" . }}
+    {{ else }}
+      {{ partial "blocks/templates/logos/grid.html" . }}
+    {{ end }}
+  </section>
+{{ end }}

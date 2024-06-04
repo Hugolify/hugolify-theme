@@ -1,0 +1,47 @@
+.block-logos
+    .logos
+        @include make-row()
+        --bs-gutter-y: #{$grid-gutter-width}
+        justify-content: center
+        text-align: center
+        > div
+            @include make-col-ready()
+            @include make-col(6)
+
+        @for $i from 2 through 8
+            &-#{$i}
+                > div
+                    @include media-breakpoint-up(md)
+                        @include make-col(4)
+                    @include media-breakpoint-up(lg)
+                        @include make-col($grid-columns / $i)
+    a,
+    div > picture
+        @extend .ratio
+        @extend .ratio-1x1
+        display: block
+    picture,
+    span
+        align-items: center
+        display: flex
+        justify-content: center
+    span
+        font-weight: $font-weight-bold
+    img
+        height: 100%
+        max-height: 60%
+        max-width: 70%
+        object-fit: contain
+        width: 100%
+    a
+        text-decoration: none
+        &::after
+            content: none
+    
+    // fallback
+    .splide__track
+        overflow-y: hidden
+    .splide__slide
+        width: 50%
+        @include media-breakpoint-up(lg)
+            width: 25%

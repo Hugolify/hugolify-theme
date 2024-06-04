@@ -26,6 +26,12 @@
   {{ if isset . "gap" }}
     {{ $params.Set "gap" .gap }} 
   {{ end }}
+  {{ if isset . "interval" }}
+    {{ $params.Set "interval" .interval }} 
+  {{ end }}
+  {{ if isset . "perMove" }}
+    {{ $params.Set "perMove" .perMove }} 
+  {{ end }}
 {{ end }}
 
 {{ return ($params.Values | jsonify) }}
