@@ -1,4 +1,5 @@
 {{- $discount := .discount | default false -}}
+{{- $frequency := .frequency | default false -}}
 {{- $price := .price | default false -}}
 {{ with $price }}
   {{- $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) -}}
@@ -10,5 +11,8 @@
     {{ end }}
     <del>{{ partial "func/GetHumanPrice" . }}</del>
     <span>-{{ $realDiscount}}</span>
+  {{- end }}
+  {{- with $frequency }} 
+    <i>{{ partial "func/PrepareHTML" . }}</i>
   {{- end }}
 {{ end -}}
