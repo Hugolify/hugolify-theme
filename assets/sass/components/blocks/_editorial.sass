@@ -7,6 +7,10 @@
             @extend .col-md-6
     h2, p
         text-wrap: balance
+    .text:not(:last-child)
+        margin-bottom: $paragraph-margin-bottom
+    p:last-child
+        margin-bottom: 0
     .btn
         @extend .btn-primary
         @if variable-exists(icons-map)
