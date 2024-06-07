@@ -1,0 +1,62 @@
+{{- $tag := cond (ne .heading.title "") "h3" "h2" -}}
+<section class="block-prices {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+  <div class="container">
+    
+    {{ partial "blocks/heading.html" . }}
+
+    {{- $column := 3 -}}
+    {{- with .column -}}
+      {{- $column = . -}}
+    {{- end -}}
+    {{- with .items }}
+    <div class="items items-{{ $column }}">
+      {{ range . }}
+        <div>
+          <div class="item">
+
+            <header>
+              {{- with .title }}
+                {{- printf "<%s>" $tag | safeHTML -}}
+                  {{ partial "func/PrepareHTML" . }}
+                {{- printf "</%s>" $tag | safeHTML -}}
+              {{ end -}}
+              {{ with .text }}
+                <p>{{ partial "func/PrepareHTML" . }}</p>
+              {{ end }}
+              {{ with .offer }}
+                <p class="pricing">{{ partial "commons/price" . }}</p>
+                {{ with .text }}
+                  <p>{{ partial "func/PrepareHTML" . }}</p>
+                {{ end }}
+              {{ end }}
+            </header>
+
+            {{- with .arguments }}
+            <div class="content">
+              <ul>
+              {{ range . }}
+                <li>
+                  {{- with .icon -}}
+                    <i class="icon icon-{{ . }}"></i>
+                  {{ end -}}
+                  {{ partial "func/PrepareHTML" .text -}}
+                </li>
+              {{ end }}
+              </ul>
+            </div>
+            {{ end -}}
+
+            <footer>
+              {{ with .cta }}
+                {{ partial "commons/cta.html" . }}
+              {{ end }}
+            </footer>
+
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  {{ end -}}
+
+  </div>
+</section>

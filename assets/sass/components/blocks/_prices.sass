@@ -1,0 +1,56 @@
+.block-prices
+    .items
+        @include make-row()
+        --bs-gutter-y: #{$grid-gutter-width}
+        justify-content: center
+        text-align: center
+        > div
+            @include make-col-ready()
+
+        @for $i from 2 through 6
+            &-#{$i}
+                > div
+                    @include media-breakpoint-up(lg)
+                        @include make-col($grid-columns / $i)
+        
+    .item
+        --bs-card-spacer-x: 1.5rem
+        --bs-card-spacer-y: 1.5rem
+        --bs-card-bg: #{$gray-100}
+        --bs-card-cap-padding-x: 1.5rem
+        --bs-card-cap-padding-y: 1.5rem
+        --bs-card-cap-bg: #{$gray-100}
+        @extend .card
+        height: 100%
+        text-align: left
+
+        header
+            @extend .card-header
+            border-bottom: 0
+
+        footer
+            @extend .card-footer
+            border-top: 0
+            margin-top: auto
+    
+    .pricing
+        @include font-size($lead-font-size)
+        font-weight: $font-weight-bold
+        & + p
+            @include font-size($small-font-size)
+            color: $text-muted
+            margin-top: - $paragraph-margin-bottom
+        
+    .content
+        ul
+            border-bottom: 1px solid $border-color
+            list-style: none
+            margin-bottom: 0
+            padding-left: 0
+        li
+            border-top: 1px solid $border-color
+            padding: .5rem 0
+
+    .btn
+        @extend .btn-primary
+        width: 100%
