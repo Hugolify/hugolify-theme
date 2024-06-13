@@ -24,7 +24,7 @@
                 <p>{{ partial "func/PrepareHTML" . }}</p>
               {{ end }}
               {{ with .offer }}
-                <p class="pricing">{{ partial "commons/price" . }}</p>
+                {{ partial "commons/price" . }}
                 {{ with .text }}
                   <p>{{ partial "func/PrepareHTML" . }}</p>
                 {{ end }}

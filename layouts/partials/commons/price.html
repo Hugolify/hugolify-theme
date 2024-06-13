@@ -1,18 +1,21 @@
 {{- $discount := .discount | default false -}}
 {{- $frequency := .frequency | default false -}}
 {{- $price := .price | default false -}}
+{{- $itemprop := .itemprop | default false -}}
 {{ with $price }}
   {{- $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) -}}
-  {{ partial "func/GetHumanPrice" $realPrice }} 
-  {{- if $discount }} 
-    {{- $realDiscount := $discount -}}
-    {{ if not (hasSuffix $discount "%") }}
-      {{- $realDiscount = partial "func/GetHumanPrice" $discount -}}
-    {{ end }}
-    <del>{{ partial "func/GetHumanPrice" . }}</del>
-    <span>-{{ $realDiscount}}</span>
-  {{- end }}
-  {{- with $frequency }} 
-    <i>{{ partial "func/PrepareHTML" . }}</i>
-  {{- end }}
+  <p class="pricing" {{- if $itemprop }} itemprop="price" content="{{ $realPrice }}"{{ end }}>
+    {{ partial "func/GetHumanPrice" $realPrice }} 
+    {{- if $discount }} 
+      {{- $realDiscount := $discount -}}
+      {{ if not (hasSuffix $discount "%") }}
+        {{- $realDiscount = partial "func/GetHumanPrice" $discount -}}
+      {{ end }}
+      <del>{{ partial "func/GetHumanPrice" . }}</del>
+      <span>-{{ $realDiscount}}</span>
+    {{- end }}
+    {{- with $frequency }} 
+      <i>{{ partial "func/PrepareHTML" . }}</i>
+    {{- end }}
+  </p>
 {{ end -}}
