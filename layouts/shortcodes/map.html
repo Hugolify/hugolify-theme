@@ -1,5 +1,5 @@
-{{ $location := .Get "markers" | default false }}
-{{ $zoom := .Get "zoom" | default false }}
+{{- $location := .Get "markers" | default false -}}
+{{- $zoom := .Get "zoom" -}}
 {{ with $location }}
-  {{ partial "commons/map" (dict "location" . "zoom" $zoom) }}
+  {{ partial "commons/map" (dict "location" (slice .) "zoom" $zoom) }}
 {{ end }}
