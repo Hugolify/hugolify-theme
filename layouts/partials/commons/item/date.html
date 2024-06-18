@@ -1,5 +1,3 @@
 {{ if .date }}
-  <p class="date">
-    {{ partial "commons/time.html" (dict "date" .date "format" .format) }}
-  </p>
+  {{ partial "commons/date" (dict "date" .date "format" .format) }}
 {{ end }}

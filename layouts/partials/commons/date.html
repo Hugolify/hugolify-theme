@@ -1,3 +1,11 @@
-{{ with .Date }}
-  <p class="date"><time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">{{ . | time.Format ":date_full" }}</time></p>
+{{- $date := .Date -}}
+{{- $format := ":date_full" -}}
+{{- $itemprop := "datePublished" -}}
+{{- if reflect.IsMap . -}}
+  {{- $date = .date -}}
+  {{- $format = .format | default $format -}}
+  {{- $itemprop = .itemprop | default $itemprop -}}
+{{ end }}
+{{ with $date }}
+  <p class="date">{{ partial "commons/time" (dict "date" . "format" $format "itemprop" $itemprop) }}</p>
 {{ end }}
