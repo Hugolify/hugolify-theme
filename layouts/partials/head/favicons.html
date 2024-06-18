@@ -1,30 +1,31 @@
 <!-- Icons -->
 {{- $staticDir := "static" -}}
-{{- $staticDirFavicon := (printf "%s/assets/images/favicons" $staticDir) -}}
+{{- $dirFavicon := "/assets/images/favicons" -}}
+{{- $staticDirFavicon := (printf "%s%s" $staticDir $dirFavicon) -}}
 {{- if os.FileExists (printf "%s/apple-touch-icon.png" $staticDirFavicon) -}}
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ printf `%s/apple-touch-icon.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon-32x32.png" $staticDirFavicon) -}}
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ printf `%s/favicon-32x32.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon-16x16.png" $staticDirFavicon) -}}
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ printf `%s/favicon-16x16.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.ico" $staticDirFavicon) -}}
-  <link rel="icon" type="image/ico" href="/assets/images/favicons/favicon.ico">
+  <link rel="icon" type="image/ico" href="{{ printf `%s/favicon.ico` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.png" $staticDirFavicon) -}}
-  <link rel="icon" type="image/png" href="/assets/images/favicons/favicon.png">
+  <link rel="icon" type="image/png" href="{{ printf `%s/favicon.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.svg" $staticDirFavicon) -}}
-  <link rel="icon" type="image/svg" href="/assets/images/favicons/favicon.svg">
+  <link rel="icon" type="image/svg" href="{{ printf `%s/favicon.svg` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/site.webmanifest" $staticDir) -}}
   <link rel="manifest" href="/site.webmanifest">
 {{ end -}}
 {{- $colorPrimary := .Site.Data.seo.color | default "#000000" -}}
 {{- if os.FileExists (printf "%s/safari-pinned-tab.svg" $staticDirFavicon) -}}
-  <link rel="mask-icon" href="/assets/images/favicons/safari-pinned-tab.svg" color="{{ $colorPrimary }}">
+  <link rel="mask-icon" href="{{ printf `%s/safari-pinned-tab.svg` $dirFavicon }}" color="{{ $colorPrimary }}">
 {{ end -}}
 <meta name="msapplication-TileColor" content="{{ $colorPrimary }}">
 <meta name="theme-color" content="{{ $colorPrimary }}">
