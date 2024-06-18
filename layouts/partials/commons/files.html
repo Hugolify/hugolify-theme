@@ -3,13 +3,7 @@
     {{ range . }}
       {{ if .file }}
         <li>
-          <a href="{{ .file }}" download>
-            <span>
-              <b>{{- partial "func/PrepareHTML" .title -}}</b>
-              {{- partial "func/GetFileExtension" .file -}}
-              {{- partial "func/GetStaticFileSize" (dict "file" .file "dir" "pdf") -}}
-            </span>
-          </a>
+          {{- partial "commons/file" . -}}
         </li>
       {{ end }}
     {{ end }}

@@ -1,0 +1,13 @@
+{{- $file := .file | default false -}}
+{{- $title := .title | default (path.BaseName $file | humanize) -}}
+{{- $dir := cond (strings.Contains $file "/") (path.Dir $file) "pdf" -}}
+{{- $download := .download | default true -}}
+{{ with $file }}
+  <a href="{{ . }}" {{- if $download }} download{{ end }} class="file">
+    <span>
+      <b>{{- partial "func/PrepareHTML" $title -}}</b>
+      {{- partial "func/GetFileExtension" . -}}
+      {{- partial "func/GetStaticFileSize" (dict "file" . "dir" $dir) -}}
+    </span>
+  </a>
+{{ end }}

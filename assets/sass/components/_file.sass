@@ -1,0 +1,23 @@
+.file
+    display: inline-flex
+    font-size: $small-font-size
+    padding: $card-spacer-y $card-spacer-x
+    text-decoration: none
+        
+    @if variable-exists(icons-map)
+        &::before
+            @include icon("file-earmark")
+            font-size: 1.6rem
+            margin-right: .5rem
+            margin-top: .3rem
+        &[download]::before
+            @include icon("file-earmark-arrow-down-fill")
+
+    b
+        display: block
+    
+    abbr:not(:last-child)
+        margin-right: .5rem
+        &::after
+            content: '-'
+            margin-left: .5rem
