@@ -1,16 +1,14 @@
-{{ with .video }}
+{{- with . }}
   {{- $animation := partial "func/SetAnim" (dict "element" "figure") -}}
   {{- if .screenshot }}
     <div class="screenshot" {{- $animation }}>
       <span></span>
   {{ end }}
-    <figure {{- if not .screenshot }}{{ $animation }}{{ end }}>
-      {{ partial "commons/video.html" . }}
-      {{ with .legend }}
-        <figcaption>{{ partial "func/PrepareHTML" . }}</figcaption>
-      {{ end }}
-    </figure>
+  <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }}{{ end }}>
+    {{ partial "commons/video.html" . }}
+    {{ partial "commons/figcaption.html" . }}
+  </figure>
   {{ if .screenshot }}
     </div>
   {{ end -}}
-{{ end }}
+{{ end -}}

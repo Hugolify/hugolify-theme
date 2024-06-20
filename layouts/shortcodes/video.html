@@ -1,0 +1,18 @@
+{{- $autoplay := .Get "autoplay" | default false -}}
+{{- $controls := .Get "controls" | default false -}}
+{{- $loop := .Get "loop" | default false -}}
+{{- $mp4 := .Get "mp4" | default false -}}
+{{- $webm := .Get "webm" | default false -}}
+{{- $legend := .Get "legend" | default false -}}
+{{- $credit := .Get "credit" | default false -}}
+{{- $screenshot := .Get "screenshot" | default false -}}
+{{- partial "commons/figure-video" (dict
+  "autoplay" $autoplay 
+  "controls" $controls 
+  "loop" $loop 
+  "mp4" $mp4
+  "webm" $webm
+  "legend" $legend 
+  "credit" $credit
+  "screenshot" $screenshot
+  ) -}}

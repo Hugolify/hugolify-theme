@@ -10,7 +10,7 @@
       
         {{ partial "blocks/heading.html" . }}
         {{ with .video }}
-          {{ partial "commons/figure-video.html" (dict "video" .) }}
+          {{ partial "commons/figure-video.html" . }}
           {{ partial "commons/transcription" .transcription }}
         {{ end }}
       
