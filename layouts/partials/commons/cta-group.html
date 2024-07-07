@@ -1,15 +1,28 @@
-{{- $cta := .cta | default false -}}
-{{- $cta_second := .cta_second | default false -}}
+{{- $ctas := .ctas | default false -}}
 {{- $hasGroup := false -}}
-{{- if and (partial "func/HasCTA" $cta) (partial "func/HasCTA" $cta_second) -}}
-  {{- $hasGroup = true -}}
+
+{{- with $ctas -}}
+  {{- if gt . 1 -}}
+    {{- $hasGroup = true -}}
+  {{- end -}}
+{{- else -}}
+  {{/*  Deprecated  */}}
+  {{- $cta := .cta | default false -}}
+  {{- $cta_second := .cta_second | default false -}}
+  {{- $ctas = slice (dict "cta" $cta "cta" $cta_second) -}}
+  {{- if and (partial "func/HasCTA" $cta) (partial "func/HasCTA" $cta_second) -}}
+    {{- $hasGroup = true -}}
+  {{- end -}}
 {{- end -}}
 
-{{- if $hasGroup }}<div class="cta" role="group">{{ end -}}
-  {{- with $cta -}}
-    {{ partial "commons/cta.html" . }}
+{{- if $hasGroup -}}
+  <div class="cta" role="group">
+{{- end -}}
+{{- with $ctas -}}
+  {{- range . -}}
+    {{ partial "commons/cta.html" .cta }}
   {{- end -}}
-  {{- with $cta_second -}}
-    {{ partial "commons/cta.html" . }}
-  {{- end -}}
-{{- if $hasGroup }}</div>{{ end -}}
+{{- end -}}
+{{- if $hasGroup -}}
+  </div>
+{{- end -}}

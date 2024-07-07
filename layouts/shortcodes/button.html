@@ -1,6 +1,7 @@
-{{ $text := .Get "text" }}
-{{ $url := .Get "url" }}
-{{ $blank := .Get "blank" }}
-{{ $class := .Get "class" | default "btn-primary" }}
-{{ $cta := dict "text" $text "url" $url "blank" $blank "class" $class }}
+{{- $text := .Get "text" -}}
+{{- $url := .Get "url" -}}
+{{- $blank := .Get "blank" }}
+{{- $class := .Get "class" | default "btn-primary" -}}
+{{- $hreflang := .Get "hreflang" | default false -}}
+{{- $cta := dict "text" $text "url" $url "blank" $blank "class" $class "hreflang" $hreflang -}}
 {{ partial "commons/cta.html" $cta }}

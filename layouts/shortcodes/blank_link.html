@@ -1,4 +1,5 @@
-{{ $link := .Get "link" }}
-{{ $text := .Get "text" }}
-{{ $title := i18n "link.blank_aria" (dict "Title" $text) }}
-<a href="{{ $link }}" target="_blank" rel="noreferrer noopener" title="{{ safeHTML $title }}">{{ $text }}</a>
+{{- $link := .Get "link" -}}
+{{- $text := .Get "text" -}}
+{{- $title := i18n "link.blank_aria" (dict "Title" $text) -}}
+{{- $hreflang := .Get "hreflang" | default false -}}
+<a href="{{ $link }}" target="_blank" rel="noreferrer noopener" title="{{ safeHTML $title }}" {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}>{{ $text }}</a>

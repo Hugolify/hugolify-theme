@@ -18,9 +18,12 @@
       "blockId" $index
     ) }}
 
-    {{ with .cta }}
-      {{ partial "commons/cta.html" . }}
-    {{ end }}
+    {{- with .ctas }}
+      {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+    {{- else -}}
+      {{/*  Deprecated  */}}
+      {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
+    {{ end -}}
 
     {{ if ne .grid "full" }}
       </div>
