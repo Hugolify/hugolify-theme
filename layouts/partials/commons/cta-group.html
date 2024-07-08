@@ -9,7 +9,7 @@
   {{/*  Deprecated  */}}
   {{- $cta := .cta | default false -}}
   {{- $cta_second := .cta_second | default false -}}
-  {{- $ctas = slice (dict "cta" $cta "cta" $cta_second) -}}
+  {{- $ctas = slice $cta $cta_second -}}
   {{- if and (partial "func/HasCTA" $cta) (partial "func/HasCTA" $cta_second) -}}
     {{- $hasGroup = true -}}
   {{- end -}}
@@ -20,7 +20,7 @@
 {{- end -}}
 {{- with $ctas -}}
   {{- range . -}}
-    {{ partial "commons/cta.html" .cta }}
+    {{ partial "commons/cta.html" . }}
   {{- end -}}
 {{- end -}}
 {{- if $hasGroup -}}
