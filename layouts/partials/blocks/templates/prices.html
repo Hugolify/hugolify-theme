@@ -12,9 +12,12 @@
     <div class="items items-{{ $column }}">
       {{ range . }}
         <div>
-          <div class="item">
+          <div class="item {{- with .is_primary }} item-primary{{ end }}">
 
             <header>
+              {{- with .badge }}
+                <span class="badge">{{ partial "func/PrepareHTML" . }}</span>
+              {{ end -}}
               {{- with .title }}
                 {{- printf "<%s>" $tag | safeHTML -}}
                   {{ partial "func/PrepareHTML" . }}
@@ -34,23 +37,23 @@
             {{- with .arguments }}
             <div class="content">
               <ul>
-              {{ range . }}
+              {{- range . }}
                 <li>
                   {{- with .icon -}}
                     <i class="icon icon-{{ . }}"></i>
                   {{ end -}}
                   {{ partial "func/PrepareHTML" .text -}}
                 </li>
-              {{ end }}
+              {{ end -}}
               </ul>
             </div>
             {{ end -}}
 
-            <footer>
-              {{ with .cta }}
-                {{ partial "commons/cta.html" . }}
-              {{ end }}
-            </footer>
+            {{- with .cta }}
+              <footer>
+                {{- partial "commons/cta.html" . -}}
+              </footer>
+            {{ end -}}
 
           </div>
         </div>
