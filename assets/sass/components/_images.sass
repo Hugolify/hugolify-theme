@@ -5,16 +5,13 @@
       justify-content: space-between
       .half
           width: calc(50% - (#{$grid-gutter-width} / 2))
-      figure.half:nth-last-child(2)
-        margin-bottom: 0
+      figure
+        margin-bottom: $grid-gutter-width
+        &:last-child,
+        &.half:nth-last-child(2)
+          margin-bottom: 0
     picture
       display: block
-    figure,
-    picture
-      margin-bottom: $grid-gutter-width
-    figure picture,
-    figure:last-child
-      margin-bottom: 0
     img
         max-width: 100%
         height: auto
