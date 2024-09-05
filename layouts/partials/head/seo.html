@@ -2,28 +2,34 @@
 {{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
 
 {{/*  TITLE  */}}
-{{- $seoTitle := chomp (htmlUnescape site.Title) -}}
-{{- with .Site.Data.seo.title -}}
-  {{- $seoTitle = chomp (htmlUnescape .) -}}
-{{- end -}}
+{{- $seoTitle := partial "func/PrepareHTML" site.Title -}}
 {{- if .Site.IsMultiLingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
-    {{- $seoTitle = partial "func/PrepareHTML" .title -}}
+    {{- with .title -}}
+      {{- $seoTitle = partial "func/PrepareHTML" . -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .Site.Data.seo.title -}}
+    {{- $seoTitle = partial "func/PrepareHTML" . -}}
   {{- end -}}
 {{- end -}}
 {{- if .Title -}}
   {{- $title := partial "func/GetRealTitle" . -}}
-  {{- $seoTitle = printf "%s | %s" (chomp (htmlUnescape $title)) $seoTitle -}}
+  {{- $seoTitle = printf "%s | %s" (partial "func/PrepareHTML" $title) $seoTitle -}}
 {{- end -}}
 
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
-{{- with .Site.Data.seo.description -}}
-  {{- $seoDescription = partial "func/PrepareHTML" . -}}
-{{- end -}}
 {{- if .Site.IsMultiLingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
-    {{- $seoDescription = partial "func/PrepareHTML" .description -}}
+    {{- with .description -}}
+      {{- $seoDescription = partial "func/PrepareHTML" . -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .Site.Data.seo.description -}}
+    {{- $seoDescription = partial "func/PrepareHTML" . -}}
   {{- end -}}
 {{- end -}}
 {{- with .Description -}}
