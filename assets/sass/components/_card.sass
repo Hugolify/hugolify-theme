@@ -8,7 +8,19 @@
         img
             @extend .card-img-top
             height: 100%
-            object-fit: contain
+            object-fit: cover
+        &-logo
+            picture
+                align-items: center
+                display: flex
+                justify-content: center
+            img
+                max-height: 70%
+                max-width: 60%
+                object-fit: contain
+        &-icon
+            > .icon
+                position: static
     .content
         @extend .card-body
     .name
@@ -17,11 +29,13 @@
         font-family: $headings-font-family
         font-weight: $headings-font-weight
         line-height: $headings-line-height
-        text-decoration-color: transparent
-        text-decoration-line: underline
-        text-decoration-thickness: 1px
-        text-underline-offset: 3px
-        transition: text-decoration-color .2s ease
+    a 
+        .name
+            text-decoration-color: transparent
+            text-decoration-line: underline
+            text-decoration-thickness: 1px
+            text-underline-offset: 3px
+            transition: text-decoration-color .2s ease
     p
         @extend .card-text
     time
