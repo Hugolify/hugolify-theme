@@ -1,4 +1,4 @@
-.block-prices
+.block-comparison
     .items
         @include make-row()
         --bs-gutter-y: #{$grid-gutter-width}
@@ -34,9 +34,9 @@
             margin-top: auto
         
         &-primary
-            --bs-card-bg: #{$gray-200}
+            --bs-card-bg: #{darken($gray-100, 2)}
 
-    .badge
+    header > .badge
         background-color: $primary
         float: right
     

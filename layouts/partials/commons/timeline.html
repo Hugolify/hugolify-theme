@@ -2,8 +2,8 @@
   {{ range . }}
     <li>
       <article class="step">
-        {{ with .date }}
-          <p class="date">{{ partial "func/PrepareHTML" . }}</p>
+        {{ with .surtitle }}
+          <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
         {{ end }}
         {{ with .title }}
           <p class="title">{{ partial "func/PrepareHTML" . }}</p>

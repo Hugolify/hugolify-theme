@@ -22,11 +22,10 @@
             position: absolute
             width: .75rem
         &:not(:last-child)
-            @include margin-bottom($spacer)
+            @include margin-bottom($spacer * 2)
     p
         margin-bottom: 0
-    .date
-        @include minititle
+    .surtitle
         color: $secondary
     .title
         @include font-size($h3-font-size)
