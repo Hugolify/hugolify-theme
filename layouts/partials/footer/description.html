@@ -2,7 +2,7 @@
 {{- with .Site.Data.seo.description -}}
   {{ $description = . }}
 {{- end -}}
-{{- if .Site.IsMultiLingual -}}
+{{- if hugo.IsMultilingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
     {{ $description = .description }}
   {{- end -}}

@@ -1,4 +1,4 @@
-{{- $IsMultiLingual := .Site.IsMultiLingual -}}
+{{- $IsMultiLingual := hugo.IsMultilingual -}}
 {{- $Lang := .Site.Language.Lang -}}
 {{- with .Site.Data.banner -}}
   {{- $state := false -}}

@@ -3,7 +3,7 @@
 
 {{/*  TITLE  */}}
 {{- $seoTitle := partial "func/PrepareHTML" site.Title -}}
-{{- if .Site.IsMultiLingual -}}
+{{- if hugo.IsMultilingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
     {{- with .title -}}
       {{- $seoTitle = partial "func/PrepareHTML" . -}}
@@ -21,7 +21,7 @@
 
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
-{{- if .Site.IsMultiLingual -}}
+{{- if hugo.IsMultilingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
     {{- with .description -}}
       {{- $seoDescription = partial "func/PrepareHTML" . -}}
