@@ -1,8 +1,18 @@
-{{- with .Site.Data.footer -}}
+{{- $datas := .Site.Data.footer -}}
+{{- if hugo.IsMultilingual -}}
+  {{- with index $datas .Site.Language.Lang -}}
+    {{- $datas = . -}}
+  {{- end -}}
+{{- end -}}
+{{- with $datas -}}
   {{- if or .title .text -}}
     <div class="information">
-      <p class="footer-title">{{- partial "func/PrepareHTML" .title -}}</p>
-      <p>{{- partial "func/LineBreak" (partial "func/PrepareHTML" .text) -}}</p>
+      {{- with .title -}}
+      <p class="footer-title">{{- partial "func/PrepareHTML" . -}}</p>
+      {{- end -}}
+      {{- with .text -}}
+      <p>{{- partial "func/LineBreak" (partial "func/PrepareHTML" .) -}}</p>
+      {{- end -}}
       {{- partial "commons/cta" .cta -}}
     </div>
   {{- end -}}
