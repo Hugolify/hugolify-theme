@@ -2,7 +2,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "headline": {{ .Title }},
+    "headline": {{ partial "func/PrepareData" .Title }},
     
   {{- with .Params.image }}
     "image": {{ .src | absURL }},
@@ -13,11 +13,11 @@
   {{- end -}}
 
   {{- with .Params.description }}
-    "abstract": {{ . | plainify | safeHTML }},
+    "abstract": {{ partial "func/PrepareData" . }},
   {{- end -}}
 
   {{ with .Content }}
-    "description": {{ . | plainify | safeHTML }},
+    "description": {{ partial "func/PrepareData" . }},
   {{- end -}}
   }
 </script>

@@ -2,21 +2,28 @@
 {{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
 
 {{/*  TITLE  */}}
-{{- $seoTitle := partial "func/PrepareHTML" site.Title -}}
+{{- $seoTitle := site.Title -}}
 {{- if hugo.IsMultilingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
     {{- with .title -}}
-      {{- $seoTitle = partial "func/PrepareHTML" . -}}
+      {{- $seoTitle = . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- with .Site.Data.seo.title -}}
-    {{- $seoTitle = partial "func/PrepareHTML" . -}}
+    {{- $seoTitle = . -}}
+  {{- else -}}
+    {{- with index .Site.Data.seo .Site.Language.Lang -}}
+      {{- with .title -}}
+        {{- $seoTitle = . -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
+{{- $seoTitle = partial "func/PrepareData" . -}}
 {{- if .Title -}}
-  {{- $title := partial "func/GetRealTitle" . -}}
-  {{- $seoTitle = printf "%s | %s" (partial "func/PrepareHTML" $title) $seoTitle -}}
+  {{- $title := partial "func/PrepareData" (partial "func/GetRealTitle" .) -}}
+  {{- $seoTitle = printf "%s | %s" $title $seoTitle -}}
 {{- end -}}
 
 {{/*  DESCRIPTION  */}}
@@ -24,22 +31,23 @@
 {{- if hugo.IsMultilingual -}}
   {{- with index .Site.Data.seo .Site.Language.Lang -}}
     {{- with .description -}}
-      {{- $seoDescription = partial "func/PrepareHTML" . -}}
+      {{- $seoDescription = . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- with .Site.Data.seo.description -}}
-    {{- $seoDescription = partial "func/PrepareHTML" . -}}
+    {{- $seoDescription = . -}}
   {{- end -}}
 {{- end -}}
 {{- with .Description -}}
-  {{- $seoDescription = partial "func/PrepareHTML" . -}}
+  {{- $seoDescription = . -}}
 {{- end -}}
 {{- with .Params.seo -}}
   {{- with .description -}}
-    {{- $seoDescription = partial "func/PrepareHTML" . -}}
+    {{- $seoDescription = . -}}
   {{- end -}}
 {{- end -}}
+{{- $seoDescription = partial "func/PrepareData" $seoDescription -}}
 
 {{/*  IMAGE  */}}
 {{- $seoImage := "" -}}
@@ -85,4 +93,3 @@
 {{- $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate -}}
 {{ partial "head/opengraph.html" $seo }}
 {{ partial "head/twitter.html" $seo }}
-
