@@ -20,7 +20,7 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- $seoTitle = partial "func/PrepareData" . -}}
+{{- $seoTitle = partial "func/PrepareData" $seoTitle -}}
 {{- if .Title -}}
   {{- $title := partial "func/PrepareData" (partial "func/GetRealTitle" .) -}}
   {{- $seoTitle = printf "%s | %s" $title $seoTitle -}}
