@@ -8,7 +8,10 @@
     {{ range .links }}
       {{- $hasChildren := false -}}
       {{- if .links}}{{ $hasChildren = true }}{{ end -}}
-      <li {{- if $hasChildren }} class="dropdown"{{ end }}>
+      {{- $hasClass := slice -}}
+      {{- if $hasChildren }}{{ $hasClass = $hasClass | append "dropdown" }}{{ end -}}
+      {{- if .is_highlighted }}{{ $hasClass = $hasClass | append "nav-item-highlighted" }}{{ end -}}
+      <li {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end }}>
         {{- partial "nav/link" (dict "link" . "currentPage" $currentPage) -}}
         {{- if $hasChildren }}
           <button class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
