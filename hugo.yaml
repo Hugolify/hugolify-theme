@@ -45,7 +45,6 @@ params:
     desktop: '416x'
     mobile: '300x'
   image:
-    filter: Box
     xlarge: '1600x'
     xsmall: '50x50'
     desktop: '856x'

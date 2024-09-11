@@ -6,7 +6,12 @@
 {{- $itemprop := .itemprop | default false -}}
 
 {{/* Image Params  */}}
+{{- $is_desktop_retina := site.Params.image.retina.desktop | default false -}}
 {{- $desktop_size := .desktop | default false -}}
+{{- $desktop_size_2x := false -}}
+{{- if and $desktop_size $is_desktop_retina -}}
+  {{- $desktop_size_2x = partial "func/GetMultiplyImage" (dict "size" $desktop_size) -}}
+{{- end -}}
 {{- $mobile_size := .mobile | default false -}}
 {{- $mobile_size_2x := false -}}
 {{- $mobile_size_3x := false -}}
@@ -14,7 +19,7 @@
   {{- $mobile_size_2x = partial "func/GetMultiplyImage" (dict "size" $mobile_size) -}}
   {{- $mobile_size_3x = partial "func/GetMultiplyImage" (dict "size" $mobile_size "multiply" 3) -}}
 {{- end -}}
-{{- $crop := .crop | default "Center" -}}
+{{- $crop := .crop | default site.Params.image.crop -}}
 {{- $file := .src -}}
 {{- $file_mobile := .src_mobile | default $file -}}
 {{- if .static -}}
@@ -23,8 +28,10 @@
     {{- $file_mobile = delimit (slice "/static" .src_mobile) "" -}}
   {{- end -}}
 {{- end -}}
-{{- $filter := site.Params.image.filter | default "Box" -}}
-{{- if or .screenshot .linear -}}
+{{- $hint := .hint | default false -}}
+{{- $filter := .filter | default false -}}
+{{- if .screenshot -}}
+  {{- $hint = "picture" -}}
   {{- $filter = "Linear" -}}
 {{- end -}}
 
@@ -33,11 +40,13 @@
     "file" $file 
     "file_mobile" $file_mobile 
     "desktop_size" $desktop_size 
+    "desktop_size_2x" $desktop_size_2x
     "mobile_size" $mobile_size 
     "mobile_size_2x" $mobile_size_2x 
     "mobile_size_3x" $mobile_size_3x 
     "crop" $crop 
     "filter" $filter
+    "hint" $hint
 }}
 {{- $imageParams := false -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
@@ -52,7 +61,7 @@
 {{- with $params }}
   <picture {{- with $picture_class }} class="{{ . }}"{{ end }}>
     {{- if .image_desktop_webp }}
-      <source srcset="{{ .image_desktop_webp }}" type="image/webp"{{ if .image_mobile}} media="(min-width: 577px)"{{ end }}>
+      <source srcset="{{ .image_desktop_webp }} {{- if $is_desktop_retina }}, {{ .image_desktop_webp_2x }} 2x {{- end }}" type="image/webp"{{ if .image_mobile}} media="(min-width: 577px)"{{ end }}>
     {{- end -}}
     {{ if .image_mobile }}
       {{- if .image_mobile_webp }}
