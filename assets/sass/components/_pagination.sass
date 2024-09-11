@@ -38,7 +38,9 @@
     --bs-pagination-bg: transparent
     --bs-pagination-border-radius: 0
     --bs-pagination-hover-bg: transparent
+    --bs-pagination-hover-color: #{$pagination-color}
     --bs-pagination-focus-bg: transparent
+    --bs-pagination-focus-color: #{$pagination-color}
     @extend .pagination
     @include margin-top($global-spacing)
     @include padding-top($global-spacing)
@@ -54,6 +56,7 @@
     a
         border-width: 0
         &:hover
+            text-decoration-color: inherit
             text-decoration-line: underline 
     .previous::before,
     .next::after
