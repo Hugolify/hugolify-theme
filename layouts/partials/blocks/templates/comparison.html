@@ -12,7 +12,7 @@
     <div class="items items-{{ $column }}">
       {{- range . }}
         <div>
-          <div class="item {{- with .is_primary }} item-primary{{ end }}">
+          <div class="item {{- with .is_highlighted }} item-highlighted{{ end }}">
 
             <header>
               {{- with .badge }}
