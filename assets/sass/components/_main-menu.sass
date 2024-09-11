@@ -29,11 +29,22 @@
             @include media-breakpoint-up(lg)
                 margin-right: - $nav-link-padding-x
     .nav-primary
+        align-items: baseline
         margin-left: auto
     .nav-link
         --bs-nav-link-color: #{$header-color}
         &:hover
             --bs-nav-link-hover-color: #{$header-color}
+    .dropdown > span
+        --bs-nav-link-color: #{$header-color}
     .dropdown-toggle
         &::after
             border-top-color: $header-color
+    .nav-item-highlighted
+        a
+            --bs-btn-padding-y: #{$nav-link-padding-y}
+            @extend .btn
+            @extend .btn-primary
+            margin-left: $nav-link-padding-x
+        @include media-breakpoint-down(md)
+            margin-top: $nav-link-padding-y
