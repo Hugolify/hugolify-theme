@@ -16,18 +16,7 @@
         @extend .offcanvas-body
         @include media-breakpoint-up(lg)
             align-items: baseline
-    .nav
-        @include media-breakpoint-down(lg)
-            align-items: center
-            flex-direction: column
-            text-align: center
-            li
-                font-size: px2rem(20)
-            ul li
-                font-size: px2rem(16)
-        &:last-child
-            @include media-breakpoint-up(lg)
-                margin-right: - $nav-link-padding-x
+   
     .nav-primary
         align-items: baseline
         margin-left: auto
@@ -46,5 +35,23 @@
             @extend .btn
             @extend .btn-primary
             margin-left: $nav-link-padding-x
+            margin-right: $nav-link-padding-x
         @include media-breakpoint-down(md)
             margin-top: $nav-link-padding-y
+
+
+    @include media-breakpoint-down(lg)
+        .nav
+            align-items: center
+            flex-direction: column
+            text-align: center
+            li
+                font-size: px2rem(20)
+            ul li
+                font-size: px2rem(16)
+        .nav + .nav
+            margin-top: $spacer
+
+    @include media-breakpoint-up(lg)
+        .nav:last-child
+            margin-right: - $nav-link-padding-x
