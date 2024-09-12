@@ -25,21 +25,22 @@
               {{ end }}
             </div>
 
-            {{- $class := "none" -}}
+            {{- $class := false -}}
             {{- if .icon -}}
               {{- $class = "icon" -}}
             {{- else if .image.isLogo -}}
               {{- $class = "logo" -}}
             {{- else if .image.src -}}
               {{- $class = "image" -}}
-            {{- end }}
+            {{- end -}}
 
+            {{- if $class -}}
             <div class="media media-{{ $class }}">
               {{- with .icon -}}
                 <i class="icon icon-{{ . }}"></i>
               {{- else -}}
 
-                {{ with .image }}
+                {{- with .image }}
                   {{- $columnTotal := site.Params.column | default false -}}
                   {{- $desktop := site.Params.container.desktop | default false -}}
                   {{- $mobile := site.Params.image.scrollsnap | default false -}}
@@ -53,10 +54,11 @@
                     "desktop" $desktop
                     "mobile" $mobile
                     ) }}
-                {{ end }}
+                {{ end -}}
 
               {{- end -}}
             </div>
+            {{- end -}}
 
           </div>
         </div>
