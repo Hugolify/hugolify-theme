@@ -39,6 +39,9 @@
       {{ if .card }}
         <div>
       {{ end }}
+      {{- with .surtitle }}
+        <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+      {{ end -}}
       {{- with .title }}
         {{- printf "<%s>" $tag | safeHTML -}}
           {{ partial "func/PrepareHTML" . }}
