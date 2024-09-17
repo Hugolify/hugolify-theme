@@ -7,25 +7,23 @@
     {{- $text = . -}}
   {{- end -}}
   {{- with .state -}}
-    {{ $state = . }}
+    {{- $state = . -}}
   {{- end -}}
   {{- if $IsMultiLingual -}}
     {{- with index . $Lang -}}
       {{- with .text -}}
-        {{ $text = . }}
+        {{- $text = . -}}
       {{- end -}}
       {{- with .state -}}
-        {{ $state = . }}
+        {{- $state = . -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
 
-  {{- if $text }}
-    <div class="banner{{ with $state }} banner-{{ . }}{{ end }}" role="alert">
+  {{- with $text }}
+    <div class="banner {{- with $state }} banner-{{ . }}{{ end }}" role="alert">
       <div class="container">
-        {{- with $text }}
-          <p>{{ . | markdownify }}</p>
-        {{- end }}
+          <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
       </div>
     </div>
   {{ end -}}
