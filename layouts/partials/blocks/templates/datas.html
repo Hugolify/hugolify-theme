@@ -1,20 +1,20 @@
-<section class="block-datas{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-datas {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
-    {{ partial "blocks/heading.html" . }}
+    {{- partial "blocks/heading.html" . -}}
 
-    {{ $show_color := .show_color | default false }}
-    {{ $show_gauge := .show_gauge | default false }}
-    {{ $column := 3 }}
-    {{ with .column }}
-      {{ $column = . }}
-    {{ end }}
-    {{ with .items }}
-    <ul class="items items-{{ $column }}">
-      {{ range . }}
+    {{- $show_color := .show_color | default false -}}
+    {{- $show_gauge := .show_gauge | default false -}}
+    {{- $column := 3 -}}
+    {{- with .column -}}
+      {{- $column = . -}}
+    {{- end -}}
+    {{- with .items }}
+      <ul class="items items-{{ $column }}">
+      {{- range . }}
         <li>
           {{ if $show_gauge }}
-            {{ $stat := . }}
+            {{- $stat := . -}}
             {{ with .value }}
               {{ partial "commons/gauge.html" (dict 
                 "value" . 
@@ -33,10 +33,9 @@
             <p>{{ partial "func/PrepareHTML" . }}</p>
           {{ end }}
         </li>
-      {{ end }}
+      {{ end -}}
       </ul>
-    {{ end }}
-
+    {{ end -}}
 
   </div>
 </section>
