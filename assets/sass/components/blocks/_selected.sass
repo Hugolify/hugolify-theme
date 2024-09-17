@@ -2,6 +2,44 @@
     .items > div
         @include scroll-snap
         justify-content: center
+
+    &-list
+        @include media-breakpoint-up(md)
+            .container
+                display: grid
+                gap: $grid-gutter-width
+                grid-template-columns: 1fr 1fr
+            .heading
+                align-items: flex-start
+                margin-bottom: 0
+                margin-left: 0
+                max-width: none
+                text-align: left
+            .items
+                margin-top: 3rem
+            .bottom
+                grid-column: 1 / 3
+        .items
+            list-style-type: none
+            margin-bottom: 0
+            padding-left: 0
+            li
+                margin-bottom: .5rem
+                margin-top: .5rem
+                @if variable-exists(icons-map)
+                    a
+                        &::before
+                            @include icon("arrow-right-short")
+                            font-size: 1.4rem
+                            margin-right: .5rem
+                            vertical-align: -0.35rem
+                        @media (prefers-reduced-motion: no-preference)
+                            &:hover
+                                &::before
+                                    transform: translateX(.3rem)
+                            &::before
+                                transition: transform $transition-duration $transition-effect
+        
     .bottom
         @include margin-top($global-spacing)
         .btn

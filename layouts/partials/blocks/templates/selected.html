@@ -1,51 +1,25 @@
 {{- $section := .section -}}
+{{- $layout := .layout | default "grid" -}}
 {{- $atf := cond .first true false -}}
 {{- if $section }}
-<section class="block-selected block-selected-{{ $section }}{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-selected block-selected-{{ $layout }} block-selected-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
-    {{ partial "blocks/heading" . }}
+    {{- partial "blocks/heading" . -}}
 
-    {{ with .items }}
-      {{- $items := slice -}}
-      {{ range . }}
-        {{- $filename := . -}}
-        {{- $path := printf "%s/%s" $section $filename -}}
-        {{- $item := site.GetPage $path -}}
-        {{- if not $item -}}
-          {{- $pages := site.RegularPages -}}
-          {{- if ne $section "pages" -}}
-            {{- $pages = where site.RegularPages "Section" $section -}}
-          {{- else -}}
-            {{- $pages = where site.Pages "Params.isPage" true -}}
-          {{- end -}}
-          {{- $item = where $pages "Params.title" "==" . -}}
-        {{- end -}}
-        {{- with $item -}}
-          {{- $items = $items | append . -}}
-        {{- end -}}
-      {{ end }}
-      
+    {{- with .items }}
+      {{- $items := partial "blocks/templates/selected/GetItems" (dict "section" $section "items" .) -}}
       {{- if gt $items 0 }}
-        {{- $partial := printf "%s/items.html" $section -}}
-        {{- if templates.Exists (printf "partials/%s" $partial) }}
-          <div class="items">
-            {{ partial $partial (dict "pages" $items "scrollsnap" true "abovethefold" $atf) }}
-          </div>
+        {{- if eq $layout "list" }}
+          {{ partial "blocks/templates/selected/list.html" $items }}
+        {{ else }}
+          {{ partial "blocks/templates/selected/grid.html" (dict "section" $section "items" $items "atf" $atf) }}
         {{ end -}}
       {{ end -}}
-    {{ end }}
+    {{ end -}}
+    
+    {{- partial "blocks/templates/selected/more" (dict "section" $section "show_more" .show_more) -}}
 
-    {{ $show_button := .show_more | default true }}
-    {{ if $show_button }}
-      {{ $index := site.GetPage (printf "/%s" $section) }}
-      {{ with $index }}
-        <div class="bottom">
-          {{ $i18n := printf "%s.more" $section }}
-          <a href="{{ .Permalink }}" class="btn">{{ i18n $i18n }}</a>
-        </div>
-      {{ end }}
-    {{ end }}
   </div>
 </section>
 {{ end -}}

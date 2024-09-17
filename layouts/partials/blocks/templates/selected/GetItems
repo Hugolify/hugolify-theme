@@ -1,0 +1,20 @@
+{{- $section := .section -}}
+{{- $items := slice -}}
+{{- range .items }}
+  {{- $filename := . -}}
+  {{- $path := printf "%s/%s" $section $filename -}}
+  {{- $item := site.GetPage $path -}}
+  {{- if not $item -}}
+    {{- $pages := site.RegularPages -}}
+    {{- if ne $section "pages" -}}
+      {{- $pages = where site.RegularPages "Section" $section -}}
+    {{- else -}}
+      {{- $pages = where site.Pages "Params.isPage" true -}}
+    {{- end -}}
+    {{- $item = where $pages "Params.title" "==" . -}}
+  {{- end -}}
+  {{- with $item -}}
+    {{- $items = $items | append . -}}
+  {{- end -}}
+{{ end }}
+{{ return $items }}
