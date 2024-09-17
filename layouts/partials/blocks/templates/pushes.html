@@ -1,13 +1,13 @@
-{{- $layout := .layout | default false -}}
+{{- $layout := .layout | default "grid" -}}
 {{- $column := .column | default 1 -}}
 {{- $tag := cond (ne .title "") "h3" "h2" -}}
 {{- $params := index (slice (dict "tag" $tag "column" $column)) 0 -}}
-{{ if .items }}
-  <section class="block-pushes{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-    {{ if eq $layout "carousel" }}
+{{- if .items }}
+  <section class="block-pushes block-pushes-{{ $layout }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+    {{- if eq $layout "carousel" }}
       {{ partial "blocks/templates/pushes/carousel.html" (dict "context" . "params" $params) }}
     {{ else }}
       {{ partial "blocks/templates/pushes/grid.html" (dict "context" . "params" $params) }}
-    {{ end }}
+    {{ end -}}
   </section>
-{{ end }}
+{{ end -}}
