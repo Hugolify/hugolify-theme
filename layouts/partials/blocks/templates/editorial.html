@@ -1,15 +1,14 @@
-{{ $index := .index}}
-{{ $lazy := partial "func/isLazyImage" (dict "first" .first) }}
-
+{{- $index := .index -}}
+{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 <section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     <div class="row">
 
       <div class="content">
-        {{ partial "blocks/content-with-notes.html" (dict 
+        {{- partial "blocks/content-with-notes.html" (dict 
           "context" .
           "blockId" $index 
-        ) }}
+        ) -}}
 
         {{- with .ctas }}
           {{ partial "commons/cta-group.html" (dict "ctas" .) }}
@@ -19,19 +18,14 @@
         {{ end -}}
       </div>
 
-      {{ with .image}}
+      {{- with .image}}
         {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
         {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
+        {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
         <div class="media">
-          {{ partial "commons/image.html" (dict
-              "src" .src
-              "alt" .alt
-              "desktop" $desktop
-              "mobile" $mobile
-              "lazy" $lazy 
-            ) }}
+          {{- partial "commons/figure" $figure -}}
         </div>
-      {{ end }}
+      {{ end -}}
 
     </div>
   </div>
