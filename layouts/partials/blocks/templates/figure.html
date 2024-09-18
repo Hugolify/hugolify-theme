@@ -18,7 +18,7 @@
 {{- end -}}
 
 {{- if .figure -}}
-{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile) -}}
+{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
 <section class="block-figure {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
