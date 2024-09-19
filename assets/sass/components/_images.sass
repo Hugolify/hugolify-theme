@@ -1,17 +1,20 @@
 .images
     @include media-breakpoint-up(md)
-      display: flex
-      flex-wrap: wrap
-      justify-content: space-between
-      .half
-          width: calc(50% - (#{$grid-gutter-width} / 2))
-      figure
-        margin-bottom: $grid-gutter-width
-        &:last-child,
-        &.half:nth-last-child(2)
-          margin-bottom: 0
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+        .half
+            width: calc(50% - (#{$grid-gutter-width} / 2))
+        figure
+            margin-bottom: $grid-gutter-width
+            &:last-child,
+            &.half:nth-last-child(2)
+                margin-bottom: 0
+    .screenshot
+        margin-bottom: 0
+        margin-top: 0
     picture
-      display: block
+        display: block
     img
         max-width: 100%
         height: auto
