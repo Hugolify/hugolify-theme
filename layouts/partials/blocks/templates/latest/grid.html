@@ -1,0 +1,6 @@
+{{- $partial := printf "%s/items.html" .section -}}
+{{- if templates.Exists (printf "partials/%s" $partial) }}
+  <div class="items">
+    {{ partial $partial (dict "pages" .items "scrollsnap" true "abovethefold" .atf) }}
+  </div>
+{{ end -}}

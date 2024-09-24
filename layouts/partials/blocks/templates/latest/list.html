@@ -1,0 +1,9 @@
+{{ if . }}
+  <ol class="items">
+    {{ range . }}
+      <li>
+        <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+      </li>
+    {{ end }}
+  </ol>
+{{ end }}

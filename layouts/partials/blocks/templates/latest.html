@@ -1,36 +1,31 @@
 {{- $section := .section -}}
+{{- $layout := .layout | default "grid" -}}
 {{- $atf := false -}}
 {{- if .first -}}
   {{- $atf = true -}}
 {{- end -}}
+{{- $count := 3 -}}
+{{- with .count -}}
+  {{- $count = . -}}
+{{- end -}}
+{{- $items := first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) -}}
 
-{{- if $section }}
-<section class="block-latest block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+{{- if $items }}
+<section class="block-latest block-latest-{{ $layout }} block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{ partial "blocks/heading" . }}
 
-    {{- $count := 3 -}}
-    {{- with .count -}}
-      {{- $count = . -}}
-    {{- end -}}
-    {{- with first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) }}
-      {{- $partial := printf "%s/items" $section -}}
-      <div class="items">
-        {{ partial $partial (dict "pages" . "scrollsnap" true "abovethefold" $atf) }}
-      </div>
+    {{- with $items }}
+      {{- if eq $layout "list" }}
+        {{ partial "blocks/templates/latest/list.html" . }}
+      {{- else -}}
+        {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" . "atf" $atf) }}
+      {{ end -}}
     {{ end -}}
 
-    {{- $show_button := .show_more | default true -}}
-    {{ if $show_button }}
-      {{- $index := site.GetPage (printf "/%s" $section) -}}
-      {{ with $index }}
-        <div class="bottom">
-          {{- $i18n := printf "%s.more" $section -}}
-          <a href="{{ .Permalink }}" class="btn">{{ i18n $i18n }}</a>
-        </div>
-      {{ end }}
-    {{ end }}
+    {{- partial "blocks/templates/selected/more" (dict "section" $section "show_more" .show_more) -}}
+
   </div>
 </section>
 {{ end -}}
