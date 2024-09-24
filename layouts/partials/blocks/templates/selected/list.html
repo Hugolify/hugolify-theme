@@ -2,7 +2,7 @@
   <ol class="items">
     {{ range . }}
       <li>
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
+        <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
       </li>
     {{ end }}
   </ol>
