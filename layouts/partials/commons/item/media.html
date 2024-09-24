@@ -3,11 +3,12 @@
 {{- $mobile := .mobile -}}
 {{- $crop := .crop -}}
 {{- $lazy := true -}}
-{{ if $context.Scratch.Get "notLazy" }}
+{{- if $context.Scratch.Get "notLazy" -}}
   {{- $lazy = false -}}
-{{ end }}
+{{- end -}}
 <div class="media">
-  {{ with $context.Params.image }}
+  {{- with $context.Params.image }}
+    {{- if .src }}
     {{ partial "commons/image.html" (dict
       "src" .src
       "alt" .alt
@@ -17,5 +18,6 @@
       "lazy" $lazy
       "crop" $crop
     ) }}
-  {{ end }}
+    {{ end -}}
+  {{ end -}}
 </div>
