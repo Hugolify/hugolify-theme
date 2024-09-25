@@ -6,7 +6,7 @@
 ) -}}
 {{- $css := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
 {{ if hugo.IsProduction }}
-  {{- $css = $css | resources.PostCSS | minify | fingerprint | resources.PostProcess -}}
+  {{- $css = $css | css.PostCSS | minify | fingerprint | resources.PostProcess -}}
 {{ end }}
 {{ with $css }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" media="all">
