@@ -1,7 +1,12 @@
 <figure class="quote">
   {{ with .quote}}
     <blockquote>
-      <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+      {{- $text := partial "func/PrepareHTML" . | markdownify -}}
+      {{- if in (string .) "\n" }}
+        {{ $text }}
+      {{- else -}}
+        <p>{{ $text }}</p>
+      {{- end }}
     </blockquote>
   {{ end }}
 
