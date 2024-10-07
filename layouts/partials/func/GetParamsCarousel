@@ -1,7 +1,12 @@
-{{ $params := newScratch }}
-{{ $carousel := . | default false }}
+{{- $params := newScratch -}}
+{{- $carousel := . | default false -}}
+{{- with $carousel -}}
+  {{- with .params -}}
+    {{- $carousel = . -}}
+  {{- end -}}
+{{- end -}}
 
-{{ if $carousel }}
+{{- with $carousel }}
   {{ if isset . "type" }}
     {{ $params.Set "type" .type }} 
   {{ end }}
@@ -32,6 +37,6 @@
   {{ if isset . "perMove" }}
     {{ $params.Set "perMove" .perMove }} 
   {{ end }}
-{{ end }}
+{{ end -}}
 
-{{ return ($params.Values | jsonify) }}
+{{- return ($params.Values | jsonify) -}}

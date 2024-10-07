@@ -5,8 +5,8 @@
   {{ $params := partial "func/GetParamsCarousel" . }}
   {{ $breakpoints := "" }}
   {{ range .responsive }}
-    {{ $breakpoint := .breakpoint }}
-    {{ with .carousel }}
+    {{ $breakpoint := .breakpoints }}
+    {{ with .params }}
       {{- $responsive_params := print  `"` $breakpoint `":` (partial "func/GetParamsCarousel" .) "," -}}
       {{- $breakpoints = print $breakpoints $responsive_params -}}
     {{ end -}}
