@@ -1,23 +1,48 @@
-{{- $context := .context -}}
-{{- $desktop := .desktop -}}
-{{- $mobile := .mobile -}}
-{{- $crop := .crop -}}
-{{- $lazy := true -}}
-{{- if $context.Scratch.Get "notLazy" -}}
-  {{- $lazy = false -}}
+
+{{ $context := . }}
+{{/*  Legacy  */}}
+{{- if reflect.IsMap $context -}}
+  {{- $context = .context -}}
 {{- end -}}
-<div class="media">
-  {{- with $context.Params.image }}
-    {{- if .src }}
-    {{ partial "commons/image.html" (dict
-      "src" .src
-      "alt" .alt
-      "desktop" $desktop
-      "mobile" $mobile
-      "itemprop" "image"
-      "lazy" $lazy
-      "crop" $crop
-    ) }}
+{{/* / Legacy  */}}
+{{- with $context -}}
+  {{- $noop := .Content -}}{{/* https://gohugo.io/troubleshooting/faq/#why-is-my-page-scratch-or-store-missing-a-value */}}
+  
+  {{- $desktop := site.Params.thumbnail.desktop | default false -}}
+  {{- $mobile := site.Params.thumbnail.mobile | default false -}}
+  
+  {{- if .Type -}}
+    {{- $desktop = (index site.Params .Type).thumbnail.desktop | default false -}}
+    {{- $mobile = (index site.Params .Type).thumbnail.mobile | default false -}}
+    {{- if .Scratch.Get "scrollsnap" -}}
+      {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
+    {{- end -}}
+    {{- if .Scratch.Get "large" -}}
+      {{- $desktop = (index site.Params .Type).thumbnail.desktop_large | default site.Params.thumbnail.desktop_large -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $lazy := .Scratch.Get "lazy" | default true -}}
+  
+  <div class="media">
+    {{- with .Params.image }}
+      {{- if .src }}
+      {{ partial "commons/image.html" (dict
+        "src" .src
+        "alt" .alt
+        "desktop" $desktop
+        "mobile" $mobile
+        "itemprop" "image"
+        "lazy" $lazy
+      ) }}
+      {{ end -}}
     {{ end -}}
-  {{ end -}}
-</div>
+  </div>
+
+  {{- .Scratch.Delete "lazy" -}}
+  {{- .Scratch.Delete "scrollsnap" -}}
+  {{- .Scratch.Delete "large" -}}
+{{ end -}}
+
+
+
