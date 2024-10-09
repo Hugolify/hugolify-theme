@@ -58,6 +58,8 @@ params:
   pages:
     thumbnail:
       desktop: '414x177'
+      desktop: '416x179'
+      desktop_large: '636x273'
       mobile: '300x129'
       scrollsnap: '240x103'
     image:
