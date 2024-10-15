@@ -1,0 +1,4 @@
+{{ $text := .Get "text" }}
+{{ $state := .Get "state" }}
+{{ $badge := dict "text" $text "state" $state }}
+{{ partial "commons/badge.html" $badge }}
