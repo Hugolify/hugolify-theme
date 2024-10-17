@@ -116,6 +116,8 @@ share:
   title: Partager
 to: À
 toc: Table des matières
+token:
+  missing: Access token est manquant
 transcription: Transcription
 units:
   GB: Go

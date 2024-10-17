@@ -1,18 +1,23 @@
-{{ $isFirst := .first }}
-
-<section class="block-instagram{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+{{- $isFirst := .first -}}
+<section class="block-instagram {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}
 
-    {{ if .token }}
-      {{ $limit := .count | default 5 }}
-      <div class="instagram js-instagram" data-limit="{{ $limit }}" data-token="0{{ .token }}"></div>
+    {{- $token := getenv "HUGO_INSTAGRAM" | default false -}}
+    {{- if $token }}
+      {{- $limit := .limit | default 5 -}}
+      <div class="instagram js-instagram" data-limit="{{ $limit }}" data-token="{{ $token }}"></div>
     {{ else }}
-      <p>Access token is missing</p>
-    {{ end }}
+      <p>{{ i18n "token.missing" }}</p>
+    {{ end -}}
 
-    {{ partial "commons/cta.html" .cta }}
+    {{- with .ctas }}
+      {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+    {{- else -}}
+      {{/*  Deprecated  */}}
+      {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
+    {{ end -}}
 
   </div>
 </section>

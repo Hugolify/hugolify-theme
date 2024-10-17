@@ -116,6 +116,8 @@ share:
   title: Share
 to: To
 toc: Table of contents
+token:
+  missing: Access token is missing
 transcription: Transcription
 units:
   GB: GB
