@@ -27,7 +27,9 @@ class Menu {
     });
   }
   initOffcanvas() {
-    this.toggleMenu(this.offcanvas, 'offcanvas', this.classMenuOpen);
+    if (this.offcanvas) {
+      this.toggleMenu(this.offcanvas, 'offcanvas', this.classMenuOpen);
+    }
   }
   initSticky() {
     this.events.forEach((event) => {
