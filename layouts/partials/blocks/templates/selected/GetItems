@@ -2,7 +2,10 @@
 {{- $items := slice -}}
 {{- range .items }}
   {{- $filename := . -}}
-  {{- $path := printf "%s/%s" $section $filename -}}
+  {{- $path := $filename -}}
+  {{- if ne $section "pages" -}}
+  {{- $path = printf "%s/%s" $section $path -}}
+  {{- end -}}
   {{- $item := site.GetPage $path -}}
   {{- if not $item -}}
     {{- $pages := site.RegularPages -}}
