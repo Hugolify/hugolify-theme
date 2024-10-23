@@ -3,7 +3,10 @@
     {{- $isFirst := cond (eq $index 0) true false -}}
     {{- $block = merge $block (dict "first" $isFirst) -}}
     {{- $block = merge $block (dict "index" $index) -}}
-    {{- $template := printf "blocks/templates/%s.html" .type -}}
+    {{- if strings.Contains .type "selected-" -}}
+    {{- $block = merge $block (dict "type" "selected") -}}
+    {{- end -}}
+    {{- $template := printf "blocks/templates/%s.html" $block.type -}}
     {{ partial $template $block }}
   {{- end -}}
 {{- end -}}
