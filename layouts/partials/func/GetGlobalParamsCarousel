@@ -3,15 +3,18 @@
 
 {{ with $carousel }}
   {{ $params := partial "func/GetParamsCarousel" . }}
+  {{ $params_breakpoints := "" }}
   {{ $breakpoints := "" }}
-  {{ range .responsive }}
-    {{ $breakpoint := .breakpoints }}
-    {{ with .params }}
-      {{- $responsive_params := print  `"` $breakpoint `":` (partial "func/GetParamsCarousel" .) "," -}}
-      {{- $breakpoints = print $breakpoints $responsive_params -}}
-    {{ end -}}
+  {{ with .responsive }}
+    {{ range . }}
+      {{ $breakpoint := .breakpoints }}
+      {{ with .params }}
+        {{- $responsive_params := print  `"` $breakpoint `":` (partial "func/GetParamsCarousel" .) "," -}}
+        {{- $breakpoints = print $breakpoints $responsive_params -}}
+      {{ end -}}
+    {{ end }}
+    {{ $params_breakpoints = print `,"breakpoints": {` (strings.TrimRight "," $breakpoints) `}` }}
   {{ end }}
-  {{ $params_breakpoints := print `,"breakpoints": {` (strings.TrimRight "," $breakpoints) `}` }}
   {{ $global_params = print (strings.TrimRight "," (replace $params "}" $params_breakpoints)) "}" }}
 {{ end }}
 
