@@ -2,10 +2,7 @@
 {{- $items := slice -}}
 {{- range .items }}
   {{- $filename := . -}}
-  {{- $path := $filename -}}
-  {{- if ne $section "pages" -}}
-  {{- $path = printf "%s/%s" $section $path -}}
-  {{- end -}}
+  {{- $path := printf "%s/%s" $section $filename -}}
   {{- $item := site.GetPage $path -}}
   {{- if not $item -}}
     {{- $pages := site.RegularPages -}}
@@ -14,7 +11,7 @@
     {{- else -}}
       {{- $pages = where site.Pages "Params.isPage" true -}}
     {{- end -}}
-    {{- $item = where $pages "Params.title" "==" . -}}
+    {{- $item = or (where $pages "Params.title" "==" .) (where $pages "Params.id" "==" .) -}}
   {{- end -}}
   {{- with $item -}}
     {{- $items = $items | append . -}}
