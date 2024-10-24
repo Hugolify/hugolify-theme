@@ -1,0 +1,14 @@
+{{- $title := .title | default "" -}}
+{{- $embed := .embed | default false -}}
+{{- with $embed -}}
+  {{- if not (in . "loading=") -}}
+    {{- $embed = replace . "<iframe " "<iframe loading='lazy'" -}}
+  {{- end -}}
+  {{- if not (in . "title=") -}}
+    {{- $replace := printf "<iframe title='%s'" $title -}}
+    {{- $embed = replace . "<iframe " $replace -}}
+  {{- end -}}
+  <div class="embed">
+    {{- $embed | safeHTML -}}
+  </div>
+{{ end -}}
