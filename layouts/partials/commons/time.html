@@ -2,5 +2,5 @@
 {{- $format := .format | default "2006" -}}
 {{- $itemprop := .itemprop | default "datePublished" -}}
 {{ with $date }}
-  <time datetime="{{ .Format `2006-01-02T15:04:05Z07:00` | safeHTML }}" {{- with $itemprop }} itemprop="{{ . }}"{{ end }}>{{ . | time.Format $format }}</time>
+  <time datetime="{{ (time.Format `2006-01-02T15:04:05Z07:00` .) | safeHTML }}" {{- with $itemprop }} itemprop="{{ . }}"{{ end }}>{{ . | time.Format $format }}</time>
 {{ end }}
