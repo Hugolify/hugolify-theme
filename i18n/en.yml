@@ -114,6 +114,7 @@ reading_time:
 share:
   share_on: Share on {{ .Website }}
   title: Share
+the: The
 to: To
 toc: Table of contents
 token:
@@ -128,6 +129,7 @@ units:
   megabytes: Megabytes
   kilobytes: Kilobytes
   bytes: bytes
+until: Until
 video:
   pause: Pause
   play: Play
