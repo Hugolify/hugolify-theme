@@ -1,6 +1,6 @@
 <div class="content">
   {{ range (where site.Sections ".Params.isPage" "!=" true) }}
-    {{ if ne .Type "sitemap" }}
+    {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
       <div class="sitemap-{{ .Type }}">
         {{- $permalink := .Permalink -}}
         <h2 id="{{ .Type }}">

@@ -15,19 +15,19 @@
       </div>
       <div class="content">
         <ol>
-          {{ range (where site.Sections ".Params.isPage" "!=" true) }}
-            {{ if ne .Type "sitemap" }}
+          {{- range (where site.Sections ".Params.isPage" "!=" true) }}
+            {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
               <li>
                 <a href="#{{ .Type }}">{{ partial "func/PrepareHTML" .Title }}</a>
               </li>
             {{ end }}
-          {{ end }}
-          {{ $pages := where site.Sections ".Params.isPage" true }}
-          {{ if $pages }}
+          {{ end -}}
+          {{- $pages := where site.Sections ".Params.isPage" true -}}
+          {{- if $pages }}
             <li>
               <a href="#pages">{{ i18n "pages.title" ($pages | len) }}</a>
             </li>
-          {{ end }}
+          {{ end -}}
         </ol>
       </div>
     </div>
