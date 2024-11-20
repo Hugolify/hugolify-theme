@@ -67,7 +67,7 @@ params:
       mobile: '360x'
   blocks:
     editorial:
-      desktop: '624x'
+      desktop: '636x'
       mobile: '360x'
     gallery:
       mobile: '138x138'
