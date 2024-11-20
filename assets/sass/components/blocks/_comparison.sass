@@ -36,9 +36,10 @@
         &-highlighted
             --bs-card-bg: #{darken($gray-100, 2)}
 
-    header > .badge
-        background-color: $primary
-        float: right
+        header > .badge
+            --bs-badge-color: $white
+            background-color: $primary
+            float: right
     
     .pricing
         @include font-size($lead-font-size)
