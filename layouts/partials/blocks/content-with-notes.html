@@ -9,7 +9,7 @@
 {{ end }}
 
 {{- with $title }}
-  <h2>{{ partial "func/PrepareHTML" . }}</h2>
+  <h2 id="{{ . | urlize }}">{{ partial "func/PrepareHTML" . }}</h2>
 {{ end }}
 
 {{- with $text }}
