@@ -1,6 +1,12 @@
 .logo
-    font-weight: $font-weight-bold
+    font-family: $headings-font-family
+    font-size: 1rem
+    font-weight: $headings-font-weight
+    text-decoration: none
+    @include media-breakpoint-up(md)
+        font-size: 1.5rem
+
     img
         display: block
-        height: 43px
+        height: 40px
         width: auto
