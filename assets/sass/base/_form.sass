@@ -31,6 +31,14 @@ form
     .help
         @extend .form-text
         margin-bottom: 0
+        a[href^="tel:"]
+            color: inherit !important
+            font-family: inherit !important
+            line-height: inherit !important
+            font-size: inherit !important
+            font-weight: inherit !important
+            pointer-events: none
+            text-decoration: none !important
     
     [type=submit]
         @extend .btn-primary
