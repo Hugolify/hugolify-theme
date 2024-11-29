@@ -1,11 +1,14 @@
 .block-cta
-    .cta
-        align-items: center
-    @include media-breakpoint-up(lg)
-        text-align: center
-        .cta
-            justify-content: center
+    .btn
+        display: block
+        text-wrap: pretty
     .btn:first-of-type
         @extend .btn-primary
     .btn + .btn
         @extend .btn-outline-primary
+
+    @include media-breakpoint-up(lg)
+        text-align: center
+        .cta
+            align-items: center
+            justify-content: center
