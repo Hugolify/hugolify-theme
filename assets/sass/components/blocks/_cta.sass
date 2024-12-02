@@ -1,11 +1,14 @@
 .block-cta
     .btn
-        display: block
         text-wrap: pretty
     .btn:first-of-type
         @extend .btn-primary
     .btn + .btn
         @extend .btn-outline-primary
+
+    @include media-breakpoint-down(md)
+        .btn
+            display: block
 
     @include media-breakpoint-up(lg)
         text-align: center
