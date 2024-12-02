@@ -13,18 +13,6 @@
         margin-bottom: 0
     .btn
         @extend .btn-primary
-        @if variable-exists(icons-map)
-            &::before
-                @include icon("arrow-right-short")
-                font-size: 1.4rem
-                margin-right: .5rem
-                vertical-align: -0.35rem
-            @media (prefers-reduced-motion: no-preference)
-                &:hover
-                    &::before
-                        transform: translateX(.3rem)
-                &::before
-                    transition: transform $transition-duration $transition-effect
     img
         height: auto
         width: 100%
