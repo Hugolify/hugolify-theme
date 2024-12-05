@@ -2,9 +2,9 @@
     .btn
         text-wrap: pretty
     .btn:first-of-type
-        @extend .btn-primary
+        @include button-variant($primary,$primary)
     .btn + .btn
-        @extend .btn-outline-primary
+        @include button-outline-variant($primary)
 
     @include media-breakpoint-down(md)
         .btn

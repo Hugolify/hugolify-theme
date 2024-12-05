@@ -8,7 +8,7 @@ div.press
     .metas
         margin-bottom: $paragraph-margin-bottom
     .btn
-        @extend .btn-primary
+        @include button-variant($primary,$primary)
 
     @include media-breakpoint-between(md, xxl)
         .metas

@@ -14,8 +14,8 @@
         left: 2rem
         right: 2rem
     .btn
-        @extend .btn-secondary
         @extend .btn-sm
+        @include button-variant($secondary,$secondary)
     
     &.show
         display: block

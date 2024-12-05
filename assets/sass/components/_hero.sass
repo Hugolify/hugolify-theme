@@ -20,9 +20,9 @@
     .cta, &-content > .btn
         margin-top: $spacer
     .btn:first-of-type
-        @extend .btn-primary
+        @include button-variant($primary,$primary)
     .btn + .btn
-        @extend .btn-outline-primary
+        @include button-outline-variant($primary)
 
     @if variable-exists(icons-map)
         .btn[href^="#"] 
@@ -44,10 +44,10 @@
     &-cover-darken
         img
             filter: brightness(.3)
-        & + * 
+        & + div
             color: white
             .btn + .btn
-                @extend .btn-outline-light
+                @include button-variant($light,$light)
 
     &-content
         @extend .col-md-6

@@ -29,3 +29,8 @@ header[role="banner"]
     .logo
         color: $header-color
         max-width: 85%
+
+    .nav-item-highlighted
+        a
+            @extend .btn
+            @include button-variant($primary,$primary)

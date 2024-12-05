@@ -3,7 +3,7 @@
     @include media-breakpoint-down(md)
         display: none
     > button
-        @extend .btn-light
+        @include button-variant($light,$light)
         @extend .dropdown-toggle
         @if variable-exists(icons-map)
             &::before

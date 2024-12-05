@@ -1,7 +1,7 @@
 .btn-filter
     @extend .btn
     @extend .btn-sm
-    @extend .btn-light
+    @include button-variant($light,$light)
     @if variable-exists(icons-map)
         &::before
             @include icon("filter")

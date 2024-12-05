@@ -18,7 +18,7 @@
             line-height: $headings-line-height
             margin-bottom: $headings-margin-bottom
         > button
-            @extend .btn-light
+            @include button-variant($light,$light)
             @extend .d-lg-none
             @if variable-exists(icons-map)
                 &::before

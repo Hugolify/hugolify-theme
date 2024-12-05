@@ -20,6 +20,9 @@
     .nav-primary
         align-items: baseline
         margin-left: auto
+    .nav-item-highlighted
+        margin-left: $nav-link-padding-x
+        margin-right: $nav-link-padding-x
     .nav-link
         --bs-nav-link-color: #{$header-color}
         &:hover
@@ -29,16 +32,6 @@
     .dropdown-toggle
         &::after
             border-top-color: $header-color
-    .nav-item-highlighted
-        a
-            --bs-btn-padding-y: #{$nav-link-padding-y}
-            @extend .btn
-            @extend .btn-primary
-            margin-left: $nav-link-padding-x
-            margin-right: $nav-link-padding-x
-        @include media-breakpoint-down(md)
-            margin-top: $nav-link-padding-y
-
 
     @include media-breakpoint-down(lg)
         .nav
@@ -51,6 +44,8 @@
                 font-size: px2rem(16)
         .nav + .nav
             margin-top: $spacer
+        .nav-item-highlighted
+            margin-top: $nav-link-padding-y
 
     @include media-breakpoint-up(lg)
         .nav:last-child

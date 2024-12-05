@@ -53,7 +53,7 @@
             p
                 font-size: $font-size-base
             .btn
-                @extend .btn-primary
+                @include button-variant($primary,$primary)
 
 
     @include media-breakpoint-up(md)
@@ -77,6 +77,6 @@
         width: 100%
 
     .btn
-        @extend .btn-light
+        @include button-variant($light,$light)
         @extend .stretched-link
         margin-top: calc(#{$paragraph-margin-bottom} * 2)
