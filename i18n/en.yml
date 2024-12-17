@@ -94,6 +94,7 @@ pages:
   title:
     one: Page
     other: Pages
+  latest: Latest pages
 pagination:
   between: Pagination between {{ .Section }}
   first: First page
