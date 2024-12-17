@@ -1,0 +1,87 @@
+@mixin avatar
+    --bs-aspect-ratio: 100%
+    border-radius: 50%
+    display: inline-block
+    min-width: 50px
+    overflow: hidden
+    position: relative
+    &::before
+        display: block
+        padding-top: var(--bs-aspect-ratio)
+        content: ""
+    > *
+        height: 100%
+        left: 0
+        position: absolute
+        top: 0
+        width: 100%
+    img
+        height: 100%
+        object-fit: cover
+        width: 100%
+
+@mixin icon($icon: "")
+    @if $icon != ""
+        content: map-get($icons-map, $icon)
+    display: inline-block
+    font-family: $font-family-icons
+    font-style: normal
+    font-variant: normal
+    font-weight: normal
+    line-height: 1
+    text-transform: none
+    vertical-align: -0.125em
+
+@mixin more
+    @if variable-exists(icons-map)
+        &::before
+            @include icon("arrow-right")
+            font-size: 1rem
+            margin-right: .5rem
+            vertical-align: -0.25em
+
+@mixin scroll-snap
+    @include media-breakpoint-down(lg)
+        flex-wrap: nowrap
+        justify-content: flex-start
+        margin-left: -$gutter-mobile
+        margin-right: -$gutter-mobile
+        overflow: auto
+        scroll-snap-type: x mandatory
+        > *
+            --col-width: 43.75%
+            flex-basis: var(--col-width)
+            padding-left: $gutter-mobile
+            padding-right: 0
+            scroll-snap-align: start
+            width: var(--col-width)
+            &:last-child
+                flex-basis: calc(var(--col-width) + #{$gutter-mobile})
+                padding-right: $gutter-mobile
+                width: calc(var(--col-width) + #{$gutter-mobile})
+    @include media-breakpoint-down(md)
+        > *
+            --col-width: 45%
+    @include media-breakpoint-down(sm)
+        > *
+            --col-width: 75%
+
+@mixin minititle
+    font-size: px2rem(12)
+    letter-spacing: .05em
+    text-transform: uppercase
+
+@mixin link-arrow
+    @if variable-exists(icons-map)
+        &::before
+            @include icon("arrow-right-short")
+            font-size: 1.4rem
+            margin-left: -0.35rem
+            margin-right: .5rem
+            vertical-align: -0.35rem
+        @media (prefers-reduced-motion: no-preference)
+            &:hover
+                &::before
+                    transform: translateX(.3rem)
+            &::before
+                transition: transform $transition-duration $transition-effect
