@@ -15,7 +15,8 @@
         color: $hero-color
     h1, .description
         text-wrap: balance
-    h1:last-child
+    h1:last-child,
+    p:last-child
         margin-bottom: 0
     .cta, &-content > .btn
         margin-top: $spacer
@@ -47,7 +48,7 @@
         & + div
             color: white
             .btn + .btn
-                @include button-variant($light,$light)
+                @include button-outline-variant($light)
 
     &-content
         @extend .col-md-6

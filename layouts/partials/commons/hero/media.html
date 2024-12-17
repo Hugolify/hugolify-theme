@@ -1,0 +1,15 @@
+{{ with .image }}
+  {{ if ne .background_image true }}
+    <div class="hero-media">
+      {{- $desktop := site.Params.hero.desktop -}}
+      {{- $mobile := site.Params.hero.mobile -}}
+      {{ partial "commons/image.html" (dict
+          "src" .src
+          "alt" .alt
+          "desktop" $desktop
+          "mobile" $mobile
+          "lazy" false
+      ) }}
+    </div>
+  {{ end }}
+{{ end }}

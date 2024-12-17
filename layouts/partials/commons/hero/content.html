@@ -1,0 +1,15 @@
+<div class="hero-content">
+  {{- with .surtitle }}
+    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+  {{ end -}}
+  {{- with .title }}
+    <h1>{{ partial "func/PrepareHTML" . }}</h1>
+  {{ end -}}
+  {{- partial "commons/text" (dict "text" .text "class" "description") -}}
+  {{- with .ctas }}
+    {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+  {{- else -}}
+    {{/*  Deprecated  */}}
+    {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
+  {{ end -}}
+</div>
