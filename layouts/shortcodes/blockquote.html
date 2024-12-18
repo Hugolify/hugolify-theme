@@ -1,8 +1,11 @@
-{{ $quote := .Get "quote" }}
-{{ $title := .Get "title" }}
-{{ $text := .Get "text" }}
-{{ $image := .Get "image" }}
-{{ $dict_image := dict "src" $image }}
-{{ $dict_author := dict "title" $title "text" $text "image" $dict_image }}
-{{ $dict := dict "quote" $quote "author" $dict_author }}
+{{- $quote := .Get "quote" -}}
+{{- $title := .Get "title" -}}
+{{- $text := .Get "text" -}}
+{{- $image := .Get "image" -}}
+{{- $dict_author := false -}}
+{{- $dict_image := dict "src" $image -}}
+{{- if or $title $text $image -}}
+{{- $dict_author = dict "title" $title "text" $text "image" $dict_image -}}
+{{- end -}}
+{{- $dict := dict "quote" $quote "author" $dict_author -}}
 {{ partial "commons/quote.html" $dict }}
