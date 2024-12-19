@@ -15,8 +15,8 @@
         text-align: right
     canvas + .btn
         @extend .btn-link
-        @extend .btn-sm
         @extend .text-secondary
+        @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm)
         margin-top: .5rem
     .modal
         @extend .fade

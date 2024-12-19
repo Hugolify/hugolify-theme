@@ -14,7 +14,7 @@
         left: 2rem
         right: 2rem
     .btn
-        @extend .btn-sm
+        @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm)
         @include button-variant($secondary,$secondary)
     
     &.show

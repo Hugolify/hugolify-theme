@@ -1,6 +1,5 @@
 .btn-filter
-    @extend .btn
-    @extend .btn-sm
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm)
     @include button-variant($light,$light)
     @if variable-exists(icons-map)
         &::before
