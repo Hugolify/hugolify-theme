@@ -1,0 +1,142 @@
+{{/*  Get params  */}}
+{{- $file := .file -}}
+{{- $file_mobile := .file_mobile -}}
+{{- $desktop_size := .desktop_size -}}
+{{- $mobile_size := .mobile_size -}}
+{{- $mobile_size_2x := .mobile_size_2x -}}
+{{- $mobile_size_3x := .mobile_size_3x -}}
+{{- $crop := lower .crop -}}
+{{- $quality := site.Params.image.quality | default "" -}}
+
+{{/*  Return params  */}}
+{{- $image_desktop := false -}}
+{{- $image_desktop_webp := false -}}
+{{- $image_mobile := false -}}
+{{- $image_mobile_2x := false -}}
+{{- $image_mobile_3x := false -}}
+{{- $image_mobile_webp := false -}}
+{{- $image_mobile_webp_2x := false -}}
+{{- $image_mobile_webp_3x := false -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+
+{{/*  Cloudinary path  */}}
+{{- $path := split $file "/upload/" -}}
+{{- $pathFile := print (index $path 0) "/upload/" -}}
+{{- $imageFile := index $path 1 -}}
+{{- print $pathFile "fl_getinfo/" $imageFile -}}
+
+{{/*  Get original image datas  */}}
+{{- $datas := getJSON (print $pathFile "fl_getinfo/" $imageFile) -}}
+
+{{- if $file -}}
+
+  {{- with $quality }}
+    {{- $quality = printf "q_%s" $quality -}}
+  {{- end -}}
+
+  {{/*  Return desktop image  */}}
+  {{- with $desktop_size -}}
+    {{- $params := slice -}}
+
+    {{- with $quality }}
+      {{ $params = $params | append . }}
+    {{ end }}
+
+    {{- $desktop_size_array := split $desktop_size "x" -}}
+    {{- $desktop_size_width := index $desktop_size_array 0 | default false -}}
+    {{- $desktop_size_height := index $desktop_size_array 1 | default false -}}
+    {{- with $desktop_size_width }}
+      {{- $params = $params | append (printf "w_%s" .) -}}
+    {{ end }}
+    {{ with $desktop_size_height }}
+      {{- $params = $params | append (printf "h_%s" .) -}}
+    {{ end }}
+
+    {{- if partial "func/isCrop" . -}}
+      {{- $params =  $params | append "c_crop" -}}
+    {{- end -}}
+
+    {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
+    {{- $image_desktop_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params ",")) $imageFile -}}
+    
+    {{- $datas = getJSON (print $pathFile (delimit $params ",") ",fl_getinfo/" $imageFile) -}}
+    
+  {{- end -}}
+
+  {{/*  Return mobile image  */}}
+  {{- with $mobile_size -}}
+    {{- $params := slice -}}
+    {{- $params_1x := slice -}}
+    {{- $params_2x := slice -}}
+    {{- $params_3x := slice -}}
+
+    {{- with $quality }}
+      {{ $params = $params | append . }}
+    {{ end }}
+
+    {{- if partial "func/isCrop" . -}}
+      {{- $params =  $params | append "c_crop" -}}
+    {{- end -}}
+
+    {{- $params_1x = $params -}}
+    {{- $mobile_size_array := split . "x" -}}
+    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
+    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
+    {{- with $mobile_size_width }}
+      {{- $params_1x = $params_1x | append (printf "w_%s" .) -}}
+    {{ end }}
+    {{ with $mobile_size_height }}
+      {{- $params_1x = $params_1x | append (printf "h_%s" .) -}}
+    {{ end }}
+
+    {{- $params_2x = $params -}}
+    {{- $mobile_size_array := split $mobile_size_2x "x" -}}
+    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
+    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
+    {{- with $mobile_size_width }}
+      {{- $params_2x = $params_2x | append (printf "w_%s" .) -}}
+    {{ end }}
+    {{ with $mobile_size_height }}
+      {{- $params_2x = $params_2x | append (printf "h_%s" .) -}}
+    {{ end }}
+
+    {{- $params_3x = $params -}}
+    {{- $mobile_size_array := split $mobile_size_3x "x" -}}
+    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
+    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
+    {{- with $mobile_size_width }}
+      {{- $params_3x = $params_3x | append (printf "w_%s" .) -}}
+    {{ end }}
+    {{ with $mobile_size_height }}
+      {{- $params_3x = $params_3x | append (printf "h_%s" .) -}}
+    {{ end }}
+
+    {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params_1x ",") $imageFile -}}
+    {{- $image_mobile_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_1x ",")) $imageFile -}}
+    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (delimit $params_2x ",") $imageFile -}}
+    {{- $image_mobile_webp_2x = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_2x ",")) $imageFile -}}
+    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (delimit $params_3x ",") $imageFile -}}
+    {{- $image_mobile_webp_3x = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_3x ",")) $imageFile -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- with $datas.output -}}
+  {{- $image_width = index . "width" -}}
+  {{- $image_height = index . "height" -}}
+{{- end -}}
+
+{{- return dict  
+  "image_desktop" $image_desktop 
+  "image_desktop_webp" $image_desktop_webp
+  "image_mobile" $image_mobile 
+  "image_mobile_2x" $image_mobile_2x 
+  "image_mobile_3x" $image_mobile_3x 
+  "image_mobile_webp" $image_mobile_webp 
+  "image_mobile_webp_2x" $image_mobile_webp_2x 
+  "image_mobile_webp_3x" $image_mobile_webp_3x 
+  "image_width" $image_width 
+  "image_height" $image_height
+  -}}
+
