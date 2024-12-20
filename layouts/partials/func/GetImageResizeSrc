@@ -9,6 +9,24 @@
     {{ if ne $type "" }}
       {{ $image_src =  printf "%s/-/format/%s/" $image_src $type }}
     {{ end }}
+  {{ else if in . "cloudinary.com" }}
+    {{ $params := slice }}
+    {{ $path := split . "/upload/" }}
+    {{ $pathFile := print (index $path 0) "/upload/" }}
+    {{ $imageFile := index $path 1 }}
+    {{ $size_array := split $size "x" }}
+    {{ $size_width := index $size_array 0 | default false }}
+    {{ $size_height := index $size_array 1 | default false }}
+    {{ with $size_width }}
+      {{ $params = $params | append (printf "w_%s" .) }}
+    {{ end }}
+    {{ with $size_height }}
+      {{ $params = $params | append (printf "h_%s" .) }}
+    {{ end }}
+    {{ if ne $type "" }}
+      {{ $params = $params | append (printf "f_%s" $type) }}
+    {{ end }}
+    {{ $image_src = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile }}
   {{ else }}
     {{ $ressource := resources.GetMatch . }}
     {{ with $ressource }}
