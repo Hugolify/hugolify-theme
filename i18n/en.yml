@@ -111,7 +111,7 @@ photo:
 previous: Previous
 reading_time:
   one: One minute to read
-  other: '{{.Time}} minutes to read'
+  other: '{{.}} minutes to read'
 share:
   share_on: Share on {{ .Website }}
   title: Share
