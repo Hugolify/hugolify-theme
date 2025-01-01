@@ -14,9 +14,9 @@
         <p>{{ partial "func/PrepareHTML" . }}</p>
       {{ end }}
       {{ if $direction }}
-        {{ $i18n_direction := i18n "address.direction" }}
-        {{ $i18n_title := i18n "link.blank_aria" (dict "Title" $i18n_direction) }}
-        <a class="direction" href="https://www.google.fr/maps/dir//{{ .street }} {{ .zipcode }} {{ .city }} {{ .country }}" target="_blank" title="{{ $i18n_title }}">{{ $i18n_direction }}</a>
+        {{- $i18n_direction := i18n "address.direction" -}}
+        {{- $i18n_title := i18n "link.blank_aria" (dict "Title" $i18n_direction) -}}
+        <p><a class="direction" href="https://www.google.fr/maps/dir//{{ .street }} {{ .zipcode }} {{ .city }} {{ .country }}" target="_blank" title="{{ $i18n_title }}">{{ $i18n_direction }}</a></p>
       {{ end }}
       {{ if $card }}</div>{{ end }}
     </address>
