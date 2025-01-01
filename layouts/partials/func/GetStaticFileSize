@@ -1,13 +1,17 @@
-{{ $size := false }}
+{{ $size := "" }}
 {{ $file := .file }}
 {{ $dir := .dir }}
+{{ $dir = cond (strings.HasPrefix $dir "/") $dir (print "/" $dir) }}
+{{ $path := print "/static" $dir}}
 
 {{ if $file }}
-  {{ range readDir (print "/static/" $dir ) }}
-    {{ if eq .Name (path.Base $file) }}
-      {{ $s := partial "func/GetHumanSize" .Size }}
-      {{ $unit := printf `<abbr title="%s">%s</abbr>` $s.full_unit $s.unit }}
-      {{ $size = safeHTML (printf "%s%s" (string $s.weight) $unit) }}
+  {{ if fileExists $path }}
+    {{ range readDir $path }}
+      {{ if eq .Name (path.Base $file) }}
+        {{ $s := partial "func/GetHumanSize" .Size }}
+        {{ $unit := printf `<abbr title="%s">%s</abbr>` $s.full_unit $s.unit }}
+        {{ $size = safeHTML (printf "%s%s" (string $s.weight) $unit) }}
+      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
