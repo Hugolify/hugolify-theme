@@ -44,19 +44,28 @@ class Map {
       this.zoom = this.mapElm.dataset.zoom;
     }
 
-    this.initMarkers();
+    this.setMap();
   }
 
-  initMarkers() {
+  setMap() {
     let locations = JSON.parse(this.mapElm.dataset.markers),
-      coordinate = locations[0].coordinates,
-      bounds = false;
+      coordinate = locations[0].coordinates;
 
     // Add map
     this.map = this.initMap(coordinate);
 
     // Add tiles
     this.initTileLayer();
+
+    // Add markers
+    if (!this.mapElm.hasAttribute('data-marker-hidden')) {
+      this.initMarkers();
+    }
+  }
+
+  initMarkers() {
+    let locations = JSON.parse(this.mapElm.dataset.markers),
+      bounds = false;
 
     // Add markers
     for (var i = 0; i < locations.length; i++) {
