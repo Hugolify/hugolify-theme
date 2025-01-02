@@ -20,7 +20,7 @@
 {{- if $images }}
   <div class="gallery gallery-{{ $column }} js-gallery">
     {{ range $index, $image := $images }}
-      {{ $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) }}
+      {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) -}}
       <div>
         {{ partial "commons/image-lightbox" (dict
             "image" .

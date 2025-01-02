@@ -1,22 +1,32 @@
-{{ $src := .image.src }}
-{{ if $src }}
-  {{ $lazy := .lazy }}
-  {{ $alt := .image.alt | default false }}
-  {{ $legend := .image.legend | default false }}
-  {{ $image_fallback := partial "func/GetImageResizeSrc" (dict "image" $src "size" "750x") }}
-  {{ $image_small := partial "func/GetImageResizeSrc" (dict "image" $src "size" "720x" "type" "webp") }}
-  {{ $image_medium := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1024x" "type" "webp") }}
-  {{ $image_large := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1280x" "type" "webp") }}
-  {{ $image_xlarge := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1440x" "type" "webp") }}
-  {{ $image_2xlarge := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1600x" "type" "webp") }}
-  {{ $srcset := printf "%s 720w, %s 1024w, %s 1280w, %s 1440w, %s 1600w" $image_small $image_medium $image_large $image_xlarge $image_2xlarge }}
-  {{ $label := i18n "gallery.enlarge" }}
+{{- $group := .group }}
+{{- $lazy := .lazy }}
+{{- $src := .image -}}
+{{- $alt := false -}}
+{{- $legend := false -}}
+
+{{- with $src -}}
+  {{- if isset . "src" -}}
+    {{- $src = .src -}}
+    {{- $alt = .alt -}}
+    {{- $legend = .legend -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $src }}
+  {{- $image_fallback := partial "func/GetImageResizeSrc" (dict "image" $src "size" "750x") -}}
+  {{- $image_small := partial "func/GetImageResizeSrc" (dict "image" $src "size" "720x" "type" "webp") -}}
+  {{- $image_medium := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1024x" "type" "webp") -}}
+  {{- $image_large := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1280x" "type" "webp") -}}
+  {{- $image_xlarge := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1440x" "type" "webp") -}}
+  {{- $image_2xlarge := partial "func/GetImageResizeSrc" (dict "image" $src "size" "1600x" "type" "webp") -}}
+  {{- $srcset := printf "%s 720w, %s 1024w, %s 1280w, %s 1440w, %s 1600w" $image_small $image_medium $image_large $image_xlarge $image_2xlarge -}}
+  {{- $label := i18n "gallery.enlarge" }}
 
   <a href="{{ $image_fallback }}" 
     class="lightbox" 
     aria-label="{{ $label }}" 
-    {{ if .group }}data-group="{{ .group }}"{{ end }}
-    {{ if $legend }}data-caption="{{ $legend }}"{{ end }}
+    {{ with $group }}data-group="{{ . }}"{{ end }}
+    {{ with $legend }}data-caption="{{ . }}"{{ end }}
     data-srcset="{{ $srcset }}">
     {{ partial "commons/figure" (dict
       "src" $src 
