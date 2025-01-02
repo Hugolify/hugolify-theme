@@ -81,6 +81,7 @@ newsletter:
   placeholder: email@domain.com
   title: Newsletter
 next: Next
+'no': 'No'
 notes:
   title:
     one: Note
@@ -135,3 +136,4 @@ video:
   pause: Pause
   play: Play
   stop: Stop
+'yes': 'Yes'
