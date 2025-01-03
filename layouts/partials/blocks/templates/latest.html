@@ -1,9 +1,6 @@
 {{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
-{{- $atf := false -}}
-{{- if .first -}}
-  {{- $atf = true -}}
-{{- end -}}
+{{- $atf := cond .first true false -}}
 {{- $count := 3 -}}
 {{- with .count -}}
   {{- $count = . -}}
