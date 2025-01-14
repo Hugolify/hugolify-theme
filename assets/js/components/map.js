@@ -43,6 +43,10 @@ class Map {
     if (this.mapElm.hasAttribute('data-zoom')) {
       this.zoom = this.mapElm.dataset.zoom;
     }
+    this.tileSelect = 0;
+    if (this.mapElm.hasAttribute('data-tile')) {
+      this.tileSelect = this.mapElm.dataset.tile;
+    }
 
     this.setMap();
   }
@@ -89,9 +93,28 @@ class Map {
 
   initTileLayer() {
     // https://leafletjs.com/reference.html#tilelayer
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    const tiles = [
+      // OpenStreetMap default
+      {
+        tile: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+      },
+      // CartoDB Positron
+      {
+        tile: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; CARTO'
+      },
+      // CartoDB Dark Matter
+      {
+        tile: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; CARTO'
+      }
+    ];
+    L.tileLayer(tiles[this.tileSelect].tile, {
+      attribution: tiles[this.tileSelect].attribution
     }).addTo(this.map);
   }
 

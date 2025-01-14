@@ -1,5 +1,6 @@
 {{- $location := .location -}}
+{{- $tile := site.Params.tile | default false -}}
 {{- $marker_hidden := .marker_hidden | default false -}}
 {{- $defaultZoom := cond $marker_hidden 16 15 -}}
 {{- $zoom := .zoom | default $defaultZoom -}}
-<div class="map js-map" data-markers="{{ $location }}" data-zoom="{{ $zoom }}" {{- if $marker_hidden }} data-marker-hidden="true"{{ end }}></div>
+<div class="map js-map" data-markers="{{ $location }}" data-zoom="{{ $zoom }}" {{- if $marker_hidden }} data-marker-hidden="true"{{ end }} {{- if $tile }} data-tile="{{ . }}"{{ end }}></div>
