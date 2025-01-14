@@ -3,7 +3,7 @@
     {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
       <div class="sitemap-{{ .Type }}">
         <h2 id="{{ .Type }}">
-          <a href="{{ $permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+          <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
         </h2>
         <ul>
           {{ range .Pages.ByTitle }}
