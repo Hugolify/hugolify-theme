@@ -21,10 +21,11 @@
   {{- end -}}
 {{- end -}}
 {{- $seoTitle = partial "func/PrepareData" $seoTitle -}}
-{{- if .Title -}}
-  {{- $title := partial "func/PrepareData" (partial "func/GetRealTitle" .) -}}
-  {{- $seoTitle = printf "%s | %s" $title $seoTitle -}}
+{{- $title := partial "func/PrepareData" (partial "func/GetRealTitle" .) -}}
+{{- with .Params.seo.title -}}
+  {{- $title = partial "func/PrepareData" . -}}
 {{- end -}}
+{{- $seoTitle = printf "%s | %s" $title $seoTitle -}}
 
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
@@ -42,10 +43,8 @@
 {{- with .Description -}}
   {{- $seoDescription = . -}}
 {{- end -}}
-{{- with .Params.seo -}}
-  {{- with .description -}}
-    {{- $seoDescription = . -}}
-  {{- end -}}
+{{- with .Params.seo.description -}}
+  {{- $seoDescription = . -}}
 {{- end -}}
 {{- $seoDescription = partial "func/PrepareData" $seoDescription -}}
 
