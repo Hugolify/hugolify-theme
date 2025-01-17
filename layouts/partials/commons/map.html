@@ -3,4 +3,10 @@
 {{- $marker_hidden := .marker_hidden | default false -}}
 {{- $defaultZoom := cond $marker_hidden 16 15 -}}
 {{- $zoom := .zoom | default $defaultZoom -}}
-<div class="map js-map" data-markers="{{ $location }}" data-zoom="{{ $zoom }}" {{- if $marker_hidden }} data-marker-hidden="true"{{ end }} {{- if $tile }} data-tile="{{ . }}"{{ end }}></div>
+{{- with $location -}}
+<div class="map js-map" 
+  data-markers="{{ . }}" 
+  data-zoom="{{ $zoom }}"  
+  {{- with $tile }} data-tile="{{ . }}"{{ end }}
+  {{- if $marker_hidden }} data-marker-hidden="true"{{ end }}></div>
+{{ end -}}
