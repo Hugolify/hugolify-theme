@@ -1,17 +1,20 @@
-{{- $class := partial "func/GetColClass" .grid -}}
+{{- $grid := .grid | default "large" -}}
+{{- $class := partial "func/GetColClass" $grid -}}
 {{- $show_places := .show_places | default false -}}
 {{- $zoom := .zoom -}}
-<section class="block-map{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-map {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+  
+  {{- if ne $grid "full" }}
   <div class="container">
-
     {{- if $class }}
     <div class="row">
       <div class="{{ $class }}">
-    {{ end }}
+    {{ end -}}
+  {{ end -}}
 
         {{ partial "blocks/heading.html" . }}
 
-        {{ if $show_places }}
+        {{- if $show_places }}
           {{/*  Show all places with coordinates  */}}
           {{- $partial := "func/GetMarkers" -}}
           {{- if templates.Exists (printf "partials/%s" $partial) }}
@@ -20,7 +23,7 @@
               {{ partial "commons/map" (dict "location" $markers) }}
             {{- end -}}
           {{- end -}}
-        {{ else }}
+        {{- else -}}
           {{- with .location }}
             {{/*  DecapCMS reverse coordinates  */}}
             {{- $marker := . -}}
@@ -34,10 +37,12 @@
           {{ end -}}
         {{ end -}}
 
+  {{- if ne $grid "full" }}
     {{ if $class }}
       </div>
     </div>
     {{ end -}}
-    
   </div>
+  {{ end -}}
+
 </section>
