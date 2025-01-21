@@ -5,6 +5,9 @@
 {{- if os.FileExists (printf "%s/apple-touch-icon.png" $staticDirFavicon) -}}
   <link rel="apple-touch-icon" sizes="180x180" href="{{ printf `%s/apple-touch-icon.png` $dirFavicon }}">
 {{ end -}}
+{{- if os.FileExists (printf "%s/favicon-96x96.png" $staticDirFavicon) -}}
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ printf `%s/favicon-96x96.png` $dirFavicon }}">
+{{ end -}}
 {{- if os.FileExists (printf "%s/favicon-32x32.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" sizes="32x32" href="{{ printf `%s/favicon-32x32.png` $dirFavicon }}">
 {{ end -}}
@@ -12,13 +15,13 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{ printf `%s/favicon-16x16.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.ico" $staticDirFavicon) -}}
-  <link rel="icon" type="image/ico" href="{{ printf `%s/favicon.ico` $dirFavicon }}">
+  <link rel="shortcut " type="image/ico" href="{{ printf `%s/favicon.ico` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" href="{{ printf `%s/favicon.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.svg" $staticDirFavicon) -}}
-  <link rel="icon" type="image/svg" href="{{ printf `%s/favicon.svg` $dirFavicon }}">
+  <link rel="icon" type="image/svg+xml" href="{{ printf `%s/favicon.svg` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/site.webmanifest" $staticDir) -}}
   <link rel="manifest" href="/site.webmanifest">
