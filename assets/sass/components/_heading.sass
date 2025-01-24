@@ -1,34 +1,29 @@
 .heading
     @include margin-bottom($global-spacing-semi)
-    align-items: baseline
     display: flex
+    flex-direction: column
     flex-wrap: wrap
-    @include media-breakpoint-down(md)
-        &:not(.heading-filter)
-            flex-direction: column
-            .more
-                margin-left: 0
+
     h1, h2, p
         margin-bottom: 0
         text-wrap: balance
     .surtitle
         margin-bottom: .25em
-        width: 100%
-    .btn,
-    .more
-        margin-left: auto
     .more
         @include more
+    
+    &-filter
+        align-items: baseline
+        flex-direction: row
 
     @include media-breakpoint-up(md)
         h1
             max-width: 80%
-        .surtitle
-            margin-bottom: .25em
         h1 + .metas
             margin-top: 1rem
-        .metas
-            width: 100%
+        .btn,
+        .more
+            margin-left: auto
 
     @include media-breakpoint-up(xl)
         h1
