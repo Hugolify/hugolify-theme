@@ -1,23 +1,22 @@
 {{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
 {{- $atf := cond .first true false -}}
-{{- if $section }}
+{{- $items := partial "blocks/templates/selected/GetItems" (dict "section" $section "items" .items) -}}
+
+{{- if $items }}
 <section class="block-selected block-selected-{{ $layout }} block-selected-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
     {{- partial "blocks/heading" . -}}
 
-    {{- with .items }}
-      {{- $items := partial "blocks/templates/selected/GetItems" (dict "section" $section "items" .) -}}
-      {{- if gt $items 0 }}
-        {{- if eq $layout "list" }}
-          {{ partial "blocks/templates/selected/list.html" $items }}
-        {{ else }}
-          {{ partial "blocks/templates/selected/grid.html" (dict "section" $section "items" $items "atf" $atf) }}
-        {{ end -}}
+    {{- with $items }}
+      {{- if eq $layout "list" }}
+        {{ partial "blocks/templates/selected/list.html" . }}
+      {{ else }}
+        {{ partial "blocks/templates/selected/grid.html" (dict "section" $section "items" . "atf" $atf) }}
       {{ end -}}
     {{ end -}}
-    
+
     {{- partial "blocks/footing" . -}}
 
   </div>

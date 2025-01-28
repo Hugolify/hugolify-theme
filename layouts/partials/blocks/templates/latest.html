@@ -1,17 +1,14 @@
 {{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
 {{- $atf := cond .first true false -}}
-{{- $count := 3 -}}
-{{- with .count -}}
-  {{- $count = . -}}
-{{- end -}}
+{{- $count := .count | default 3 -}}
 {{- $items := first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) -}}
 
 {{- if $items }}
 <section class="block-latest block-latest-{{ $layout }} block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
-    {{ partial "blocks/heading" . }}
+    {{- partial "blocks/heading" . -}}
 
     {{- with $items }}
       {{- if eq $layout "list" }}
@@ -21,7 +18,7 @@
       {{ end -}}
     {{ end -}}
 
-    {{ partial "blocks/footing" . }}
+    {{- partial "blocks/footing" . -}}
 
   </div>
 </section>
