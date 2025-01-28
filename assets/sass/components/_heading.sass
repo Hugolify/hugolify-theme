@@ -9,8 +9,16 @@
         text-wrap: balance
     .surtitle
         margin-bottom: .25em
-    .more
-        @include more
+    .text
+        @include margin-top($headings-margin-bottom)
+
+    &:not(&-filter)
+        .btn
+            --bs-btn-padding-x: 0
+            --bs-btn-padding-y: 0
+            @include more
+            @extend .btn-link
+            @include margin-top($headings-margin-bottom)
     
     &-filter
         align-items: baseline
@@ -21,9 +29,10 @@
             max-width: 80%
         h1 + .metas
             margin-top: 1rem
-        .btn,
-        .more
-            margin-left: auto
+
+        &-filter
+            .btn
+                margin-left: auto
 
     @include media-breakpoint-up(xl)
         h1

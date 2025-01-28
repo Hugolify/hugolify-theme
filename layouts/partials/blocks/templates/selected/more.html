@@ -1,10 +1,6 @@
-{{- if .show_more }}
-  {{- $section := .section -}}
-  {{- $index := site.GetPage (printf "/%s" $section) -}}
-  {{- with $index }}
-    <div class="bottom">
-      {{- $i18n := printf "%s.more" $section -}}
-      <a href="{{ .Permalink }}" class="btn">{{ i18n $i18n }}</a>
-    </div>
-  {{ end -}}
+{{- $section := .section -}}
+{{- $index := site.GetPage (printf "/%s" $section) -}}
+{{- with $index }}
+  {{- $i18n := printf "%s.more" $section -}}
+  <a href="{{ .Permalink }}" class="btn">{{ i18n $i18n }}</a>
 {{ end -}}

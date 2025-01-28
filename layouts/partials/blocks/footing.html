@@ -1,0 +1,11 @@
+{{- if or .footing .show_more }}
+  <footer class="footing">
+    {{- with .footing.text }}
+      <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
+    {{ end -}}
+    {{- $partials := printf "blocks/templates/%s/more.html" .type -}}
+    {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
+      {{- partial $partials . -}}
+    {{- end -}}
+  </footer> 
+{{ end -}}

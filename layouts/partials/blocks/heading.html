@@ -1,15 +1,15 @@
-{{ with .heading }}
-  {{ if or .surtitle .title .text }}
+{{- with .heading }}
+  {{- if or .surtitle .title .text }}
     <header class="heading">
-      {{ with .surtitle }}
+      {{- with .surtitle }}
         <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
-      {{ end }}
-      {{ with .title }}
+      {{ end -}}
+      {{- with .title }}
         <h2 id="{{ . | urlize }}">{{ partial "func/PrepareHTML" . }}</h2>
-      {{ end }}
-      {{ with .text }}
-        <p>{{ partial "func/PrepareHTML" . | markdownify }}</p>
-      {{ end }}
+      {{ end -}}
+      {{- with .text }}
+        {{ partial "commons/text.html" (dict "text" .) }}
+      {{ end -}}
     </header>
-  {{ end }}
-{{ end }}
+  {{ end -}}
+{{ end -}}

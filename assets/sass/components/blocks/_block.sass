@@ -5,8 +5,8 @@
     .heading
         align-items: flex-start
         flex-direction: column
-    h2 + p
-        margin-top: calc(#{$spacer} / 2)
+    .footing
+        @include margin-top($global-spacing)
     
     @include media-breakpoint-up(lg)
         .heading
@@ -16,16 +16,13 @@
             margin-right: auto
             max-width: 66%
             text-align: center
-        h2 + p
-            margin-top: $headings-margin-bottom
         [class*="col-"] .heading
             max-width: 100%
-        .bottom
+        .footing
             text-align: center
 
 .block-bg
     background-color: $light
-
     main:has(> &:last-child)
         padding-bottom: 0
     main > &:last-child
