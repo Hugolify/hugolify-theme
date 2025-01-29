@@ -21,13 +21,15 @@
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-        .next
+        .next a,
+        a.next
             &::after
                 @include icon("chevron-right")
                 display: block
                 font-size: px2rem(16)
                 line-height: 1
-        .previous
+        .previous a,
+        a.previous
             &::before
                 @include icon("chevron-left")
                 display: block
@@ -45,31 +47,29 @@
     @include margin-top($global-spacing)
     @include padding-top($global-spacing)
     border-top: $border-width solid $border-color
-    li
-        &:first-child
-            margin-right: .5rem
-        &:last-child
-            margin-left: .5rem
-        @include media-breakpoint-down(md)
-            span
-                display: none
     a
-        border-width: 0
+        --bs-pagination-border-width: 0
         &:hover
             text-decoration-color: inherit
             text-decoration-line: underline 
-    .previous::before,
-    .next::after
+    .previous a::before,
+    .next a::after
         display: inline-block
         margin-top: -.2em
         vertical-align: middle
-    .previous::before
+    .previous a::before
         margin-right: .5rem
-    .next::after
+    .next a::after
         margin-left: .5rem
     .surtitle
         display: block
-        margin-bottom: .5rem
+        margin-bottom: .25rem
+
+    @include media-breakpoint-up(md)
+        .previous
+            padding-right: .5rem
+        .next
+            padding-left: .5rem
 
     &-with-title
         @include media-breakpoint-down(md)
@@ -83,20 +83,23 @@
             justify-content: center
             padding: 2rem
         .previous
-            align-items: flex-start
-            &::before
-                position: absolute
-                left: 0
-                top: 50%
-                transform: translate(0,-50%)
+            a
+                align-items: flex-start
+                &::before
+                    position: absolute
+                    left: 0
+                    top: 50%
+                    transform: translate(0,-50%)
         .next
-            align-items: flex-end
-            text-align: right
-            &::after
-                position: absolute
-                right: 0
-                top: 50%
-                transform: translate(0,-50%)
+            margin-left: auto
+            a
+                align-items: flex-end
+                text-align: right
+                &::after
+                    position: absolute
+                    right: 0
+                    top: 50%
+                    transform: translate(0,-50%)
 
     &-with-image
         --bs-pagination-color: #{$body-color}
@@ -123,10 +126,11 @@
             margin-top: 1rem
             max-width: 100%
 
-        .previous::before,
-        .next::after
+        .previous a::before,
+        .next a::after
             content: none
         .next
+            margin-left: auto
             @include media-breakpoint-up(md)
                 text-align: right
                 img

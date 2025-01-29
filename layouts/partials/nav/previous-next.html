@@ -1,23 +1,25 @@
-{{ if or .PrevInSection .NextInSection }}
-  {{ $sections := lower (i18n (printf "%s.title" .Type)) }}
-  {{ $section := i18n (printf "%s.title" .Type) 1 }}
-  {{ $label := i18n "pagination.between" (dict "Section" $sections) }}
-  <nav role="navigation" aria-label="{{ $label }}"{{ partial "func/SetAnim" (dict "element" "pagination") }}>
+{{- if or .PrevInSection .NextInSection }}
+  {{- $sections := lower (i18n (printf "%s.title" .Type)) -}}
+  {{- $section := i18n (printf "%s.title" .Type) 1 -}}
+  {{- $label := i18n "pagination.between" (dict "Section" $sections) -}}
+  <nav role="navigation" aria-label="{{ $label }}" {{- partial "func/SetAnim" (dict "element" "pagination") }}>
     <ul class="pagination-between">
-      <li>
-        {{ with .PrevInSection }}
-          <a href="{{ .Permalink }}" class="previous">{{ i18n "pagination.previous_section" (dict "Section" $section) | safeHTML }}</a>
+      <li class="previous">
+        {{- $previous := i18n "pagination.previous_section" (dict "Section" $section) | safeHTML -}}
+        {{- with .PrevInSection }}
+          <a href="{{ .Permalink }}">{{ $previous }}</a>
         {{ else }}
-          <a href="#" class="previous disabled">{{ i18n "pagination.previous_section" (dict "Section" $section) | safeHTML }}</a>
-        {{ end }}
+          <a href="#" class="disabled">{{ $previous }}</a>
+        {{ end -}}
       </li>
-      <li>
-        {{ with .NextInSection }}
-          <a href="{{ .Permalink }}" class="next">{{ i18n "pagination.next_section" (dict "Section" $section) | safeHTML }}</a>
+      <li class="next">
+        {{- $next := i18n "pagination.next_section" (dict "Section" $section) | safeHTML -}}
+        {{- with .NextInSection }}
+          <a href="{{ .Permalink }}">{{ $next }}</a>
         {{ else }}
-          <a href="#" class="next disabled">{{ i18n "pagination.next_section" (dict "Section" $section) | safeHTML }}</a>
-        {{ end }}
+          <a href="#" class="disabled">{{ $next }}</a>
+        {{ end -}}
       </li>
     </ul>
   </nav>
-{{ end }}
+{{ end -}}

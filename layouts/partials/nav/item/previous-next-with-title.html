@@ -1,0 +1,9 @@
+{{- $direction := .direction | default "previous" -}}
+{{ with .item }}
+  {{- $section := i18n (printf "%s.title" .Type) 1 -}}
+  <a href="{{ .Permalink }}">
+    <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
+    {{ partial "func/PrepareHTML" .Title }}
+  </a>
+{{ end }}
+      

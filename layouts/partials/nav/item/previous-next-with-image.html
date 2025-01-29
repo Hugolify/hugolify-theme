@@ -1,0 +1,24 @@
+{{- $direction := .direction | default "previous" -}}
+{{ with .item }}
+  {{- $section := i18n (printf "%s.title" .Type) 1 -}}
+  {{- $desktop := site.Params.navigation.desktop | default site.Params.thumbnail.desktop -}}
+  {{- $mobile := site.Params.navigation.mobile | default site.Params.thumbnail.mobile -}}
+  {{- if .Type -}}
+    {{- $desktop = (index site.Params .Type).navigation.desktop | default $desktop -}}
+    {{- $mobile = (index site.Params .Type).navigation.mobile | default $mobile -}}
+  {{- end -}}
+  <a href="{{ .Permalink }}">
+    <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
+    {{ partial "func/PrepareHTML" .Title }}
+    {{- with .Params.image }}
+      {{ partial "commons/image.html" (dict
+        "src" .src
+        "alt" .alt
+        "desktop" $desktop
+        "mobile" $mobile
+        "crop" (.crop | default false)
+      ) }}
+    {{ end -}}
+  </a>
+{{ end }}
+      

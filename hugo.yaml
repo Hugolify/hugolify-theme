@@ -55,6 +55,9 @@ params:
     desktop: '414x177'
     mobile: '300x129'
     scrollsnap: '240x103'
+  navigation:
+    desktop: '414x200'
+    mobile: '300x150'
   pages:
     thumbnail:
       desktop: '414x177'

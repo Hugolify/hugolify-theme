@@ -1,47 +1,18 @@
-{{ if or .PrevInSection .NextInSection }}
+{{- if or .PrevInSection .NextInSection }}
   {{- $sections := lower (i18n (printf "%s.title" .Type)) -}}
-  {{- $section := i18n (printf "%s.title" .Type) 1 -}}
   {{- $label := i18n "pagination.between" (dict "Section" $sections) -}}
-  <nav role="navigation" aria-label="{{ $label }}"{{ partial "func/SetAnim" (dict "element" "pagination") }}>
+  <nav role="navigation" aria-label="{{ $label }}" {{- partial "func/SetAnim" (dict "element" "pagination") }}>
     <ul class="pagination-between pagination-between-with-image">
-      <li>
-        {{ with .PrevInSection }}
-          <a href="{{ .Permalink }}" class="previous">
-            <span class="surtitle">{{ i18n "pagination.previous_section" (dict "Section" $section) | safeHTML }}</span>
-            {{ partial "func/PrepareHTML" .Title }}
-            {{ with .Params.image }}
-              {{- $desktop := site.Params.thumbnail.mobile -}}
-              {{- $mobile := site.Params.thumbnail.mobile -}}
-              {{ partial "commons/image.html" (dict
-                "src" .src
-                "alt" .alt
-                "desktop" $desktop
-                "mobile" $mobile
-                "crop" (.crop | default false)
-              ) }}
-            {{ end }}
-          </a>
-        {{ end }}
-      </li>
-      <li>
-        {{- with .NextInSection }}
-          <a href="{{ .Permalink }}" class="next">
-            <span class="surtitle">{{ i18n "pagination.next_section" (dict "Section" $section) | safeHTML }}</span>
-            {{ partial "func/PrepareHTML" .Title }}
-            {{ with .Params.image }}
-              {{- $desktop := site.Params.thumbnail.mobile -}}
-              {{- $mobile := site.Params.thumbnail.mobile -}}
-              {{ partial "commons/image.html" (dict
-                "src" .src
-                "alt" .alt
-                "desktop" $desktop
-                "mobile" $mobile
-                "crop" (.crop | default false)
-              ) }}
-            {{ end }}
-          </a>
-        {{- end }}
-      </li>
+      {{- with .PrevInSection }}
+        <li class="previous">
+          {{ partial "nav/item/previous-next-with-image.html" (dict "item" . "direction" "previous") }}
+        </li>
+      {{ end -}}
+      {{- with .NextInSection }}
+        <li class="next">
+          {{ partial "nav/item/previous-next-with-image.html" (dict "item" . "direction" "next") }}
+        </li>
+      {{ end -}}
     </ul>
   </nav>
-{{ end }}
+{{ end -}}
