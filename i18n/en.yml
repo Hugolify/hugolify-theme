@@ -49,9 +49,17 @@ document:
   other: Documents
 filter: Filter
 form:
-  email: 'e.g. email@domain.com'
-  tel: 'e.g. +1 718 123 4567'
-  url: 'e.g. https://www.domain.com'
+  company: Company
+  email: Email
+  firstname: Firstname
+  lastname: Lastname
+  message: Message
+  name: Name
+  tel: Telephone
+  hint:
+    email: 'e.g. email@domain.com'
+    tel: 'e.g. +1 718 123 4567'
+    url: 'e.g. https://www.domain.com'
 from: From
 gallery:
   enlarge: Enlarge image

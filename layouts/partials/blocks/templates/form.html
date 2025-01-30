@@ -1,75 +1,21 @@
-{{ $idForm := printf "form-%s" (.index | string) }}
-{{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
+{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) -}}
 
-<section class="block-form{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+<section class="block-form{{ with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
 
-    {{ if $class }}
+    {{- if $class }}
     <div class="row">
       <div class="{{ $class }}">
-    {{ end }}
+    {{ end -}}
     
-      {{ partial "blocks/heading.html" . }}
+      {{- partial "blocks/heading.html" . -}}
 
-      <form netlify method="POST" name="{{ .name }}" id="{{ $idForm }}">
+      {{- partial "commons/form.html" . -}}
 
-        {{ range $index, $items := .items }}
-          {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
-          {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
-          <div {{- if .full }} class="full"{{ end }}>
-            {{ if and (ne .type "checkbox") (ne .type "radio") }}
-            <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
-            {{ end }}
-            {{ if eq .type "textarea" }}
-              <textarea 
-                id="{{ $id }}" 
-                name="{{ $id }}"
-                rows="5"
-                {{ with .type }}type="{{ . }}"{{ end }}
-                {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
-                {{ if .required }}required{{ end }}></textarea>
-            {{ else if eq .type "select" }}
-              <select
-                id="{{ $id }}"
-                name="{{ $id }}"
-                {{ if .required }}required{{ end }}>
-                {{ if not .required }}
-                  <option value="">--</option>
-                {{ end }}
-                {{ range .options }}
-                  {{ $value := cond (isset . "value") .value .title }}
-                  <option value="{{ $value }}">{{ .title }}</option>
-                {{ end }}
-              </select>
-            {{ else }}
-              <input 
-                id="{{ $id }}" 
-                name="{{ $id }}"
-                {{ with .type }}type="{{ . }}"{{ end }}
-                {{ if $condHelp }}aria-describedby="help-{{ $id }}"{{ end }}
-                {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
-                {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
-                {{ if .required }}required{{ end }}>
-            {{ end }}
-            {{ if or (eq .type "checkbox") (eq .type "radio") }}
-              <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
-            {{ end }}
-            {{ if $condHelp }}
-              <p id="help-{{ $id }}" class="help">{{ i18n (print "form." .type) }}</p>
-            {{ end }}
-          </div>
-        {{ end }}
-
-        <div class="actions">
-          <button type="submit" class="btn">{{ partial "func/PrepareHTML" .submit }}</button>
-        </div>
-
-      </form>
-    
-    {{ if $class }}
+    {{- if $class }}
       </div>
     </div>
-    {{ end }}
+    {{ end -}}
 
   </div>
 </section>

@@ -1,0 +1,21 @@
+{{- with .Params.keyfeatures }}
+  <div class="keyfeatures">
+    <ul>
+      {{- range . }}
+        <li>
+          {{- with .icon -}}
+            <i class="icon icon-{{ . }}"></i>
+          {{- end -}}
+          <div>
+            {{- if .title }}
+            <b>{{ partial "func/PrepareHTML" .title }}</b>{{ if .text }}<br>{{ end }}
+            {{ end -}}
+            {{- with .text }}
+            <span>{{ partial "func/PrepareHTML" . }}</span>
+            {{ end -}}
+          </div>
+        </li>
+      {{ end -}}
+    </ul>
+  </div>
+{{ end -}}

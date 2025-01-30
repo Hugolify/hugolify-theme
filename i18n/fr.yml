@@ -49,9 +49,17 @@ document:
   other: Documents
 filter: Filtrer
 form:
-  email: 'Example : email@domaine.com'
-  tel: 'Example : +33 6 12 34 56 78'
-  url: 'Example : https://www.domaine.com'
+  company: Société
+  email: Email
+  firstname: Firstname
+  lastname: Lastname
+  message: Message
+  name: Nom
+  tel: Phone
+  hint:
+    email: 'Example : email@domaine.com'
+    tel: 'Example : +33 6 12 34 56 78'
+    url: 'Example : https://www.domaine.com'
 from: De
 gallery:
   enlarge: Agrandir l’image

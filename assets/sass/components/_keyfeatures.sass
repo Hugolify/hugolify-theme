@@ -1,0 +1,17 @@
+.keyfeatures
+    --bs-alert-border-color: #{$border-color}
+    --bs-alert-bg: #{$light}
+    @extend .alert
+    ul
+        list-style: none
+        margin-bottom: 0
+        padding-left: 0
+    li
+        display: flex
+        font-size: $small-font-size
+        &:not(:last-child)
+            margin-bottom: .5rem
+        span
+            opacity: .8
+    .icon
+        margin-right: .5rem
