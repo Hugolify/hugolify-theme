@@ -122,6 +122,11 @@ previous: Précédent
 reading_time:
   one: Une minute de lecture
   other: '{{.}} minutes de lecture'
+reference:
+  label: Référence
+  label_short: Réf.
+  label_with_value: 'Référence : {{ .Value }}'
+  label_short_with_value: 'Réf. : {{ .Value }}'
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
