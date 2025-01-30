@@ -2,3 +2,9 @@
     > div:not(.container),
     .container > div
         @include scroll-snap
+    @include media-breakpoint-up(md)
+        .heading
+            align-items: baseline
+            flex-direction: row
+        .more
+            margin-left: auto
