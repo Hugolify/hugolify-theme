@@ -8,7 +8,7 @@
     {{ partial "commons/heading" . }}
     
     {{- $context := . -}}
-    {{- $sections := slice "posts" "products" "projects" "casestudies" "publications" "places" "expertises" "services" "realestates" -}}
+    {{- $sections := slice "posts" "products" "projects" "casestudies" "publications" "places" "expertises" "services" "realestates" "jobs" -}}
     {{- range $sections -}}
       {{- $partial := printf "%s/latest.html" . -}}
       {{- if templates.Exists ( printf "partials/%s" $partial ) -}}
