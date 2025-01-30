@@ -18,12 +18,12 @@
             <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
           </button>
           <ul class="dropdown-menu">
-            {{ range .links}}
+            {{- range .links}}
               <li>
-                {{ partial "nav/link" (dict "link" . "currentPage" $currentPage) }}
-                {{ partial "nav/text" . }}
+                {{- partial "nav/link" (dict "link" . "currentPage" $currentPage) -}}
+                {{- partial "nav/text" . -}}
               </li>
-            {{ end }}
+            {{ end -}}
           </ul>
         {{ end -}}
       </li>
