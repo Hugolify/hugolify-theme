@@ -1,22 +1,23 @@
-{{ $current := .current | default false }}
-{{ $tax := .tax | default false }}
-{{ $mini_card := .mini_card | default false }}
+{{- $current := .current | default false -}}
+{{- $tax := .tax | default false -}}
+{{- $isMiniCard := .mini_card | default false -}}
+{{- $isTags := strings.Contains $tax "_tags" -}}
 {{ if $tax }}
-  {{ $the_tax := index site.Taxonomies $tax }}
-  {{ with $the_tax }}
-    {{ $nTaxs := $the_tax | len }}
-    {{ $i18n := printf "%s.title" $tax }}
-    <div class="list list-{{ $tax }}{{ if $mini_card }} list-mini_card{{ end }}">
+  {{- $the_tax := index site.Taxonomies $tax -}}
+  {{- with $the_tax }}
+    {{- $nTaxs := $the_tax | len -}}
+    {{- $i18n := printf "%s.title" $tax -}}
+    <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}">
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ol>
-        {{ range $taxonomy_term, $taxonomy := . }}
+        {{- range $taxonomy_term, $taxonomy := . }}
           {{- $page := partial "func/GetRealContext" .Page -}}
           <li>
             {{- $title := partial "func/PrepareHTML" $page.Title -}}
             {{- if not $page.File -}}
               {{- $title = $title | humanize -}}
             {{- end -}}
-            {{ if $mini_card }}
+            {{- if $isMiniCard }}
               {{- if $page.Params.image -}}
                 {{- with $page.Params.image -}}
                   {{- $desktop := site.Params.image.xsmall | default false -}}
@@ -34,21 +35,20 @@
                 <div class="avatar"></div>
               {{- end -}}
               <div>
-            {{ end }}
+            {{ end -}}
             {{- $class := "" -}}
             {{- if eq $current $page -}}
               {{- $class = " class='active'" -}}
             {{- end -}}
-            <a href="{{ .Page.Permalink }}"{{ $class | safeHTMLAttr }}>
+            <a href="{{ .Page.Permalink }}" {{- $class | safeHTMLAttr }}>
               {{- $title -}}
             </a>
-            {{ if $mini_card }}
+            {{- if $isMiniCard }}
               </div>
-            {{ end }}
+            {{ end -}}
           </li>
-
-        {{ end }}
+        {{ end -}}
       </ol>
     </div>
-  {{ end }}
-{{ end }}
+  {{ end -}}
+{{ end -}}
