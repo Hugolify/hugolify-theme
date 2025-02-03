@@ -1,13 +1,13 @@
 {{ $context := . }}
 {{ $title := $context.Title }}
 {{ if eq $context.Kind "term" }}
-    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") }}
+    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
         {{ $page := partial "func/GetRealPerson" $context }}
         {{ $title = $page.Title }}
-    {{ else if or (eq $context.Section "persons_expertises") (eq $context.Section "posts_expertises") (eq $context.Section "publications_expertises") }}
+    {{ else if hasSuffix $context.Section "_expertises" }}
         {{ $page := partial "func/GetRealExpertise" $context }}
         {{ $title = $page.Title }}
-    {{ else if eq $context.Section "persons_places" }}
+    {{ else if hasSuffix $context.Section "_places" }}
         {{ $page := partial "func/GetRealPlace" $context }}
         {{ $title = $page.Title }}
     {{ end }}
