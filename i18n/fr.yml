@@ -51,11 +51,11 @@ filter: Filtrer
 form:
   company: Société
   email: Email
-  firstname: Firstname
-  lastname: Lastname
+  firstname: Prénom
+  lastname: Nom de famille
   message: Message
   name: Nom
-  tel: Phone
+  tel: Téléphone
   hint:
     email: 'Example : email@domaine.com'
     tel: 'Example : +33 6 12 34 56 78'
