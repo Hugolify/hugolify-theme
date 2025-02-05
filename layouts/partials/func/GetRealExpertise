@@ -2,7 +2,7 @@
 {{ $exists := os.FileExists $expertise }}
 
 {{ if not $exists }}
-  {{ with site.GetPage (printf "/expertises/%s" (.Title | urlize)) }}
+  {{ with site.GetPage (printf "/expertises/%s" (.Title | anchorize)) }}
     {{ $expertise = . }}
   {{ end }}
 {{ end }}

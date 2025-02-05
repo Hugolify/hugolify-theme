@@ -2,7 +2,7 @@
 {{ $exists := os.FileExists $place }}
 
 {{ if not $exists }}
-  {{ with site.GetPage (printf "/places/%s" (.Title | urlize)) }}
+  {{ with site.GetPage (printf "/places/%s" (.Title | anchorize)) }}
     {{ $place = . }}
   {{ end }}
 {{ end }}

@@ -5,7 +5,7 @@
         <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
       {{ end -}}
       {{- with .title }}
-        <h2 id="{{ . | urlize }}">{{ partial "func/PrepareHTML" . }}</h2>
+        <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML" . }}</h2>
       {{ end -}}
       {{- with .text }}
         {{ partial "commons/text.html" (dict "text" .) }}

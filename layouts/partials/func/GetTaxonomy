@@ -2,6 +2,6 @@
 {{ if in .slug "/_index" }}
   {{ $slug = replace .slug "/_index" "" }}
 {{ else }}
-  {{ $slug = .slug | urlize }}
+  {{ $slug = .slug | anchorize }}
 {{ end }}
 {{ return site.GetPage (printf "/%s/%s" .taxonomy $slug) }}

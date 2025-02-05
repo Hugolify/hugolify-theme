@@ -2,7 +2,7 @@
 {{ $exists := os.FileExists $person }}
 
 {{ if not $exists }}
-  {{ with site.GetPage (printf "/persons/%s" (.Title | urlize)) }}
+  {{ with site.GetPage (printf "/persons/%s" (.Title | anchorize)) }}
     {{ $person = . }}
   {{ end }}
 {{ end }}
