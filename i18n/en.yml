@@ -1,7 +1,13 @@
 accessibility:
   alternative: Alternative to {{ .Title }}
 address:
+  label:
+    one: Adress
+    other: Adresses
+  city: City
+  country: Country
   direction: How to go?
+  street: Street
 breadcrumb: Breadcrumb
 carousel:
   carousel: Carousel
@@ -18,6 +24,8 @@ carousel:
   slidex: Go to slide %s
 close: Close
 contact:
+  address: 'Address:'
+  city: 'City:'
   email: 'Email:'
   email_with_value: 'Email: {{ .Value }}'
   fax: 'Fax:'

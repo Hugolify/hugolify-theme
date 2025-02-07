@@ -1,5 +1,3 @@
 {{- $email := partial "func/PrepareHTML" . -}}
 {{- $title := i18n "contact.email_with_value" (dict "Value" $email) -}}
-<li class="email">
-  <b>{{ i18n "contact.email" }}</b> <a href="mailto:{{ $email }}" target="_blank" title="{{ $title }}">{{ $email }}</a>
-</li>
+<b>{{ i18n "contact.email" }}</b> <a href="mailto:{{ $email }}" target="_blank" title="{{ $title }}">{{ $email }}</a>
