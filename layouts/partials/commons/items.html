@@ -29,7 +29,8 @@
         {{- if $groupbyyear -}}
           {{- $year := .Date.Format "2006" -}}
           {{- if ne $year $currentyear }}
-            <h2 class="year">{{ $year }}</h2>
+            {{- $animation := partial "func/SetAnim" (dict "element" "heading") -}}
+            <h2 class="year" {{- $animation }}>{{ $year }}</h2>
             {{- $currentyear = $year -}}
           {{- end }}
         {{- end -}}
