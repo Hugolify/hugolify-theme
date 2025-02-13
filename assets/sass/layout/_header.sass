@@ -1,4 +1,5 @@
 header[role="banner"]
+    --header-height: #{$header-height}
     background-color: $header-background-color
     color: $header-color
     position: sticky
@@ -9,7 +10,7 @@ header[role="banner"]
 
     html:not(.is-dropdown-menu-open).is-scrolling-down &
         &:not(:hover)
-            top: -$header-height
+            top: calc(var(--header-height) * -1)
     &.is-sticky
         position: sticky
 
