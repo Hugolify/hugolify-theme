@@ -1,8 +1,9 @@
-{{ $partialFilter := printf "%s/filters/button" .section }}
-
-<header class="heading heading-filter"{{ partial "func/SetAnim" (dict "element" "heading") }}>
-  {{ with .context.Title }}
+{{- $partialFilter := printf "%s/filters/button" .section -}}
+{{- with .context }}
+<header class="heading heading-filter" {{- partial "func/SetAnim" (dict "element" "heading") }}>
+  {{- with .Title }}
     <h1>{{ partial "func/PrepareHTML" . }}</h1>
-  {{ end }}
-  {{ partial $partialFilter .context }}
+  {{ end -}}
+  {{ partial $partialFilter . }}
 </header>
+{{ end -}}
