@@ -85,3 +85,15 @@
                     transform: translateX(.3rem)
             &::before
                 transition: transform $transition-duration $transition-effect
+
+@mixin navbar-expand($navbar-expand)
+    @if $navbar-expand == xxl
+        @extend .navbar-expand-xxl
+    @else if $navbar-expand == xl
+        @extend .navbar-expand-xl
+    @else if $navbar-expand == lg
+        @extend .navbar-expand-lg
+    @else if $navbar-expand == md
+        @extend .navbar-expand-md
+    @else if $navbar-expand == sm
+        @extend .navbar-expand-sm

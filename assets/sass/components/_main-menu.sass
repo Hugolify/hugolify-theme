@@ -14,9 +14,11 @@
             background-size: 1rem auto
     .content
         @extend .offcanvas-body
-        @include media-breakpoint-up(lg)
+        @include media-breakpoint-up($navbar-expand)
             align-items: baseline
    
+    .nav:last-child
+        margin-right: - $nav-link-padding-x
     .nav-primary
         align-items: baseline
         margin-left: auto
@@ -33,7 +35,7 @@
         &::after
             border-top-color: $header-color
 
-    @include media-breakpoint-down(lg)
+    @include media-breakpoint-down($navbar-expand)
         .nav
             align-items: center
             flex-direction: column
@@ -42,11 +44,9 @@
                 font-size: px2rem(20)
             ul li
                 font-size: px2rem(16)
+            &:last-child
+                margin-right: 0
         .nav + .nav
             margin-top: $spacer
         .nav-item-highlighted
             margin-top: $nav-link-padding-y
-
-    @include media-breakpoint-up(lg)
-        .nav:last-child
-            margin-right: - $nav-link-padding-x
