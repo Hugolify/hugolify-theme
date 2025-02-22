@@ -1,17 +1,15 @@
-{{- with .Params.blocks -}}
-  {{- range $index, $block := . -}}
-    {{- $isFirst := cond (eq $index 0) true false -}}
-    {{- $block = merge $block (dict "first" $isFirst) -}}
-    {{- $block = merge $block (dict "index" $index) -}}
-    {{- $template := printf "blocks/templates/%s.html" $block.type -}}
-    {{- if and (strings.Contains .type "selected-") (not (templates.Exists ( printf "partials/%s" $template ))) -}}
-      {{- $template = "blocks/templates/selected.html" -}}
-      {{- warnidf $template "Partial block missed" -}}
-    {{- end -}}
-    {{- if templates.Exists ( printf "partials/%s" $template ) -}}
-      {{ partial $template $block }}
-    {{- else -}}
-      {{- warnidf $template "Partial block missed" -}}
+{{- $blocks := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $layout := .layout -}}
+  {{- with .context -}}
+    {{- $blocks = .Params.blocks -}}
+    {{- if $layout -}}
+      {{- $blocks = index .Params (print "blocks_" $layout) -}}
     {{- end -}}
   {{- end -}}
+{{- else -}}
+  {{- $blocks = .Params.blocks -}}
+{{- end -}}
+{{- with $blocks -}}
+  {{- partial "blocks/range.html" . -}}
 {{- end -}}
