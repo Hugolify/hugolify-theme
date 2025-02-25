@@ -3,36 +3,32 @@
     display: flex
     flex-direction: column
     flex-wrap: wrap
+    gap: .25em
 
     h1, h2, p
         margin-bottom: 0
         text-wrap: balance
-    .surtitle
-        margin-bottom: .25em
     .text
         @include margin-top($headings-margin-bottom)
-
-    &:not(&-filter)
-        .btn
-            --bs-btn-padding-x: 0
-            --bs-btn-padding-y: 0
-            @include more
-            @extend .btn-link
-            @include margin-top($headings-margin-bottom)
     
+    .metas
+        .btn
+            --bs-btn-font-size: #{$small-font-size}
+            --bs-btn-padding-x: .5rem
+            --bs-btn-padding-y: .5rem
+
     &-filter
         align-items: baseline
         flex-direction: row
+        justify-content: space-between
         .surtitle
             flex-basis: 100%
-        .btn
-            margin-left: auto
 
     @include media-breakpoint-up(md)
         h1
             max-width: 80%
         h1 + .metas
-            margin-top: 1rem
+            margin-top: .75rem
         .more
             @include more
 
