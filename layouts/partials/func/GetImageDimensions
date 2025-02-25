@@ -6,9 +6,13 @@
   {{ $svgContent := readFile $file }}
   {{ $svgWidth := index (split (index (split $svgContent `width=`) 1) `"`) 1 }}
   {{ $svgHeight := index (split (index (split $svgContent `height=`) 1) `"`) 1 }}
-  {{ if $svgWidth }}
-    {{ $width = float (replace (replace $svgWidth "pt" "") "px" "") }}
-    {{ $height = float (replace (replace $svgHeight "pt" "") "px" "") }}
+  {{ if or $svgWidth $svgHeight }}
+    {{ with $svgWidth }}
+      {{ $width = float (replace (replace . "pt" "") "px" "") }}
+    {{ end }}
+    {{ with $svgHeight }}
+      {{ $height = float (replace (replace . "pt" "") "px" "") }}
+    {{ end }}
   {{ else }}
     {{ $svgViewBoxSizes := split (index (split (index (split $svgContent `viewBox=`) 1) `"`) 1) ` ` }}
     {{ $width = index $svgViewBoxSizes 2 }}
