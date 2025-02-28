@@ -35,18 +35,26 @@
             text-decoration-line: underline
             text-decoration-thickness: 1px
             text-underline-offset: 3px
-            transition: text-decoration-color .2s ease
+        &:hover .name
+            text-decoration-color: inherit
     p
         @extend .card-text
     time
         color: $text-muted
     > a
         text-decoration: none
-    a:hover 
-        .name
-            text-decoration-color: inherit
+
+    &.pinned
+        @if variable-exists(icons-map)
+            &::before
+                @include icon("pin-angle")
+                position: absolute
+                right: 1rem
+                top: 1rem
 
     @media (prefers-reduced-motion: no-preference)
+        a .name
+            transition: text-decoration-color .2s ease
         a ~ .media
             img
                 transition: transform $transition-duration $transition-effect
