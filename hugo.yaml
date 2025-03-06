@@ -32,6 +32,13 @@ module:
           target: static/assets/css/cookieconsent.css
         - source: dist/cookieconsent.umd.js
           target: static/assets/js/cookieconsent.umd.js
+    # Import Splide
+    - path: github.com/Splidejs/splide
+      mounts:
+        - source: dist/css/splide.min.css
+          target: static/assets/css/splide.min.css
+        - source: dist/js/splide.min.js
+          target: static/assets/js/splide.min.js
 
 # Params
 params:
