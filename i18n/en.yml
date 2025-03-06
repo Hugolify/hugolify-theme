@@ -47,9 +47,31 @@ contact:
 cookie_banner:
   accept: Accept
   label: Cookie notice
-  refuse: Refuse
+  refuse: Refuse (except essential)
   text: 'By continuing to browse this site, you accept the use of Cookies to offer you personalized features and to carry out audience measurements. To find out more and configure these cookies:'
   title: Cookie banner
+cookie_consent:
+  consentModalTitle: Cookie consent management
+  consentModalDescription: This website uses necessary cookies to ensure its proper functioning and other cookies which are listed in the preference center and are only set after consent.
+  consentModalAcceptAllBtn: Allow all
+  consentModalAcceptNecessaryBtn: Decline non-technical cookies
+  consentModalShowPreferencesBtn: Configure
+  preferencesModalTitle: Consent preferences center
+  preferencesModalAcceptAllBtn: Accept all
+  preferencesModalAcceptNecessaryBtn: Accept only necessary
+  preferencesModalSavePreferencesBtn: Save settings
+  preferencesModalCloseIconLabel: Close modal
+  preferencesModalServiceCounterLabel: Service|Services
+  sectionsTitle: Cookie Usage
+  sectionsDescription: We use cookies to ensure the basic functionalities of the website and to enhance your online experience.
+  sectionsNecessaryTitle: Strictly Necessary Cookies
+  sectionsNecessaryDescription: These cookies are essential for the proper functioning of my website. Without these cookies, the website would not work properly"
+  sectionsAnalyticsTitle: Analytics Cookies
+  sectionsAnalyticsDescription: These cookies allow the website to remember the choices you have made in the past
+  sectionsFunctionalityTitle: Functionality Cookies
+  sectionsFunctionalityDescription: Cookies used for functionality allow users to interact with a service or site to access features that are fundamental to that service.
+  sectionsMarketingTitle: Advertisement Cookies
+  sectionsMarketingDescription: Enables storage (such as cookies) related to advertising.
 credit:
   hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
 document:

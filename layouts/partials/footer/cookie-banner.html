@@ -1,4 +1,8 @@
-{{- if and site.Params.cookie_banner.enable hugo.IsProduction }}
-  {{ partialCached "footer/cookie-banner/modal.html" . }}
-  {{ partialCached "footer/cookie-banner/javascript.html" . }}
+{{- if site.Params.cookie_banner.enable }}
+  {{- if site.Params.cookie_banner.cookieconsent.enable -}}
+    {{ partialCached "footer/cookie-consent/javascript.html" . }}
+  {{- else -}}
+    {{ partialCached "footer/cookie-banner/modal.html" . }}
+    {{ partialCached "footer/cookie-banner/javascript.html" . }}
+  {{ end -}}
 {{ end -}}

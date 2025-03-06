@@ -47,9 +47,32 @@ contact:
 cookie_banner:
   accept: Accepter
   label: Avis sur les cookies
-  refuse: Refuser
+  refuse: Refuser (sauf essentiel)
   text: 'En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de Cookies pour vous proposer notamment des fonctionnalités personnalisées et pour réaliser des mesures d’audience. Pour en savoir plus et paramétrer ces cookies :'
   title: Bandeau cookie
+cookie_consent:
+  consentModalTitle: Gestion du consentement des cookies
+  consentModalDescription: Ce site utilise des cookies nécessaires pour garantir son bon fonctionnement et d'autres cookies répertoriés dans le centre de préférences et qui ne sont définis qu'après consentement.
+  consentModalAcceptAllBtn: Accepter tout
+  consentModalAcceptNecessaryBtn: Refuser les cookies non techniques
+  consentModalShowPreferencesBtn: Configurer
+  preferencesModalTitle: Centre de préférences de consentement
+  preferencesModalAcceptAllBtn: Accepter tout
+  preferencesModalAcceptNecessaryBtn: Accepter uniquement les cookies nécessaires
+  preferencesModalSavePreferencesBtn: Enregistrer les paramètres
+  preferencesModalCloseIconLabel: Fermer la fenêtre
+  preferencesModalServiceCounterLabel: Service|Services
+  sectionsTitle: Utilisation des cookies
+  sectionsDescription: Nous utilisons des cookies pour garantir les fonctionnalités de base du site et améliorer votre expérience en ligne.
+  sectionsNecessaryTitle: Cookies strictement nécessaires
+  sectionsNecessaryDescription: Ces cookies sont essentiels au bon fonctionnement de mon site. Sans ces cookies, le site ne fonctionnerait pas correctement.
+  sectionsAnalyticsTitle: Cookies d'analyse
+  sectionsAnalyticsDescription: Ces cookies permettent au site de se souvenir des choix que vous avez faits par le passé.
+  sectionsFunctionalityTitle: Cookies de fonctionnalité
+  sectionsFunctionalityDescription: Les cookies utilisés pour la fonctionnalité permettent aux utilisateurs d'interagir avec un service ou un site pour accéder à des fonctionnalités fondamentales pour ce service.
+  sectionsMarketingTitle: Cookies publicitaires
+  sectionsMarketingDescription: Permet le stockage (comme les cookies) lié à la publicité.
+
 credit:
   hugolify: un site éco-conçu produit avec <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - lien externe">Hugolify</a>
 document:

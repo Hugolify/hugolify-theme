@@ -1,0 +1,20 @@
+{{- $id_ga := site.Config.Services.GoogleAnalytics.ID | default false -}}
+{{- with $id_ga }}
+<script
+    type="text/plain"
+    data-category="analytics"
+    data-service="Google Analytics">
+  function callbackGA() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', this.id_ga, { 'anonymize_ip': true, cookie_flags: 'secure;samesite=none' });
+  };
+
+  const id_ga = '{{ . }}';
+  let script = document.createElement('script');
+  script.onload = callbackGA;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id='+id_ga;
+  document.body.appendChild(script);
+</script>
+{{ end -}}

@@ -25,12 +25,25 @@ module:
           target: assets/scss/tobii
         - source: src/js
           target: assets/js/vendors/tobii
+    # Import Cookie consent
+    - path: github.com/orestbida/cookieconsent
+      mounts:
+        - source: dist/cookieconsent.css
+          target: static/assets/css/cookieconsent.css
+        - source: dist/cookieconsent.umd.js
+          target: static/assets/js/cookieconsent.umd.js
 
 # Params
 params:
   animation: false
   cookie_banner:
-    enable: false
+    enable: true
+    cookieconsent:
+      enable: false
+      analytics: false
+      functionality: false
+      marketing: false
+      disablePageInteraction: false
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'

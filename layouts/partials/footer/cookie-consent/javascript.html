@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/assets/css/cookieconsent.css">
+<script type="module">
+  import '/assets/js/cookieconsent.umd.js';
+
+  CookieConsent.run({
+    disablePageInteraction: {{ site.Params.cookie_banner.cookieconsent.disablePageInteraction | default false }},
+    guiOptions: {
+      consentModal: {
+        layout: '{{ site.Params.cookie_banner.cookieconsent.consentModal.layout | default "box" }}',
+        position: '{{ site.Params.cookie_banner.cookieconsent.consentModal.position | default "bottom left" }}',
+        equalWeightButtons: true,
+        flipButtons: false
+      },
+      preferencesModal: {
+        layout: '{{ site.Params.cookie_banner.cookieconsent.preferencesModal.layout | default "box" }}',
+        position: '{{ site.Params.cookie_banner.cookieconsent.preferencesModal.position | default "right" }}',
+        equalWeightButtons: true,
+        flipButtons: false
+      }
+    },
+    categories: {
+      necessary: {
+        readOnly: true
+      },
+      analytics: {},
+      functionality: {},
+      marketing: {}
+    },
+    language: {
+      default: '{{ site.Language.Lang }}',
+      translations: {
+        {{ site.Language.Lang }}: {
+          consentModal: {
+            title: "{{ i18n `cookie_consent.consentModalTitle` }}",
+            description: "{{ i18n `cookie_consent.consentModalDescription` }}",
+            acceptAllBtn: "{{ i18n `cookie_consent.consentModalAcceptAllBtn` }}",
+            acceptNecessaryBtn: "{{ i18n `cookie_consent.consentModalAcceptNecessaryBtn` }}",
+            showPreferencesBtn: "{{ i18n `cookie_consent.consentModalShowPreferencesBtn` }}",
+            footer: "{{ i18n `cookie_consent.consentModalFooter` }}",
+          },
+          preferencesModal: {
+            title: "{{ i18n `cookie_consent.preferencesModalTitle` }}",
+            acceptAllBtn: "{{ i18n `cookie_consent.preferencesModalAcceptAllBtn` }}",
+            acceptNecessaryBtn: "{{ i18n `cookie_consent.preferencesModalAcceptNecessaryBtn` }}",
+            savePreferencesBtn: "{{ i18n `cookie_consent.preferencesModalSavePreferencesBtn` }}",
+            closeIconLabel: "{{ i18n `cookie_consent.preferencesModalCloseIconLabel` }}",
+            serviceCounterLabel: "{{ i18n `cookie_consent.preferencesModalServiceCounterLabel` }}",
+            sections: [
+              {
+                description: "{{ i18n `cookie_consent.sectionsDescription` }}"
+              },
+              {
+                title: "{{ i18n `cookie_consent.sectionsNecessaryTitle` }}",
+                description: "{{ i18n `cookie_consent.sectionsNecessaryDescription` }}",
+                linkedCategory: 'necessary'
+              },
+              {{- if site.Params.cookie_banner.cookieconsent.analytics }}
+              {
+                title: "{{ i18n `cookie_consent.sectionsAnalyticsTitle` }}",
+                description: "{{ i18n `cookie_consent.sectionsAnalyticsDescription` }}",
+                linkedCategory: 'analytics'
+              }
+              {{ end -}}
+              {{- if site.Params.cookie_banner.cookieconsent.functionality }}
+              {
+                title: "{{ i18n `cookie_consent.sectionsFunctionalityTitle` }}",
+                description: "{{ i18n `cookie_consent.sectionsFunctionalityDescription` }}",
+                linkedCategory: 'functionality'
+              }
+              {{ end -}}
+              {{- if site.Params.cookie_banner.cookieconsent.marketing }}
+              {
+                title: "{{ i18n `cookie_consent.sectionsMarketingTitle` }}",
+                description: "{{ i18n `cookie_consent.sectionsMarketingDescription` }}",
+                linkedCategory: 'marketing'
+              }
+              {{ end -}}
+            ]
+          }
+        }
+      }
+    }
+  });  
+</script>
+
+{{ partial "footer/cookie-consent/javascript-analytics.html" . }}
+{{ partial "footer/cookie-consent/javascript-functionality.html" . }}
+{{ partial "footer/cookie-consent/javascript-marketing.html" . }}
