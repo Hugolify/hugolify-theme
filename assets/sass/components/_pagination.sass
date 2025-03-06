@@ -93,23 +93,20 @@
             justify-content: center
             padding: 2rem
         .previous
-            a
-                align-items: flex-start
-                &::before
-                    position: absolute
-                    left: 0
-                    top: 50%
-                    transform: translate(0,-50%)
+            align-items: flex-start
+            &::before
+                position: absolute
+                left: 0
+                top: 50%
+                transform: translate(0,-50%)
         .next
-            margin-left: auto
-            a
-                align-items: flex-end
-                text-align: right
-                &::after
-                    position: absolute
-                    right: 0
-                    top: 50%
-                    transform: translate(0,-50%)
+            align-items: flex-end
+            text-align: right
+            &::after
+                position: absolute
+                right: 0
+                top: 50%
+                transform: translate(0,-50%)
 
     &-with-image
         --bs-pagination-color: #{$body-color}
