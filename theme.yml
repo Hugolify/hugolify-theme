@@ -3,6 +3,7 @@ license: MIT
 licenselink: 'https://github.com/hugolify/hugolify-theme/blob/main/LICENSE'
 description: Hugolify core theme
 homepage: 'https://www.hugolify.io'
+demosite: 'https://demo.hugolify.io'
 min_version: 0.128.0
 author:
   name: Sébastien Moulène
