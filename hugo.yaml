@@ -28,8 +28,8 @@ module:
     # Import Cookie consent
     - path: github.com/orestbida/cookieconsent
       mounts:
-        - source: dist/cookieconsent.css
-          target: static/assets/css/cookieconsent.css
+        - source: src/scss
+          target: assets/scss/cookieconsent
         - source: dist/cookieconsent.umd.js
           target: static/assets/js/cookieconsent.umd.js
     # Import Splide
@@ -44,7 +44,7 @@ module:
 params:
   animation: false
   cookie_banner:
-    enable: true
+    enable: false
     cookieconsent:
       enable: false
       analytics: false

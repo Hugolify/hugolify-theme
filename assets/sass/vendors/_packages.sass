@@ -1,2 +1,12 @@
 @import "../../scss/bootstrap/bootstrap"
 @import "../../scss/tobii/tobii"
+
+// cookie consent 
+// @use not compatible to libsass https://sass-lang.com/documentation/at-rules/use/
+// So we import all separate files
+@import "../../scss/cookieconsent/core/global"
+@import "../../scss/cookieconsent/core/base"
+// @import "../../scss/cookieconsent/abstracts/light-color-scheme"
+// @import "../../scss/cookieconsent/abstracts/dark-color-scheme"
+@import "../../scss/cookieconsent/core/components/consent-modal"
+@import "../../scss/cookieconsent/core/components/preferences-modal"

@@ -1,0 +1,89 @@
+// With Bootstrap variable
+:root {
+  --cc-bg: #{$modal-content-bg};
+  --cc-primary-color: #{$modal-content-color};
+  --cc-secondary-color: #{lighten($modal-content-color, 10)};
+
+  --cc-modal-border-radius: #{$modal-content-border-radius};
+
+  --cc-btn-border-radius: #{$border-radius};
+
+  --cc-btn-primary-bg: #{$primary};
+  --cc-btn-primary-color: #{color-contrast($primary)};
+  --cc-btn-primary-border-color: var(--cc-btn-primary-bg);
+  --cc-btn-primary-hover-bg: #{darken($primary, 3)};
+  --cc-btn-primary-hover-color: var(--cc-btn-primary-color);
+  --cc-btn-primary-hover-border-color: var(--cc-btn-primary-hover-bg);
+
+  --cc-btn-secondary-bg: #{$secondary};
+  --cc-btn-secondary-color: #{color-contrast($secondary)};
+  --cc-btn-secondary-border-color: var(--cc-btn-secondary-bg);
+  --cc-btn-secondary-hover-bg: #{darken($secondary, 3)};
+  --cc-btn-secondary-hover-color: var(--cc-btn-secondary-color);
+  --cc-btn-secondary-hover-border-color: var(--cc-btn-secondary-hover-bg);
+
+  --cc-separator-border-color: #{$border-color};
+
+  --cc-toggle-on-bg: #{$primary};
+  --cc-toggle-off-bg: #{lighten($primary, 50)};
+  --cc-toggle-on-knob-bg: #{$input-bg};
+  --cc-toggle-off-knob-bg: #{$input-bg};
+
+  --cc-toggle-enabled-icon-color: var(--cc-bg); // yes (v tick)
+  --cc-toggle-disabled-icon-color: var(--cc-bg); // no (x tick)
+
+  --cc-toggle-arrow-bg: #{darken($light, 10)}; // New variable
+  --cc-toggle-arrow-color: #{$input-color}; // New variable
+
+  --cc-toggle-readonly-bg: #{$input-disabled-bg};
+  --cc-toggle-readonly-knob-bg: #{$input-bg};
+  --cc-toggle-readonly-knob-icon-color: #{$input-color};
+
+  --cc-section-category-border: var(--cc-cookie-category-block-bg);
+
+  --cc-cookie-category-block-bg: #{$light};
+  --cc-cookie-category-block-border: #{$border-color};
+  --cc-cookie-category-block-hover-bg: #{darken($light, 2)};
+  --cc-cookie-category-block-hover-border: #{darken($border-color, 2)};
+  --cc-cookie-category-expanded-block-bg: transparent;
+  --cc-cookie-category-expanded-block-hover-bg: #{$border-color}; // Wrong variable
+  --cc-cookie-category-expanded-block-border-bg: #{$border-color}; // New variable
+
+  --cc-overlay-bg: #{rgba($modal-backdrop-bg, $modal-backdrop-opacity)};
+  --cc-webkit-scrollbar-bg: var(--cc-section-category-border);
+  --cc-webkit-scrollbar-hover-bg: var(--cc-btn-primary-hover-bg);
+
+  --cc-footer-bg: var(--cc-btn-secondary-bg);
+  --cc-footer-color: var(--cc-secondary-color);
+  --cc-footer-border-color: #{$border-color};
+}
+
+// Fix libsass calc
+#cc-main .section__toggle:checked ~ .toggle__icon .toggle__icon-circle {
+  transform: translateX(calc(#{$toggle-knob-width} - #{$toggle-knob-height}));
+}
+
+#cc-main .pm__title {
+  @include font-size($h5-font-size);
+  line-height: $modal-title-line-height;
+  margin-bottom: 0;
+}
+
+// Arrow toggle
+#cc-main .pm__section--expandable .pm__section-arrow {
+  background: var(--cc-toggle-arrow-bg);
+}
+#cc-main .pm__section--expandable .pm__section-arrow svg {
+  stroke: var(--cc-toggle-arrow-color);
+}
+
+// Close
+#cc-main button.pm__close-btn {
+  @extend .btn-close;
+}
+#cc-main button.pm__close-btn:hover {
+  background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
+}
+#cc-main .pm__close-btn span {
+  display: none;
+}
