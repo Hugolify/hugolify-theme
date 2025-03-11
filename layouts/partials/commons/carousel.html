@@ -1,22 +1,23 @@
 {{- $context := .context | default false -}}
 {{- $partial := .partial | default false -}}
 
-{{ with $context }}
-  {{- $global_params := false }}
+{{- with $context }}
+  {{- $global_params := false -}}
   {{- with .carousel -}}
     {{- $global_params = partial "func/GetGlobalParamsCarousel" . -}}
   {{- end -}}
   <div class="splide carousel js-carousel" {{- if $global_params }} data-splide="{{ $global_params }}"{{ end }} {{- with .carousel }} style="--perPage: {{ .perPage }}"{{ end }}>
     <div class="splide__track">
       <ul class="splide__list">
-        {{ range .items }}
+        {{- range $index, $items := .items }}
           <li class="splide__slide">
-            {{ if $partial }}
-              {{ partial $partial . }}
-            {{ end }}
+            {{- if $partial }}
+              {{- $item := . | merge (dict "index" $index) -}}
+              {{ partial $partial $item }}
+            {{ end -}}
           </li>
-        {{ end }}
+        {{ end -}}
       </ul>
     </div>
   </div>
-{{ end }}
+{{ end -}}
