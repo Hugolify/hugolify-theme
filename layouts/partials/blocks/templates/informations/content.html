@@ -1,0 +1,14 @@
+<div class="content">
+  {{- with .surtitle }}
+    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+  {{ end -}}
+  {{- with .title }}
+    <p class="name">{{ partial "func/PrepareHTML" . }}</p>
+  {{ end -}}
+  {{- with .text }}
+    <p>{{ partial "func/PrepareHTML" . }}</p>
+  {{ end -}}
+  {{- with .cta }}
+    {{ partial "commons/cta.html" . }}
+  {{ end -}}
+</div>

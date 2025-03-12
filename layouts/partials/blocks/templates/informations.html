@@ -1,73 +1,21 @@
-<section class="block-informations{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+
+{{- $column := 3 -}}
+{{- with .column -}}
+  {{- $column = . -}}
+{{- end -}}
+<section class="block-informations {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
   <div class="container">
     
     {{ partial "blocks/heading.html" . }}
-
-    {{- $column := 3 -}}
-    {{- with .column -}}
-      {{- $column = . -}}
-    {{- end -}}
+    
     {{- with .items }}
     <div class="items items-{{ $column }}">
-      {{ range . }}
+      {{- range . }}
         <div>
-          <div class="item card">
-
-            <div class="content">
-              {{ with .title }}
-                <p class="name">{{ partial "func/PrepareHTML" . }}</p>
-              {{ end }}
-              {{ with .text }}
-                <p>{{ partial "func/PrepareHTML" . }}</p>
-              {{ end }}
-              {{ with .cta }}
-                {{ partial "commons/cta.html" . }}
-              {{ end }}
-            </div>
-
-            {{- $class := false -}}
-            {{- if .icon -}}
-              {{- $class = "icon" -}}
-            {{- else if .image.isLogo -}}
-              {{- $class = "logo" -}}
-            {{- else if .image.src -}}
-              {{- $class = "image" -}}
-            {{- end -}}
-
-            {{- if $class -}}
-            <div class="media media-{{ $class }}">
-              {{- with .icon -}}
-                <i class="icon icon-{{ . }}"></i>
-              {{- else -}}
-
-                {{- with .image }}
-                  {{- $columnTotal := site.Params.column | default false -}}
-                  {{- $desktop := site.Params.container.desktop | default false -}}
-                  {{- $mobile := site.Params.image.scrollsnap | default false -}}
-                  {{- if $desktop -}}
-                    {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
-                    {{- if eq $class "image" -}}
-                      {{- $height := int (mul $width site.Params.blocks.informations.image.ratio) -}}
-                      {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
-                    {{- else -}}
-                      {{- $desktop = printf "%sx" (string $width) -}}
-                    {{- end -}}
-                  {{- end -}}
-                  {{ partial "commons/image" (dict
-                    "src" .src 
-                    "alt" .alt 
-                    "desktop" $desktop
-                    "mobile" $mobile
-                    ) }}
-                {{ end -}}
-
-              {{- end -}}
-            </div>
-            {{- end -}}
-
-          </div>
+          {{- $item := . | merge (dict "column" $column) -}}
+          {{ partial "blocks/templates/informations/item" $item }}
         </div>
-      {{ end }}
+      {{ end -}}
     </div>
   {{ end -}}
 
