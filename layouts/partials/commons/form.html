@@ -52,6 +52,7 @@
           {{ with .value }}value="{{ . }}"{{ end }}
           {{ if $condHelp }}aria-describedby="help-{{ $id }}"{{ end }}
           {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
+          {{ with .pattern }}pattern="{{ . }}"{{ end }}
           {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
           {{ if .required }}required{{ end }}>
       {{ end -}}
