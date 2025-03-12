@@ -1,5 +1,17 @@
 {{- $idForm := printf "form-%s" (.index | string) -}}
-<form class="form" {{- if site.Params.form.netlify }} netlify{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
+{{- $action := false -}}
+{{- if site.Params.form.netlify -}}
+  {{- $action = "netlify" -}}
+{{- else if site.Params.form.fabform -}}
+  {{- $action = printf `action="https://fabform.io/f/%s"` site.Params.form.fabform -}}
+{{- else if site.Params.form.formspree -}}
+  {{- $action = printf `action="https://formspree.io/f/%s"` site.Params.form.formspree -}}
+{{- else if site.Params.form.kwes -}}
+  {{- $action = printf `action="https://kwes.io/api/foreign/forms/%s"` site.Params.form.formspree -}}
+  <script src="https://kwes.io/js/kwes.js" defer></script>
+{{- end -}}
+
+<form class="form" {{ $action | safeHTMLAttr }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
 
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}

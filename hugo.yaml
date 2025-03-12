@@ -53,6 +53,9 @@ params:
       disablePageInteraction: false
   form:
     netlify: true
+    fabform: false # Replace by the fabform id: https://fabform.io/
+    formspree: false # Replace by the formspree id: https://formspree.io/
+    kwes: false # Replace by the kwes id: https://kwesforms.com/
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
