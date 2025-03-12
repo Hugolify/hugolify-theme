@@ -51,14 +51,20 @@ params:
       functionality: false
       marketing: false
       disablePageInteraction: false
+  form:
+    netlify: true
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
+
+  # Front
   column: 12
   gutter: 24
   container:
     desktop: 1296
     mobile: 300
+  
+  # Images
   hero:
     cover: '1600x400'
     cover_mobile: '360x400'

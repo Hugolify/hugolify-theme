@@ -1,5 +1,5 @@
 {{- $idForm := printf "form-%s" (.index | string) -}}
-<form class="form" netlify enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
+<form class="form" {{- if site.Params.form.netlify }} netlify{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
 
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
