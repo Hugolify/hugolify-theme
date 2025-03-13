@@ -82,15 +82,21 @@ filter: Filtrer
 form:
   company: Société
   email: Email
+  error: 'Erreur : Il y a un problème'
   firstname: Prénom
+  hint:
+    email: 'Example : email@domaine.com'
+    firstname: Antoine
+    lastname: Dupont
+    tel: 'Example : +33 6 12 34 56 78'
+    url: 'Example : https://www.domaine.com'
   lastname: Nom de famille
   message: Message
   name: Nom
+  organization: Organisation
+  subject: Sujet
+  success: Formulaire envoyé avec succès. Merci !
   tel: Téléphone
-  hint:
-    email: 'Example : email@domaine.com'
-    tel: 'Example : +33 6 12 34 56 78'
-    url: 'Example : https://www.domaine.com'
 from: De
 gallery:
   enlarge: Agrandir l’image

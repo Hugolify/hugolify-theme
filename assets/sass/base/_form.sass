@@ -43,22 +43,3 @@ form
     
     [type=submit]
         @include button-variant($primary,$primary)
-
-    &.is-submitting
-        [type=submit]
-            pointer-events: none
-    
-    &.has-error
-        .message
-            --bs-alert-color: var(--bs-danger-text-emphasis)
-            --bs-alert-bg: var(--bs-danger-bg-subtle)
-            --bs-alert-border-color: var(--bs-danger-border-subtle)
-            --bs-alert-link-color: var(--bs-danger-text-emphasis)
-            @extend .alert !optional
-    
-    &.is-success
-        .message
-            &::before
-                @include icon("check")
-        .message ~ div
-            display: none

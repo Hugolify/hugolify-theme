@@ -81,15 +81,21 @@ filter: Filter
 form:
   company: Company
   email: Email
+  error: 'Error: something wrong'
   firstname: Firstname
+  hint:
+    email: 'e.g. email@domain.com'
+    firstname: John
+    lastname: Doe
+    tel: 'e.g. +1 718 123 4567'
+    url: 'e.g. https://www.domain.com'
   lastname: Lastname
   message: Message
   name: Name
+  organization: Organization
+  subject: Subject
+  success: Form successfully submitted. Thank you!
   tel: Telephone
-  hint:
-    email: 'e.g. email@domain.com'
-    tel: 'e.g. +1 718 123 4567'
-    url: 'e.g. https://www.domain.com'
 from: From
 gallery:
   enlarge: Enlarge image

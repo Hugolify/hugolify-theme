@@ -39,6 +39,7 @@ class Form {
 
   addSuccessMessage() {
     this.form.classList.add('is-success');
+    this.form_message.textContent = window.i18n.form.success;
   }
 
   addErrorMessage(errorMessage) {

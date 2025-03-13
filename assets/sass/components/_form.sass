@@ -10,3 +10,30 @@
     .actions
         @include media-breakpoint-up(lg)
             @include make-col(12)
+
+    &.is-submitting
+        [type=submit]
+            pointer-events: none
+    
+    &.has-error,
+    &.is-success
+        .message
+            @extend .alert !optional
+            width: 100%
+
+    &.has-error
+        .message
+            --bs-alert-color: var(--bs-danger-text-emphasis)
+            --bs-alert-bg: var(--bs-danger-bg-subtle)
+            --bs-alert-border-color: var(--bs-danger-border-subtle)
+            --bs-alert-link-color: var(--bs-danger-text-emphasis)
+    
+    &.is-success
+        .message
+            --bs-alert-color: var(--bs-success-text-emphasis)
+            --bs-alert-bg: var(--bs-success-bg-subtle)
+            --bs-alert-border-color: var(--bs-success-border-subtle)
+            --bs-alert-link-color: var(--bs-success-text-emphasis)
+            margin-bottom: 0
+        .message ~ div
+            display: none
