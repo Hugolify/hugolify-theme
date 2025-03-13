@@ -14,15 +14,31 @@ class Form {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const formData = new FormData(this.form);
-    const actionUrl = this.form.action || '/';
+    const formData = new FormData(event.target);
+    const actionUrl = event.target.action || '/';
+
+    // Get form service
+    let serviceForm = 'netlify';
+    if (event.target.action) {
+      const urlObj = new URL(event.target.action);
+      serviceForm = urlObj.hostname;
+    }
+
+    // Set Headers and Body
+    let headers = { 'Content-Type': 'application/json' };
+    let body = this.formDataToJson(formData);
+    if (serviceForm == 'netlify') {
+      headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+      body = new URLSearchParams(formData).toString();
+    }
+
     this.form.classList.add('is-submitting');
 
     try {
       const response = await fetch(actionUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
+        method: this.form.method,
+        headers: headers,
+        body: body
       });
 
       if (response.ok) {
@@ -35,6 +51,21 @@ class Form {
       console.error('Erreur:', error);
       this.addErrorMessage(error.message);
     }
+  }
+
+  formDataToJson(formData) {
+    let object = {};
+    formData.forEach((value, key) => {
+      if (object[key] !== undefined) {
+        if (!Array.isArray(object[key])) {
+          object[key] = [object[key]];
+        }
+        object[key].push(value);
+      } else {
+        object[key] = value;
+      }
+    });
+    return JSON.stringify(object);
   }
 
   addSuccessMessage() {
