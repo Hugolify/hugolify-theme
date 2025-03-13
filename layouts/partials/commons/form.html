@@ -10,12 +10,20 @@
   {{- $action = printf `action="https://kwes.io/api/foreign/forms/%s"` site.Params.form.formspree -}}
   <script src="https://kwes.io/js/kwes.js" defer></script>
 {{- end -}}
+{{- $ajax := false -}}
+{{- if site.Params.form.ajax -}}
+  {{- $ajax = true -}}
+{{- end -}}
 
-<form class="form" {{ $action | safeHTMLAttr }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
+<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
 
+  {{- with $ajax }}
+  <p class="message js-form-message" role="alert"></p>
+  {{ end -}}
+  
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
-    {{- $name := anchorize .label | default $id -}}
+    {{- $name := anchorize .name | default (anchorize .label) | default $id -}}
     {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
     {{- if ne .type "hidden" }}<div {{- if .full }} class="full"{{ end }}>{{ end }}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "hidden") }}

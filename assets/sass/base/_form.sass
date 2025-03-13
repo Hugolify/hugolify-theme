@@ -1,6 +1,6 @@
 form
     label
-        @extend .form-label
+        @extend .form-label !optional
 
     input[type=date],
     input[type=email],
@@ -15,22 +15,22 @@ form
     input[type=url],
     input[type=week],
     textarea
-        @extend .form-control
+        @extend .form-control !optional
 
     input[type=checkbox],
     input[type=radio]
-        @extend .form-check-input
+        @extend .form-check-input !optional
         & + label
-            @extend .form-check-label
+            @extend .form-check-label !optional
 
     input[type=range]
-        @extend .form-range
+        @extend .form-range !optional
 
     select
-        @extend .form-select
+        @extend .form-select !optional
 
     .help
-        @extend .form-text
+        @extend .form-text !optional
         margin-bottom: 0
         a[href^="tel:"]
             color: inherit !important
@@ -43,3 +43,22 @@ form
     
     [type=submit]
         @include button-variant($primary,$primary)
+
+    &.is-submitting
+        [type=submit]
+            pointer-events: none
+    
+    &.has-error
+        .message
+            --bs-alert-color: var(--bs-danger-text-emphasis)
+            --bs-alert-bg: var(--bs-danger-bg-subtle)
+            --bs-alert-border-color: var(--bs-danger-border-subtle)
+            --bs-alert-link-color: var(--bs-danger-text-emphasis)
+            @extend .alert !optional
+    
+    &.is-success
+        .message
+            &::before
+                @include icon("check")
+        .message ~ div
+            display: none
