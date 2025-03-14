@@ -5,12 +5,14 @@
 ## Features
 * 100/100 Google PageSpeed Insights
 * Accessibility friendly
+* [Blocks](https://www.hugolify.io/docs/blocks/)
 * Forms (Netlify or other)
 * Lazy loading and JS defer
 * PurgeCSS
 * Responsive design
 * Responsive images (and WebP)
 * SEO friendly
+* [Shortcodes](https://www.hugolify.io/docs/shortcodes/)
 
 ## Framework front
 * Bootstrap
@@ -22,6 +24,11 @@
 * LeafletJS OpenStreetMap
 * SplideJS Carousel
 * Tobii Lightbox
+
+## Multilingual Support
+
+* English
+* French
 
 ## Install
 
