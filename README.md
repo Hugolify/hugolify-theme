@@ -7,6 +7,7 @@
 * Accessibility friendly
 * Forms (Netlify or other)
 * Lazy loading and JS defer
+* PurgeCSS
 * Responsive design
 * Responsive images (and WebP)
 * SEO friendly
@@ -24,7 +25,11 @@
 
 ## Install
 
-Add as a Hugo Module
+Use Hugolify starter template
+
+https://github.com/Hugolify/hugolify-template/
+
+Or add as a Hugo Module
 
 Edit `config/_default/module.yaml` to install the `hugolify-theme` module:
 
