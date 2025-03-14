@@ -54,9 +54,7 @@ params:
   form:
     ajax: false # Set true to enable ajax form
     netlify: true # Set false to disable Netlify Forms
-    fabform: false # Replace by the fabform id: https://fabform.io/
-    formspree: false # Replace by the formspree id: https://formspree.io/
-    kwes: false # Replace by the kwes id: https://kwesforms.com/
+    action: false # Replace by action URL from https://fabform.io/, https://formspree.io/, https://kwesforms.com/ …
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'

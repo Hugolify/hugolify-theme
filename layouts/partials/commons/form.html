@@ -1,14 +1,9 @@
 {{- $idForm := printf "form-%s" (.index | string) -}}
 {{- $action := false -}}
 {{- if site.Params.form.netlify -}}
-  {{- $action = "netlify" -}}
-{{- else if site.Params.form.fabform -}}
-  {{- $action = printf `action="https://fabform.io/f/%s"` site.Params.form.fabform -}}
-{{- else if site.Params.form.formspree -}}
-  {{- $action = printf `action="https://formspree.io/f/%s"` site.Params.form.formspree -}}
-{{- else if site.Params.form.kwes -}}
-  {{- $action = printf `action="https://kwes.io/api/foreign/forms/%s"` site.Params.form.formspree -}}
-  <script src="https://kwes.io/js/kwes.js" defer></script>
+  {{- $action = `netlify netlify-honeypot="bot-field"` -}}
+{{- else if site.Params.form.action -}}
+  {{- $action = printf `action="%s"` site.Params.form.action -}}
 {{- end -}}
 {{- $ajax := false -}}
 {{- if site.Params.form.ajax -}}
@@ -20,7 +15,11 @@
   {{- with $ajax }}
   <p class="message js-form-message" role="alert"></p>
   {{ end -}}
-  
+
+  {{- if site.Params.form.netlify -}}
+  <div class="hidden"><input name="bot-field" /></div>
+  {{- end -}}
+
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
     {{- $name := anchorize .name | default (anchorize .label) | default $id -}}
