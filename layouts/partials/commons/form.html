@@ -35,12 +35,14 @@
           rows="5"
           {{ with .type }}type="{{ . }}"{{ end }}
           {{ with .value }}value="{{ . }}"{{ end }}
+          {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
           {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
           {{ if .required }}required{{ end }}></textarea>
       {{- else if eq .type "select" -}}
         <select
           id="{{ $id }}"
           name="{{ $name }}"
+          {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
           {{ if .required }}required{{ end }}>
           {{- if not .required }}
             <option value="">--</option>
