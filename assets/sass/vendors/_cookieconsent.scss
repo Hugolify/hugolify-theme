@@ -1,11 +1,19 @@
 // With Bootstrap variable
 :root {
-  --cc-bg: #{$modal-content-bg};
-  --cc-primary-color: #{$modal-content-color};
-  --cc-secondary-color: #{lighten($modal-content-color, 10)};
+  @if variable-exists(modal-content-bg) {
+    --cc-bg: #{$modal-content-bg};
+  } @else {
+    --cc-bg: #{$body-bg};
+  }
+  @if variable-exists(modal-content-color) {
+    --cc-primary-color: #{$modal-content-color};
+    --cc-secondary-color: #{$modal-content-color};
+  } @else {
+    --cc-primary-color: #{$body-color};
+    --cc-secondary-color: #{$body-color};
+  }
 
   --cc-modal-border-radius: #{$modal-content-border-radius};
-
   --cc-btn-border-radius: #{$border-radius};
 
   --cc-btn-primary-bg: #{$primary};
@@ -80,6 +88,10 @@
 // Close
 #cc-main button.pm__close-btn {
   @extend .btn-close;
+  background-image: escape-svg($btn-close-bg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1rem auto;
 }
 #cc-main button.pm__close-btn:hover {
   background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
