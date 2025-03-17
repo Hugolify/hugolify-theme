@@ -1,7 +1,8 @@
 {{- $currentPage := . }}
-{{- $pagesSection := site.GetPage "section" "docs" }}
+{{- $currentSection := .Section }}
+{{- $pagesSection := site.GetPage "section" $currentSection }}
 {{- with $pagesSection }}
-  <nav aria-label="">
+  <nav aria-label="{{ i18n `sidebar.menu` }}">
     <ul class="nav">
       {{- range .Pages }}
         {{- template "tree-nav" dict "page" . "current" $currentPage }}
