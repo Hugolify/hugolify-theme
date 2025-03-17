@@ -1,4 +1,8 @@
 main
+    --sidebarmenu: 25%
+    --sidebarmenu-div: 75%
+    --sidebarmenu-sidebar: 20%
+    --sidebarmenu-content: 80%
     @include padding-bottom($global-spacing-double)
     @include padding-top($global-spacing)
     outline: 0
@@ -9,6 +13,18 @@ main
         .sidebar
             @extend .col-md-4
             @extend .offset-md-1
+            &--menu
+                @include media-breakpoint-up(md)
+                    margin-left: 0
+                    width: var(--sidebarmenu)
+                    & + div
+                        width: var(--sidebarmenu-div)
+                        .row > .sidebar
+                            margin-left: 0
+                            width: var(--sidebarmenu-sidebar)
+                        .row > .content
+                            width: var(--sidebarmenu-content)
+        
         @include media-breakpoint-down(md)
             header
                 order: 1
@@ -20,8 +36,14 @@ main
             .sidebar
                 margin-bottom: $grid-gutter-width
                 order: 2
+                &--menu
+                    order: -1
             nav
                 order: 4
+
+    @include media-breakpoint-up(lg)
+        --sidebarmenu: calc(100%/6)
+        --sidebarmenu-div: calc(100%/6*5)
     
     // Offset for anchor with sticky header
     [id]

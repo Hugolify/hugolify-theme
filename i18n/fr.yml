@@ -167,6 +167,8 @@ reference:
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
+sidebar:
+  menu: Menu
 the: Le
 to: À
 toc: Table des matières

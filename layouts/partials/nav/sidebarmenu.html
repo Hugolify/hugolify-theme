@@ -1,0 +1,29 @@
+{{- $currentPage := . }}
+{{- $pagesSection := site.GetPage "section" "docs" }}
+{{- with $pagesSection }}
+  <nav aria-label="">
+    <ul class="nav">
+      {{- range .Pages }}
+        {{- template "tree-nav" dict "page" . "current" $currentPage }}
+      {{ end -}}
+    </ul>
+  </nav>
+{{ end -}}
+
+{{- define "tree-nav" }}
+  {{- $page := .page }}
+  {{- $current := .current }}
+  {{- $isActive := eq $page.RelPermalink $current.RelPermalink }}
+  {{- $isAncestor := in $current.RelPermalink $page.RelPermalink }}
+  {{- $isCurrentOrAncestor := or $isActive $isAncestor }}
+  <li>
+      <a href="{{ $page.RelPermalink }}" {{- if $isActive }} class="active" aria-current="page" {{ end }}>{{ $page.Title }}</a>
+      {{- if or $isCurrentOrAncestor $isActive }}
+      <ul>
+          {{- range $page.Pages }}
+              {{- template "tree-nav" dict "page" . "current" $current }}
+          {{- end }}
+      </ul>
+      {{- end }}
+  </li>
+{{- end }}
