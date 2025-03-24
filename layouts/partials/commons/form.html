@@ -17,7 +17,7 @@
   {{ end -}}
 
   {{- if site.Params.form.netlify -}}
-  <div class="hidden"><input name="bot-field" /></div>
+  <div class="invisible"><input name="bot-field" /></div>
   {{- end -}}
 
   {{- range $index, $items := .items }}
