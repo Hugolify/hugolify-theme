@@ -9,7 +9,7 @@
   {{- end -}}
   <a href="{{ .Permalink }}">
     <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
-    {{ partial "func/PrepareHTML" .Title }}
+    <span>{{ partial "func/PrepareHTML" .Title }}</span>
     {{- with .Params.image }}
       {{ partial "commons/image.html" (dict
         "src" .src
