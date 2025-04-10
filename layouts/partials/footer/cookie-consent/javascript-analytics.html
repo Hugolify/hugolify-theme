@@ -1,4 +1,4 @@
 {{- if site.Params.cookie_banner.cookieconsent.analytics }}
-{{/*  Analytics scripts  */}}
-{{ partial "footer/cookie-consent/google-analytics.html" . }}
+  {{ partial "footer/cookie-consent/google-analytics.html" . }}
+  {{ partial "footer/cookie-consent/meta-pixel.html" . }}
 {{ end -}}
