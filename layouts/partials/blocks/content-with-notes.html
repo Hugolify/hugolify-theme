@@ -15,7 +15,7 @@
 {{- with $text }}
   {{- $text = partial "commons/text" (dict "text" $text) -}}
   {{- if $notes -}}
-    {{- partial "func/PrepareNotes" (dict 
+    {{- partial "func/PrepareNotes.html" (dict 
         "html" $text 
         "blockId" $blockId 
         "notes" $notes

@@ -20,10 +20,10 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- $seoTitle = partial "func/PrepareData" $seoTitle -}}
-{{- $title := partial "func/PrepareData" (partial "func/GetRealTitle" .) -}}
+{{- $seoTitle = partial "func/PrepareData.html" $seoTitle -}}
+{{- $title := partial "func/PrepareData.html" (partial "func/GetRealTitle.html" .) -}}
 {{- with .Params.seo.title -}}
-  {{- $title = partial "func/PrepareData" . -}}
+  {{- $title = partial "func/PrepareData.html" . -}}
 {{- end -}}
 {{- $seoTitle = printf "%s | %s" $title $seoTitle -}}
 
@@ -46,7 +46,7 @@
 {{- with .Params.seo.description -}}
   {{- $seoDescription = . -}}
 {{- end -}}
-{{- $seoDescription = partial "func/PrepareData" $seoDescription -}}
+{{- $seoDescription = partial "func/PrepareData.html" $seoDescription -}}
 
 {{/*  IMAGE  */}}
 {{- $seoImage := "" -}}

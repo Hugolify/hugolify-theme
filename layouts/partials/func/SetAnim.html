@@ -1,0 +1,11 @@
+{{ $attr := "" }}
+{{ $isAnimation := site.Params.animation | default false }}
+
+{{ if $isAnimation }}
+  {{ $attr = " data-anim" }}
+  {{ with .element }}
+    {{ $attr = printf "%s=%s" $attr . }}
+  {{ end }}
+{{ end }}
+
+{{ return ($attr | safeHTMLAttr) }}

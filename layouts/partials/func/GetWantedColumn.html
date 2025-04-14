@@ -1,0 +1,10 @@
+{{ $columnWanted := 12 }}
+{{ if eq . "small" }}
+  {{ $columnWanted = 6 }}
+{{ else if eq . "medium" }}
+  {{ $columnWanted = 8 }}
+{{ else if eq . "large" }}
+  {{ $columnWanted = 10 }}
+{{ end }}
+
+{{ return $columnWanted }}

@@ -1,0 +1,7 @@
+{{- if ne .grid "full" }}
+<div class="container">
+  {{- with .class }}
+  <div class="row">
+    <div class="{{ . }}">
+  {{ end -}}
+{{ end -}}
