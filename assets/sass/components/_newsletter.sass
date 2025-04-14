@@ -1,5 +1,15 @@
 .newsletter
     > div
         @extend .input-group
+        @include media-breakpoint-down(md)
+            flex-direction: column
+            input[type=email]
+                --bs-border-radius: 0
+                flex-basis: 100%
+                margin-bottom: .5rem
+                width: auto
+            .btn
+                --bs-btn-border-radius: 0
+                margin-left: 0 !important
     input[type=email]
         @extend .form-control

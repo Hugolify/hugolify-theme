@@ -1,8 +1,8 @@
 .block-newsletter
-    .col
-        @extend .col-md-10
-        @extend .col-lg-8
-        @extend .col-xl-6
-        @extend .offset-md-1
-        @extend .offset-lg-2
-        @extend .offset-xl-3
+    .newsletter
+        @include media-breakpoint-up(md)
+            width: 75%
+        @include media-breakpoint-up(lg)
+            margin-left: auto
+            margin-right: auto
+            width: 50%
