@@ -1,23 +1,5 @@
-
-{{- $column := 3 -}}
-{{- with .column -}}
-  {{- $column = . -}}
-{{- end -}}
-<section class="block-informations {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    
-    {{ partial "blocks/heading.html" . }}
-    
-    {{- with .items }}
-    <div class="items items-{{ $column }}">
-      {{- range . }}
-        <div>
-          {{- $item := . | merge (dict "column" $column) -}}
-          {{ partial "blocks/templates/informations/item" $item }}
-        </div>
-      {{ end -}}
-    </div>
-  {{ end -}}
-
-  </div>
+<section class="block-informations {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/informations/header.html" . }}
+  {{ partial "blocks/templates/informations/body.html" . }}
+  {{ partial "blocks/templates/informations/footer.html" . }}
 </section>

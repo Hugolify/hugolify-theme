@@ -1,24 +1,9 @@
-{{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
-{{- $atf := cond .first true false -}}
-{{- $items := partial "blocks/templates/selected/GetItems" (dict "section" $section "items" .items) -}}
-
+{{- $items := partial "blocks/templates/selected/GetItems.html" (dict "section" .section "items" .items) -}}
 {{- if $items }}
-<section class="block-selected block-selected-{{ $layout }} block-selected-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{- partial "blocks/heading" . -}}
-
-    {{- with $items }}
-      {{- if eq $layout "list" }}
-        {{ partial "blocks/templates/selected/list.html" . }}
-      {{ else }}
-        {{ partial "blocks/templates/selected/grid.html" (dict "section" $section "items" . "atf" $atf) }}
-      {{ end -}}
-    {{ end -}}
-
-    {{- partial "blocks/footing" . -}}
-
-  </div>
+<section class="block-selected block-selected-{{ $layout }} block-selected-{{ .section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{- $context := dict "context" . "items" $items "layout" $layout -}}
+  {{- partial "blocks/templates/selected/body.html" $context -}}
+  {{- partial "blocks/templates/selected/footer.html" . -}}
 </section>
 {{ end -}}

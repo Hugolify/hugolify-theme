@@ -19,7 +19,7 @@
       {{- $desktop := site.Params.container.desktop | default false -}}
       {{- $mobile := site.Params.image.scrollsnap | default false -}}
       {{- if $desktop -}}
-        {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
+        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
         {{- if eq $class "image" -}}
           {{- $height := int (mul $width site.Params.blocks.informations.image.ratio) -}}
           {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
@@ -27,7 +27,7 @@
           {{- $desktop = printf "%sx" (string $width) -}}
         {{- end -}}
       {{- end -}}
-      {{ partial "commons/image" (dict
+      {{ partial "commons/image.html" (dict
         "src" .src 
         "alt" .alt 
         "desktop" $desktop

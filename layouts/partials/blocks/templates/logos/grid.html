@@ -1,6 +1,5 @@
 {{- $column := float .column | default 4 -}}
 <div class="container">
-  {{ partial "blocks/heading.html" . }}
   <div class="logos logos-{{ $column }}">
     {{ range .items }}
       <div>

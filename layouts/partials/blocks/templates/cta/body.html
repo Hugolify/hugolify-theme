@@ -1,0 +1,8 @@
+<div class="container">
+{{- with .ctas }}
+  {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+{{- else -}}
+  {{/*  Deprecated  */}}
+  {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
+{{ end -}}
+</div>

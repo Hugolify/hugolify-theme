@@ -1,0 +1,11 @@
+{{- $context := dict "heading" .context.heading "items" .items "layout" .layout "first" .context.first "section" .context.section -}}
+{{- with $context }}
+<div class="container">
+  {{- partial "blocks/templates/selected/header.html" . -}}
+  {{- if eq .layout "list" }}
+    {{ partial "blocks/templates/selected/list.html" . }}
+  {{ else }}
+    {{ partial "blocks/templates/selected/grid.html" . }}
+  {{ end -}}
+</div>
+{{ end -}}

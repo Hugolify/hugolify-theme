@@ -1,10 +1,5 @@
-<section class="block-quote{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    {{ partial "blocks/heading.html" . }}
-    <div class="row">
-      <div>
-        {{ partial "commons/quote.html" . }}
-      </div>
-    </div>
-  </div>
+<section class="block-quote {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/quote/header.html" . }}
+  {{ partial "blocks/templates/quote/body.html" . }}
+  {{ partial "blocks/templates/quote/footer.html" . }}
 </section>

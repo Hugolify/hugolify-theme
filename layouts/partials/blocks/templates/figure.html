@@ -1,43 +1,7 @@
-{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
-{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) -}}
-
-{{- $columnWanted := 12 -}}
-{{- if eq .grid "small" -}}
-  {{- $columnWanted = 6 -}}
-{{- else if eq .grid "medium" -}}
-  {{- $columnWanted = 8 -}}
-{{- else if eq .grid "large" -}}
-  {{- $columnWanted = 10 -}}
-{{- end -}}
-        
-{{- $desktop := site.Params.container.desktop | default false -}}
-{{- $mobile := site.Params.image.mobile_full | default false -}}
-{{- if $desktop -}}
-  {{- $width := partial "func/GetColumnWidth" (dict "column" $columnWanted) -}}
-  {{- $desktop = printf "%sx" (string $width) -}}
-{{- end -}}
-
 {{- if .figure -}}
-{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
-<section class="block-figure {{- with .offset }} block-figure-{{.}}{{ end }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{- partial "blocks/heading.html" . -}}
-
-    {{- if $class -}}
-    <div class="row">
-      <div class="{{ $class }}">
-    {{- end -}}
-
-    {{- with $figure -}}
-      {{- partial "commons/figure" . -}}
-    {{- end -}}
-
-    {{- if $class -}}
-      </div>
-    </div>
-    {{- end -}}
-
-  </div>
+<section class="block-figure {{- with .grid }} block-figure-{{.}}{{ end }} {{- with .offset }} block-figure-{{.}}{{ end }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/figure/header.html" . }}
+  {{ partial "blocks/templates/figure/body.html" . }}
+  {{ partial "blocks/templates/figure/footer.html" . }}
 </section>
 {{- end -}}

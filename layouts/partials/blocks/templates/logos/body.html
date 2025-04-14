@@ -1,0 +1,6 @@
+{{- $layout := .layout | default false -}}
+{{ if eq $layout "carousel" }}
+  {{ partial "blocks/templates/logos/carousel.html" . }}
+{{ else }}
+  {{ partial "blocks/templates/logos/grid.html" . }}
+{{ end }}

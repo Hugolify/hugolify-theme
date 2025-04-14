@@ -1,0 +1,9 @@
+{{- $grid := .grid | default "large" -}}
+{{- $class := partial "func/GetColClass" $grid -}}
+
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
+{{- with .video }}
+  {{ partial "commons/figure-video.html" . }}
+  {{ partial "commons/transcription" .transcription }}
+{{ end -}}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}

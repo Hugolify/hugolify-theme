@@ -1,0 +1,33 @@
+
+{{- $show_color := .show_color | default false -}}
+{{- $show_gauge := .show_gauge | default false -}}
+{{- $column := .column | default 3 -}}
+{{- with .items }}
+<div class="container">
+  <ul class="items items-{{ $column }}">
+  {{- range . }}
+    <li>
+      {{- if $show_gauge }}
+        {{- $stat := . -}}
+        {{- with .value }}
+          {{ partial "commons/gauge.html" (dict 
+            "value" . 
+            "limit" $stat.limit 
+            "show_color" $show_color 
+            "prefix" $stat.prefix 
+            "suffix" $stat.suffix ) }}
+        {{ end -}}
+      {{ else }}
+        <p class="value">{{ .prefix }}{{ .value }}{{ .suffix }}</p>
+      {{ end -}}
+      {{- with .title }}
+        <h3>{{ partial "func/PrepareHTML.html" . }}</h3>
+      {{ end -}}
+      {{- with .text }}
+        {{ partial "commons/text.html" (dict "text" .) }}
+      {{ end -}}
+    </li>
+  {{ end -}}
+  </ul>
+</div>
+{{ end -}}

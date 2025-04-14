@@ -6,11 +6,11 @@
 {{- $mobile := site.Params.container.mobile | default false -}}
 {{- $ratio := .ratio | default 1 -}}
 {{- if $desktop -}}
-  {{- $width := partial "func/GetColumnWidth" (dict "column" (div $columnTotal $column)) -}}
+  {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
   {{- $desktop = printf "%sx" (string $width) -}}
 {{- end -}}
 {{- if $mobile -}}
-  {{- $width := partial "func/GetColumnWidth" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
+  {{- $width := partial "func/GetColumnWidth.html" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
   {{- $mobile = printf "%sx" (string $width) -}}
 {{- end -}}
 

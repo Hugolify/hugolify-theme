@@ -1,21 +1,7 @@
-{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) -}}
-
-<section class="block-form{{ with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{- if $class }}
-    <div class="row">
-      <div class="{{ $class }}">
-    {{ end -}}
-    
-      {{- partial "blocks/heading.html" . -}}
-
-      {{- partial "commons/form.html" . -}}
-
-    {{- if $class }}
-      </div>
-    </div>
-    {{ end -}}
-
-  </div>
+{{- if .items -}}
+<section class="block-form {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/form/header.html" . }}
+  {{ partial "blocks/templates/form/body.html" . }}
+  {{ partial "blocks/templates/form/footer.html" . }}
 </section>
+{{- end -}}

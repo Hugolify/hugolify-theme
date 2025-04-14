@@ -7,14 +7,14 @@
         list-style: none
         margin-bottom: 0
         padding-left: 0
-        > *
+        > li
             @include make-col-ready()
             @include media-breakpoint-up(lg)
                 @include make-col(4)
 
         @for $i from 3 through 6
             &-#{$i}
-                > *
+                > li
                     @include media-breakpoint-up(lg)
                         @include make-col($grid-columns / $i)
     h3
@@ -26,3 +26,5 @@
         margin-right: auto
     .value
         @extend .display-4
+    .text p:last-child
+        margin-bottom: 0

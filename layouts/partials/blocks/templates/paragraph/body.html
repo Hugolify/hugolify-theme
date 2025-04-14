@@ -1,0 +1,23 @@
+{{- $index := .index -}}
+{{- $grid := .grid | default "large" -}}
+{{- $offset := .offset | default false -}}
+{{- $class := partial "func/GetColOffsetClass" (dict "grid" $grid "offset" $offset) -}}
+{{- if eq .align "center" -}}
+  {{- $class = printf "%s text-center" $class -}}
+{{- end -}}
+
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
+
+{{- partial "blocks/content-with-notes.html" (dict 
+  "context" .
+  "blockId" $index
+) -}}
+
+{{- with .ctas }}
+  {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+{{- else -}}
+  {{/*  Deprecated  */}}
+  {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
+{{ end -}}
+
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}

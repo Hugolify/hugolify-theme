@@ -7,19 +7,26 @@
         flex-direction: column
     .footing
         @include margin-top($global-spacing)
-    
+    > .heading,
+    > .footing
+        @include make-container()
+        @include media-breakpoint-down(lg)
+            --bs-gutter-x: calc(#{$gutter-mobile} * 2)
+
     @include media-breakpoint-up(lg)
-        .heading
+        .heading,
+        .footing
             align-items: center
             margin-left: auto
-            margin-bottom: $global-spacing
             margin-right: auto
             max-width: 66%
             text-align: center
-        [class*="col-"] .heading
-            max-width: 100%
-        .footing
-            text-align: center
+        .heading
+            margin-bottom: $global-spacing
+        [class*="col-"] 
+            .heading,
+            .footing
+                max-width: 100%
 
 .block-bg
     background-color: $light

@@ -1,0 +1,56 @@
+{{- $column := .column | default 3 -}}
+{{- $tag := cond (ne .heading.title "") "h3" "h2" -}}
+{{- with .items }}
+<div class="container">
+  <div class="items items-{{ $column }}">
+    {{- range . }}
+      <div>
+        <div class="item {{- with .is_highlighted }} item-highlighted{{ end }}">
+
+          <header>
+            {{- with .badge }}
+              <span class="badge">{{ partial "func/PrepareHTML.html" . }}</span>
+            {{ end -}}
+            {{- with .title }}
+              {{- printf "<%s>" $tag | safeHTML -}}
+                {{ partial "func/PrepareHTML.html" . }}
+              {{- printf "</%s>" $tag | safeHTML -}}
+            {{ end -}}
+            {{- with .text }}
+              <p>{{ partial "func/PrepareHTML.html" . }}</p>
+            {{ end -}}
+            {{- with .offer }}
+              {{ partial "commons/price" . }}
+              {{ with .text }}
+                <p>{{ partial "func/PrepareHTML.html" . }}</p>
+              {{ end }}
+            {{ end -}}
+          </header>
+
+          {{- with .arguments }}
+          <div class="content">
+            <ul>
+            {{- range . }}
+              <li>
+                {{- with .icon -}}
+                  <i class="icon icon-{{ . }}"></i>
+                {{ end -}}
+                {{ partial "func/PrepareHTML.html" .text -}}
+              </li>
+            {{ end -}}
+            </ul>
+          </div>
+          {{ end -}}
+
+          {{- with .cta }}
+            <footer>
+              {{- partial "commons/cta.html" . -}}
+            </footer>
+          {{ end -}}
+
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</div>
+{{ end -}}

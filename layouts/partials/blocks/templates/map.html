@@ -1,48 +1,5 @@
-{{- $grid := .grid | default "large" -}}
-{{- $class := partial "func/GetColClass" $grid -}}
-{{- $show_places := .show_places | default false -}}
-{{- $zoom := .zoom -}}
-<section class="block-map {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  
-  {{- if ne $grid "full" }}
-  <div class="container">
-    {{- if $class }}
-    <div class="row">
-      <div class="{{ $class }}">
-    {{ end -}}
-  {{ end -}}
-
-        {{ partial "blocks/heading.html" . }}
-
-        {{- if $show_places }}
-          {{/*  Show all places with coordinates  */}}
-          {{- $partial := "func/GetMarkers" -}}
-          {{- if templates.Exists (printf "partials/%s" $partial) }}
-            {{- $markers := partial $partial (where site.RegularPages "Section" "places") -}}
-            {{- if $markers -}}
-              {{ partial "commons/map" (dict "location" $markers) }}
-            {{- end -}}
-          {{- end -}}
-        {{- else -}}
-          {{- with .location }}
-            {{/*  DecapCMS reverse coordinates  */}}
-            {{- $marker := . -}}
-            {{- $oldCoordinates := (unmarshal .).coordinates -}}
-            {{- $newCoordinates := partial "func/ReverseSlice" $oldCoordinates -}}
-            {{- $oldCoordinates = string ($oldCoordinates | jsonify) -}}
-            {{- $newCoordinates = string ($newCoordinates | jsonify) -}}
-            {{- $marker = replace $marker $oldCoordinates $newCoordinates -}}
-            {{/*  / DecapCMS reverse coordinates  */}}
-            {{ partial "commons/map" (dict "location" (slice $marker) "zoom" $zoom) }}
-          {{ end -}}
-        {{ end -}}
-
-  {{- if ne $grid "full" }}
-    {{ if $class }}
-      </div>
-    </div>
-    {{ end -}}
-  </div>
-  {{ end -}}
-
+<section class="block-map {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/map/header.html" . }}
+  {{ partial "blocks/templates/map/body.html" . }}
+  {{ partial "blocks/templates/map/footer.html" . }}
 </section>

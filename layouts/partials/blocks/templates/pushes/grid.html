@@ -1,21 +1,20 @@
-{{ $params := .params }}
-{{ with .context }}
+{{- $params := .params -}}
+{{- with .context }}
   <div class="container">
-    {{- partial "blocks/heading.html" . -}}
-    {{ with .items }}
-      {{ if gt (. | len) 1 }}
+    {{- with .items }}
+      {{- if gt (. | len) 1 }}
         <div class="items items-{{ $params.column }}">
-          {{ range . }}
+          {{- range . }}
             <div>
               {{- partial "blocks/templates/pushes/push.html" (dict "push" . "params" $params) -}}
             </div>
-          {{ end }}
+          {{ end -}}
         </div>
-      {{ else }}
-        {{ range . }}
+      {{- else -}}
+        {{- range . }}
           {{- partial "blocks/templates/pushes/push.html" (dict "push" . "params" $params) -}}
-        {{ end }}
-      {{ end }}
-    {{ end }}
+        {{ end -}}
+      {{ end -}}
+    {{ end -}}
   </div>
-{{ end }}
+{{ end -}}

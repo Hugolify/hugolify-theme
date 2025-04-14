@@ -1,0 +1,20 @@
+{{- $atf := cond .first true false -}}
+{{- $section := .section -}}
+{{- $layout := .layout | default "grid" -}}
+{{- $count := .count | default 3 -}}
+{{- $items := where (where (where site.Pages "Section" $section) "Kind" "!=" "section")  "Kind" "!=" "taxonomy" -}}
+{{- $items = $items.ByTitle -}}
+{{- if isset (index $items 0).Params "date" -}}
+  {{- $items = $items.ByDate.Reverse -}}
+{{- end -}}
+{{- $items = first $count $items -}}
+
+{{- with $items }}
+<div class="container">
+  {{- if eq $layout "list" }}
+    {{ partial "blocks/templates/latest/list.html" . }}
+  {{- else -}}
+    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" . "atf" $atf) }}
+  {{ end -}}
+</div>
+{{ end -}}

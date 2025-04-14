@@ -1,12 +1,12 @@
 <div class="content">
   {{- with .surtitle }}
-    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+    <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .title }}
-    <p class="name">{{ partial "func/PrepareHTML" . }}</p>
+    <p class="name">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .text }}
-    <p>{{ partial "func/PrepareHTML" . }}</p>
+    <p>{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .cta }}
     {{ partial "commons/cta.html" . }}

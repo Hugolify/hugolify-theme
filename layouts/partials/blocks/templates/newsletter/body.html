@@ -1,0 +1,19 @@
+{{- $index := .index -}}
+{{- $form := .form | default false -}}
+
+{{- with $form }}
+<div class="container">
+  {{- $placeholder := i18n "newsletter.placeholder" -}}
+  {{- $label := i18n "newsletter.label" -}}
+  {{- $button := .button | default (i18n "newsletter.button") -}}
+  <form action="{{ .url }}" method="post" id="newsletter-form-{{ $index }}" class="newsletter js-newsletter-form">
+    {{ range .hiddens }}
+      <input type="hidden" value="{{ .value }}" name="{{ .name }}">
+    {{ end }}
+    <div>
+      <input type="email" name="EMAIL" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
+      <button class="btn" type="submit">{{ $button }}</button>
+    </div>
+  </form>
+</div>
+{{ end -}}

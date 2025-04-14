@@ -1,0 +1,15 @@
+{{- $token := getenv "HUGO_INSTAGRAM" | default false -}}
+<div class="container">
+  {{- if $token }}
+    {{- $limit := .limit | default 5 -}}
+    <div class="instagram js-instagram" data-limit="{{ $limit }}" data-token="{{ $token }}"></div>
+  {{ else }}
+    <p>{{ i18n "token.missing" }}</p>
+  {{ end -}}
+  {{- with .ctas }}
+    {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+  {{- else -}}
+    {{/*  Deprecated  */}}
+    {{ partial "commons/cta-group.html" (dict "cta" .cta "cta_second" .cta_second) }}
+  {{ end -}}
+</div>

@@ -1,0 +1,7 @@
+{{- $grid := .grid | default "large" -}}
+{{- $offset := .offset | default false -}}
+{{- $class := partial "func/GetColOffsetClass" (dict "grid" $grid "offset" $offset) -}}
+
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
+{{- partial "commons/form.html" . -}}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}

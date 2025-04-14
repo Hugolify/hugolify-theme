@@ -1,6 +1,7 @@
-<section class="block-embed {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    {{ partial "blocks/heading.html" . }}
-    {{ partial "commons/embed" . }}
-  </div>
+{{- if .embed -}}
+<section class="block-embed {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/embed/header.html" . }}
+  {{ partial "blocks/templates/embed/body.html" . }}
+  {{ partial "blocks/templates/embed/footer.html" . }}
 </section>
+{{- end -}}

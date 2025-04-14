@@ -1,34 +1,5 @@
-{{ $index := .index}}
-
-{{ $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" .offset) }}
-{{ if eq .align "center" }}
-  {{ $class = printf "%s text-center" $class }}
-{{ end }}
-
-<section class="block-paragraph{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{ if ne .grid "full" }}
-    <div class="row">
-      <div class="{{ $class }}">
-    {{ end }}
-
-    {{ partial "blocks/content-with-notes.html" (dict 
-      "context" .
-      "blockId" $index
-    ) }}
-
-    {{- with .ctas }}
-      {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-    {{- else -}}
-      {{/*  Deprecated  */}}
-      {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
-    {{ end -}}
-
-    {{ if ne .grid "full" }}
-      </div>
-    </div>
-    {{ end }}
-
-  </div>
+<section class="block-paragraph {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/paragraph/header.html" . }}
+  {{ partial "blocks/templates/paragraph/body.html" . }}
+  {{ partial "blocks/templates/paragraph/footer.html" . }}
 </section>

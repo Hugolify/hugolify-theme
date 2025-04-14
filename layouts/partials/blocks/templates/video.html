@@ -1,24 +1,5 @@
-{{- $class := partial "func/GetColClass" .grid -}}
-{{ with . }}
-  <section class="block-video{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-    <div class="container">
-
-      {{- if $class }}
-      <div class="row">
-        <div class="{{ $class }}">
-      {{ end -}}
-      
-        {{ partial "blocks/heading.html" . }}
-        {{ with .video }}
-          {{ partial "commons/figure-video.html" . }}
-          {{ partial "commons/transcription" .transcription }}
-        {{ end }}
-      
-      {{- if $class }}
-        </div>
-      </div>
-      {{ end -}}
-    
-    </div>
-  </section>
-{{ end }}
+<section class="block-video {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/video/header.html" . }}
+  {{ partial "blocks/templates/video/body.html" . }}
+  {{ partial "blocks/templates/video/footer.html" . }}
+</section>

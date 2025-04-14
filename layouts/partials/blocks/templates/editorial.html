@@ -1,32 +1,5 @@
-{{- $index := .index -}}
-{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
-<section class="block-editorial block-editorial-{{ .direction }}{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    <div class="row">
-
-      <div class="content">
-        {{- partial "blocks/content-with-notes.html" (dict 
-          "context" .
-          "blockId" $index 
-        ) -}}
-
-        {{- with .ctas }}
-          {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-        {{- else -}}
-          {{/*  Deprecated  */}}
-          {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
-        {{ end -}}
-      </div>
-
-      {{- with .image}}
-        {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
-        {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
-        {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
-        <div class="media">
-          {{- partial "commons/figure" $figure -}}
-        </div>
-      {{ end -}}
-
-    </div>
-  </div>
+<section class="block-editorial block-editorial-{{ .direction }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/editorial/header.html" . }}
+  {{ partial "blocks/templates/editorial/body.html" . }}
+  {{ partial "blocks/templates/editorial/footer.html" . }}
 </section>

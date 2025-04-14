@@ -1,0 +1,8 @@
+{{- $first := .first | default false -}}
+{{- with .images }}
+<div class="container">
+  {{ partial "commons/images" (dict
+    "images" .
+    "first" $first) }}
+</div>
+{{ end -}}

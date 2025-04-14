@@ -1,25 +1,8 @@
-{{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
-{{- $atf := cond .first true false -}}
-{{- $count := .count | default 3 -}}
-{{- $items := first $count ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) -}}
-
-{{- if $items }}
-<section class="block-latest block-latest-{{ $layout }} block-latest-{{ $section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{- partial "blocks/heading" . -}}
-
-    {{- with $items }}
-      {{- if eq $layout "list" }}
-        {{ partial "blocks/templates/latest/list.html" . }}
-      {{- else -}}
-        {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" . "atf" $atf) }}
-      {{ end -}}
-    {{ end -}}
-
-    {{- partial "blocks/footing" . -}}
-
-  </div>
+{{- if .section }}
+<section class="block-latest block-latest-{{ $layout }} block-latest-{{ .section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{- partial "blocks/templates/latest/header" . -}}
+  {{- partial "blocks/templates/latest/body" . -}}
+  {{- partial "blocks/templates/latest/footer" . -}}
 </section>
 {{ end -}}

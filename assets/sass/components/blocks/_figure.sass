@@ -17,14 +17,23 @@
                 align-items: flex-end
                 margin-right: 0
                 text-align: right
+        &-full
+            figcaption
+                padding-left: $grid-gutter-width
+                padding-right: $grid-gutter-width
 
     @include media-breakpoint-down(md)
-        figure
-            margin-left: - $gutter-mobile
-            margin-right: - $gutter-mobile
-        figcaption
-            padding-left: $gutter-mobile
-            padding-right: $gutter-mobile
+        &-large,
+        &-container
+            figure
+                margin-left: - $gutter-mobile
+                margin-right: - $gutter-mobile
+        &-large,
+        &-container,
+        &-full
+            figcaption
+                padding-left: $gutter-mobile
+                padding-right: $gutter-mobile
         .screenshot 
             figure
                 margin-left: 0

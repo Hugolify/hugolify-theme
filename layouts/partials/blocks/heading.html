@@ -2,10 +2,10 @@
   {{- if or .surtitle .title .text }}
     <header class="heading">
       {{- with .surtitle }}
-        <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+        <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end -}}
       {{- with .title }}
-        <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML" . }}</h2>
+        <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML.html" . }}</h2>
       {{ end -}}
       {{- with .text }}
         {{ partial "commons/text.html" (dict "text" .) }}

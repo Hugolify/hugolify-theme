@@ -1,15 +1,7 @@
-{{ $first := .first }}
-
-<section class="block-images{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-    
-    {{ partial "blocks/heading.html" . }}
-
-    {{ with .images }}
-      {{ partial "commons/images" (dict
-        "images" .
-        "first" $first) }}
-    {{ end }}
-
-  </div>
+{{- if .images }}
+<section class="block-images {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/images/header.html" . }}
+  {{ partial "blocks/templates/images/body.html" . }}
+  {{ partial "blocks/templates/images/footer.html" . }}
 </section>
+{{ end -}}

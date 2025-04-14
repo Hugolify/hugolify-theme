@@ -1,38 +1,5 @@
-{{- $index := .index -}}
-{{- $class := partial "func/GetColOffsetClass" (dict "grid" .grid "offset" "center") -}}
-{{- $form := .form | default false -}}
-{{- $context := . -}}
-
-{{ with $form }}
-<section class="block-newsletter{{ with .background }} block-bg{{ end }} js-newsletter"{{ partial "func/SetAnim" (dict "element" "block") }}>
-  <div class="container">
-
-    {{- partial "blocks/heading.html" $context -}}
-
-    {{- $placeholder := i18n "newsletter.placeholder" -}}
-    {{- $label := i18n "newsletter.label" -}}
-    {{- $button := .button | default (i18n "newsletter.button") -}}
-    
-    {{ if $class }}
-    <div class="row">
-      <div class="{{ $class }}">
-    {{ end }}
-
-        <form action="{{ .url }}" method="post" id="newsletter-form-{{ $index }}" class="newsletter js-newsletter-form">
-          {{ range .hiddens }}
-            <input type="hidden" value="{{ .value }}" name="{{ .name }}">
-          {{ end }}
-          <div>
-            <input type="email" name="EMAIL" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
-            <button class="btn" type="submit">{{ $button }}</button>
-          </div>
-        </form>
-
-    {{ if $class }}
-      </div>
-    </div>
-    {{ end }}
-
-  </div>
+<section class="block-newsletter {{- with .background }} block-bg{{ end }} js-newsletter" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/newsletter/header.html" . }}
+  {{ partial "blocks/templates/newsletter/body.html" . }}
+  {{ partial "blocks/templates/newsletter/footer.html" . }}
 </section>
-{{ end }}

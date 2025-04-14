@@ -1,10 +1,5 @@
-{{ $id := printf "chart-%s" (.index | string) }}
-
-{{ with .}}
-  <section class="block-chart{{ with .background }} block-bg{{ end }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
-    <div class="container">
-      {{ partial "blocks/heading.html" . }}
-      {{ partial "commons/chart.html" (dict "id" $id "context" .) }}
-    </div>
-  </section>
-{{ end }}
+<section class="block-chart {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{ partial "blocks/templates/chart/header.html" . }}
+  {{ partial "blocks/templates/chart/body.html" . }}
+  {{ partial "blocks/templates/chart/footer.html" . }}
+</section>

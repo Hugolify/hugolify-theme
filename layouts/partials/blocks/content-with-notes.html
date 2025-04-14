@@ -5,15 +5,15 @@
 {{- $blockId := .blockId | default "" -}}
 
 {{- with $surtitle }}
-  <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+  <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
 {{ end }}
 
 {{- with $title }}
-  <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML" . }}</h2>
+  <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML.html" . }}</h2>
 {{ end }}
 
 {{- with $text }}
-  {{- $text = partial "commons/text" (dict "text" $text) -}}
+  {{- $text = partial "commons/text.html" (dict "text" $text) -}}
   {{- if $notes -}}
     {{- partial "func/PrepareNotes.html" (dict 
         "html" $text 

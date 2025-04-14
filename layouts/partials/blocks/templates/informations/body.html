@@ -1,0 +1,18 @@
+{{- $column := .column | default 3 -}}
+{{- with .items }}
+<div class="container">
+  <div class="items items-{{ $column }}">
+    {{- range . }}
+      <div>
+        {{- $item := . | merge (dict "column" $column) -}}
+        {{- with $item }}
+          <div class="item">
+            {{ partial "blocks/templates/informations/item/content" . }}
+            {{ partial "blocks/templates/informations/item/media" . }}
+          </div>
+        {{ end -}}
+      </div>
+    {{ end -}}
+  </div>
+</div>
+{{ end -}}
