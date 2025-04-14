@@ -1,4 +1,4 @@
-{{- $tel := partial "func/PrepareHTML" . -}}
+{{- $tel := partial "func/PrepareHTML.html" . -}}
 {{- $title := i18n "contact.tel_with_value" (dict "Value" $tel) -}}
 {{- $phone := replace (replace $tel " " "") "(0)" "" -}}
 <b>{{ i18n "contact.tel" }}</b> <a href="tel:{{ $phone }}" target="_blank" title="{{ safeHTML $title }}">{{ $tel }}</a>

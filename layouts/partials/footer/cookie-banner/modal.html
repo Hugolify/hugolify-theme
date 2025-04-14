@@ -1,9 +1,9 @@
 {{- $cookie_page_default := "https://gdpr.eu/cookies/" -}}
 {{- $cookie_page := site.Params.cookie_banner.page | default $cookie_page_default -}}
-{{- $cookie_label := partial "func/PrepareHTML" (i18n "cookie_banner.label") -}}
-{{- $cookie_text := partial "func/PrepareHTML" (i18n "cookie_banner.text") -}}
-{{- $cookie_refuse := partial "func/PrepareHTML" (i18n "cookie_banner.refuse") -}}
-{{- $cookie_accept := partial "func/PrepareHTML" (i18n "cookie_banner.accept") -}}
+{{- $cookie_label := partial "func/PrepareHTML.html" (i18n "cookie_banner.label") -}}
+{{- $cookie_text := partial "func/PrepareHTML.html" (i18n "cookie_banner.text") -}}
+{{- $cookie_refuse := partial "func/PrepareHTML.html" (i18n "cookie_banner.refuse") -}}
+{{- $cookie_accept := partial "func/PrepareHTML.html" (i18n "cookie_banner.accept") -}}
 <div class="cookie-consent js-cookie-consent show" tabindex="-1" role="dialog" aria-label="{{ $cookie_label }}" describedby="cookie-consent-description">
   <div>
     <p id="cookie-consent-description">

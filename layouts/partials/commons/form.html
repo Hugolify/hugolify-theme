@@ -26,7 +26,7 @@
     {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
     {{- if ne .type "hidden" }}<div {{- if .full }} class="full"{{ end }}>{{ end }}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "hidden") }}
-      <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+      <label for="{{ $id }}">{{ partial "func/PrepareHTML.html" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
       {{ end -}}
       {{- if eq .type "textarea" }}
         <textarea 
@@ -66,7 +66,7 @@
           {{ if .required }}required{{ end }}>
       {{ end -}}
       {{- if or (eq .type "checkbox") (eq .type "radio") }}
-        <label for="{{ $id }}">{{ partial "func/PrepareHTML" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+        <label for="{{ $id }}">{{ partial "func/PrepareHTML.html" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
       {{ end -}}
       {{- if $condHelp }}
         <p id="help-{{ $id }}" class="help">{{ i18n (print "form.hint." .type) }}</p>
@@ -75,7 +75,7 @@
   {{ end -}}
 
   <div class="actions">
-    <button type="submit" class="btn">{{ partial "func/PrepareHTML" .submit | default "Submit" }}</button>
+    <button type="submit" class="btn">{{ partial "func/PrepareHTML.html" .submit | default "Submit" }}</button>
   </div>
 
 </form>

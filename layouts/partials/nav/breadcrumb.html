@@ -51,7 +51,7 @@
       {{ if not .active -}}
         <a itemprop="item" href="{{ .page.Permalink }}">
       {{- end }}
-        <span itemprop="name">{{ partial "func/PrepareHTML" $title }}</span>
+        <span itemprop="name">{{ partial "func/PrepareHTML.html" $title }}</span>
       {{ if not .active -}}
         </a>
       {{- end }}

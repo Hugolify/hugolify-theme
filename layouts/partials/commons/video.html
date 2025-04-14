@@ -1,5 +1,5 @@
 {{- with . -}}
-  {{- $animation := partial "func/SetAnim" (dict "element" "video") -}}
+  {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $args := "muted playsinline" -}}
   {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}

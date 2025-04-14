@@ -1,5 +1,5 @@
 <li class="youtube">
-  {{ $username := partial "func/PrepareHTML" . }}
+  {{ $username := partial "func/PrepareHTML.html" . }}
   {{ $name := i18n "contact.youtube" }}
   {{ $title := i18n "link.blank_aria" (dict "Title" $name) }}
   <a href="https://youtube.com/@{{ $username }}" target="_blank" rel="noopener noreferrer" title="{{ safeHTML $title }}">

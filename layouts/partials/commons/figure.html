@@ -1,5 +1,5 @@
 {{ with . }}
-  {{- $animation := partial "func/SetAnim" (dict "element" "figure") -}}
+  {{- $animation := partial "func/SetAnim.html" (dict "element" "figure") -}}
   {{- if .screenshot }}
     <div class="screenshot" {{- $animation }}>
       <span></span>

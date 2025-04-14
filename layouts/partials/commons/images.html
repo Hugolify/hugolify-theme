@@ -7,11 +7,11 @@
     {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) -}}
     {{- $figure_class := false -}}
     {{ if $desktop }}
-      {{- $width := partial "func/GetColumnWidth" (dict "column" 12) -}}
+      {{- $width := partial "func/GetColumnWidth.html" (dict "column" 12) -}}
       {{- $desktop = printf "%sx" (string $width) -}}
       {{ if .half }}
         {{- $figure_class = "half" -}}
-        {{- $width := partial "func/GetColumnWidth" (dict "column" 6) -}}
+        {{- $width := partial "func/GetColumnWidth.html" (dict "column" 6) -}}
         {{- $desktop = printf "%sx" (string $width) -}}
       {{ end }}
     {{ end }}

@@ -11,13 +11,13 @@
       {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end -}}
       {{- if hasPrefix $currentPage .url }} aria-current="page"{{ end }}>
       {{- if $hasSpan }}<span>{{ end }}
-        {{- partial "func/PrepareHTML" .title -}}
+        {{- partial "func/PrepareHTML.html" .title -}}
       {{ if $hasSpan }}</span>{{ end -}}
     </a>
   {{- else -}}
     <span>
       {{- if $hasSpan }}<span>{{ end }}
-        {{- partial "func/PrepareHTML" .title -}}
+        {{- partial "func/PrepareHTML.html" .title -}}
       {{ if $hasSpan }}</span>{{ end -}}
     </span>
   {{ end -}}

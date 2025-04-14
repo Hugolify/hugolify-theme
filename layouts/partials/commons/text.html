@@ -1,7 +1,7 @@
 {{- $text := .text -}}
 {{- $class := .class | default "text" -}}
 {{ with $text }}
-  {{- $text = partial "func/PrepareHTML" . | markdownify -}}
+  {{- $text = partial "func/PrepareHTML.html" . | markdownify -}}
   <div class="{{ $class }}">
     {{- if in (string .) "\n" }}
       {{ $text }}

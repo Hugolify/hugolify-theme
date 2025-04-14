@@ -28,7 +28,7 @@
     {{ with $group }}data-group="{{ . }}"{{ end }}
     {{ with $legend }}data-caption="{{ . }}"{{ end }}
     data-srcset="{{ $srcset }}">
-    {{ partial "commons/figure" (dict
+    {{ partial "commons/figure.html" (dict
       "src" $src 
       "alt" $alt
       "lazy" $lazy 

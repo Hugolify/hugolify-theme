@@ -6,7 +6,7 @@
   {{- $section := . -}}
   {{- $pages := first $limit ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) -}}
   {{- if gt ($pages | len) 0 }}
-    <section class="latest latest-{{ $section }}" {{- partial "func/SetAnim" (dict "element" "block") }}>
+    <section class="latest latest-{{ $section }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
       <header class="heading">
         {{- $title := i18n (printf "%s.latest" $section) | default (i18n "pages.latest") -}}
         <h2>{{ $title }}</h2>

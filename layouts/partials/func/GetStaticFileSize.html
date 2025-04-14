@@ -8,7 +8,7 @@
   {{ if fileExists $path }}
     {{ range readDir $path }}
       {{ if eq .Name (path.Base $file) }}
-        {{ $s := partial "func/GetHumanSize" .Size }}
+        {{ $s := partial "func/GetHumanSize.html" .Size }}
         {{ $unit := printf `<abbr title="%s">%s</abbr>` $s.full_unit $s.unit }}
         {{ $size = safeHTML (printf "%s%s" (string $s.weight) $unit) }}
       {{ end }}

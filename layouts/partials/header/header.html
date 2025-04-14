@@ -3,8 +3,8 @@
     <div class="container">
       {{ partialCached "header/logo.html" . }}
       {{ if site.Data.menu.primary }}
-        {{ partialCached "header/button" . }}
-        {{ partial "header/offcanvas" . }}
+        {{ partialCached "header/button.html" . }}
+        {{ partial "header/offcanvas.html" . }}
       {{ end }}
     </div>
   </nav>

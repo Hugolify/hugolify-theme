@@ -5,7 +5,7 @@
   {{- end -}}
   {{- $blank := .blank | default false -}}
   {{- $hreflang := .hreflang | default false -}}
-  {{- $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML" .text)) -}}
+  {{- $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .text)) -}}
   {{- if and .url .text -}}
     <a 
       {{ printf `href=%q` .url | safeHTMLAttr }} 
@@ -13,7 +13,7 @@
       {{- if $blank }} target="_blank" rel="noreferrer noopener" title="{{ $title }}"{{ end -}} 
       {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}
       >
-      {{- partial "func/PrepareHTML" .text -}}
+      {{- partial "func/PrepareHTML.html" .text -}}
     </a>
   {{- end -}}
 {{- end -}}

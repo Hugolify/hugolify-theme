@@ -6,7 +6,7 @@
 {{- $legend := .Get "legend" | default false -}}
 {{- $credit := .Get "credit" | default false -}}
 {{- $screenshot := .Get "screenshot" | default false -}}
-{{- partial "commons/figure-video" (dict
+{{- partial "commons/figure-video.html" (dict
   "autoplay" $autoplay 
   "controls" $controls 
   "loop" $loop 

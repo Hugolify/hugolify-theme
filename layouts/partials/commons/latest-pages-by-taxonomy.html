@@ -17,9 +17,9 @@
 {{ if $pages }}
   {{ $count := $pages | len }}
   {{ $pages = first $limit $pages }}
-  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim.html" (dict "element" "block") }}>
     <div class="container">
-      <header class="heading"{{ partial "func/SetAnim" (dict "element" "heading") }}>
+      <header class="heading"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
         <h2>{{ $title }}</h2>
         {{ if and $showMore (gt $count $limit) }}
           {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}

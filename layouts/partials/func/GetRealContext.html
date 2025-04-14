@@ -3,13 +3,13 @@
 
 {{ if eq $context.Kind "term" }}
     {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
-        {{ $page := partial "func/GetRealPerson" $context }}
+        {{ $page := partial "func/GetRealPerson.html" $context }}
         {{ $realContext = $page }}
     {{ else if hasSuffix $context.Section "_expertises" }}
-        {{ $page := partial "func/GetRealExpertise" $context }}
+        {{ $page := partial "func/GetRealExpertise.html" $context }}
         {{ $realContext = $page }}
     {{ else if hasSuffix $context.Section "_places" }}
-        {{ $page := partial "func/GetRealPlace" $context }}
+        {{ $page := partial "func/GetRealPlace.html" $context }}
         {{ $realContext = $page }}
     {{ end }}
 {{ end }}

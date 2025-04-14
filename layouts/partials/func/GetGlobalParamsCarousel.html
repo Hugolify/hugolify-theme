@@ -2,14 +2,14 @@
 {{ $carousel := . | default false }}
 
 {{ with $carousel }}
-  {{ $params := partial "func/GetParamsCarousel" . }}
+  {{ $params := partial "func/GetParamsCarousel.html" . }}
   {{ $params_breakpoints := "" }}
   {{ $breakpoints := "" }}
   {{ with .responsive }}
     {{ range . }}
       {{ $breakpoint := .breakpoints }}
       {{ with .params }}
-        {{- $responsive_params := print  `"` $breakpoint `":` (partial "func/GetParamsCarousel" .) "," -}}
+        {{- $responsive_params := print  `"` $breakpoint `":` (partial "func/GetParamsCarousel.html" .) "," -}}
         {{- $breakpoints = print $breakpoints $responsive_params -}}
       {{ end -}}
     {{ end }}

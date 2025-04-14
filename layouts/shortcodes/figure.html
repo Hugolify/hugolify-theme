@@ -5,7 +5,7 @@
 {{- $screenshot := .Get "screenshot" | default false -}}
 {{- $desktop := site.Params.image.desktop | default false -}}
 {{- $mobile := site.Params.image.mobile_full | default false -}}
-{{- partial "commons/figure" (dict
+{{- partial "commons/figure.html" (dict
   "src" $src 
   "alt" $alt 
   "desktop" $desktop

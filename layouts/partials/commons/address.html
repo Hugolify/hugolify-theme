@@ -5,13 +5,13 @@
     <address {{- if $card }} class="address"{{ end }}>
       {{ if $card }}<div>{{ end }}
       {{ with .street }}
-        <p>{{ partial "func/PrepareHTML" . }}</p>
+        <p>{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end }}
       {{ if or .zipcode .city }}
-        <p>{{ partial "func/PrepareHTML" .zipcode }} {{ partial "func/PrepareHTML" .city }}</p>
+        <p>{{ partial "func/PrepareHTML.html" .zipcode }} {{ partial "func/PrepareHTML.html" .city }}</p>
       {{ end }}
       {{ with .country }}
-        <p>{{ partial "func/PrepareHTML" . }}</p>
+        <p>{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end }}
       {{ if $direction }}
         {{- $i18n_direction := i18n "address.direction" -}}

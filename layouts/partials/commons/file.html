@@ -5,7 +5,7 @@
 {{ with $file }}
   <a href="{{ . }}" {{- if $download }} download{{ end }} class="file">
     <span>
-      <b>{{- partial "func/PrepareHTML" $title -}}</b>
+      <b>{{- partial "func/PrepareHTML.html" $title -}}</b>
       {{- partial "func/GetFileExtension" . -}}
       {{- partial "func/GetStaticFileSize" (dict "file" . "dir" $dir) -}}
     </span>

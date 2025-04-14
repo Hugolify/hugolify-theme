@@ -6,7 +6,7 @@
   <ul class="nav nav-social">
     {{- range .links }}
       <li class="{{ lower (safeHTML .title) }}">
-        {{- partial "nav/link" (dict "link" . "span" true) -}}
+        {{- partial "nav/link.html" (dict "link" . "span" true) -}}
       </li>
     {{- end }}
   </ul>

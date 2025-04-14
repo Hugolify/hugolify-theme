@@ -3,12 +3,12 @@
     {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
       <div class="sitemap-{{ .Type }}">
         <h2 id="{{ .Type }}">
-          <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+          <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
         </h2>
         <ul>
           {{ range .Pages.ByTitle }}
             <li>
-              <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+              <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
               {{ with .Date }}
                 - {{ partial "commons/time" (dict "date" . "format" ":date_medium") }}
               {{ end }}
@@ -25,13 +25,13 @@
       <ul>
         {{ range $pages }}
           <li>
-            <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+            <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
           </li>
           {{ with .Pages }}
           <ul>
             {{ range . }}
               <li>
-                <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML" .Title }}</a>
+                <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
               </li>
             {{ end }}
           </ul>

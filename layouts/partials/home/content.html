@@ -1,11 +1,11 @@
 {{- if isset .Params "blocks" -}}
   
-  {{ partial "blocks/list" . }}
+  {{ partial "blocks/list.html" . }}
 
 {{- else -}}
 
   <div class="container">
-    {{ partial "commons/heading" . }}
+    {{ partial "commons/heading.html" . }}
     
     {{- $context := . -}}
     {{- $sections := slice "posts" "products" "projects" "casestudies" "publications" "places" "expertises" "services" "realestates" "jobs" -}}

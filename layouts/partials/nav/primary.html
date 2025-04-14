@@ -12,7 +12,7 @@
       {{- if $hasChildren }}{{ $hasClass = $hasClass | append "dropdown" }}{{ end -}}
       {{- if .is_highlighted }}{{ $hasClass = $hasClass | append "nav-item-highlighted" }}{{ end -}}
       <li {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end }}>
-        {{- partial "nav/link" (dict "link" . "currentPage" $currentPage) -}}
+        {{- partial "nav/link.html" (dict "link" . "currentPage" $currentPage) -}}
         {{- if $hasChildren }}
           <button class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
@@ -20,8 +20,8 @@
           <ul class="dropdown-menu">
             {{- range .links}}
               <li>
-                {{- partial "nav/link" (dict "link" . "currentPage" $currentPage) -}}
-                {{- partial "nav/text" . -}}
+                {{- partial "nav/link.html" (dict "link" . "currentPage" $currentPage) -}}
+                {{- partial "nav/text.html" . -}}
               </li>
             {{ end -}}
           </ul>

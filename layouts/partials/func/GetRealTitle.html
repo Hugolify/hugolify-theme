@@ -12,6 +12,6 @@
         {{ $title = $page.Title }}
     {{ end }}
 {{ end }}
-{{ $title := partial "func/PrepareHTML" $title }}
+{{ $title := partial "func/PrepareHTML.html" $title }}
 
 {{ return $title }}

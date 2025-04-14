@@ -13,7 +13,7 @@
         {{- range $taxonomy_term, $taxonomy := . }}
           {{- $page := partial "func/GetRealContext" .Page -}}
           <li>
-            {{- $title := partial "func/PrepareHTML" $page.Title -}}
+            {{- $title := partial "func/PrepareHTML.html" $page.Title -}}
             {{- if not $page.File -}}
               {{- $title = $title | humanize -}}
             {{- end -}}

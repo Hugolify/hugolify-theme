@@ -8,10 +8,10 @@
           {{- end -}}
           <div>
             {{- if .title }}
-            <b>{{ partial "func/PrepareHTML" .title }}</b>{{ if .text }}<br>{{ end }}
+            <b>{{ partial "func/PrepareHTML.html" .title }}</b>{{ if .text }}<br>{{ end }}
             {{ end -}}
             {{- with .text }}
-            <span>{{ partial "func/PrepareHTML" . }}</span>
+            <span>{{ partial "func/PrepareHTML.html" . }}</span>
             {{ end -}}
           </div>
         </li>

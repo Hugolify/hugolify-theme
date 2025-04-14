@@ -4,14 +4,14 @@
 {{- $i18nTitle := printf "%s.list_person" .section -}}
 {{- $partialFilter := printf "%s/filters/button" .section -}}
 
-<header class="heading heading-filter"{{ partial "func/SetAnim" (dict "element" "heading") }}>
+<header class="heading heading-filter"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
   {{- with site.GetPage $section }}
     <p class="surtitle">
       <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
     </p>
   {{ end -}}
   {{ with $person }}
-    {{- $title := partial "func/PrepareHTML" .Title -}}
+    {{- $title := partial "func/PrepareHTML.html" .Title -}}
     {{- if not .File -}}
       {{- $title = $title | humanize -}}
     {{- end -}}

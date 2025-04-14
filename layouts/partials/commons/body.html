@@ -1,6 +1,6 @@
 {{ with .Content }}
   {{ $content := replace . "<iframe " "<iframe loading='lazy'" }}
   <section class="content-body">
-    {{ partial "func/PrepareHTML" $content }}
+    {{ partial "func/PrepareHTML.html" $content }}
   </section>
 {{ end }}

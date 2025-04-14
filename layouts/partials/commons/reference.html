@@ -1,4 +1,4 @@
 {{- with .Params.reference }}
-  {{- $reference := partial "func/PrepareHTML" . -}}
+  {{- $reference := partial "func/PrepareHTML.html" . -}}
   <p class="reference">{{ i18n "reference.label_with_value" (dict "Value" $reference) }}</p>
 {{ end -}}

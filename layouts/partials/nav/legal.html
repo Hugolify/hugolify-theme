@@ -4,11 +4,11 @@
 {{- end -}}
 {{- with $menu }}
 <div>
-  {{ with .title }}<p class="nav-title">{{ partial "func/PrepareHTML" . }}</p>{{ end }}
+  {{ with .title }}<p class="nav-title">{{ partial "func/PrepareHTML.html" . }}</p>{{ end }}
   <ul class="nav nav-legal">
     {{- range .links }}
       <li>
-        {{- partial "nav/link" (dict "link" .) -}}
+        {{- partial "nav/link.html" (dict "link" .) -}}
       </li>
     {{- end }}
   </ul>

@@ -2,7 +2,7 @@
   {{- $sections := lower (i18n (printf "%s.title" .Type)) -}}
   {{- $section := i18n (printf "%s.title" .Type) 1 -}}
   {{- $label := i18n "pagination.between" (dict "Section" $sections) -}}
-  <nav role="navigation" aria-label="{{ $label }}" {{- partial "func/SetAnim" (dict "element" "pagination") }}>
+  <nav role="navigation" aria-label="{{ $label }}" {{- partial "func/SetAnim.html" (dict "element" "pagination") }}>
     <ul class="pagination-between">
       <li class="previous">
         {{- $previous := i18n "pagination.previous_section" (dict "Section" $section) | safeHTML -}}

@@ -3,13 +3,13 @@
     <li>
       <article class="step">
         {{ with .surtitle }}
-          <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+          <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
         {{ end }}
         {{ with .title }}
-          <p class="title">{{ partial "func/PrepareHTML" . }}</p>
+          <p class="title">{{ partial "func/PrepareHTML.html" . }}</p>
         {{ end }}
         {{ with .text }}
-          <p>{{ partial "func/PrepareHTML" . }}</p>
+          <p>{{ partial "func/PrepareHTML.html" . }}</p>
         {{ end }}
       </article>
     </li>

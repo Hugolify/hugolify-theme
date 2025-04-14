@@ -1,11 +1,11 @@
 <div class="hero-content">
   {{- with .surtitle }}
-    <p class="surtitle">{{ partial "func/PrepareHTML" . }}</p>
+    <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .title }}
-    <h1>{{ partial "func/PrepareHTML" . }}</h1>
+    <h1>{{ partial "func/PrepareHTML.html" . }}</h1>
   {{ end -}}
-  {{- partial "commons/text" (dict "text" .text "class" "description") -}}
+  {{- partial "commons/text.html" (dict "text" .text "class" "description") -}}
   {{- with .ctas }}
     {{ partial "commons/cta-group.html" (dict "ctas" .) }}
   {{- else -}}

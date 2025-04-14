@@ -7,7 +7,7 @@
   {{ $section := . }}
   {{ $query := first $limit ( ( where $context.Pages "Section" $section ).ByDate.Reverse ) }}
   {{ if gt ($query | len) 0 }}
-  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim" (dict "element" "block") }}>
+  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim.html" (dict "element" "block") }}>
     <header class="heading">
       {{ $i18n := printf "%s.latest_section" $section }}
       <h2>{{ i18n $i18n (dict "Section" ($context.Title | lower)) }}</h2>

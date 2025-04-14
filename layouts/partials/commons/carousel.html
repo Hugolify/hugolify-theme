@@ -4,7 +4,7 @@
 {{- with $context }}
   {{- $global_params := false -}}
   {{- with .carousel -}}
-    {{- $global_params = partial "func/GetGlobalParamsCarousel" . -}}
+    {{- $global_params = partial "func/GetGlobalParamsCarousel.html" . -}}
   {{- end -}}
   <div class="splide carousel js-carousel" {{- if $global_params }} data-splide="{{ $global_params }}"{{ end }} {{- with .carousel }} style="--perPage: {{ .perPage }}"{{ end }}>
     <div class="splide__track">

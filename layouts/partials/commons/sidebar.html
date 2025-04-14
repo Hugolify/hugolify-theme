@@ -1,12 +1,12 @@
 {{- $context := . -}}
-{{- $partials := slice "commons/toc" -}}
+{{- $partials := slice "commons/toc.html" -}}
 {{- $class := false -}}
 {{- if reflect.IsMap . -}}
   {{- $context = .context -}}
   {{- $partials = .partials -}}
   {{- $class = .class -}}
 {{- end -}}
-<div class="sidebar {{- with $class }} {{ . }}{{ end }}" {{- partial "func/SetAnim" (dict "element" "sidebar") }}>
+<div class="sidebar {{- with $class }} {{ . }}{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "sidebar") }}>
   {{- range $partials }}
     {{ partial . $context }}
   {{ end -}}

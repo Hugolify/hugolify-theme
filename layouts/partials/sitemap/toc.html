@@ -9,7 +9,7 @@
           {{- range (where site.Sections ".Params.isPage" "!=" true) }}
             {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
               <li>
-                <a href="#{{ .Type }}">{{ partial "func/PrepareHTML" .Title }}</a>
+                <a href="#{{ .Type }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
               </li>
             {{ end }}
           {{ end -}}

@@ -46,7 +46,7 @@
           <table id="chart-table-{{ $id }}">
             {{ range .items }}
               <tr>
-                <th scope="row">{{ partial "func/PrepareHTML" .label }}</th>
+                <th scope="row">{{ partial "func/PrepareHTML.html" .label }}</th>
                 <td>{{ .value }}</td>
               </tr>
             {{ end }}
