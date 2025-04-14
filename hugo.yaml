@@ -118,6 +118,9 @@ privacy:
     simple: false
   youtube:
     privacyEnhanced: true
+  x:
+    enableDNT: true
+    simple: false
 
 # Services
 services:
