@@ -1,0 +1,18 @@
+<div class="content">
+  <ol>
+    {{- $pages := where site.Sections ".Params.isPage" "!=" true -}}
+    {{- range $pages }}
+      {{- if and (ne .Type "admin") (ne .Type "sitemap") }}
+        <li>
+          <a href="#{{ .Type }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
+        </li>
+      {{ end -}}
+    {{ end -}}
+    {{- $pages := where site.Sections ".Params.isPage" true -}}
+    {{- if $pages }}
+      <li>
+        <a href="#pages">{{ i18n "pages.title" ($pages | len) }}</a>
+      </li>
+    {{ end -}}
+  </ol>
+</div>

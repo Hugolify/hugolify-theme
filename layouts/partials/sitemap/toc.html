@@ -4,23 +4,7 @@
     {{ partial "commons/toc/button.html" . }}
     <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
       {{ partial "commons/toc/header.html" . }}
-      <div class="content">
-        <ol>
-          {{- range (where site.Sections ".Params.isPage" "!=" true) }}
-            {{ if and (ne .Type "admin") (ne .Type "sitemap") }}
-              <li>
-                <a href="#{{ .Type }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
-              </li>
-            {{ end }}
-          {{ end -}}
-          {{- $pages := where site.Sections ".Params.isPage" true -}}
-          {{- if $pages }}
-            <li>
-              <a href="#pages">{{ i18n "pages.title" ($pages | len) }}</a>
-            </li>
-          {{ end -}}
-        </ol>
-      </div>
+      {{ partial "sitemap/toc/content.html" . }}
     </div>
   </div>
 </div>

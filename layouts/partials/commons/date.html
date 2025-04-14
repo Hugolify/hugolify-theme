@@ -7,5 +7,5 @@
   {{- $itemprop = .itemprop | default $itemprop -}}
 {{ end }}
 {{ with $date }}
-  <p class="date">{{ partial "commons/time" (dict "date" . "format" $format "itemprop" $itemprop) }}</p>
+  <p class="date">{{ partial "commons/time.html" (dict "date" . "format" $format "itemprop" $itemprop) }}</p>
 {{ end }}
