@@ -10,6 +10,7 @@ import './blocks/instagram';
 
 // Components
 import './components/animation';
+import './components/audio';
 import './components/carousel';
 import './components/form';
 import './components/gallery';

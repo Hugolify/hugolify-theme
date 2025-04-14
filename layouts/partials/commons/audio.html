@@ -1,0 +1,14 @@
+{{- with . -}}
+  {{- $animation := partial "func/SetAnim.html" (dict "element" "audio") -}}
+  {{- $args := "controls" -}}
+  {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
+  {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
+  <audio class="js-audio is-lazy" {{ $args | safeHTMLAttr }} {{ $animation }}>
+    {{- with .ogg }}
+      <source data-src="{{ . }}" type="audio/ogg" />
+    {{- end }}
+    {{- with .mp3 }}
+      <source data-src="{{ . }}" type="audio/mp3" />
+    {{- end }}
+  </audio>
+{{- end -}}
