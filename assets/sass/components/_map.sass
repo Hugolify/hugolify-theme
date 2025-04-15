@@ -5,8 +5,10 @@
     @include margin-top($spacer)
     background-color: $light
     overflow: hidden
-    @include media-breakpoint-down(sm)
-        --bs-aspect-ratio: 75%
+    @include media-breakpoint-down(md)
+        --bs-aspect-ratio: 30%
         margin-left: - $gutter-mobile
         margin-right: - $gutter-mobile
         width: calc(100% + #{$gutter-mobile} * 2)
+    @include media-breakpoint-down(sm)
+        --bs-aspect-ratio: 75%
