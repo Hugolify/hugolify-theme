@@ -10,6 +10,9 @@
       {{- with .text }}
         {{ partial "commons/text.html" (dict "text" .) }}
       {{ end -}}
+      {{- with .ctas }}
+        {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+      {{ end -}}
     </header>
   {{ end -}}
 {{ end -}}
