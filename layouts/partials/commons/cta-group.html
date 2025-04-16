@@ -15,14 +15,10 @@
   {{- end -}}
 {{- end -}}
 
-{{- if $hasGroup -}}
-  <div class="cta" role="group">
-{{- end -}}
 {{- with $ctas -}}
+  <div class="cta" {{- if $hasGroup -}} role="group"{{- end -}}>
   {{- range . -}}
     {{ partial "commons/cta.html" . }}
   {{- end -}}
-{{- end -}}
-{{- if $hasGroup -}}
   </div>
 {{- end -}}
