@@ -1,7 +1,6 @@
 {{- $abovethefold := cond .first true false -}}
 {{- $partial := printf "%s/items.html" .section -}}
-{{- if templates.Exists (printf "partials/%s" $partial) }}
-  <div class="items">
-    {{ partial $partial (dict "pages" .items "scrollsnap" true "abovethefold" $abovethefold) }}
-  </div>
-{{ end -}}
+{{- $partial = cond (templates.Exists (printf "partials/%s" $partial)) $partial "commons/items.html" -}}
+<div class="items">
+  {{ partial $partial (dict "pages" .items "scrollsnap" true "abovethefold" $abovethefold) }}
+</div>
