@@ -5,11 +5,11 @@
   {{- $template := printf "blocks/templates/%s.html" $block.type -}}
   {{- if and (strings.Contains .type "selected-") (not (templates.Exists ( printf "partials/%s" $template ))) -}}
     {{- $template = "blocks/templates/selected.html" -}}
-    {{- warnidf $template "Partial block missed" -}}
+    {{- warnidf "blocks" "Partial block missed: %s" $block.type -}}
   {{- end -}}
   {{- if templates.Exists ( printf "partials/%s" $template ) -}}
     {{ partial $template $block }}
   {{- else -}}
-    {{- warnidf $template "Partial block missed" -}}
+    {{- warnidf "blocks" "Partial block missed: %s" $template -}}
   {{- end -}}
 {{- end -}}
