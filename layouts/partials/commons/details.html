@@ -1,10 +1,15 @@
-<details {{- partial "func/SetAnim.html" (dict "element" "details") }}>
-  {{ with .title }}
+{{- $name := .name | default false }}
+{{- $open := .open | default false }}
+{{- $title := .title | default false }}
+<details
+  {{- with $name }} name="{{ . }}" {{- end }}
+  {{- with $open }} open {{- end }}
+  {{- with $title }} title="{{ . }}" {{- end -}}
+  {{- partial "func/SetAnim.html" (dict "element" "details") }}>
+  {{ with .summary }}
     <summary>{{ partial "func/PrepareHTML.html" . }}</summary>
   {{ end }}
-  {{ with .text }}
-    <div>
-      {{ (partial "func/PrepareHTML.html" .) | markdownify }}
-    </div>
-  {{ end }}
+  {{- with .text }}
+    {{ partial "commons/text.html" (dict "text" .) }}
+  {{ end -}}
 </details>

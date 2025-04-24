@@ -1,4 +1,12 @@
-{{ $title := .Get "title" }}
-{{ $text := .Get "text" }}
-{{ $details := dict "title" $title "text" $text }}
+{{- $name := or (.Get "name") "" -}}
+{{- $summary := or (.Get "summary") "" -}}
+{{- $title := or (.Get "title") "" -}}
+{{- $text := or .Inner "" -}}
+{{- $open := false -}}
+{{- if in (slice "false" false 0) (.Get "open") -}}
+  {{- $open = false -}}
+{{- else if in (slice "true" true 1) (.Get "open") -}}
+  {{- $open = true -}}
+{{- end -}}
+{{- $details := dict "title" $title "summary" $summary "text" $text "name" $name -}}
 {{ partial "commons/details.html" $details }}
