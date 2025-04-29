@@ -2,7 +2,12 @@
 {{- $section := .section -}}
 {{- $layout := .layout | default "grid" -}}
 {{- $count := .count | default 3 -}}
-{{- $items := where (where (where site.Pages "Section" $section) "Kind" "!=" "section")  "Kind" "!=" "taxonomy" -}}
+{{- $items := false -}}
+{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
+  {{- $items = where site.Pages "Params.isPage" true -}}
+{{- else -}}
+  {{- $items = where (where site.Pages "Section" $section) "File.Path" "ne" (print $section "/_index.md") -}}
+{{- end -}}
 {{- $items = $items.ByTitle -}}
 {{- if isset (index $items 0).Params "date" -}}
   {{- $items = $items.ByDate.Reverse -}}
