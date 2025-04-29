@@ -19,8 +19,8 @@ class Form {
 
     // Get form service
     let serviceForm = 'netlify';
-    if (event.target.action) {
-      const urlObj = new URL(event.target.action);
+    if (this.form.formAction) {
+      const urlObj = new URL(this.form.formAction);
       serviceForm = urlObj.hostname;
     }
 
