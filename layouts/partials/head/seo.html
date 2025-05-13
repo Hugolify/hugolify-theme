@@ -50,7 +50,9 @@
 
 {{/*  IMAGE  */}}
 {{- $seoImage := "" -}}
-{{- if os.FileExists (printf "%s/share.png" $staticDirImages) -}}
+{{- if site.Params.share -}}
+  {{- $seoImage = printf "%s%s" site.BaseURL site.Params.share -}}
+{{- else if os.FileExists (printf "%s/share.png" $staticDirImages) -}}
   {{- $seoImage = printf "%sassets/images/share.png" site.BaseURL -}}
 {{- else if os.FileExists (printf "%s/share.jpg" $staticDirImages) -}}
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
