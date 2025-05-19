@@ -14,12 +14,13 @@
 {{- end -}}
 {{- $items = first $count $items -}}
 
-{{- with $items }}
+{{- if $items }}
 <div class="container">
+  {{- partial "blocks/templates/selected/header.html" . -}}
   {{- if eq $layout "list" }}
-    {{ partial "blocks/templates/latest/list.html" . }}
+    {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else -}}
-    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" . "atf" $atf) }}
+    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf) }}
   {{ end -}}
 </div>
 {{ end -}}
