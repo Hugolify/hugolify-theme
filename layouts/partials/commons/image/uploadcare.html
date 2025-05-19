@@ -21,10 +21,16 @@
 {{- $image_height := false -}}
 
 {{/*  Get datas image  */}}
-{{- $datas := getJSON (printf "%s-/json/" $file) -}}
-{{- with $datas -}}
-  {{- $image_width = index . "width" -}}
-  {{- $image_height = index . "height" -}}
+{{- with try (resources.GetRemote (printf "%s-/json/" $file)) -}}
+  {{- with .Err -}}
+    {{ errorf "%s" . }}
+  {{- else with .Value -}}
+    {{- $data := . | transform.Unmarshal -}}
+    {{- $image_width = index $data "width" -}}
+    {{- $image_height = index $data "height" -}}
+  {{- else -}}
+    {{ errorf "Unable to get remote resource" }}
+  {{- end -}}
 {{- end -}}
 
 {{- if $file -}}
@@ -39,10 +45,16 @@
     {{- end -}}
     {{- $image_desktop = printf "%s%s" $file $params -}}
     {{- $image_desktop_webp = printf "%s%s-/format/webp/" $file $params -}}
-    {{- $datas = getJSON (printf "%s-/resize/%s/-/json/" $file .) -}}
-    {{- with $datas -}}
-      {{- $image_width = index . "width" -}}
-      {{- $image_height = index . "height" -}}
+    {{- with try (resources.GetRemote (printf "%s-/resize/%s/-/json/" $file .)) -}}
+      {{- with .Err -}}
+        {{ errorf "%s" . }}
+      {{- else with .Value -}}
+        {{- $data := . | transform.Unmarshal -}}
+        {{- $image_width = index $data "width" -}}
+        {{- $image_height = index $data "height" -}}
+      {{- else -}}
+        {{ errorf "Unable to get remote resource" }}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 
@@ -78,4 +90,3 @@
   "image_width" $image_width 
   "image_height" $image_height
   -}}
-
