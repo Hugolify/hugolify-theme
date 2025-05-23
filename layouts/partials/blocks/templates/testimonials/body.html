@@ -1,6 +1,8 @@
 {{- $layout := .layout | default false -}}
 {{- if eq $layout "carousel" }}
   {{ partial "blocks/templates/testimonials/carousel.html" . }}
+{{- else if eq $layout "list" }}
+  {{ partial "blocks/templates/testimonials/list.html" . }}
 {{- else -}}
   {{ partial "blocks/templates/testimonials/grid.html" . }}
 {{ end -}}
