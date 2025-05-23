@@ -7,11 +7,15 @@
   {{- end -}}
 {{- else -}}
   {{/*  Deprecated  */}}
-  {{- $cta := .cta | default false -}}
-  {{- $cta_second := .cta_second | default false -}}
-  {{- $ctas = slice $cta $cta_second -}}
-  {{- if and (partial "func/HasCTA" $cta) (partial "func/HasCTA" $cta_second) -}}
-    {{- $hasGroup = true -}}
+  {{- $ctas = slice -}}
+  {{- if partial "func/HasCTA.html" .cta -}}
+    {{- $ctas = $ctas | append .cta -}}
+  {{- end -}}
+  {{- if partial "func/HasCTA.html" .cta_second -}}
+    {{- $ctas = $ctas | append .cta_second -}}
+    {{- if partial "func/HasCTA.html" .cta -}}
+      {{- $hasGroup = true -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
