@@ -1,6 +1,8 @@
+{{- $container := .container | default true -}}
 {{- with .heading }}
   {{- if or .surtitle .title .text }}
     <header class="heading">
+      {{- with $container }}<div class="container">{{ end }}
       {{- with .surtitle }}
         <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end -}}
@@ -13,6 +15,7 @@
       {{- with .ctas }}
         {{ partial "commons/cta-group.html" (dict "ctas" .) }}
       {{ end -}}
+      {{- with $container }}</div>{{ end }}
     </header>
   {{ end -}}
 {{ end -}}

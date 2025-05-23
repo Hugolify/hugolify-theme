@@ -1,11 +1,13 @@
 {{- if or .footing .show_more }}
   <footer class="footing">
-    {{- with .footing.text }}
-      {{ partial "commons/text.html" (dict "text" .) }}
-    {{ end -}}
-    {{- $partials := printf "blocks/templates/%s/more.html" .type -}}
-    {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
-      {{- partial $partials . -}}
-    {{- end -}}
+    <div class="container">
+      {{- with .footing.text }}
+        {{ partial "commons/text.html" (dict "text" .) }}
+      {{ end -}}
+      {{- $partials := printf "blocks/templates/%s/more.html" .type -}}
+      {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
+        {{- partial $partials . -}}
+      {{- end -}}
+    </div>
   </footer> 
 {{ end -}}

@@ -7,11 +7,6 @@
         flex-direction: column
     .footing
         @include margin-top($global-spacing)
-    > .heading,
-    > .footing
-        @include make-container()
-        @include media-breakpoint-down(lg)
-            --bs-gutter-x: calc(#{$gutter-mobile} * 2)
 
     @include media-breakpoint-up(lg)
         .heading,

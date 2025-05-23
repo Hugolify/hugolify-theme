@@ -1,7 +1,7 @@
 {{- $context := dict "heading" .context.heading "items" .items "layout" .layout "first" .context.first "section" .context.section -}}
 {{- with $context }}
 <div class="container">
-  {{- partial "blocks/templates/selected/header.html" . -}}
+  {{- partial "blocks/templates/selected/header.html"  (dict "heading" .heading "container" false) -}}
   {{- if eq .layout "list" }}
     {{ partial "blocks/templates/selected/list.html" . }}
   {{ else }}
