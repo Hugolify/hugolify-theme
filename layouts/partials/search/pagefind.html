@@ -1,0 +1,11 @@
+<!-- Load Pagefind scripts -->
+<script src="/pagefind/pagefind-ui.js"></script>
+
+<!-- Create the search container with your site's styling -->
+<div id="search"></div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    new PagefindUI({ element: "#search", showSubResults: true });
+  });
+</script>

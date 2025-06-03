@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
   {{- $pages := where site.Sections ".Params.isPage" "!=" true -}}
   {{- range $pages }}
     {{- if and (ne .Type "admin") (ne .Type "sitemap") }}

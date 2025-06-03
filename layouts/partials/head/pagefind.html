@@ -1,0 +1,6 @@
+{{- if and site.Params.search.enable site.Params.search.filter }}
+  {{- $type := i18n (print .Type `.title`) -}}
+  {{- with $type }}
+  <meta data-pagefind-filter="type[content]" content="{{ . }}">
+  {{- end }}
+{{- end }}

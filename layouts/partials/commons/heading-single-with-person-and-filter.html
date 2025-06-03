@@ -15,7 +15,7 @@
     {{- if not .File -}}
       {{- $title = $title | humanize -}}
     {{- end -}}
-    <h1>{{ i18n $i18nTitle (dict "Person" $title) }}</h1>
+    <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ i18n $i18nTitle (dict "Person" $title) }}</h1>
   {{ end }}
   {{ partial $partialFilter .context }}
 </header>

@@ -2,7 +2,7 @@
 {{- with .context }}
 <header class="heading heading-filter" {{- partial "func/SetAnim.html" (dict "element" "heading") }}>
   {{- with .Title }}
-    <h1>{{ partial "func/PrepareHTML.html" . }}</h1>
+    <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ partial "func/PrepareHTML.html" . }}</h1>
   {{ end -}}
   {{ partial $partialFilter . }}
 </header>

@@ -13,7 +13,7 @@
     {{- partialCached "header/banner.html" . -}}
     {{- partial "header/header.html" . -}}
     {{- block "hero" . }}{{- end }}
-    <main id="main" role="main" tabindex="-1">
+    <main id="main" role="main" tabindex="-1" {{- if site.Params.search.enable }} data-pagefind-body{{ end }}>
       {{- block "main" . }}{{- end }}
     </main>
     {{- partial "nav/breadcrumb.html" . -}}

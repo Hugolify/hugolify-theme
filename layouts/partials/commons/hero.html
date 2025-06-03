@@ -7,7 +7,7 @@
     {{- with .image -}}
       {{- $class = printf "%s hero-with-image" $class -}}
     {{- end -}}
-    <header class="{{ $class }}" {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
+    <header class="{{ $class }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
       {{ partial "commons/hero/cover.html" . }}
       <div class="container">
         <div class="row">

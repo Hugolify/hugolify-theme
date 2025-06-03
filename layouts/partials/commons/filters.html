@@ -1,0 +1,7 @@
+{{- $context := .context }}
+{{- with .section }}
+  <div class="filters offcanvas" tabindex="-1" id="{{ safeHTMLAttr . }}Filters" aria-labelledby="{{ safeHTMLAttr . }}FiltersLabel" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
+    {{ partial (print . "/filters/header") $context }}
+    {{ partial (print . "/filters/content") $context }}
+  </div>
+{{- end }}
