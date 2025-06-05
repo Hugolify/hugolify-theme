@@ -59,9 +59,9 @@ params:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
   search:
-    enable: true # And add search page to /content/search/_index.md
-    filter: true
-    sort: true
+    enable: false # if true add search page to /content/search/_index.md or add a search block
+    filter: false
+    sort: false
 
   # Front
   column: 12
