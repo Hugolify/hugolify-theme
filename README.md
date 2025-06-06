@@ -6,9 +6,10 @@
 * 100/100 Google PageSpeed Insights
 * Accessibility friendly
 * [Blocks](https://www.hugolify.io/docs/blocks/)
-* Forms (Netlify or other)
+* [Forms](https://www.hugolify.io/docs/getting-started/form/) (Netlify or other)
 * Lazy loading and JS defer
 * PurgeCSS
+* Search
 * Responsive design
 * Responsive images (and WebP)
 * SEO friendly
@@ -24,6 +25,7 @@
 * LeafletJS OpenStreetMap
 * SplideJS Carousel
 * Tobii Lightbox
+* Pagefind
 
 ## Multilingual Support
 
