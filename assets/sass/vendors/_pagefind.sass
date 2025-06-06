@@ -1,0 +1,80 @@
+.pagefind-ui
+    &__search-input
+        @extend .form-control-lg !optional
+    &__search-clear
+        display: none
+    &__filter
+        &-panel
+            background: $light
+            flex: 1
+            padding: $spacer
+            @include media-breakpoint-down(md)
+                margin-bottom: $spacer
+            details
+                background: transparent
+                border: 0
+                border-radius: 0
+                &:not(:last-of-type)
+                    margin-bottom: 0
+                &:hover
+                    box-shadow: none
+                summary
+                    font-size: $font-size-base
+                    padding-left: 0
+                    padding-right: 0
+            &-label
+                font-size: $font-size-base
+                font-weight: bold
+        &-group-label
+            display: none
+        &-value
+            white-space: nowrap
+            &:last-child
+                label
+                    margin-bottom: 0
+    &__results-area
+        flex: 4
+    &__drawer
+        @include margin-top($spacer)
+        @include media-breakpoint-up(md)
+            display: flex
+            gap: $grid-gutter-width
+    &__message
+        font-weight: bold
+    &__results
+        padding-left: 0
+    &__result
+        @include margin-top($spacer * 2)
+        display: flex
+        gap: $grid-gutter-width
+        list-style: none
+        position: relative
+        &-thumb
+            flex: 1
+            @include media-breakpoint-down(md)
+                display: none
+        &-image
+            width: 100%
+        &-inner
+            flex: 4
+        &-nested
+            @include margin-top($paragraph-margin-bottom)
+            p
+                margin-bottom: 0
+        &-inner > &-title
+            @include margin-bottom($headings-margin-bottom)
+            @include font-size($h3-font-size)
+            font-family: $headings-font-family
+            font-weight: $headings-font-weight
+            line-height: $headings-line-height
+    &__result-excerpt mark
+            background-color: #ff0
+            color: color-contrast(#ff0)
+    &__button
+        @include button-variant($primary,$primary)
+        @include margin-top($global-spacing)
+        display: flex
+        margin-left: auto
+        margin-right: auto
+    &__hidden
+        display: none

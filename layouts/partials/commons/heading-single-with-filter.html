@@ -1,14 +1,14 @@
-{{ $section := printf "/%s" .section }}
-{{ $i18nAll := printf "%s.all" .section }}
-{{ $partialFilter := printf "%s/filters/button" .section }}
-{{ $context := .context }}
+{{- $section := printf "/%s" .section -}}
+{{- $i18nAll := printf "%s.all" .section -}}
+{{- $partialFilter := printf "%s/filters/button" .section -}}
+{{- $context := .context -}}
 
 <header class="heading heading-filter"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
-  {{ with site.GetPage $section }}
+  {{- with site.GetPage $section }}
   <p class="surtitle">
     <a href="{{ .Permalink }}" class="back">{{ i18n $i18nAll }}</a>
   </p>
-  {{ end }}
-  <h1>{{ partial "func/GetRealTitle" $context }}</h1>
+  {{ end -}}
+  <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ partial "func/GetRealTitle" $context }}</h1>
   {{ partial $partialFilter $context }}
 </header>

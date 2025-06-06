@@ -1,0 +1,21 @@
+{{- if site.Params.search.enable }}
+<!-- Load Pagefind scripts -->
+<script src="/pagefind/pagefind-ui.js"></script>
+
+<!-- Create the search container with your site's styling -->
+<div id="search" class="search"></div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    new PagefindUI({ 
+      element: "#search", 
+      showSubResults: true,
+      showEmptyFilters: true,
+      processResult: function (result) {
+        document.querySelector(".pagefind-ui__button").classList.add("btn");
+        return result;
+      }
+    });
+  });
+</script>
+{{- end -}}

@@ -7,7 +7,7 @@
   {{- with $the_tax }}
     {{- $nTaxs := $the_tax | len -}}
     {{- $i18n := printf "%s.title" $tax -}}
-    <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}">
+    <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
       <p>{{ i18n $i18n $nTaxs }}</p>
       <ol>
         {{- range $taxonomy_term, $taxonomy := . }}

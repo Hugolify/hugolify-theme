@@ -3,7 +3,7 @@
     <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .title }}
-    <h1>{{ partial "func/PrepareHTML.html" . }}</h1>
+    <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ partial "func/PrepareHTML.html" . }}</h1>
   {{ end -}}
   {{- partial "commons/text.html" (dict "text" .text "class" "description") -}}
   {{- with .ctas }}
