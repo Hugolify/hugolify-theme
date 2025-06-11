@@ -1,15 +1,16 @@
+{{- $lazy := .lazy | default true -}}
 {{- with . -}}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $args := "muted playsinline" -}}
   {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}
   {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
-  <video class="js-video is-lazy" {{ $args | safeHTMLAttr }} {{ $animation }}>
+  <video {{- if $lazy }}{class="js-video is-lazy"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }}>
     {{- with .webm }}
-      <source data-src="{{ . }}" type="video/webm" />
+      <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/webm" />
     {{- end }}
     {{- with .mp4 }}
-      <source data-src="{{ . }}" type="video/mp4" />
+      <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/mp4" />
     {{- end }}
   </video>
 {{- end -}}
