@@ -16,7 +16,7 @@
 
 {{- if $items }}
 <div class="container">
-  {{- partial "blocks/templates/latest/header.html" (dict "heading" .heading "container" false) -}}
+  {{- partial "blocks/templates/latest/header.html" (dict "heading" .heading "section" .section "container" false) -}}
   {{- if eq $layout "list" }}
     {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else -}}
