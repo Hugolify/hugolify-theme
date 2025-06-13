@@ -1,9 +1,9 @@
-{{ partialCached "footer/js-i18n" . }}
+{{- partialCached "footer/js-i18n" . -}}
 {{- $jsOpts := (dict 
   "targetPath" "assets/js/main.js" 
   "minify" hugo.IsProduction
 ) -}}
-{{ $js := resources.Get "js/main.js" | js.Build $jsOpts | fingerprint }}
-{{ with $js }}
+{{- $js := resources.Get "js/main.js" | resources.ExecuteAsTemplate "main.js" . | js.Build $jsOpts | fingerprint -}}
+{{- with $js }}
   <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
-{{ end }}
+{{ end -}}

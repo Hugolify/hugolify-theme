@@ -16,17 +16,15 @@ class Map {
   }
 
   addFiles() {
-    // JS
+    // JS leaflet@1.9.4
     this.leafletJS = document.createElement('script');
     this.leafletJS.type = 'text/javascript';
-    // this.leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
     this.leafletJS.src = '/assets/js/leaflet.min.js';
     document.getElementsByTagName('body')[0].appendChild(this.leafletJS);
 
-    // CSS
+    // CSS leaflet@1.9.4
     this.leafletCSS = document.createElement('link');
     this.leafletCSS.rel = 'stylesheet';
-    // this.leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     this.leafletCSS.href = '/assets/css/leaflet.min.css';
     document.getElementsByTagName('head')[0].appendChild(this.leafletCSS);
 
@@ -119,7 +117,6 @@ class Map {
           '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }
     ];
-    console.log(tiles);
     L.tileLayer(tiles[this.tileSelect].tile, {
       attribution: tiles[this.tileSelect].attribution
     }).addTo(this.map);

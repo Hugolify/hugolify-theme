@@ -11,14 +11,14 @@ module:
     - source: static
       target: static
   imports:
-    # Import bootstrap 5
+    # Import Bootstrap 5
     - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
-    # Import bootstrap icons
+    # Import Bootstrap icons
     - path: github.com/twbs/icons
       mounts:
         - source: font/fonts
           target: static/assets/fonts/bootstrap-icons
-    # Import lightbox plugin
+    # Import Lightbox (Tobii)
     - path: github.com/midzer/tobii
       mounts:
         - source: src/scss
@@ -32,7 +32,7 @@ module:
           target: assets/scss/cookieconsent
         - source: dist/cookieconsent.umd.js
           target: static/assets/js/cookieconsent.umd.js
-    # Import Splide
+    # Import Carousel (Splide)
     - path: github.com/Splidejs/splide
       mounts:
         - source: dist/css/splide.min.css
@@ -42,11 +42,26 @@ module:
 
 # Params
 params:
-  animation: false
+
+  # Website
+  animation: false # Load js and add data attributes
+  bootstrap:
+    alert: false 
+    carousel: false 
+    collapse: true 
+    dropdown: true 
+    modal: true 
+    offcanvas: true 
+    popover: false 
+    scrollspy: false 
+    tab: false 
+    toast: false 
+    tooltip: true 
+  carousel: true # Load splidejs
   cookie_banner:
-    enable: false
+    enable: false # Enable Cookie banner
     cookieconsent:
-      enable: false
+      enable: false # Use CookieConsent
       analytics: false
       functionality: false
       marketing: false
@@ -58,6 +73,7 @@ params:
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
+  map: true # Load leaflet
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     filter: false
