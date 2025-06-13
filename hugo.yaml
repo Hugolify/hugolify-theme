@@ -39,6 +39,11 @@ module:
           target: static/assets/css/splide.min.css
         - source: dist/js/splide.min.js
           target: static/assets/js/splide.min.js
+    # Import Parallax (Rellax)
+    - path: github.com/dixonandmoe/rellax
+      mounts:
+        - source: rellax.min.js
+          target: assets/js/vendors/rellax.min.js
 
 # Params
 params:
@@ -74,6 +79,7 @@ params:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
   map: true # Load leaflet
+  parallax: true # Load js
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     filter: false

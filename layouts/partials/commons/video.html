@@ -1,11 +1,12 @@
 {{- $lazy := .lazy | default true -}}
 {{- with . -}}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
+  {{- $parallax := partial "func/SetParallax.html" (dict "element" "video") -}}
   {{- $args := "muted playsinline" -}}
   {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}
   {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
-  <video {{ if $lazy }}class="js-video is-lazy"{{ else }}preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }}>
+  <video {{ if $lazy }}class="js-video is-lazy"{{ else }}preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
     {{- with .webm }}
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/webm" />
     {{- end }}

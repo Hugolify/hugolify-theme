@@ -1,0 +1,29 @@
+{{ $attr := "" }}
+{{ $isParallax := site.Params.parallax | default false }}
+
+{{ if $isParallax }}
+  {{ $attr = " data-parallax" }}
+  {{ $speed := add (int (mul math.Rand 2)) -2 }}
+  {{ $percentage := 0.5 }}
+
+  {{ with .element }}
+
+    {{ $attr = print $attr `=` . }}
+
+    {{- if eq . "cover" -}}
+      {{- $speed = -2 }}
+      {{- $percentage = false }}
+    {{- end -}}
+
+    {{- with $percentage -}}
+      {{ $attr = print $attr ` data-rellax-percentage=` . }}
+    {{ end }}
+
+    {{- with $speed -}}
+      {{ $attr = print $attr ` data-rellax-speed=` . }}
+    {{ end }}
+
+  {{ end }}
+{{ end }}
+
+{{ return ($attr | safeHTMLAttr) }}
