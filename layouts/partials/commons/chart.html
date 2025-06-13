@@ -14,6 +14,7 @@
     {{- with .type }} data-type="{{ . }}"{{ end}}
     {{- with .backgroundColor }} data-background-color="{{ . }}"{{ end}}
     {{- with .borderColor }} data-border-color="{{ . }}"{{ end}}
+    {{- with site.Params.chart.color }} data-color="{{ . }}"{{ end}}
     {{- with .items }} data-items="{{ . | jsonify }}"{{ end}}>
   </canvas>
   {{ with .data }}

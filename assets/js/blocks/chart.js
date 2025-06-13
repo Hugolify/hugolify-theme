@@ -89,6 +89,9 @@ class BlockChart {
       this.config.options.scale.min = 0;
     }
 
+    if (this.chart.dataset.color) {
+      Chart.defaults.color = this.chart.dataset.color;
+    }
     let chart = new Chart(this.canvas, this.config);
   }
 }
