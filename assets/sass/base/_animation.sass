@@ -8,13 +8,15 @@
         address,
         picture
             opacity: 0
-            transform: translateY(2rem)
+            transition-property: opacity
             transition-duration: $transition-duration
-            transition-property: opacity, transform
             transition-timing-function: $transition-effect
+        .hero-media picture
+            transform: translateY(2rem)
+            transition-delay: $transition-delay
+            transition-property: opacity, transform
         picture
             display: block
-            transition-delay: $transition-delay
         &[data-anim-show]
             .surtitle,
             h1,
