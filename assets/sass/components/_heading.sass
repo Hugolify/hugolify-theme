@@ -1,9 +1,11 @@
 .heading
     @include margin-bottom($global-spacing-semi)
-    display: flex
-    flex-direction: column
-    flex-wrap: wrap
-    gap: .25em
+    &,
+    & > .container
+        display: flex
+        flex-direction: column
+        flex-wrap: wrap
+        gap: .25em
 
     h1, h2, p
         margin-bottom: 0
