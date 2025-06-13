@@ -1,6 +1,9 @@
 .block-paragraph
     h2:last-child,
-    .text:last-child p:last-child
+    .text p:last-child
         margin-bottom: 0
+    .text,
+    .notes
+        @include margin-bottom($paragraph-margin-bottom)
     .btn
         @include button-variant($primary,$primary)
