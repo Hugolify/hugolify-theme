@@ -5,7 +5,7 @@
   {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}
   {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
-  <video {{- if $lazy }}{class="js-video is-lazy"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }}>
+  <video {{ if $lazy }}class="js-video is-lazy"{{ else }}preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }}>
     {{- with .webm }}
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/webm" />
     {{- end }}
