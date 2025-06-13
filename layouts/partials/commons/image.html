@@ -66,9 +66,11 @@
 
 {{/* Display image  */}}
 {{- with $params }}
-  {{- $element := cond (strings.Contains $picture_class "cover") "cover" "picture" -}}
-  {{- $parallax := partial "func/SetParallax.html" (dict "element" $element) }}
-  <picture {{- with $picture_class }} class="{{ . }}"{{ end }} {{- $parallax }}>
+  <picture 
+    {{- with $picture_class }}
+      class="{{ . }}" 
+      {{- if strings.Contains . `cover` }}{{- partial "func/SetParallax.html" (dict "element" "cover") }}{{ end }}
+    {{ end }}>
     {{- if .image_desktop_webp }}
       <source srcset="{{ .image_desktop_webp }} 
         {{- if $is_desktop_retina }}

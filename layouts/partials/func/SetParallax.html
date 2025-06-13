@@ -1,26 +1,52 @@
 {{ $attr := "" }}
-{{ $isParallax := site.Params.parallax | default false }}
+{{ $isParallax := site.Params.parallax.enable | default false }}
 
 {{ if $isParallax }}
   {{ $attr = " data-parallax" }}
-  {{ $speed := add (int (mul math.Rand 2)) -2 }}
-  {{ $percentage := 0.5 }}
+  {{ $speed := mul math.Rand -1 }}
+  {{ $percentage := site.Params.parallax.percentage | default 0.5 }}
 
   {{ with .element }}
 
     {{ $attr = print $attr `=` . }}
 
     {{- if eq . "cover" -}}
-      {{- $speed = -2 }}
+      {{- if isset site.Params.parallax "cover" }}
+        {{- $speed = site.Params.parallax.cover }}
+      {{- else }}
+        {{- $speed = -2 }}
+      {{- end }}
       {{- $percentage = false }}
+    {{- else if eq . "figure" -}}
+      {{- if isset site.Params.parallax "figure" }}
+        {{- $speed = site.Params.parallax.figure }}
+      {{- end }}
+    {{- else if eq . "heading" -}}
+      {{- if isset site.Params.parallax "heading" }}
+        {{- $speed = site.Params.parallax.heading }}
+      {{- else }}
+        {{- $speed = -0.25 }}
+      {{- end }}
+    {{- else if eq . "hero-media" -}}
+      {{- if isset site.Params.parallax "hero_media" }}
+        {{- $speed = site.Params.parallax.hero_media }}
+      {{- end }}
+    {{- else if eq . "item" -}}
+      {{- if isset site.Params.parallax "item" }}
+        {{- $speed = site.Params.parallax.item }}
+      {{- end }}
+    {{- else if eq . "media" -}}
+      {{- if isset site.Params.parallax "media" }}
+        {{- $speed = site.Params.parallax.media }}
+      {{- end }}
     {{- end -}}
 
-    {{- with $percentage -}}
-      {{ $attr = print $attr ` data-rellax-percentage=` . }}
+    {{- if ne $percentage false -}}
+      {{ $attr = print $attr ` data-rellax-percentage=` $percentage }}
     {{ end }}
 
-    {{- with $speed -}}
-      {{ $attr = print $attr ` data-rellax-speed=` . }}
+    {{- if ne $speed false -}}
+      {{ $attr = print $attr ` data-rellax-speed=` $speed }}
     {{ end }}
 
   {{ end }}

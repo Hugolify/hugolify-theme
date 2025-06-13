@@ -5,7 +5,7 @@
   <div class="items items-{{ $column }}">
     {{- range . }}
       <div>
-        <div class="item {{- with .is_highlighted }} item-highlighted{{ end }}">
+        <div class="item {{- with .is_highlighted }} item-highlighted{{ end }}" {{- partial "func/SetParallax.html" (dict "element" "item") }}>
 
           <header>
             {{- with .badge }}

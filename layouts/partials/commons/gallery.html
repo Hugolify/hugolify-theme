@@ -21,7 +21,7 @@
   <div class="gallery gallery-{{ $column }} js-gallery">
     {{ range $index, $image := $images }}
       {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) -}}
-      <div>
+      <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
         {{ partial "commons/image-lightbox" (dict
             "image" .
             "desktop" $desktop

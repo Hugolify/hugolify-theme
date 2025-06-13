@@ -6,7 +6,7 @@
 <div class="container">
   <ul class="items items-{{ $column }}">
   {{- range . }}
-    <li>
+    <li {{- partial "func/SetParallax.html" (dict "element" "item") }}>
       {{- if $show_gauge }}
         {{- $stat := . -}}
         {{- with .value }}

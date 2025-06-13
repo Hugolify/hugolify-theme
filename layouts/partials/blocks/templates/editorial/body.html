@@ -15,7 +15,7 @@
       {{ end -}}
     </div>
 
-    {{- with .image}}
+    {{- with .image }}
       {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
       {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
       {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}

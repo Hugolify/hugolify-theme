@@ -49,6 +49,9 @@ import './vendors/custom';
 {{ if .Site.Params.map }}
     import './features/map';
 {{ end }}
+{{ if .Site.Params.parallax.enable }}
+    import './features/parallax';
+{{ end }}
 
 // Add custom features
 import './features/custom';

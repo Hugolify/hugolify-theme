@@ -1,7 +1,7 @@
 {{- $container := .container | default true -}}
 {{- with .heading }}
   {{- if or .surtitle .title .text }}
-    <header class="heading">
+    <header class="heading" {{- partial "func/SetParallax.html" (dict "element" "heading") }}>
       {{- with $container }}<div class="container">{{ end }}
       {{- with .surtitle }}
         <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>

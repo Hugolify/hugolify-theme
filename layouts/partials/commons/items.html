@@ -43,7 +43,7 @@
         {{- if $large -}}
           {{- .Scratch.Set "large" true -}}
         {{- end -}}
-        <div>
+        <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
           {{ partial $partial . }}
         </div>
       {{ end -}}

@@ -1,6 +1,6 @@
 {{ with .image }}
   {{ if ne .background_image true }}
-    <div class="hero-media">
+    <div class="hero-media" {{- partial "func/SetParallax.html" (dict "element" "hero-media") }}>
       {{- $desktop := site.Params.hero.desktop -}}
       {{- $mobile := site.Params.hero.mobile -}}
       {{ partial "commons/image.html" (dict
