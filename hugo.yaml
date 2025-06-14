@@ -61,7 +61,7 @@ params:
     scrollspy: false 
     tab: false 
     toast: false 
-    tooltip: true 
+    tooltip: false 
   carousel: true # Load splidejs
   cookie_banner:
     enable: false # Enable Cookie banner
