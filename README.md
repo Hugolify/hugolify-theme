@@ -8,10 +8,10 @@
 * [Blocks](https://www.hugolify.io/docs/blocks/)
 * [Forms](https://www.hugolify.io/docs/getting-started/form/) (Netlify or other)
 * Lazy loading and JS defer
-* PurgeCSS
-* Search
+* [PurgeCSS](https://www.hugolify.io/docs/getting-started/purgecss/)
 * Responsive design
 * Responsive images (and WebP)
+* [Search](https://www.hugolify.io/docs/getting-started/search/)
 * SEO friendly
 * [Shortcodes](https://www.hugolify.io/docs/shortcodes/)
 
@@ -26,6 +26,7 @@
 * SplideJS Carousel
 * Tobii Lightbox
 * Pagefind
+* Rellax parallax
 
 ## Multilingual Support
 
