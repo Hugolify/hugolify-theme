@@ -58,21 +58,21 @@
                 title: "{{ i18n `cookie_consent.sectionsAnalyticsTitle` }}",
                 description: "{{ i18n `cookie_consent.sectionsAnalyticsDescription` }}",
                 linkedCategory: 'analytics'
-              }
+              },
               {{ end -}}
               {{- if site.Params.cookie_banner.cookieconsent.functionality }}
               {
                 title: "{{ i18n `cookie_consent.sectionsFunctionalityTitle` }}",
                 description: "{{ i18n `cookie_consent.sectionsFunctionalityDescription` }}",
                 linkedCategory: 'functionality'
-              }
+              },
               {{ end -}}
               {{- if site.Params.cookie_banner.cookieconsent.marketing }}
               {
                 title: "{{ i18n `cookie_consent.sectionsMarketingTitle` }}",
                 description: "{{ i18n `cookie_consent.sectionsMarketingDescription` }}",
                 linkedCategory: 'marketing'
-              }
+              },
               {{ end -}}
             ]
           }
