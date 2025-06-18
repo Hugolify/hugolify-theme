@@ -15,11 +15,15 @@ module:
     - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
     # Import Bootstrap icons
     - path: github.com/twbs/icons
+      ignoreConfig: true
       mounts:
         - source: font/fonts
           target: static/assets/fonts/bootstrap-icons
+        - source: font/bootstrap-icons.scss
+          target: assets/scss/bootstrap-icons/bootstrap-icons.scss
     # Import Lightbox (Tobii)
     - path: github.com/midzer/tobii
+      ignoreConfig: true
       mounts:
         - source: src/scss
           target: assets/scss/tobii
@@ -27,6 +31,7 @@ module:
           target: assets/js/vendors/tobii
     # Import Cookie consent
     - path: github.com/orestbida/cookieconsent
+      ignoreConfig: true
       mounts:
         - source: src/scss
           target: assets/scss/cookieconsent
@@ -34,6 +39,7 @@ module:
           target: static/assets/js/cookieconsent.umd.js
     # Import Carousel (Splide)
     - path: github.com/Splidejs/splide
+      ignoreConfig: true
       mounts:
         - source: dist/css/splide.min.css
           target: static/assets/css/splide.min.css
@@ -41,6 +47,7 @@ module:
           target: static/assets/js/splide.min.js
     # Import Parallax (Rellax)
     - path: github.com/dixonandmoe/rellax
+      ignoreConfig: true
       mounts:
         - source: rellax.min.js
           target: assets/js/vendors/rellax.min.js

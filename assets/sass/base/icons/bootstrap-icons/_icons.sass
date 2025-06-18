@@ -4,4 +4,5 @@ $font-family-icons: "bootstrap-icons" !default
 @import "base/icons/bootstrap-icons/font"
 
 // Variables
-@import "base/icons/bootstrap-icons/variables"
+@if variable-exists(bootstrap-icons-map)
+  $icons-map: $bootstrap-icons-map

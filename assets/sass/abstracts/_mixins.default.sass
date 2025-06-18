@@ -21,7 +21,7 @@
         width: 100%
 
 @mixin icon($icon: "")
-    @if $icon != ""
+    @if $icon != "" and variable-exists(icons-map)
         content: map-get($icons-map, $icon)
     display: inline-block
     font-family: $font-family-icons
