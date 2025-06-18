@@ -2,12 +2,13 @@ $socials: 'behance', 'bluesky', 'discord', 'facebook', 'github', 'gitlab', 'goog
     
 .nav-social
     --bs-nav-link-padding-x: .75rem
-    @each $social in $socials
-        .#{$social}
-             a
-                &::after
-                    content: none
-                &::before
-                    @include icon($social)
-                span
-                    display: none
+    @if variable-exists(icons-map)
+        @each $social in $socials
+            .#{$social}
+                a
+                    &::after
+                        content: none
+                    &::before
+                        @include icon($social)
+                    span
+                        display: none
