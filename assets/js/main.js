@@ -68,9 +68,7 @@ import './features/custom';
 {{ end }}
 
 // Components
-import './components/menu';
-import './components/toc';
-import './components/video';
+import './components/index';
 
 // Add custom components
 import './components/custom';
