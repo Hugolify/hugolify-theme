@@ -6,7 +6,8 @@
 {{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
   {{- $items = where site.Pages "Params.isPage" true -}}
 {{- else -}}
-  {{- $items = where (where site.Pages "Section" $section) "File.Path" "ne" (print $section "/_index.md") -}}
+  {{- $itemsSection := where site.Pages "Section" $section -}}
+  {{- $items = where $itemsSection "Kind" "ne" "section" -}}
 {{- end -}}
 {{- $items = $items.ByTitle -}}
 {{- if isset (index $items 0).Params "date" -}}
