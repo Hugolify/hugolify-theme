@@ -6,7 +6,7 @@ import './utils/global';
     import Alert from 'js/bootstrap/src/alert';
 {{ end }}
 {{ if .Site.Params.bootstrap.carousel }}
-i   mport Carousel from 'js/bootstrap/src/carousel';
+    import Carousel from 'js/bootstrap/src/carousel';
 {{ end }}
 {{ if .Site.Params.bootstrap.collapse }}
     import Collapse from 'js/bootstrap/src/collapse';
