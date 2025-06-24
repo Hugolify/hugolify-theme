@@ -3,7 +3,7 @@
 
 {{ if $isParallax }}
   {{ $attr = " data-parallax" }}
-  {{ $speed := mul math.Rand -1 }}
+  {{ $speed := mul math.Rand -2 }}
   {{ $percentage := site.Params.parallax.percentage | default 0.5 }}
 
   {{ with .element }}
@@ -30,6 +30,10 @@
     {{- else if eq . "hero-media" -}}
       {{- if isset site.Params.parallax "hero_media" }}
         {{- $speed = site.Params.parallax.hero_media }}
+      {{- end }}
+    {{- else if eq . "quote" -}}
+      {{- if isset site.Params.parallax "quote" }}
+        {{- $speed = site.Params.parallax.quote }}
       {{- end }}
     {{- else if eq . "item" -}}
       {{- if isset site.Params.parallax "item" }}
