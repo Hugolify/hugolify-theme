@@ -5,6 +5,6 @@
   {{- end -}}
   {{- $text := .text | default false -}}
   {{- with $text }}
-    <span class="{{ $class }}">{{ . | markdownify }}</span>
+    <span class="{{ $class }}">{{ partial "func/PrepareHTML.html" . | markdownify }}</span>
   {{ end -}}
 {{ end -}}
