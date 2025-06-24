@@ -6,7 +6,7 @@
     <p class="name">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .text }}
-    <p>{{ partial "func/PrepareHTML.html" . }}</p>
+    <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
   {{ end -}}
   {{- with .cta }}
     {{ partial "commons/cta.html" . }}
