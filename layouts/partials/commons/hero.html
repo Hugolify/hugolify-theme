@@ -5,7 +5,11 @@
       {{- $class = printf "%s hero-%s" $class . -}}
     {{- end -}}
     {{- with .image -}}
-      {{- $class = printf "%s hero-with-image" $class -}}
+      {{- with .background_image -}}
+        {{- $class = printf "%s hero-with-cover" $class -}}
+      {{- else -}}
+        {{- $class = printf "%s hero-with-image" $class -}}
+      {{- end -}}
     {{- end -}}
     <header class="{{ $class }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
       {{ partial "commons/hero/cover.html" . }}
