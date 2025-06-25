@@ -1,7 +1,9 @@
 .home-page
     .hero
         .container
-            min-height: $home-hero-min-height
+            min-height: $home-hero-min-height-mobile
+            @include media-breakpoint-up(md)
+                min-height: $home-hero-min-height
     .latest
         @include margin-bottom($global-spacing)
         @include margin-top($global-spacing)

@@ -49,7 +49,7 @@
         overflow: auto
         scroll-snap-type: x mandatory
         > *
-            --col-width: 43.75%
+            --col-width: #{$scroll-snap-lg}
             flex-basis: var(--col-width)
             padding-left: $gutter-mobile
             padding-right: 0
@@ -61,10 +61,10 @@
                 width: calc(var(--col-width) + #{$gutter-mobile})
     @include media-breakpoint-down(md)
         > *
-            --col-width: 45%
+            --col-width: #{$scroll-snap-md}
     @include media-breakpoint-down(sm)
         > *
-            --col-width: 75%
+            --col-width: #{$scroll-snap-sm}
 
 @mixin minititle
     font-size: px2rem(12)

@@ -6,8 +6,10 @@
         @include padding-bottom($global-spacing)
         @include padding-top($global-spacing)
         display: flex
-        min-height: $hero-min-height
+        min-height: $hero-min-height-mobile
         position: relative
+        @include media-breakpoint-up(md)
+            min-height: $hero-min-height
     .row
         align-items: center
         flex-basis: calc(100% + var(--bs-gutter-x))
