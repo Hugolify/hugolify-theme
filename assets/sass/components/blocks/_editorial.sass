@@ -14,6 +14,7 @@
     .btn
         @include button-variant($primary,$primary)
     figure
+        display: block
         margin-bottom: 0
     img
         height: auto
@@ -27,9 +28,12 @@
     
     @include media-breakpoint-down(md)
         .media
+            --bs-gutter-x: calc(#{$gutter-mobile} - (#{$grid-gutter-width} * .5) )
             margin-bottom: $spacer
+            margin-left: calc(-1 * var(--bs-gutter-x))
+            margin-right: calc(-1 * var(--bs-gutter-x))
+            max-width: none
+            padding-left: 0
+            padding-right: 0
             order: -1
-            > figure picture
-                display: block
-                margin-left: - $gutter-mobile
-                margin-right: - $gutter-mobile
+            width: calc(2 * var(--bs-gutter-x) + 100%)
