@@ -1,11 +1,12 @@
 {{ with . }}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "figure") -}}
-  {{- $parallax := partial "func/SetParallax.html" (dict "element" "figure") -}}
+  {{- $parallax := .parallax | default false -}}
+  {{- $parallax = cond $parallax (partial "func/SetParallax.html" (dict "element" "figure")) "" -}}
   {{- if .screenshot }}
-    <div class="screenshot" {{- $animation }}>
+    <div class="screenshot" {{- $animation }} {{- $parallax }}>
       <span></span>
   {{ end }}
-  <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }} {{ $parallax }}{{ end }}>
+  <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }} {{- $parallax }}{{ end }}>
     {{- if .src }}
       {{- partial "commons/image.html" . }}
     {{- end }}

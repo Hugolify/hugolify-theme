@@ -18,7 +18,7 @@
     {{- with .image }}
       {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
       {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
-      {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
+      {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy "parallax" true) -}}
       <div class="media">
         {{- partial "commons/figure.html" $figure -}}
       </div>

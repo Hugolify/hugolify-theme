@@ -9,7 +9,7 @@
 {{- $desktop = printf "%sx" (string $width) -}}
 {{- end -}}
 {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
-{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy) -}}
+{{- $figure := merge .figure (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy "parallax" true) -}}
 
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
 {{- with $figure -}}
