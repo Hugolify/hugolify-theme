@@ -5,9 +5,9 @@
 
 {{ with $image }}
   {{ if in . "ucarecdn" }}
-    {{ $image_src =  printf "%s-/resize/%s" . $size }}
+    {{ $image_src =  printf "%s-/resize/%s/" . $size }}
     {{ if ne $type "" }}
-      {{ $image_src =  printf "%s/-/format/%s/" $image_src $type }}
+      {{ $image_src =  printf "%s-/format/%s/" $image_src $type }}
     {{ end }}
   {{ else if in . "cloudinary.com" }}
     {{ $params := slice }}

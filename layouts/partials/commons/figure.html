@@ -6,7 +6,7 @@
     <div class="screenshot" {{- $animation }} {{- $parallax }}>
       <span></span>
   {{ end }}
-  <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ $animation }} {{- $parallax }}{{ end }}>
+  <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ safeHTMLAttr $animation }} {{- safeHTMLAttr $parallax }}{{ end }}>
     {{- if .src }}
       {{- partial "commons/image.html" . }}
     {{- end }}
