@@ -1,6 +1,6 @@
 {{- $show_places := .show_places | default false -}}
 {{- $zoom := .zoom -}}
-{{- $grid := .grid | default "large" -}}
+{{- $grid := .grid | default false -}}
 {{- $class := partial "func/GetColClass.html" $grid -}}
 
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}

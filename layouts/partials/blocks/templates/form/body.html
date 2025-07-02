@@ -1,4 +1,4 @@
-{{- $grid := .grid | default "large" -}}
+{{- $grid := .grid | default false -}}
 {{- $offset := .offset | default false -}}
 {{- $class := partial "func/GetColOffsetClass" (dict "grid" $grid "offset" $offset) -}}
 

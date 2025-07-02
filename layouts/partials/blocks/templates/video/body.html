@@ -1,4 +1,4 @@
-{{- $grid := .grid | default "large" -}}
+{{- $grid := .grid | default false -}}
 {{- $class := partial "func/GetColClass" $grid -}}
 
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
