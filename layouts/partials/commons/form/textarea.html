@@ -1,0 +1,10 @@
+<textarea 
+    {{ with .id }}id="{{ . }}"{{ end }}
+    {{ with .name }}name="{{ . }}"{{ end }}
+    rows="5"
+    {{ with .type }}type="{{ . }}"{{ end }}
+    {{ with .value }}value="{{ . }}"{{ end }}
+    {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
+    {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+    {{ if .required }}required{{ end }}>
+</textarea>

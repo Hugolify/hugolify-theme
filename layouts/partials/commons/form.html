@@ -25,49 +25,22 @@
     {{- $name := anchorize .name | default (anchorize .label) | default $id -}}
     {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
     {{- if ne .type "hidden" }}<div {{- if .full }} class="full"{{ end }}>{{ end }}
+      {{- $args := merge . (dict "id" $id "name" $name "condHelp" $condHelp) -}}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "hidden") }}
-      <label for="{{ $id }}">{{ partial "func/PrepareHTML.html" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+        {{ partial "commons/form/label.html" $args }}
+      {{ else -}}
+      <div class="form-check">
       {{ end -}}
       {{- if eq .type "textarea" }}
-        <textarea 
-          id="{{ $id }}" 
-          name="{{ $name }}"
-          rows="5"
-          {{ with .type }}type="{{ . }}"{{ end }}
-          {{ with .value }}value="{{ . }}"{{ end }}
-          {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
-          {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
-          {{ if .required }}required{{ end }}></textarea>
+        {{ partial "commons/form/textarea.html" $args }}
       {{- else if eq .type "select" -}}
-        <select
-          id="{{ $id }}"
-          name="{{ $name }}"
-          {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
-          {{ if .required }}required{{ end }}>
-          {{- $selected := .selected | default false -}}
-          {{- if not .required }}
-            <option value="">--</option>
-          {{ end -}}
-          {{- range .options }}
-            {{- $value := cond (isset . "value") .value .title -}}
-            <option value="{{ $value }}" {{- if eq $value $selected }} selected{{ end }}>{{ partial "func/PrepareHTML.html" .title }}</option>
-          {{ end -}}
-        </select>
+        {{ partial "commons/form/select.html" $args }}
       {{- else -}}
-        <input 
-          id="{{ $id }}" 
-          name="{{ $name }}"
-          {{ with .type }}type="{{ . }}"{{ end }}
-          {{ with .accept }}accept="{{ . }}"{{ end }}
-          {{ with .value }}value="{{ . }}"{{ end }}
-          {{ if $condHelp }}aria-describedby="help-{{ $id }}"{{ end }}
-          {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
-          {{ with .pattern }}pattern="{{ . }}"{{ end }}
-          {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
-          {{ if .required }}required{{ end }}>
+        {{ partial "commons/form/input.html" $args }}
       {{ end -}}
       {{- if or (eq .type "checkbox") (eq .type "radio") }}
-        <label for="{{ $id }}">{{ partial "func/PrepareHTML.html" .label }} {{- if .required }}<sup>*</sup>{{ end }}</label>
+        {{ partial "commons/form/label.html" $args }}
+        </div>
       {{ end -}}
       {{- if $condHelp }}
         <p id="help-{{ $id }}" class="help">{{ i18n (print "form.hint." .type) }}</p>

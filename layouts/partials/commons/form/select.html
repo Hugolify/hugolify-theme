@@ -1,0 +1,14 @@
+<select
+    {{ with .id }}id="{{ . }}"{{ end }}
+    {{ with .name }}name="{{ . }}"{{ end }}
+    {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
+    {{ if .required }}required{{ end }}>
+    {{- $selected := .selected | default false -}}
+    {{- if not .required }}
+    <option value="">--</option>
+    {{ end -}}
+    {{- range .options }}
+    {{- $value := cond (isset . "value") .value .title -}}
+    <option value="{{ $value }}" {{- if eq $value $selected }} selected{{ end }}>{{ partial "func/PrepareHTML.html" .title }}</option>
+    {{ end -}}
+</select>

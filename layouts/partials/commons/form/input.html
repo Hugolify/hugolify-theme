@@ -1,0 +1,11 @@
+<input 
+    {{ with .id }}id="{{ . }}"{{ end }}
+    {{ with .name }}name="{{ . }}"{{ end }}
+    {{ with .type }}type="{{ . }}"{{ end }}
+    {{ with .accept }}accept="{{ . }}"{{ end }}
+    {{ with .value }}value="{{ . }}"{{ end }}
+    {{ if .condHelp }}aria-describedby="help-{{ .id }}"{{ end }}
+    {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
+    {{ with .pattern }}pattern="{{ . }}"{{ end }}
+    {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+    {{ if .required }}required{{ end }}>
