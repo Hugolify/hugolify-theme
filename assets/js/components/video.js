@@ -10,13 +10,29 @@ document.addEventListener('DOMContentLoaded', function () {
       ) {
         entries.forEach(function (video) {
           if (video.isIntersecting) {
+            
+            let hasMobileVideo = false;
             for (let source in video.target.children) {
               let videoSource = video.target.children[source];
               if (
                 typeof videoSource.tagName === 'string' &&
                 videoSource.tagName === 'SOURCE'
               ) {
-                videoSource.src = videoSource.dataset.src;
+                if (videoSource.hasAttribute('data-src_mobile')) {
+                  hasMobileVideo = true;
+                }
+                if (
+                  window.matchMedia('(max-width: 767px)').matches &&
+                  hasMobileVideo
+                ) {
+                  if (videoSource.hasAttribute('data-src_mobile')) {
+                    videoSource.src = videoSource.dataset.src_mobile;
+                  }
+                } else {
+                  if (videoSource.hasAttribute('data-src')) {
+                    videoSource.src = videoSource.dataset.src;
+                  }
+                }
               }
             }
 

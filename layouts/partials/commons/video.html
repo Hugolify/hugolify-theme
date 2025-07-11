@@ -6,7 +6,13 @@
   {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}
   {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
-  <video {{ if $lazy }}class="js-video is-lazy"{{ else }}preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
+  <video class="js-video is-lazy" {{- if not $lazy }} preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
+    {{- with .webm_mobile }}
+      <source data-src_mobile="{{ . }}" type="video/webm" />
+    {{- end }}
+    {{- with .mp4_mobile }}
+      <source data-src_mobile="{{ . }}" type="video/mp4" />
+    {{- end }}
     {{- with .webm }}
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/webm" />
     {{- end }}
