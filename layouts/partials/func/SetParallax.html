@@ -21,6 +21,10 @@
       {{- if isset site.Params.parallax "figure" }}
         {{- $speed = site.Params.parallax.figure }}
       {{- end }}
+    {{- else if eq . "video" -}}
+      {{- if isset site.Params.parallax "video" }}
+        {{- $speed = site.Params.parallax.video }}
+      {{- end }}
     {{- else if eq . "heading" -}}
       {{- if isset site.Params.parallax "heading" }}
         {{- $speed = site.Params.parallax.heading }}
