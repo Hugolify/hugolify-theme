@@ -1,5 +1,5 @@
-{{ with .image }}
-  {{ if .background_image }}
+{{- with .image }}
+  {{- if .background_image }}
     {{- $picture_class := "hero-cover" -}}
     {{- $cover := site.Params.hero.cover -}}
     {{- $mobile := site.Params.hero.cover_mobile -}}
@@ -15,5 +15,15 @@
         "crop" .crop
         "lazy" false
     ) }}
-  {{ end }}
-{{ end }}
+  {{- end }}
+{{- else }}
+  {{- with .video }}
+    {{- if .background_video }}
+      {{- if or .mp4 .webm }}
+        <div class="hero-cover">
+          {{ partial "commons/video.html" . }}
+        </div>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}

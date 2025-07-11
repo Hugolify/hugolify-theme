@@ -42,7 +42,8 @@
         position: absolute
         top: 0
         width: 100%
-        img
+        img,
+        video
             height: 100%
             object-fit: cover
             pointer-events: none
@@ -77,7 +78,7 @@
             margin-top: $grid-gutter-width
 
     // Only one content
-    &:not(&-with-image):not(&-with-second-content)
+    &:not(&-with-image):not(&-with-video):not(&-with-second-content)
         .hero-content
             @extend .col-md-10
             @extend .col-xl-10
