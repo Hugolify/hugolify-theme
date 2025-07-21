@@ -21,7 +21,7 @@
   {{- if eq $layout "list" }}
     {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else -}}
-    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf) }}
+    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf "type" .type) }}
   {{ end -}}
 </div>
 {{ end -}}

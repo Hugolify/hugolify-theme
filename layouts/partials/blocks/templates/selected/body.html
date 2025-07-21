@@ -1,4 +1,4 @@
-{{- $context := dict "heading" .context.heading "items" .items "layout" .layout "first" .context.first "section" .context.section -}}
+{{- $context := dict "heading" .context.heading "items" .items "layout" .layout "first" .context.first "section" .context.section "type" .context.type -}}
 {{- with $context }}
 <div class="container">
   {{- partial "blocks/templates/selected/header.html"  (dict "heading" .heading "container" false) -}}
