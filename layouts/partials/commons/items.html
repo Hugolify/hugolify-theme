@@ -5,12 +5,14 @@
 {{- $scrollsnap := false -}}
 {{- $currentyear := false -}}
 {{- $abovethefoldLimit := 2 -}}
+{{- $block := false -}}
 {{- if reflect.IsMap . -}}
   {{- $pages = .pages -}}
   {{- $large = .large -}}
   {{- $abovethefold = .abovethefold -}}
   {{- $groupbyyear = .groupbyyear -}}
   {{- $scrollsnap = .scrollsnap | default false -}}
+  {{- $block = .block | default false -}}
 {{- end -}}
 {{- with $pages }}
   {{- if gt . 0 }}
@@ -26,6 +28,8 @@
     {{- end -}}
     <div class="{{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
       {{- range $index, $items := . }}
+        {{- .Scratch.Set "index" $index -}}
+        {{- .Scratch.Set "block" $block -}}
         {{- if $groupbyyear -}}
           {{- $year := .Date.Format "2006" -}}
           {{- if ne $year $currentyear }}
