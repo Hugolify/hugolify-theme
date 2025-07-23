@@ -52,7 +52,7 @@
 }}
 {{- $imageParams := false -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
-{{- if in $file "ucarecdn" -}}
+{{- if in $file "ucarecd" -}}
   {{- $imageParams =  partial "commons/image/uploadcare" $imageRenderParams }}
 {{- else if in $file "cloudinary.com" -}}
   {{- $imageParams =  partial "commons/image/cloudinary" $imageRenderParams }}
