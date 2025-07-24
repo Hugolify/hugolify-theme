@@ -1,0 +1,17 @@
+{{- with .image }}
+  {{- $picture_class := "hero-cover" -}}
+  {{- $cover := site.Params.hero.cover -}}
+  {{- $mobile := site.Params.hero.cover_mobile -}}
+  {{- if .darken -}}
+    {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
+  {{- end -}}
+  {{ partial "commons/image.html" (dict
+    "src" .src
+    "alt" .alt
+    "desktop" $cover
+    "mobile" $mobile
+    "picture_class" $picture_class
+    "crop" .crop
+    "lazy" false
+  ) }}
+{{- end }}

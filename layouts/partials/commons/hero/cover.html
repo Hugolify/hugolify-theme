@@ -1,29 +1,14 @@
+{{- $cover := false -}}
 {{- with .image }}
-  {{- if .background_image }}
-    {{- $picture_class := "hero-cover" -}}
-    {{- $cover := site.Params.hero.cover -}}
-    {{- $mobile := site.Params.hero.cover_mobile -}}
-    {{- if .darken -}}
-      {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
-    {{- end -}}
-    {{ partial "commons/image.html" (dict
-        "src" .src
-        "alt" .alt
-        "desktop" $cover
-        "mobile" $mobile
-        "picture_class" $picture_class
-        "crop" .crop
-        "lazy" false
-    ) }}
+  {{- if or .background .background_image }}
+    {{- $cover = "image" -}}
   {{- end }}
-{{- else }}
-  {{- with .video }}
-    {{- if .background_video }}
-      {{- if or .mp4 .webm }}
-        <div class="hero-cover">
-          {{ partial "commons/video.html" . }}
-        </div>
-      {{- end }}
-    {{- end }}
+{{- end }}
+{{- with .video }}
+  {{- if or .background .background_video }}
+    {{- $cover = "video" -}}
   {{- end }}
+{{- end }}
+{{- if $cover }}
+  {{ partial (print "commons/hero/cover/" $cover ".html") . }}
 {{- end }}

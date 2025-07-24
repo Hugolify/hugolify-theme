@@ -1,25 +1,14 @@
+{{- $media := false -}}
 {{- with .image }}
-  {{- if ne .background_image true }}
-    <div class="hero-media" {{- partial "func/SetParallax.html" (dict "element" "hero-media") }}>
-      {{- $desktop := site.Params.hero.desktop -}}
-      {{- $mobile := site.Params.hero.mobile -}}
-      {{ partial "commons/image.html" (dict
-          "src" .src
-          "alt" .alt
-          "desktop" $desktop
-          "mobile" $mobile
-          "lazy" false
-      ) }}
-    </div>
+  {{- if and (ne .background true) (ne .background_image true) }}
+    {{- $media = "image" -}}
   {{- end }}
-{{- else }}
-  {{- with .video }}
-    {{- if ne .background_video true }}
-      {{- if or .mp4 .webm }}
-        <div class="hero-media" {{- partial "func/SetParallax.html" (dict "element" "hero-media") }}>
-          {{ partial "commons/video.html" . }}
-        </div>
-      {{- end }}
-    {{- end }}
+{{- end }}
+{{- with .video }}
+  {{- if and (ne .background true) (ne .background_video true) }}
+    {{- $media = "video" -}}
   {{- end }}
+{{- end }}
+{{- if $media }}
+  {{ partial (print "commons/hero/media/" $media ".html") . }}
 {{- end }}
