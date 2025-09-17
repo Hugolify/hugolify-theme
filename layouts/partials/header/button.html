@@ -1,6 +1,7 @@
+{{- $type := site.Params.header.menu | default "offcanvas" -}}
 <button type="button"
     class="btn-menu"
-    data-bs-toggle="offcanvas"
+    data-bs-toggle="{{ $type }}"
     data-bs-target="#navigation"
     aria-controls="navigation"
     aria-label="{{ i18n "navigation.menu" }}">

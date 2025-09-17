@@ -78,6 +78,8 @@ params:
       functionality: false
       marketing: false
       disablePageInteraction: false
+  header:
+    menu: offcanvas # modal als available
   form:
     ajax: false # Set true to enable ajax form
     netlify: true # Set false to disable Netlify Forms

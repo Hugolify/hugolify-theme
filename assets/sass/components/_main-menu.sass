@@ -1,11 +1,5 @@
 .main-menu
-    --bs-offcanvas-bg: #{$menu-background-color}
-    @extend .offcanvas
-    @extend .offcanvas-end
     .header
-        @extend .offcanvas-header
-        .title
-            @extend .offcanvas-title
         button
             @extend .btn-close
             background-image: escape-svg($btn-close-bg)
@@ -13,9 +7,8 @@
             background-repeat: no-repeat
             background-size: 1rem auto
     .content
-        @extend .offcanvas-body
         @include media-breakpoint-up($navbar-expand)
-        align-items: baseline
+            align-items: baseline
    
     .nav:last-child
         margin-right: - $nav-link-padding-x
@@ -34,6 +27,29 @@
     .dropdown-toggle
         &::after
             border-top-color: $header-color
+
+    &.offcanvas
+        --bs-offcanvas-bg: #{$menu-background-color}
+        @extend .offcanvas
+        @extend .offcanvas-end
+        .header
+            @extend .offcanvas-header
+            .title
+                @extend .offcanvas-title
+        .content
+            @extend .offcanvas-body
+
+    &.modal
+        --bs-modal-bg: #{$menu-background-color}
+        .modal-dialog
+            transform: none
+            transition: none
+        .header
+            @extend .modal-header
+            .title
+                @extend .modal-title
+        .content
+            @extend .modal-body
 
     @include media-breakpoint-down($navbar-expand)
         .nav
