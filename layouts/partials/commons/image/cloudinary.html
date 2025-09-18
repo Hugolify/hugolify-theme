@@ -5,7 +5,8 @@
 {{- $mobile_size := .mobile_size -}}
 {{- $mobile_size_2x := .mobile_size_2x -}}
 {{- $mobile_size_3x := .mobile_size_3x -}}
-{{- $crop := lower .crop -}}
+{{/*  crop: Check if a real cloundinary param */}}
+{{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}} 
 {{- $quality := site.Params.image.quality | default "" -}}
 
 {{/*  Return params  */}}
@@ -68,7 +69,10 @@
     {{ end }}
 
     {{- if partial "func/isCrop" . -}}
-      {{- $params =  $params | append "c_crop" -}}
+      {{- $params =  $params | append "c_fill" -}}
+      {{- with $crop -}}
+        {{- $params =  $params | append . -}}
+      {{- end -}}
     {{- end -}}
 
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
@@ -104,7 +108,10 @@
     {{ end }}
 
     {{- if partial "func/isCrop" . -}}
-      {{- $params =  $params | append "c_crop" -}}
+      {{- $params =  $params | append "c_fill" -}}
+      {{- with $crop -}}
+        {{- $params =  $params | append . -}}
+      {{- end -}}
     {{- end -}}
 
     {{- $params_1x = $params -}}
