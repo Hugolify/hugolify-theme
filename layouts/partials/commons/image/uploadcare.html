@@ -9,7 +9,7 @@
 {{- $quality := site.Params.image.quality | default "normal" -}}
 
 {{/*  Return params  */}}
-{{- $image_desktop := false -}}
+{{- $image_desktop := $file -}}
 {{- $image_desktop_webp := false -}}
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
@@ -20,20 +20,23 @@
 {{- $image_width := false -}}
 {{- $image_height := false -}}
 
-{{/*  Get datas image  */}}
+{{/*  Get image dataset  */}}
 {{- with try (resources.GetRemote (printf "%s-/json/" $file)) -}}
   {{- with .Err -}}
     {{ errorf "%s" . }}
   {{- else with .Value -}}
     {{- $data := . | transform.Unmarshal -}}
-    {{- $image_width = index $data "width" -}}
-    {{- $image_height = index $data "height" -}}
+    {{- with $data -}}
+      {{- $image_width = index . "width" -}}
+      {{- $image_height = index . "height" -}}
+    {{- end -}}
   {{- else -}}
     {{ errorf "Unable to get remote resource" }}
   {{- end -}}
 {{- end -}}
 
-{{- if $file -}}
+{{/*  Process if not a SVG image  */}}
+{{- if not (strings.HasSuffix $file "svg") }}
 
   {{- $quality := printf "-/quality/%s/" $quality -}}
 
@@ -45,15 +48,18 @@
     {{- end -}}
     {{- $image_desktop = printf "%s%s" $file $params -}}
     {{- $image_desktop_webp = printf "%s%s-/format/webp/" $file $params -}}
+    {{/*  Get modificated image dataset  */}}
     {{- with try (resources.GetRemote (printf "%s-/resize/%s/-/json/" $file .)) -}}
       {{- with .Err -}}
-        {{ errorf "%s" . }}
+        {{- errorf "Error, GetRemote: %s" . -}}
       {{- else with .Value -}}
         {{- $data := . | transform.Unmarshal -}}
-        {{- $image_width = index $data "width" -}}
-        {{- $image_height = index $data "height" -}}
+        {{- with $data -}}
+          {{- $image_width = index . "width" -}}
+          {{- $image_height = index . "height" -}}
+        {{- end -}}
       {{- else -}}
-        {{ errorf "Unable to get remote resource" }}
+        {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

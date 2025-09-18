@@ -9,7 +9,7 @@
 {{- $quality := site.Params.image.quality | default "" -}}
 
 {{/*  Return params  */}}
-{{- $image_desktop := false -}}
+{{- $image_desktop := .file -}}
 {{- $image_desktop_webp := false -}}
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
@@ -24,12 +24,26 @@
 {{- $path := split $file "/upload/" -}}
 {{- $pathFile := print (index $path 0) "/upload/" -}}
 {{- $imageFile := index $path 1 -}}
-{{- print $pathFile "fl_getinfo/" $imageFile -}}
 
-{{/*  Get original image datas  */}}
-{{- $datas := getJSON (print $pathFile "fl_getinfo/" $imageFile) -}}
+{{/*  Get image dataset  */}}
+{{- $data := false -}}
+{{- $resource := resources.GetRemote (print $pathFile "fl_getinfo/f_png/" $imageFile) -}}
+{{- with try $resource -}}
+  {{- with .Err -}}
+    {{- errorf "Error, GetRemote: %s" . -}}
+  {{- else with .Value -}}
+    {{- $data = . | transform.Unmarshal -}}
+    {{- with $data.input -}}
+      {{- $image_width = index . "width" -}}
+      {{- $image_height = index . "height" -}}
+    {{- end -}}
+  {{- else -}}
+    {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
+  {{- end -}}
+{{- end -}}
 
-{{- if $file -}}
+{{/*  Process if not a SVG image  */}}
+{{- if not (strings.HasSuffix $file "svg") }}
 
   {{- with $quality }}
     {{- $quality = printf "q_%s" $quality -}}
@@ -60,7 +74,21 @@
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
     {{- $image_desktop_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params ",")) $imageFile -}}
     
-    {{- $datas = getJSON (print $pathFile (delimit $params ",") ",fl_getinfo/" $imageFile) -}}
+    {{/*  Get modificated image dataset  */}}
+    {{- $resource = resources.GetRemote (print $pathFile (delimit $params ",") ",fl_getinfo/f_png/" $imageFile) -}}
+    {{- with try $resource -}}
+      {{- with .Err -}}
+        {{- errorf "Error, GetRemote: %s" . -}}
+      {{- else with .Value -}}
+        {{- $data = . | transform.Unmarshal -}}
+        {{- with $data.output -}}
+          {{- $image_width = index . "width" -}}
+          {{- $image_height = index . "height" -}}
+        {{- end -}}
+      {{- else -}}
+        {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
+      {{- end -}}
+    {{- end -}}
     
   {{- end -}}
 
@@ -120,11 +148,6 @@
     {{- $image_mobile_webp_3x = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_3x ",")) $imageFile -}}
   {{- end -}}
 
-{{- end -}}
-
-{{- with $datas.output -}}
-  {{- $image_width = index . "width" -}}
-  {{- $image_height = index . "height" -}}
 {{- end -}}
 
 {{- return dict  
