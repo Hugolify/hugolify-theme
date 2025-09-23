@@ -4,7 +4,7 @@
 {{ $image_src := false }}
 
 {{ with $image }}
-  {{ if in . "ucarecdn" }}
+  {{ if or (in . "ucarecd.net") (in . "ucarecdn.com") }}
     {{ $image_src =  printf "%s-/resize/%s/" . $size }}
     {{ if ne $type "" }}
       {{ $image_src =  printf "%s-/format/%s/" $image_src $type }}
