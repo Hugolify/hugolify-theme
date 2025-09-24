@@ -1,27 +1,6 @@
-{{- $index := .index -}}
-{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 <div class="container">
   <div class="row">
-    <div class="content">
-      {{- partial "blocks/content-with-notes.html" (dict 
-        "context" .
-        "blockId" $index 
-      ) -}}
-      {{- with .ctas }}
-        {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-      {{- else -}}
-        {{/*  Deprecated  */}}
-        {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
-      {{ end -}}
-    </div>
-
-    {{- with .image }}
-      {{- $desktop := site.Params.blocks.editorial.desktop | default false -}}
-      {{- $mobile := site.Params.blocks.editorial.mobile | default false -}}
-      {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy "parallax" true) -}}
-      <div class="media">
-        {{- partial "commons/figure.html" $figure -}}
-      </div>
-    {{ end -}}
+    {{ partial "blocks/templates/editorial/content.html" . }}    
+    {{ partial "blocks/templates/editorial/media.html" . }}    
   </div>
 </div>
