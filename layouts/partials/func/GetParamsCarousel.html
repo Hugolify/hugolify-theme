@@ -1,4 +1,3 @@
-{{- $params := newScratch -}}
 {{- $carousel := . | default false -}}
 {{- with $carousel -}}
   {{- with .params -}}
@@ -6,37 +5,4 @@
   {{- end -}}
 {{- end -}}
 
-{{- with $carousel }}
-  {{ if isset . "type" }}
-    {{ $params.Set "type" .type }} 
-  {{ end }}
-  {{ if isset . "focus" }}
-    {{ $params.Set "focus" .focus }} 
-  {{ end }}
-  {{ if isset . "arrows" }}
-    {{ $params.Set "arrows" .arrows }} 
-  {{ end }}
-  {{ if isset . "pagination" }}
-    {{ $params.Set "pagination" .pagination }} 
-  {{ end }}
-  {{ if isset . "perPage" }}
-    {{ $params.Set "perPage" .perPage }} 
-  {{ end }}
-  {{ if isset . "autoplay" }}
-    {{ $params.Set "autoplay" .autoplay }} 
-  {{ end }}
-  {{ if isset . "padding" }}
-    {{ $params.Set "padding" .padding }} 
-  {{ end }}
-  {{ if isset . "gap" }}
-    {{ $params.Set "gap" .gap }} 
-  {{ end }}
-  {{ if isset . "interval" }}
-    {{ $params.Set "interval" .interval }} 
-  {{ end }}
-  {{ if isset . "perMove" }}
-    {{ $params.Set "perMove" .perMove }} 
-  {{ end }}
-{{ end -}}
-
-{{- return ($params.Values | jsonify) -}}
+{{- return ($carousel | jsonify) -}}
