@@ -1,8 +1,13 @@
 {{- if or .footing .show_more }}
   <footer class="footing">
     <div class="container">
-      {{- with .footing.text }}
-        {{ partial "commons/text.html" (dict "text" .) }}
+      {{- with .footing }}
+        {{- with .text }}
+          {{ partial "commons/text.html" (dict "text" .) }}
+        {{ end -}}
+        {{- with .ctas }}
+          {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+        {{ end -}}
       {{ end -}}
       {{- $partials := printf "blocks/templates/%s/more.html" .type -}}
       {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
