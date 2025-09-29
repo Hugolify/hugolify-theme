@@ -3,17 +3,22 @@
   {{- if .class -}}
     {{- $class = printf "%s %s" $class .class -}}
   {{- end -}}
+  {{- $text := partial "func/PrepareHTML.html" .text -}}
   {{- $blank := .blank | default false -}}
+  {{- $title := .title | default $text -}}
   {{- $hreflang := .hreflang | default false -}}
-  {{- $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .text)) -}}
   {{- if and .url .text -}}
+    {{- if $blank }}
+      {{- $title = i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .title)) -}}
+    {{- end -}}
     <a 
       {{ printf `href=%q` .url | safeHTMLAttr }} 
       class="{{ $class }}" 
-      {{- if $blank }} target="_blank" rel="noreferrer noopener" title="{{ $title }}"{{ end -}} 
+      title="{{ $title }}" 
+      {{- with $blank }} target="_blank" rel="noreferrer noopener"{{ end -}} 
       {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}
       >
-      {{- partial "func/PrepareHTML.html" .text -}}
+      {{- $text -}}
     </a>
   {{- end -}}
 {{- end -}}
