@@ -1,10 +1,9 @@
 {{/*  Get params  */}}
+{{- $is_desktop_retina := site.Params.image.retina.desktop | default false -}}
 {{- $file := .file -}}
 {{- $file_mobile := .file_mobile -}}
 {{- $desktop_size := .desktop_size -}}
 {{- $mobile_size := .mobile_size -}}
-{{- $mobile_size_2x := .mobile_size_2x -}}
-{{- $mobile_size_3x := .mobile_size_3x -}}
 {{/*  crop: Check if a real cloundinary param */}}
 {{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}} 
 {{- $quality := site.Params.image.quality | default "" -}}
@@ -12,6 +11,7 @@
 {{/*  Return params  */}}
 {{- $image_desktop := .file -}}
 {{- $image_desktop_webp := false -}}
+{{- $image_desktop_webp_2x := false -}}
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
 {{- $image_mobile_3x := false -}}
@@ -28,8 +28,11 @@
 
 {{/*  Get image dataset  */}}
 {{- $data := false -}}
-{{- $resource := resources.GetRemote (print $pathFile "fl_getinfo/f_png/" $imageFile) -}}
-{{- with try $resource -}}
+{{- $url := print $pathFile "fl_getinfo/" $imageFile -}}
+{{- if strings.HasSuffix $file "svg" }}
+  {{- $url = print $pathFile "fl_getinfo/f_png/" $imageFile -}}
+{{- end -}}
+{{- with try (resources.GetRemote ($url)) -}}
   {{- with .Err -}}
     {{- errorf "Error, GetRemote: %s" . -}}
   {{- else with .Value -}}
@@ -78,9 +81,17 @@
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
     {{- $image_desktop_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params ",")) $imageFile -}}
     
+    {{/*  If desktop retina  */}}
+    {{- if $is_desktop_retina -}}
+      {{- $image_desktop_webp_2x = replace $image_desktop_webp "f_webp" "dpr_2.0,f_webp" -}}
+    {{- end -}}
+
     {{/*  Get modificated image dataset  */}}
-    {{- $resource = resources.GetRemote (print $pathFile (delimit $params ",") ",fl_getinfo/f_png/" $imageFile) -}}
-    {{- with try $resource -}}
+    {{- $url = print $pathFile (delimit $params ",") ",fl_getinfo/" $imageFile -}}
+    {{- if strings.HasSuffix $file "svg" }}
+      {{- $url = print $pathFile (delimit $params ",") "fl_getinfo/f_png/" $imageFile -}}
+    {{- end -}}
+    {{- with try (resources.GetRemote $url) -}}
       {{- with .Err -}}
         {{- errorf "Error, GetRemote: %s" . -}}
       {{- else with .Value -}}
@@ -100,8 +111,6 @@
   {{- with $mobile_size -}}
     {{- $params := slice -}}
     {{- $params_1x := slice -}}
-    {{- $params_2x := slice -}}
-    {{- $params_3x := slice -}}
 
     {{- with $quality }}
       {{ $params = $params | append . }}
@@ -125,34 +134,12 @@
       {{- $params_1x = $params_1x | append (printf "h_%s" .) -}}
     {{ end }}
 
-    {{- $params_2x = $params -}}
-    {{- $mobile_size_array := split $mobile_size_2x "x" -}}
-    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
-    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
-    {{- with $mobile_size_width }}
-      {{- $params_2x = $params_2x | append (printf "w_%s" .) -}}
-    {{ end }}
-    {{ with $mobile_size_height }}
-      {{- $params_2x = $params_2x | append (printf "h_%s" .) -}}
-    {{ end }}
-
-    {{- $params_3x = $params -}}
-    {{- $mobile_size_array := split $mobile_size_3x "x" -}}
-    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
-    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
-    {{- with $mobile_size_width }}
-      {{- $params_3x = $params_3x | append (printf "w_%s" .) -}}
-    {{ end }}
-    {{ with $mobile_size_height }}
-      {{- $params_3x = $params_3x | append (printf "h_%s" .) -}}
-    {{ end }}
-
     {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params_1x ",") $imageFile -}}
+    {{- $image_mobile_2x = replace $image_mobile "f_webp" "dpr_2.0,f_webp" -}}
+    {{- $image_mobile_3x = replace $image_mobile "f_webp" "dpr_3.0,f_webp" -}}
     {{- $image_mobile_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_1x ",")) $imageFile -}}
-    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (delimit $params_2x ",") $imageFile -}}
-    {{- $image_mobile_webp_2x = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_2x ",")) $imageFile -}}
-    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (delimit $params_3x ",") $imageFile -}}
-    {{- $image_mobile_webp_3x = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_3x ",")) $imageFile -}}
+    {{- $image_mobile_webp_2x = replace $image_mobile_webp "f_webp" "dpr_2.0,f_webp" -}}
+    {{- $image_mobile_webp_3x = replace $image_mobile_webp "f_webp" "dpr_3.0,f_webp" -}}
   {{- end -}}
 
 {{- end -}}
@@ -160,6 +147,7 @@
 {{- return dict  
   "image_desktop" $image_desktop 
   "image_desktop_webp" $image_desktop_webp
+  "image_desktop_webp_2x" $image_desktop_webp_2x
   "image_mobile" $image_mobile 
   "image_mobile_2x" $image_mobile_2x 
   "image_mobile_3x" $image_mobile_3x 
