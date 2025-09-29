@@ -21,7 +21,8 @@
 {{- $image_height := false -}}
 
 {{/*  Get image dataset  */}}
-{{- with try (resources.GetRemote (printf "%s-/json/" $file)) -}}
+{{- $url := printf "%s-/json/" $file }}
+{{- with try (resources.GetRemote $url) -}}
   {{- with .Err -}}
     {{ errorf "%s" . }}
   {{- else with .Value -}}
@@ -49,7 +50,8 @@
     {{- $image_desktop = printf "%s%s" $file $params -}}
     {{- $image_desktop_webp = printf "%s%s-/format/webp/" $file $params -}}
     {{/*  Get modificated image dataset  */}}
-    {{- with try (resources.GetRemote (printf "%s-/resize/%s/-/json/" $file .)) -}}
+    {{- $url = printf "%s-/resize/%s/-/json/" $file . }}
+    {{- with try (resources.GetRemote $url) -}}
       {{- with .Err -}}
         {{- errorf "Error, GetRemote: %s" . -}}
       {{- else with .Value -}}
