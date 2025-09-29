@@ -5,11 +5,11 @@
   {{- end -}}
   {{- $text := partial "func/PrepareHTML.html" .text -}}
   {{- $blank := .blank | default false -}}
-  {{- $title := .title | default $text -}}
+  {{- $title := (partial "func/PrepareHTML.html" .title) | default $text -}}
   {{- $hreflang := .hreflang | default false -}}
   {{- if and .url .text -}}
     {{- if $blank }}
-      {{- $title = i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .title)) -}}
+      {{- $title = i18n "link.blank_aria" (dict "Title" $title) -}}
     {{- end -}}
     <a 
       {{ printf `href=%q` .url | safeHTMLAttr }} 
