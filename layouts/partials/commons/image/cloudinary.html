@@ -42,7 +42,7 @@
       {{- $image_height = index . "height" -}}
     {{- end -}}
   {{- else -}}
-    {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
+    {{- warnf "Error, unable to retrieve remote resource for: %s" $file -}}
   {{- end -}}
 {{- end -}}
 
@@ -101,7 +101,7 @@
           {{- $image_height = index . "height" -}}
         {{- end -}}
       {{- else -}}
-        {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
+        {{- warnf "Error, unable to retrieve remote resource for: %s" $file -}}
       {{- end -}}
     {{- end -}}
     
