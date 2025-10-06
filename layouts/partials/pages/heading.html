@@ -1,3 +1,5 @@
-<div class="container">
-  {{ partial "commons/heading.html" . }}
-</div>
+{{- if not (partial "func/HasHero" .) -}}
+  <div class="container">
+    {{ partial "commons/heading.html" . }}
+  </div>
+{{- end -}}
