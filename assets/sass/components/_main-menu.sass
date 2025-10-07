@@ -18,12 +18,18 @@
     .nav-item-highlighted
         margin-left: $nav-link-padding-x
         margin-right: $nav-link-padding-x
+        a
+            @include button-variant($primary,$primary)
     .nav-link
         --bs-nav-link-color: #{$header-color}
         &:hover
             --bs-nav-link-hover-color: #{$header-color}
     .dropdown > span
         --bs-nav-link-color: #{$header-color}
+    .dropdown-menu
+        --bs-dropdown-bg: #{darken($menu-background-color, 2)}
+        --bs-dropdown-link-hover-bg: #{darken($menu-background-color, 3)}
+
     .dropdown-toggle
         &::after
             border-top-color: $header-color
