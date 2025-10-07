@@ -2,11 +2,23 @@
 {{- with . -}}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $parallax := partial "func/SetParallax.html" (dict "element" "video") -}}
-  {{- $args := "muted playsinline" -}}
-  {{- if .autoplay }}{{ $args = print $args " autoplay" }}{{ end -}}
-  {{- if .controls }}{{ $args = print $args " controls" }}{{ end -}}
-  {{- if .loop }}{{ $args = print $args " loop" }}{{ end -}}
-  <video class="js-video is-lazy" {{- if not $lazy }} preload="metadata"{{ end }} {{ $args | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
+  {{- $args := slice "muted" "playsinline" -}}
+  {{- if .autoplay }}{{ $args = $args | append "autoplay" }}{{ end -}}
+  {{- if .controls }}{{ $args = $args | append "controls" }}{{ end -}}
+  {{- if .loop }}{{ $args = $args | append "loop" }}{{ end -}}
+  {{- with .poster }}
+    {{- $desktop_size := site.Params.image.xlarge -}}
+    {{- if and $desktop_size site.Params.image.retina.desktop -}}
+      {{- $desktop_size = partial "func/GetMultiplyImage.html" (dict "size" $desktop_size) -}}
+    {{- end -}}
+    {{- $imageParams := partial "func/GetImageParams.html" (dict 
+      "file" .
+      "desktop_size" $desktop_size) -}}
+    {{- with $imageParams }}
+      {{ $args = $args | append (print ` poster="` .image_desktop_webp `"`) }}
+    {{- end }}
+  {{ end -}}
+  <video class="js-video is-lazy" {{- if not $lazy }} preload="metadata"{{ end }} {{ (delimit $args ` `) | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
     {{- with .webm_mobile }}
       <source data-src_mobile="{{ . }}" type="video/webm" />
     {{- end }}

@@ -1,0 +1,15 @@
+{{ $params := . | default false }}
+{{ $file := .file | default false }}
+{{ $imageParams := false }}
+
+{{ with $file }}
+  {{- if or (in . "ucarecd.net") (in . "ucarecdn.com") -}}
+    {{- $imageParams =  partial "commons/image/uploadcare.html" $params }}
+  {{- else if in . "cloudinary.com" -}}
+    {{- $imageParams =  partial "commons/image/cloudinary.html" $params }}
+  {{- else -}}
+    {{- $imageParams = partial "commons/image/hugo.html" $params -}}
+  {{- end -}}
+{{ end }}
+
+{{ return $imageParams }}

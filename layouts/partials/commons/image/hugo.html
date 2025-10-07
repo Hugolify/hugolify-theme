@@ -42,7 +42,7 @@
     
     {{/*  Return SVG  */}}
     {{- $fileAssets := print "/assets/" .file -}}
-    {{- $fileDimensions := partial "func/GetImageDimensions" (dict "context" . "file" $fileAssets) -}}
+    {{- $fileDimensions := partial "func/GetImageDimensions.html" (dict "context" . "file" $fileAssets) -}}
     {{- $image_desktop = $image.RelPermalink -}}
     {{- $image_width = index $fileDimensions 0 -}}
     {{- $image_height = index $fileDimensions 1 -}}
@@ -53,7 +53,7 @@
     {{- if $desktop_size -}}
 
       {{/* If crop process */}}
-      {{- if partial "func/isCrop" $desktop_size -}}
+      {{- if partial "func/isCrop.html" $desktop_size -}}
         {{- $process = "fill" -}}
         {{- if $crop -}}
           {{- $process = (printf "%s %s" $process $crop) -}}
@@ -102,7 +102,7 @@
     {{- if $mobile_size -}}
 
       {{- $process = "resize" -}}
-      {{- if partial "func/isCrop" $mobile_size -}}
+      {{- if partial "func/isCrop.html" $mobile_size -}}
         {{- $process = "fill" -}}
         {{- if $crop -}}
           {{- $process = (printf "%s %s" $process $crop) -}}

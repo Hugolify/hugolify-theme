@@ -12,14 +12,14 @@
 {{- $desktop_size := .desktop | default false -}}
 {{- $desktop_size_2x := false -}}
 {{- if and $desktop_size $is_desktop_retina -}}
-  {{- $desktop_size_2x = partial "func/GetMultiplyImage" (dict "size" $desktop_size) -}}
+  {{- $desktop_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $desktop_size) -}}
 {{- end -}}
 {{- $mobile_size := .mobile | default false -}}
 {{- $mobile_size_2x := false -}}
 {{- $mobile_size_3x := false -}}
 {{- if $mobile_size -}}
-  {{- $mobile_size_2x = partial "func/GetMultiplyImage" (dict "size" $mobile_size) -}}
-  {{- $mobile_size_3x = partial "func/GetMultiplyImage" (dict "size" $mobile_size "multiply" 3) -}}
+  {{- $mobile_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size) -}}
+  {{- $mobile_size_3x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size "multiply" 3) -}}
 {{- end -}}
 {{- $crop := .crop | default site.Params.image.crop -}}
 {{- $file := .src -}}
@@ -50,16 +50,8 @@
     "filter" $filter
     "hint" $hint
 }}
-{{- $imageParams := false -}}
+{{- $imageParams := partial "func/GetImageParams.html" $imageRenderParams -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
-{{- if or (in $file "ucarecd.net") (in $file "ucarecdn.com") -}}
-  {{- $imageParams =  partial "commons/image/uploadcare" $imageRenderParams }}
-{{- else if in $file "cloudinary.com" -}}
-  {{- $imageParams =  partial "commons/image/cloudinary" $imageRenderParams }}
-{{- else -}}
-  {{- $imageParams = partial "commons/image/hugo" $imageRenderParams -}}
-{{- end -}}
-
 {{- with $imageParams -}}
   {{- $params = merge $imageParams $domParams -}}
 {{- end -}}
