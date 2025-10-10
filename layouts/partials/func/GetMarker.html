@@ -1,0 +1,15 @@
+{{- $marker := false -}}
+
+{{- with .location }}
+  {{- $marker = . -}}
+  {{ if or (eq site.Params.admin.cms "decapcms") (eq site.Params.admin.cms "sveltiacms")  }}
+    {{- $marker = partial "func/ReverseCoordinates.html" . -}}
+  {{- end -}}
+{{ else -}}
+  {{- with .coordinates -}}
+    {{- $coordinates := slice .lat .lng -}}
+    {{- $marker = (dict "type" "Point" "coordinates" $coordinates) | jsonify -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $marker -}}

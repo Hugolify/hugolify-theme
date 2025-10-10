@@ -1,0 +1,9 @@
+{{ $marker := . }}
+
+{{ $oldCoordinates := (unmarshal .).coordinates }}
+{{ $newCoordinates := partial "func/ReverseSlice.html" $oldCoordinates }}
+{{ $oldCoordinates = string ($oldCoordinates | jsonify) }}
+{{ $newCoordinates = string ($newCoordinates | jsonify) }}
+{{ $marker = replace (replace $marker " " "") $oldCoordinates $newCoordinates }}
+
+{{ return $marker }}

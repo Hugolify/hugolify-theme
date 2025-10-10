@@ -14,16 +14,11 @@
     {{- end -}}
   {{- end -}}
 {{- else -}}
-  {{- with .location }}
-    {{/*  DecapCMS reverse coordinates  */}}
-    {{- $marker := . -}}
-    {{- $oldCoordinates := (unmarshal .).coordinates -}}
-    {{- $newCoordinates := partial "func/ReverseSlice.html" $oldCoordinates -}}
-    {{- $oldCoordinates = string ($oldCoordinates | jsonify) -}}
-    {{- $newCoordinates = string ($newCoordinates | jsonify) -}}
-    {{- $marker = replace $marker $oldCoordinates $newCoordinates -}}
-    {{/*  / DecapCMS reverse coordinates  */}}
-    {{ partial "commons/map.html" (dict "location" (slice $marker) "zoom" $zoom) }}
-  {{ end -}}
+  {{- if or .location .coordinates }}
+    {{- $marker := partial "func/GetMarker.html" . -}}
+    {{ with $marker }}
+      {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom ) }}
+    {{ end }}
+  {{ end }}
 {{ end -}}
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}
