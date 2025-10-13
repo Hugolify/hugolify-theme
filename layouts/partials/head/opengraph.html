@@ -1,9 +1,8 @@
-<!-- Opengraph Meta Tags -->
 <meta property="og:title" content="{{ .title }}">
 <meta property="og:description" content="{{ .description }}">
 {{- with .image }}
   <meta property="og:image" content="{{ . }}">
-{{ end -}}
+{{- end }}
 <meta property="og:url" content="{{ .url | safeURL }}">
 <meta property="og:type" content="{{ .type }}">
 <meta property="og:locale" content="{{ site.Language.Lang }}">

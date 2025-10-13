@@ -61,18 +61,17 @@
   {{- $seoImage = . -}}
 {{- end -}}
 {{- if not .IsHome -}}
-  {{ with .Params.image -}}
-    {{- $image := resources.Get .src -}}
-    {{- with $image -}}
-      {{- if ne (strings.HasSuffix . "svg") true -}}
-        {{- $seoImage = .Permalink -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
   {{- with .Params.seo -}}
-    {{- $image := resources.Get .image -}}
+    {{- $image := partial "func/GetImageParams.html" (dict "file" .image) -}}
     {{- with $image -}}
-      {{- $seoImage = .Permalink -}}
+      {{- $seoImage = .image_desktop -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with .Params.image -}}
+      {{- $image := partial "func/GetImageParams.html" (dict "file" .src) -}}
+      {{- with $image -}}
+        {{- $seoImage = .image_desktop -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -91,6 +90,6 @@
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-{{- $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate -}}
-{{ partial "head/opengraph.html" $seo }}
-{{ partial "head/twitter.html" $seo }}
+{{ $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
+{{- partial "head/opengraph.html" $seo -}}
+{{- partial "head/twitter.html" $seo -}}
