@@ -12,8 +12,8 @@
   {{- $mobile := site.Params.thumbnail.mobile | default false -}}
   
   {{- if .Type -}}
-    {{- $desktop = (index site.Params .Type).thumbnail.desktop | default false -}}
-    {{- $mobile = (index site.Params .Type).thumbnail.mobile | default false -}}
+    {{- $desktop = (index site.Params .Type).thumbnail.desktop | default $desktop -}}
+    {{- $mobile = (index site.Params .Type).thumbnail.mobile | default $mobile -}}
     {{- if .Scratch.Get "scrollsnap" -}}
       {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
     {{- end -}}
