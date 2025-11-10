@@ -2,10 +2,11 @@
 {{- with . -}}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $parallax := partial "func/SetParallax.html" (dict "element" "video") -}}
-  {{- $args := slice "muted" "playsinline" -}}
+  {{- $args := slice "playsinline" -}}
   {{- if .autoplay }}{{ $args = $args | append "autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = $args | append "controls" }}{{ end -}}
   {{- if .loop }}{{ $args = $args | append "loop" }}{{ end -}}
+  {{- if ne .muted false }}{{ $args = $args | append "muted" }}{{ end -}}
   {{- with .poster }}
     {{- $desktop_size := site.Params.image.xlarge -}}
     {{- if and $desktop_size site.Params.image.retina.desktop -}}
