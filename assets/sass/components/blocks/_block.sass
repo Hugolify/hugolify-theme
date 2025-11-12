@@ -2,9 +2,12 @@
 [class*="block-"]
     @include padding-bottom($global-spacing)
     @include padding-top($global-spacing)
-    .heading
+    .heading,
+    .footing
         align-items: flex-start
         flex-direction: column
+        > .container
+            align-items: flex-start
     .footing
         @include margin-top($global-spacing)
 
