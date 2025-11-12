@@ -100,8 +100,9 @@ form:
 from: De
 gallery:
   enlarge: Agrandir l’image
-  one: Galerie photo
-  other: Galerie photos
+  label:
+    one: Galerie photo
+    other: Galerie photos
 header:
   accessibility:
     footer: Accéder au bas de la page

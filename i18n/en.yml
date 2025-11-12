@@ -99,8 +99,9 @@ form:
 from: From
 gallery:
   enlarge: Enlarge image
-  one: Gallery photo
-  other: Gallery photos
+  label:
+    one: Gallery photo
+    other: Gallery photos
 header:
   accessibility:
     footer: Go to the bottom of the page
