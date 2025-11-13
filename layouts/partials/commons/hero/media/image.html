@@ -2,12 +2,7 @@
   <div class="hero-media" {{- partial "func/SetParallax.html" (dict "element" "hero-media") }}>
     {{- $desktop := site.Params.hero.desktop -}}
     {{- $mobile := site.Params.hero.mobile -}}
-    {{ partial "commons/image.html" (dict
-      "src" .src
-      "alt" .alt
-      "desktop" $desktop
-      "mobile" $mobile
-      "lazy" false
-    ) }}
+    {{- $args := merge . (dict "lazy" false "desktop" $desktop "mobile" $mobile) }}
+    {{- partial "commons/image.html" $args -}}
   </div>
 {{- end }}

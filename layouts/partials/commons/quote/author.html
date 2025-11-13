@@ -3,15 +3,9 @@
       {{- with .image}}
         {{- $desktop := site.Params.image.xsmall | default false -}}
         {{- $mobile := site.Params.image.xsmall | default false -}}
-        {{- $alt := .alt | default false -}}
-        {{- with .src}}
-          {{ partial "commons/image.html" (dict
-                "src" .
-                "alt" $alt
-                "desktop" $desktop
-                "mobile" $mobile
-                "crop" "Top"
-              ) }}
+        {{- if .src}}
+          {{- $args := merge . (dict "crop" "Top" "desktop" $desktop "mobile" $mobile) }}
+          {{- partial "commons/image.html" $args -}}
         {{ end -}}
       {{ end -}}
       <div>

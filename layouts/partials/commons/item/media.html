@@ -27,15 +27,8 @@
   <div class="media">
     {{- with .Params.image }}
       {{- if .src }}
-      {{ partial "commons/image.html" (dict
-        "src" .src
-        "alt" .alt
-        "crop" .crop
-        "desktop" $desktop
-        "mobile" $mobile
-        "itemprop" "image"
-        "lazy" $lazy
-      ) }}
+      {{- $args := merge . (dict "itemprop" "image" "lazy" $lazy "desktop" $desktop "mobile" $mobile) }}
+      {{- partial "commons/image.html" $args -}}
       {{ end -}}
     {{ end -}}
   </div>

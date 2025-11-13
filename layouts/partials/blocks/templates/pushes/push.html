@@ -70,12 +70,9 @@
       {{ if $mobile }}
         {{- $mobile = printf "%sx%s" (string $mobile) (string $mobile) -}}
       {{ end }}
-      {{ partial "commons/image.html" (dict
-        "src" .src 
-        "alt" .alt 
-        "desktop" $desktop
-        "mobile" $mobile
-        ) }}
+
+      {{- $args := merge . (dict "desktop" $desktop "mobile" $mobile) }}
+      {{- partial "commons/image.html" $args -}}
     {{ end -}}
 
     {{- if $hasOnlyLink }}

@@ -15,16 +15,7 @@
         {{- $desktop = printf "%sx" (string $width) -}}
       {{ end }}
     {{ end }}
-    {{ partial "commons/figure.html" (dict
-      "src" .src
-      "alt" .alt
-      "legend" .legend
-      "credit" .credit
-      "screenshot" .screenshot
-      "figure_class" $figure_class
-      "desktop" $desktop
-      "mobile" $mobile
-      "lazy" $lazy
-    ) }}
+    {{- $args := merge . (dict "lazy" $lazy "figure_class" $figure_class "desktop" $desktop "mobile" $mobile) }}
+    {{- partial "commons/figure.html" $args -}}
   {{ end }}
 </div>
