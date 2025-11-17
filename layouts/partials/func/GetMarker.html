@@ -2,7 +2,7 @@
 
 {{- with .location }}
   {{- $marker = . -}}
-  {{ if or (eq site.Params.admin.cms "decapcms") (eq site.Params.admin.cms "sveltiacms")  }}
+  {{ if or (eq site.Params.admin.cms "decapcms") (eq site.Params.admin.cms "netlifycms") (eq site.Params.admin.cms "sveltiacms")  }}
     {{- $marker = partial "func/ReverseCoordinates.html" . -}}
   {{- end -}}
 {{ else -}}
