@@ -1,0 +1,8 @@
+{
+    "[toml]": {
+        "editor.formatOnSave": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+    }
+}

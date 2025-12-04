@@ -1,0 +1,29 @@
+name = "Hugolify Theme"
+license = "MIT"
+licenselink = "https://github.com/hugolify/hugolify-theme/blob/main/LICENSE"
+description = "Hugolify core theme, containing best practices in accessibility and eco-design, as well as around twenty blocks and shortcodes."
+homepage = "https://www.hugolify.io"
+demosite = "https://demo.hugolify.io"
+tags = [
+  "Bootstrap",
+  "Contact",
+  "Minimal",
+  "Multilingual",
+  "Responsive",
+  "Starter",
+  "Website",
+]
+features = [
+  "Carousel",
+  "Lightbox",
+  "Openstreetmap",
+]
+
+[author]
+  name = "Sébastien Moulène"
+  homepage = "https://www.sebastienmoulene.com"
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.141.0"
