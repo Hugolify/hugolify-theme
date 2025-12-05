@@ -4,9 +4,7 @@ blockquote
         @include font-size($blockquote-font-size)
 
 figure
-    blockquote + figcaption
-        @extend .blockquote-footer
-        margin-top: $blockquote-margin-y
-        img
-            border-radius: 50%
-            margin-right: 1rem
+    blockquote
+        & + figcaption
+            @extend .blockquote-footer
+            margin-top: $blockquote-margin-y

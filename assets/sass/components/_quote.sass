@@ -12,7 +12,19 @@
         &::before
             content: none
         picture
+            aspect-ratio: 1
+            align-items: center
+            background-color: $light
+            border-radius: 50%
+            display: flex
+            justify-content: center
+            margin-right: 1rem
+            max-width: 50px
+        img
             display: block
+            &[src$=".svg"]
+                object-fit: contain
+                padding: .25rem
         div
             line-height: 1.2
             text-align: center
