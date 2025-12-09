@@ -1,22 +1,37 @@
 {{- $section := .section -}}
-{{- $items := slice -}}
-{{- range .items }}
-  {{- $path := . -}}
-  {{- if ne $section "pages" -}}
-    {{- $path = printf "%s/%s" $section $path -}}
-  {{- end -}}
-  {{- $item := site.GetPage $path -}}
-  {{- if not $item -}}
-    {{- $pages := site.RegularPages -}}
-    {{- if ne $section "pages" -}}
-      {{- $pages = where site.RegularPages "Section" $section -}}
-    {{- else -}}
-      {{- $pages = where site.Pages "Params.isPage" true -}}
-    {{- end -}}
-    {{- $item = or (where $pages "Params.title" "==" .) (where $pages "Params.id" "==" .) -}}
-  {{- end -}}
-  {{- with $item -}}
-    {{- $items = $items | append . -}}
-  {{- end -}}
+{{- $items := cond (reflect.IsSlice .items) .items (slice .items) -}}
+{{- $selected_items := slice -}}
+{{- range $items }}
+
+  {{- $path := . }}
+  {{- if reflect.IsMap . }}
+    {{- $path = .item }}
+  {{- end }}
+  {{ warnf "path: %s" $path}}
+
+  {{- if strings.Contains $path "/content" }}
+    {{- $path = replaceRE `^\/content` "" $path }}
+  {{- else if strings.Contains $path "content/" }}
+    {{- $path = replaceRE `^content\/` "" $path }}
+  {{- else }}
+    {{- if ne $section "pages" }}
+      {{- $path = printf "%s/%s" $section $path }}
+    {{- end }}
+  {{- end }}
+  
+  {{- $item := site.GetPage $path }}
+  {{- if not $item }}
+    {{- $pages := site.RegularPages }}
+    {{- if ne $section "pages" }}
+      {{- $pages = where site.RegularPages "Section" $section }}
+    {{- else }}
+      {{- $pages = where site.Pages "Params.isPage" true }}
+    {{- end }}
+    {{- $item = or (where $pages "Params.title" "==" $path) (where $pages "Params.id" "==" $path) }}
+  {{- end }}
+  {{- with $item }}
+    {{- $selected_items = $selected_items | append . }}
+  {{- end }}
 {{ end }}
-{{ return $items }}
+
+{{ return $selected_items }}
