@@ -3,9 +3,12 @@ footer[role="contentinfo"]
     @include padding-top($global-spacing)
     background-color: $footer-background-color
     color: $footer-color
-    .logo + p
-        margin-bottom: 0
-        margin-top: .5rem
+    .logo 
+        & + p
+            margin-bottom: 0
+            margin-top: $paragraph-margin-bottom
+        img
+            height: var(--footer-logo-height, $footer-logo-height)
     .top
         @include media-breakpoint-up(md)
             display: grid
