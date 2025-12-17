@@ -1,5 +1,6 @@
 {{- $location := .Get "markers" | default false -}}
 {{- $zoom := .Get "zoom" -}}
+{{- $marker_hidden := .Get "marker_hidden" | default false -}}
 {{ with $location }}
-  {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom) }}
+  {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom "marker_hidden" $marker_hidden) }}
 {{ end }}

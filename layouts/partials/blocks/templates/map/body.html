@@ -1,5 +1,6 @@
 {{- $show_places := .show_places | default false -}}
 {{- $zoom := .zoom -}}
+{{- $marker_hidden := .marker_hidden | default false -}}
 {{- $grid := .grid | default false -}}
 {{- $class := partial "func/GetColClass.html" $grid -}}
 
@@ -17,7 +18,7 @@
   {{- if or .location .coordinates }}
     {{- $marker := partial "func/GetMarker.html" . -}}
     {{ with $marker }}
-      {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom ) }}
+      {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom "marker_hidden" $marker_hidden) }}
     {{ end }}
   {{ end }}
 {{ end -}}
