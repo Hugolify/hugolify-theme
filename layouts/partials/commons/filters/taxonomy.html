@@ -1,14 +1,14 @@
-{{- $current := .current | default false -}}
-{{- $tax := .tax | default false -}}
-{{- $isMiniCard := .mini_card | default false -}}
-{{- $isTags := strings.Contains $tax "_tags" -}}
-{{ if $tax }}
-  {{- $the_tax := index site.Taxonomies $tax -}}
+{{- $current := .current | default false }}
+{{- $tax := .tax | default false }}
+{{- $isMiniCard := .mini_card | default false }}
+{{- $isTags := strings.Contains $tax "_tags" }}
+{{- if $tax }}
+  {{- $the_tax := index site.Taxonomies $tax }}
   {{- with $the_tax }}
-    {{- $nTaxs := $the_tax | len -}}
-    {{- $i18n := printf "%s.title" $tax -}}
+    {{- $nTaxs := $the_tax | len }}
+    {{- $i18n := printf "%s.title" $tax }}
     <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
-      <p>{{ i18n $i18n $nTaxs }}</p>
+      <p>{{ i18n $i18n $nTaxs | default ($tax | humanize) }}</p>
       <ol>
         {{- range $taxonomy_term, $taxonomy := . }}
           {{- $page := partial "func/GetRealContext" .Page -}}
@@ -16,12 +16,12 @@
             {{- $title := partial "func/PrepareHTML.html" $page.Title -}}
             {{- if not $page.File -}}
               {{- $title = $title | humanize -}}
-            {{- end -}}
+            {{- end }}
             {{- if $isMiniCard }}
-              {{- if $page.Params.image -}}
-                {{- with $page.Params.image -}}
-                  {{- $desktop := site.Params.image.xsmall | default false -}}
-                  {{- $mobile := site.Params.image.xsmall | default false -}}
+              {{- if $page.Params.image }}
+                {{- with $page.Params.image }}
+                  {{- $desktop := site.Params.image.xsmall | default false }}
+                  {{- $mobile := site.Params.image.xsmall | default false }}
                   {{- partial "commons/image.html" (dict
                     "src" .src
                     "alt" .alt
@@ -29,26 +29,26 @@
                     "desktop" $desktop
                     "mobile" $mobile
                     "crop" "top"
-                  ) -}}
-                {{- end -}}
-              {{- else -}}
+                  ) }}
+                {{- end }}
+              {{- else }}
                 <div class="avatar"></div>
-              {{- end -}}
+              {{- end }}
               <div>
-            {{ end -}}
-            {{- $class := "" -}}
-            {{- if eq $current $page -}}
-              {{- $class = " class='active'" -}}
-            {{- end -}}
+            {{- end }}
+            {{- $class := "" }}
+            {{- if eq $current $page }}
+              {{- $class = " class='active'" }}
+            {{- end }}
             <a href="{{ .Page.Permalink }}" {{- $class | safeHTMLAttr }}>
-              {{- $title -}}
+              {{- $title }}
             </a>
             {{- if $isMiniCard }}
               </div>
-            {{ end -}}
+            {{- end }}
           </li>
-        {{ end -}}
+        {{- end }}
       </ol>
     </div>
-  {{ end -}}
-{{ end -}}
+  {{- end }}
+{{- end }}
