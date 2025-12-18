@@ -1,4 +1,5 @@
 .block-logos
+    --bs-aspect-ratio: 100%
     .logos
         @include make-row()
         --bs-gutter-y: #{$grid-gutter-width}
@@ -7,6 +8,7 @@
         > div
             @include make-col-ready()
             @include make-col(6)
+            @extend .ratio
 
         @for $i from 2 through 8
             &-#{$i}
@@ -15,15 +17,11 @@
                         @include make-col(3)
                     @include media-breakpoint-up(lg)
                         @include make-col($grid-columns / $i)
-    a,
-    div > picture
-        @extend .ratio
-        @extend .ratio-1x1
-        display: block
     picture,
     span
         align-items: center
         display: flex
+        height: 100%
         justify-content: center
     span
         font-weight: $font-weight-bold
