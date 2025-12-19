@@ -74,6 +74,9 @@ cookie_consent:
   sectionsMarketingDescription: Enables storage (such as cookies) related to advertising.
 credit:
   hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
+date: 
+  one: Date
+  other: Dates
 document:
   one: Document
   other: Documents

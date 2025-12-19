@@ -72,9 +72,11 @@ cookie_consent:
   sectionsFunctionalityDescription: Les cookies utilisés pour la fonctionnalité permettent aux utilisateurs d'interagir avec un service ou un site pour accéder à des fonctionnalités fondamentales pour ce service.
   sectionsMarketingTitle: Cookies publicitaires
   sectionsMarketingDescription: Permet le stockage (comme les cookies) lié à la publicité.
-
 credit:
   hugolify: un site éco-conçu produit avec <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - lien externe">Hugolify</a>
+date: 
+  one: Date
+  other: Dates
 document:
   one: Document
   other: Documents
