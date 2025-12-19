@@ -1,0 +1,15 @@
+{{- /*
+Renders an shortcode platform video.
+
+@param {string} [id] The video id.
+@param {string} [platform] The platform to use for embedding the video (dailymotion, twitch, vimeo and youtube).
+
+@returns {template.HTML}
+*/}}
+{{- $id := .id | default false -}}
+{{- $platform := .platform | default "youtube" -}}
+
+{{- with $id }}
+  {{- $shortcode := printf `{{< %s "%s" >}}` $platform . }}
+  {{ $shortcode | markdownify }}
+{{ end }}
