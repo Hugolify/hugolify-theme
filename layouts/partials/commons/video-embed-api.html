@@ -1,0 +1,17 @@
+{{- /*
+Renders a platform video via API.
+
+@param {string} [id] The video id.
+@param {string} [platform] The platform to use for embedding the video (vimeo and youtube).
+
+@returns {template.HTML}
+*/}}
+{{- $id := .id | default false -}}
+{{- $platform := .platform | default "youtube" -}}
+
+{{- if and $platform $id }}
+  <div class="js-{{ $platform }}-player" 
+      data-video-id="{{ $id }}" 
+      {{- if .autoplay }} data-video-autoplay="{{ .autoplay }}"{{ end }} 
+      {{- if .controls }} data-video-controls="{{ .controls }}"{{ end }}></div>
+{{- end }}
