@@ -12,6 +12,7 @@
     {{- partialCached "nav/accessibility.html" . -}}
     {{- partialCached "header/banner.html" . -}}
     {{- partial "header/header.html" . -}}
+    {{- partial "commons/search.html" . -}}
     {{- block "hero" . }}{{- end }}
     <main id="main" role="main" tabindex="-1" {{- if site.Params.search.enable }} data-pagefind-body{{ end }}>
       {{- block "main" . }}{{- end }}
