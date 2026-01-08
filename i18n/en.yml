@@ -110,6 +110,7 @@ header:
     footer: Go to the bottom of the page
     main: Main content
     menu: Main navigation
+    search: Search
 home: Home
 image:
   one: Image

@@ -5,6 +5,11 @@
   <li>
     <a href="#navigation">{{ i18n "header.accessibility.menu" }}</a>
   </li>
+{{- if site.Params.search.enable }}
+  <li>
+    <a href="#search">{{ i18n "header.accessibility.search" }}</a>
+  </li>
+{{- end }}
   <li>
     <a href="#footer">{{ i18n "header.accessibility.footer" }}</a>
   </li>
