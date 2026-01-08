@@ -98,6 +98,8 @@ params:
     layout: raw # offcanvas and modal also available
     filter: false
     sort: false
+  vimeo: false
+  youtube: false
 
   # Front
   column: 12

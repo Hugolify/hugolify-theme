@@ -1,3 +1,9 @@
+var playerElements = document.querySelectorAll('.js-youtube-player');
+
+if (playerElements.length === 0) {
+    return;
+}
+
 // 1. Load the YouTube IFrame Player API code asynchronously
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -6,12 +12,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 2. This function creates an <iframe> (and YouTube player) after the API code downloads
 window.onYouTubeIframeAPIReady = function() {
-    var playerElements = document.querySelectorAll('.js-youtube-player');
-
-    if (playerElements.length === 0) {
-        return;
-    }
-
     playerElements.forEach(function(playerElement) {
         // Extract the video ID from the "data-video-id" attribute
         var videoId = playerElement.dataset.videoId;

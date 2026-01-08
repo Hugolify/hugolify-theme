@@ -55,6 +55,12 @@ import './vendors/custom';
 {{ if .Site.Params.search.enable }}
     import './features/search';
 {{ end }}
+{{ if .Site.Params.vimeo }}
+    import './features/vimeo';
+{{ end }}
+{{ if .Site.Params.youtube }}
+    import './features/youtube';
+{{ end }}
 
 // Add custom features
 import './features/custom';
