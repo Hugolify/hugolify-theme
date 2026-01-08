@@ -7,8 +7,9 @@
     window.addEventListener('DOMContentLoaded', (event) => {
       new PagefindUI({ 
         element: "#search-" + {{ $uniqueID }}, 
-        showSubResults: true,
-        showEmptyFilters: true,
+        showEmptyFilters: {{ site.Params.search.showEmptyFilters | default true }},
+        showImages: {{ site.Params.search.showImages | default true }},
+        showSubResults: {{ site.Params.search.showSubResults | default true }},
         processResult: function (result) {
           document.querySelector(".pagefind-ui__button").classList.add("btn");
           return result;
