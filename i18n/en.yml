@@ -167,11 +167,13 @@ reference:
   label_short: Ref.
   label_with_value: 'Reference: {{ .Value }}'
   label_short_with_value: 'Ref.: {{ .Value }}'
-sidebar:
-  menu: Menu
+search:
+  title: Search
 share:
   share_on: Share on {{ .Website }}
   title: Share
+sidebar:
+  menu: Menu
 the: The
 to: To
 toc: Table of contents

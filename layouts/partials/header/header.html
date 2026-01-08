@@ -2,6 +2,7 @@
   <nav role="navigation" aria-label="{{ i18n "navigation.main" }}">
     <div class="container">
       {{ partialCached "header/logo.html" . }}
+      {{ partialCached "commons/search/button.html" . }}
       {{ if site.Data.menu.primary }}
         {{ partialCached "header/button.html" . }}
         {{ partial "header/main-menu.html" . }}

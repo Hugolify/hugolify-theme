@@ -52,6 +52,9 @@ import './vendors/custom';
 {{ if .Site.Params.parallax.enable }}
     import './features/parallax';
 {{ end }}
+{{ if .Site.Params.search.enable }}
+    import './features/search';
+{{ end }}
 
 // Add custom features
 import './features/custom';

@@ -1,21 +1,19 @@
 {{- if site.Params.search.enable }}
-<!-- Load Pagefind scripts -->
-<script src="/pagefind/pagefind-ui.js"></script>
+  {{- $uniqueID := now.UnixNano | hash.FNV32a }}
 
-<!-- Create the search container with your site's styling -->
-<div id="search" class="search"></div>
-
-<script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    new PagefindUI({ 
-      element: "#search", 
-      showSubResults: true,
-      showEmptyFilters: true,
-      processResult: function (result) {
-        document.querySelector(".pagefind-ui__button").classList.add("btn");
-        return result;
-      }
+  <script src="/pagefind/pagefind-ui.js"></script>
+  <div id="search-{{ $uniqueID }}" class="search"></div>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      new PagefindUI({ 
+        element: "#search-" + {{ $uniqueID }}, 
+        showSubResults: true,
+        showEmptyFilters: true,
+        processResult: function (result) {
+          document.querySelector(".pagefind-ui__button").classList.add("btn");
+          return result;
+        }
+      });
     });
-  });
-</script>
-{{- end -}}
+  </script>
+{{- end }}

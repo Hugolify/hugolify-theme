@@ -18,6 +18,12 @@ header[role="banner"]
         @extend .navbar
         @include navbar-expand($navbar-expand)
     
+    .btn-search
+        @include button-variant(darken($header-background-color, 3),darken($header-background-color, 3))
+        margin-left: auto
+        & ~ .main-menu
+            flex-grow: initial
+    
     .btn-menu
         @extend .navbar-toggler
         border: 0

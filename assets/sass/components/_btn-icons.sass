@@ -5,3 +5,11 @@
         &::before
             @include icon("filter")
             margin-right: .5rem
+
+.btn-search
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm)
+    @include button-variant($light,$light)
+    @if variable-exists(icons-map)
+        &::before
+            @include icon("search")
+            margin-right: .5rem

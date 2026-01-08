@@ -167,6 +167,8 @@ reference:
   label_short: Réf.
   label_with_value: 'Référence : {{ .Value }}'
   label_short_with_value: 'Réf. : {{ .Value }}'
+search:
+  title: Recherche
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager

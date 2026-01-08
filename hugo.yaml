@@ -79,7 +79,7 @@ params:
       marketing: false
       disablePageInteraction: false
   header:
-    menu: offcanvas # modal als available
+    menu: offcanvas # modal also available
   form:
     ajax: false # Set true to enable ajax form
     netlify: true # Set false to disable Netlify Forms
@@ -95,6 +95,7 @@ params:
     percentage: 0.5
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
+    layout: raw # offcanvas and modal also available
     filter: false
     sort: false
 

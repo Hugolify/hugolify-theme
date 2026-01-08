@@ -1,1 +1,8 @@
-{{ partial "search/pagefind.html" . }}
+{{ if site.Params.search.enable }}
+  {{/*  Load raw, offcanvas or modal search  */}}
+  {{- $type := site.Params.search.layout | default "offcanvas" -}}
+  {{- $partials := printf "commons/search/%s.html" $type -}}
+  {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
+    {{- partial $partials . -}}
+  {{- end }}
+{{- end }}

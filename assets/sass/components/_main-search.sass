@@ -1,0 +1,46 @@
+.main-search
+    .header
+        button
+            @extend .btn-close
+            background-image: escape-svg($btn-close-bg)
+            background-position: center
+            background-repeat: no-repeat
+            background-size: 1rem auto
+    .content
+        @include media-breakpoint-up($navbar-expand)
+            align-items: baseline
+   
+    &.offcanvas
+        --bs-offcanvas-bg: #{$menu-background-color}
+        @extend .offcanvas
+        @extend .offcanvas-end
+        .header
+            @extend .offcanvas-header
+            justify-content: space-between
+            .title
+                @extend .offcanvas-title
+        .content
+            @extend .offcanvas-body
+
+    &.modal
+        --bs-modal-bg: #{$menu-background-color}
+        .modal-dialog
+            transform: none
+            transition: none
+        .header
+            @extend .modal-header
+            justify-content: space-between
+            .title
+                @extend .modal-title
+        .content
+            @extend .modal-body
+
+    &.raw
+        background-color: $hero-background-color
+        color: $hero-color
+        padding: $spacer
+        .search
+            @include make-container()
+            @each $breakpoint, $container-max-width in $container-max-widths
+                @include media-breakpoint-up($breakpoint, $grid-breakpoints)
+                    max-width: $container-max-width

@@ -50,6 +50,17 @@
             object-fit: cover
             pointer-events: none
             width: 100%
+        iframe
+            aspect-ratio: 16 / 9
+            height: 100%
+            left: 50%
+            position: absolute
+            top: 50%
+            transform: translate(-50%, -50%)
+            width: auto
+            @media (orientation: landscape)
+                height: auto
+                width: 100vw
     &-cover-darken
         img
             filter: brightness(.3)

@@ -1,0 +1,12 @@
+{{ if site.Params.search.enable }}
+  {{- $type := site.Params.search.layout | default "modal" }}
+  {{- if ne $type "raw" }}
+    <button type="button"
+        class="btn btn-search"
+        data-bs-toggle="{{ $type }}"
+        data-bs-target="#mainSearch"
+        aria-controls="mainSearch">
+      <span>{{ i18n "search.title" }}</span>
+    </button>
+  {{- end }}
+{{- end }}
