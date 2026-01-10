@@ -1,0 +1,17 @@
+{{- if . -}}
+  <ul>
+    {{- range .ByTitle }}
+      <li>
+        <a href="{{ .Permalink }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
+        {{- if eq .Kind "page" }}
+          {{- with .Date }}
+            - {{ partial "commons/time.html" (dict "date" . "format" ":date_medium") }}
+          {{- end }}
+        {{- end }}
+        {{- with .Pages }}
+          {{ partial "sitemap/items-recursive.html" . }}
+        {{- end }}
+      </li>
+    {{- end -}}
+  </ul>
+{{- end -}}
