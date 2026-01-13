@@ -1,14 +1,45 @@
-{{ with . }}
-  {{ $class := "alert" }}
-  {{ with .state }}
-    {{ $class = print $class " alert-" . }}
-  {{ end }}
-  {{ $text := .text | default false }}
-  {{ if $text }}
+{{/*
+
+  @context
+    text   (string or markdown)
+    state  (string) 
+    title  (string) optional
+    icon   (string) optional
+
+  @example - Go Template
+    {{ partial "commons/alert.html" (dict "text" "Some text" "state" "info") }}
+
+  @documentation - Bootstrap
+    https://getbootstrap.com/docs/5.3/components/alerts/
+
+*/}}
+{{- with . }}
+  {{- $class := "alert" }}
+  {{- with .state }}
+    {{- $class = print $class " alert-" . }}
+  {{- end }}
+  {{- $text := .text | default false }}
+  {{- $title := .title | default false }}
+  {{- $icon := .icon | default "" }}
+  {{- if $icon }}
+    {{- $icon = print `<i class="icon icon-` $icon `"></i> ` }}
+  {{- else }}
+    {{- $icon = "" }}
+  {{- end }}
+  {{- if $text }}
     <div class="{{ $class }}">
-      {{ with $text }}
-        <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
-      {{ end }}
+      {{- with $title }}
+        <h4 class="alert-heading">{{ $icon | safeHTML -}} {{ partial "func/PrepareHTML.html" . }}</h4>
+      {{- else }}
+        {{ $icon | safeHTML }}
+      {{- end }}
+      {{- with $text }}
+        {{- if in (string .) "\n" }}
+          {{ . | markdownify }}
+        {{- else }}
+          <p>{{ . | markdownify }}</p>
+        {{- end }}
+      {{- end }}
     </div>
-  {{ end }}
-{{ end }}
+  {{- end }}
+{{- end }}

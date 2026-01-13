@@ -1,3 +1,13 @@
+{{/*
+
+  @context
+    text   (string) optional if inner content is provided
+    state  (string)
+
+  @example - Shortcode
+    {{< alert text="Some text" state="info" />}}
+
+*/}}
 {{ $text := .Get "text" }}
 {{ $state := .Get "state" }}
 {{ $alert := dict "text" $text "state" $state }}

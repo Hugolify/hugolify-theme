@@ -1,0 +1,18 @@
+{{/*
+
+  @context
+    inner  (markdown)
+    state  (string)
+    title  (string) optional
+    icon   (string) optional
+
+  @example - Shortcode
+    {{< alert-block state="info" >}}Some text{{< /alert-block >}}
+
+*/}}
+{{ $text := .Inner | strings.TrimSpace }}
+{{ $state := .Get "state" }}
+{{ $title := .Get "title" | default false }} 
+{{ $icon := .Get "icon" | default false }} 
+{{ $alert := dict "text" $text "state" $state "title" $title "icon" $icon }}
+{{ partial "commons/alert.html" $alert }}
