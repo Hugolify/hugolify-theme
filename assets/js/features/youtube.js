@@ -31,11 +31,15 @@ window.onYouTubeIframeAPIReady = function() {
                 'cc_load_policy': 0,         // Hide closed captions
                 'iv_load_policy': 3,         // Hide annotations
                 'autohide': 0,               // Auto-hide controls
+                'playsinline': 1,            // Play inline on mobile
                 'playlist': videoId          // REQUIRED: The video ID is needed here again to loop a single video
             },
             events: {
                 'onReady': function(event) {
                     onPlayerReady(event, videoAutoplay);
+                },
+                'onStateChange': function(event) {
+                    onPlayerStateChange(event);
                 }
             }
         });
@@ -47,5 +51,16 @@ function onPlayerReady(event, autoplay) {
     if (autoplay) {
         // CRITICAL: Mute the video to allow autoplay on modern browsers (Chrome, Safari, etc.)
         event.target.mute();
+        event.target.playVideo();
+    }
+}
+
+function onPlayerStateChange(event) {
+    // YT.PlayerState.PLAYING is 1
+    if (event.data === 1) {
+        var iframe = event.target.getIframe();
+        if (iframe && iframe.parentNode) {
+            iframe.parentNode.classList.add('is-playing');
+        }
     }
 }

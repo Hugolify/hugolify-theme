@@ -12,6 +12,7 @@ Renders a platform video via API.
 {{- if and $platform $id }}
   <div class="js-{{ $platform }}-player" 
       data-video-id="{{ $id }}" 
-      {{- if .autoplay }} data-video-autoplay="{{ .autoplay }}"{{ end }} 
-      {{- if .controls }} data-video-controls="{{ .controls }}"{{ end }}></div>
+      {{- if or .autoplay (eq .autoplay 0) }} data-video-autoplay="{{ .autoplay }}"{{ end }} 
+      {{- if or .controls (eq .controls 0) }} data-video-controls="{{ .controls }}"{{ end -}}
+      ></div>
 {{- end }}
