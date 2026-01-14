@@ -1,7 +1,24 @@
-{{- $text := .Get "text" -}}
-{{- $url := .Get "url" -}}
-{{- $blank := .Get "blank" }}
-{{- $class := .Get "class" | default "btn-primary" -}}
-{{- $hreflang := .Get "hreflang" | default false -}}
-{{- $cta := dict "text" $text "url" $url "blank" $blank "class" $class "hreflang" $hreflang -}}
-{{ partial "commons/cta.html" $cta }}
+{{/*
+
+  @context
+    text   (string)
+    url    (string)
+    blank  (bool) optional
+    class  (string) optional
+    hreflang (string) optional
+
+  @example - Shortcode
+    {{< button text="Some text" url="https://example.com" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" -}}
+{{- $url := or (.Get "url") "" -}}
+{{- $blank := or (.Get "blank") false -}}
+{{- $class := or (.Get "class") "btn-primary" -}}
+{{- $hreflang := or (.Get "hreflang") false -}}
+{{- $args := dict "text" $text "url" $url "blank" $blank "class" $class "hreflang" $hreflang -}}
+
+{{- /* Render. */}}
+{{ partial "commons/cta.html" $args }}

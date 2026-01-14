@@ -1,51 +1,47 @@
-{{- /*
-Renders an embedded DailyMotion video.
+{{/*
 
-Accepts named or positional arguments. If positional, order is id, class,
-title, then loading.
+  @context
+    id (string)
+    class (string) optional
+    loading (string) optional
+    title (string) optional
 
-@param {bool} [allowFullScreen=true] Whether the iframe element can activate full screen mode.
-@param {string} [class] The class attribute of the wrapping div element. When specified, removes the style attributes from the iframe element and its wrapping div element.
-@param {string} [id] The video id. Optional if the id is the first and only positional argument.
-@param {string} [loading=eager] The loading attribute of the iframe element.
-@param {string} [title=DailyMotion video] The title attribute of the iframe element.
+  @example - Shortcode
+    {{< dailymotion 123456789 >}}
+    {{< dailymotion id="123456789" class="foo" title="My Video" >}}
 
-@returns {template.HTML}
-
-@example {{< dailymotion 55073825 >}}
-@example {{< dailymotion id=55073825 class="foo bar" loading=lazy title="My Video" >}}
 */}}
-{{- $allowFullScreen := true }}
-{{- $class := or (.Get "class") }}
-{{- $id := or (.Get "id") (.Get 0) }}
-{{- $loading := or (.Get "loading") }}
-{{- $title := or (.Get "title") }}
 
+{{- /* Get arguments. */}}
+{{- $allowFullScreen := true }}
+{{- $class := or (.Get "class") false}}
+{{- $id := or (.Get "id") (.Get 0) }}
+{{- $loading := or (.Get "loading") "lazy" }}
+{{- $title := or (.Get "title") "" }}
 {{- if in (slice "true" true 1) (.Get "allowFullScreen") }}
   {{- $allowFullScreen = true }}
 {{- else if in (slice "false" false 0) (.Get "allowFullScreen") }}
   {{- $allowFullScreen = false }}
 {{- end }}
-
 {{- $iframeAllowList := "" }}
 {{- if $allowFullScreen }}
   {{- $iframeAllowList = "fullscreen" }}
 {{- end }}
 
-{{- $divStyle := "position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;" }}
-{{- $iframeStyle := "position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" }}
-
+{{- /* Render. */}}
 {{- with $id }}
   {{- $src := printf "https://geo.dailymotion.com/player.html?video=%v" . }}
   <div
     {{- with $class }}
       class="{{ . }}"
     {{- else }}
+      {{- $divStyle := "position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;" }}
       style="{{ $divStyle | safeCSS }}"
     {{- end }}>
     <iframe
       src="{{- $src }}"
       {{- if not $class }}
+        {{- $iframeStyle := "position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" }}
         style="{{ $iframeStyle | safeCSS }}"
       {{- end }}
       {{- with $iframeAllowList }} allow="{{ . }}" {{- end }}

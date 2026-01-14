@@ -1,5 +1,19 @@
-{{- $text := .Get "text" | default false -}}
-{{- $lang := .Get "lang" | default false -}}
+{{/*
+
+  @context
+    text (string)
+    lang (string)
+
+  @example - Shortcode
+    {{< span_lang text="Some text" lang="fr" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" -}}
+{{- $lang := or (.Get "lang") false -}}
+
+{{- /* Render. */}}
 {{- with $lang -}}
 <span lang="{{ . }}">{{ $text }}</span>
 {{- end -}}

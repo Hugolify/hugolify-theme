@@ -1,7 +1,22 @@
+{{/*  
+
+  Add defer to the script tag.
+
+  @context
+    id    (string)
+    user  (string)
+
+  @example - Shortcode
+    {{< x id="123456789" user="some-user" >}}
+
+  @see
+    https://github.com/gohugoio/hugo/blob/master/tpl/tplimpl/embedded/templates/_shortcodes/x.html
+
+*/}}
 {{- $pc := site.Config.Privacy.X -}}
 {{- if not $pc.Disable -}}
   {{- if $pc.Simple -}}
-    {{- template "_internal/shortcodes/x_simple.html" . -}}
+    {{- template "_shortcodes/x_simple.html" . -}}
   {{- else -}}
     {{- $id := or (.Get "id") "" -}}
     {{- $user := or (.Get "user") "" -}}
@@ -19,7 +34,7 @@
   {{- $request := printf "https://publish.x.com/oembed?%s" $query -}}
   {{- with try (resources.GetRemote $request) -}}
     {{- with .Err -}}
-      {{- errorf "%s" . -}}
+      {{- warnidf "shortcode-x-getremote" "The %q shortcode was unable to retrieve the remote data: %s. See %s" $.ctx.Name . $.ctx.Position -}}
     {{- else with .Value -}}
       {{- (replace (. | transform.Unmarshal).html "async" "defer") | safeHTML -}}
     {{- else -}}

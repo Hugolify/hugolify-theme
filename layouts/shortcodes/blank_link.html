@@ -1,5 +1,22 @@
-{{- $link := .Get "link" -}}
-{{- $text := .Get "text" -}}
-{{- $title := i18n "link.blank_aria" (dict "Title" $text) -}}
+{{/*
+
+  @context
+    text   (string)
+    link   (string)
+    hreflang (string) optional
+
+  @example - Shortcode
+    {{< blank_link text="Some text" link="https://example.com" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" }}
+{{- $link := or (.Get "link") "" }}
 {{- $hreflang := .Get "hreflang" | default false -}}
-<a href="{{ $link }}" target="_blank" rel="noreferrer noopener" title="{{ safeHTML $title }}" {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}>{{ $text }}</a>
+{{- $title := i18n "link.blank_aria" (dict "Title" $text) -}}
+
+{{- /* Render. */}}
+<a href="{{ $link }}" target="_blank" rel="noreferrer noopener" title="{{ safeHTML $title }}" {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}>
+  {{- $text -}}
+</a>

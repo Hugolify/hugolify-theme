@@ -35,7 +35,7 @@
       {{- end }}
       {{- with $text }}
         {{- if in (string .) "\n" }}
-          {{ . | markdownify }}
+          {{ . }}
         {{- else }}
           <p>{{ . | markdownify }}</p>
         {{- end }}

@@ -1,6 +1,22 @@
-{{- $location := .Get "markers" | default false -}}
-{{- $zoom := .Get "zoom" -}}
-{{- $marker_hidden := .Get "marker_hidden" | default false -}}
-{{ with $location }}
-  {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom "marker_hidden" $marker_hidden) }}
+{{/*
+
+  @context
+    markers       (object)
+    zoom          (number) optional
+    marker_hidden (bool) optional
+
+  @example - Shortcode
+    {{< map markers=`{"coordinates":[44.8425666,-0.5737107]}` zoom="12" marker_hidden="true" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $markers := or (.Get "markers") false -}}
+{{- $zoom := or (.Get "zoom") false -}}
+{{- $marker_hidden := or (.Get "marker_hidden") false -}}
+{{- $args := dict "location" (slice $markers) "zoom" $zoom "marker_hidden" $marker_hidden }}
+
+{{- /* Render. */}}
+{{ with $markers }}
+  {{ partial "commons/map.html" $args }}
 {{ end }}

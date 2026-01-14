@@ -1,3 +1,17 @@
+{{/*
+
+  @params
+    quote  (string)
+    title  (string) optional
+    text   (string) optional
+    image  (string) optional
+
+  @example - Shortcode
+    {{< blockquote quote="Some text" title="Some title" text="Some text" image="images/uploads/some-image.jpg" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
 {{- $quote := .Get "quote" -}}
 {{- $title := .Get "title" -}}
 {{- $text := .Get "text" -}}
@@ -8,4 +22,6 @@
 {{- $dict_author = dict "title" $title "text" $text "image" $dict_image -}}
 {{- end -}}
 {{- $dict := dict "quote" $quote "author" $dict_author -}}
+
+{{- /* Render. */}}
 {{ partial "commons/quote.html" $dict }}

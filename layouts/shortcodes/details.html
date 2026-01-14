@@ -1,3 +1,18 @@
+{{/*
+
+  @context
+    name    (string) optional
+    open    (bool) optional
+    summary (string)
+    text    (markdown)
+    title   (string) optional
+
+  @example - Shortcode
+    {{< details name="Some name" summary="Some summary" title="Some title" text="Some text" >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
 {{- $name := or (.Get "name") "" -}}
 {{- $summary := or (.Get "summary") "" -}}
 {{- $title := or (.Get "title") "" -}}
@@ -8,5 +23,7 @@
 {{- else if in (slice "true" true 1) (.Get "open") -}}
   {{- $open = true -}}
 {{- end -}}
-{{- $details := dict "title" $title "summary" $summary "text" $text "name" $name -}}
-{{ partial "commons/details.html" $details }}
+{{- $args := dict "title" $title "summary" $summary "text" $text "name" $name "open" $open -}}
+
+{{- /* Render. */}}
+{{ partial "commons/details.html" $args }}

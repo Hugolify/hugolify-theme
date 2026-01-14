@@ -1,10 +1,43 @@
-{{- $src := .Get "src" | default false -}}
-{{- $alt := .Get "alt" | default "" -}}
-{{- $legend := .Get "legend" | default false -}}
-{{- $credit := .Get "credit" | default false -}}
-{{- $screenshot := .Get "screenshot" | default false -}}
+{{/*
+
+  @context
+    src        (string)
+    alt        (string) optional
+    legend or caption (string) optional
+    credit     (markdown) optional
+    screenshot (bool) optional
+    class      (string) optional
+    link       (string) optional
+    target     (string) optional
+    rel        (string) optional
+
+  @example - Shortcode
+    {{< figure src="/images/uploads/some-image.jpg" alt="Some alt" >}}
+    {{< figure
+      src="/images/uploads/bernd-dittrich-tfwcwynxibw-unsplash.jpg"
+      alt="Alternative text"
+      link="#"
+      legend="Donec varius velit nisi, a accumsan"
+      credit="Donec varius velit nisi, a accumsan odio molestie ut"
+      class="p-2 border border-dark bg-light"
+    >}}
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $src := or (.Get "src") false -}}
+{{- $alt := or (.Get "alt") "" -}}
+{{- $legend := or (.Get "legend") (.Get "caption") false -}}
+{{- $credit := or (.Get "credit") false -}}
+{{- $screenshot := or (.Get "screenshot") false -}}
+{{- $class := or (.Get "class") "" -}}
+{{- $link := or (.Get "link") false -}}
+{{- $target := or (.Get "target") nil -}}
+{{- $rel := or (.Get "rel") nil -}}
 {{- $desktop := site.Params.image.desktop | default false -}}
 {{- $mobile := site.Params.image.mobile_full | default false -}}
+
+{{- /* Render. */}}
 {{- partial "commons/figure.html" (dict
   "src" $src 
   "alt" $alt 
@@ -13,4 +46,8 @@
   "legend" $legend 
   "credit" $credit
   "screenshot" $screenshot
+  "figure_class" $class
+  "link" $link
+  "target" $target
+  "rel" $rel
   ) -}}

@@ -1,14 +1,21 @@
 {{/*
 
-  @context
-    text   (string) optional if inner content is provided
+  @params
+    text   (string)
     state  (string)
 
   @example - Shortcode
-    {{< alert text="Some text" state="info" />}}
+    {{< alert text="Some text" state="info" >}}
+
+  @reference - Bootstrap
+    https://getbootstrap.com/docs/5.3/components/alerts/
 
 */}}
-{{ $text := .Get "text" }}
-{{ $state := .Get "state" }}
-{{ $alert := dict "text" $text "state" $state }}
-{{ partial "commons/alert.html" $alert }}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" }}
+{{- $state := or (.Get "state") "" }}
+{{- $args := dict "text" $text "state" $state }}
+
+{{- /* Render. */}}
+{{ partial "commons/alert.html" $args }}

@@ -6,7 +6,7 @@
 {{- with $location -}}
 <div class="map js-map" 
   data-markers="{{ . }}" 
-  data-zoom="{{ $zoom }}"  
+  {{- with $zoom }} data-zoom="{{ . }}"{{ end }}
   {{- with $tile }} data-tile="{{ . }}"{{ end }}
   {{- if $marker_hidden }} data-marker-hidden="true"{{ end }}></div>
 {{ end -}}

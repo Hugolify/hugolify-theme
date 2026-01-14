@@ -7,8 +7,14 @@
       <span></span>
   {{ end }}
   <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ safeHTMLAttr $animation }} {{- safeHTMLAttr $parallax }}{{ end }}>
+     {{- if .link }}
+      <a href="{{ .link }}"{{ with .target }} target="{{ . }}"{{ end }}{{ with .rel }} rel="{{ . }}"{{ end }}>
+    {{- end }}
     {{- if .src }}
       {{- partial "commons/image.html" . }}
+    {{- end }}
+    {{- if .link }}
+      </a>
     {{- end }}
     {{ partial "commons/figcaption.html" . }}
   </figure>

@@ -5,10 +5,17 @@
     state  (string)
 
   @example - Shortcode
-    {{< badge text="Some text" state="info" />}}
+    {{< badge text="Some text" state="info" >}}
+
+  @reference - Bootstrap
+    https://getbootstrap.com/docs/5.3/components/badge/
 
 */}}
-{{ $text := .Get "text" }}
-{{ $state := .Get "state" }}
-{{ $badge := dict "text" $text "state" $state }}
-{{ partial "commons/badge.html" $badge }}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" }}
+{{- $state := or (.Get "state") "" }}
+{{- $args := dict "text" $text "state" $state }}
+
+{{- /* Render. */}}
+{{ partial "commons/badge.html" $args }}
