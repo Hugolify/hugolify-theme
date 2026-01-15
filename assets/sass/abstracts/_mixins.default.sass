@@ -67,9 +67,17 @@
             --col-width: #{$scroll-snap-sm}
 
 @mixin minititle
-    font-size: px2rem(12)
-    letter-spacing: .05em
-    text-transform: uppercase
+    background-color: $minititle-background-color
+    border-radius: $minititle-border-radius
+    border-width: $minititle-border-width
+    color: $minititle-color
+    font-family: $minititle-font-family
+    font-size: $minititle-font-size
+    font-weight: $minititle-font-weight
+    letter-spacing: $minititle-letter-spacing
+    line-height: $minititle-line-height
+    padding: $minititle-padding-y $minititle-padding-x
+    text-transform: $minititle-text-transform
 
 @mixin link-arrow
     @if variable-exists(icons-map)
