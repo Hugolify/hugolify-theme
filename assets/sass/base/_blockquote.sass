@@ -1,7 +1,12 @@
 blockquote
     @extend .blockquote
+    color: $blockquote-color
     p
         @include font-size($blockquote-font-size)
+        font-family: $blockquote-font-family
+        font-style: $blockquote-font-style
+        font-weight: $blockquote-font-weight
+        line-height: $blockquote-line-height
 
 figure
     blockquote
