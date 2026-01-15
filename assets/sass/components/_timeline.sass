@@ -23,10 +23,11 @@
             width: .75rem
         &:not(:last-child)
             @include margin-bottom($spacer * 2)
-    p
-        margin-bottom: 0
     .surtitle
         color: $secondary
     .title
         @include font-size($h3-font-size)
         font-family: $headings-font-family
+    .text
+        > *:last-child
+            margin-bottom: 0

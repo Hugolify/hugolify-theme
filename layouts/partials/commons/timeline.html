@@ -1,17 +1,17 @@
 <ol class="timeline">
-  {{ range . }}
+  {{- range . }}
     <li>
       <article class="step">
-        {{ with .surtitle }}
+        {{- with .surtitle }}
           <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
-        {{ end }}
-        {{ with .title }}
+        {{- end }}
+        {{- with .title }}
           <p class="title">{{ partial "func/PrepareHTML.html" . }}</p>
-        {{ end }}
-        {{ with .text }}
-          <p>{{ partial "func/PrepareHTML.html" . }}</p>
-        {{ end }}
+        {{- end }}
+        {{- with .text }}
+          {{- partial "commons/text.html" (dict "text" .) }}
+        {{- end }}
       </article>
     </li>
-  {{ end }}
+  {{- end }}
 </ol>
