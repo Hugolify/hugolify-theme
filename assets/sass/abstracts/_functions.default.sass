@@ -1,0 +1,16 @@
+@function px2rem($size)
+    $remSize: $size / 16
+    @return #{$remSize}rem
+
+@function pxr2rem($size)
+    $remSize: $size / 16 / 2
+    @return #{$remSize}rem
+
+@function col($nb, $columns: $grid-columns)
+    $col_w: calc( (100% - (#{$grid-gutter-width} * (#{$columns} - 1))) / #{$columns} )
+    $width: calc( (#{$nb} * #{$col_w}) + ((#{$nb} - 1) *  #{$grid-gutter-width}) )
+    @return #{$width}
+
+@function offset($nb, $columns: $grid-columns)
+    $width: calc( #{col($nb, $columns)} + #{$grid-gutter-width} )
+    @return #{$width}
