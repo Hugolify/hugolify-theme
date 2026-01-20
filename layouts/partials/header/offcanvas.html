@@ -1,4 +1,8 @@
-<div class="main-menu offcanvas" tabindex="-1" id="navigation" aria-labelledby="navigationLabel">
+{{- $offcanvasClass := slice "offcanvas" }}
+{{- with site.Params.header.offcanvas.position }}
+  {{- $offcanvasClass = $offcanvasClass | append (print "offcanvas-" .) }}
+{{- end }}
+<div class="main-menu {{ delimit $offcanvasClass ` ` }}" tabindex="-1" id="navigation" data-component="offcanvas" aria-labelledby="navigationLabel">
   {{ partialCached "header/offcanvas-header.html" . }}
   {{ partial "header/offcanvas-content.html" . }}
 </div>

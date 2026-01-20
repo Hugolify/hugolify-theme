@@ -79,7 +79,12 @@ params:
       marketing: false
       disablePageInteraction: false
   header:
-    menu: offcanvas # modal also available
+    layout: offcanvas # modal also available
+    offcanvas:
+      position: end
+    modal:
+      centered: true
+      size: fullscreen
   form:
     ajax: false # Set true to enable ajax form
     netlify: true # Set false to disable Netlify Forms

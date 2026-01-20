@@ -1,8 +1,21 @@
 // Theme variables
+$global-spacing: 2.8rem !default
+$global-spacing-double: $global-spacing * 2 !default
+$global-spacing-semi: $global-spacing / 2 !default
+$gutter-mobile: 1.875rem !default
+
+// Header and menu
 $header-background-color: #F8F9FA !default
 $header-color: invert($header-background-color) !default
 $header-height: 60px !default
 $header-height-mobile: $header-height !default
+$menu-background-color: $header-background-color !default
+$menu-color: $header-color !default
+$logo-height: 40px !default
+$offset: $header-height + 15px !default
+$navbar-expand: lg !default // false for always collapse
+
+// Hero
 $hero-background-color: $header-background-color !default
 $hero-color: $header-color !default
 $hero-h1-font-size: $h1-font-size !default
@@ -11,20 +24,13 @@ $hero-min-height-mobile: $hero-min-height !default
 $home-hero-h1-font-size: $hero-h1-font-size !default
 $home-hero-min-height: $hero-min-height !default
 $home-hero-min-height-mobile: $hero-min-height !default
-$menu-background-color: $header-background-color !default
-$logo-height: 40px !default
-$offset: $header-height + 15px !default
-$navbar-expand: lg !default // false for always collapse
 
-$global-spacing: 2.8rem !default
-$global-spacing-double: $global-spacing * 2 !default
-$global-spacing-semi: $global-spacing / 2 !default
-$gutter-mobile: 1.875rem !default
-
+// Footer
 $footer-background-color: #F8F9FA !default
 $footer-color: invert($footer-background-color) !default
 $footer-logo-height: 40px !default
 
+// Components
 $blockquote-color: $body-color !default
 $blockquote-font-family: $font-family-base !default
 $blockquote-font-style: normal !default

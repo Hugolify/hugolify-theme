@@ -1,5 +1,12 @@
-<div class="main-menu modal fade" tabindex="-1" id="navigation" aria-labelledby="navigationLabel">
-  <div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
+{{- $modalDialogClass := slice "modal-dialog" "modal-dialog-scrollable" }}
+{{- with site.Params.header.modal.centered }}
+  {{- $modalDialogClass = $modalDialogClass | append "modal-dialog-centered" }}
+{{- end }}
+{{- with site.Params.header.modal.size }}
+  {{- $modalDialogClass = $modalDialogClass | append (print "modal-" .) }}
+{{- end }}
+<div class="main-menu modal" tabindex="-1" id="navigation" data-component="modal" aria-labelledby="navigationLabel">
+  <div class="{{ delimit $modalDialogClass ` ` }}">
     <div class="modal-content">
       {{ partialCached "header/modal-header.html" . }}
       {{ partial "header/modal-content.html" . }}

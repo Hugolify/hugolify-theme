@@ -13,7 +13,8 @@ class Menu {
     this.classScrollingDown = 'is-scrolling-down';
     this.classMenuOpen = 'is-menu-open';
     this.classDropdownMenuOpen = 'is-dropdown-menu-open';
-    this.offcanvas = document.getElementById('navigation');
+    this.componentElm = document.getElementById('navigation');
+    this.component = this.componentElm.dataset.component;
     this.dropdowns = this.elm.querySelectorAll('[data-bs-toggle="dropdown"]');
     this.offset = this.elm.offsetHeight;
 
@@ -27,8 +28,8 @@ class Menu {
     });
   }
   initOffcanvas() {
-    if (this.offcanvas) {
-      this.toggleMenu(this.offcanvas, 'offcanvas', this.classMenuOpen);
+    if (this.componentElm) {
+      this.toggleMenu(this.componentElm, this.component, this.classMenuOpen);
     }
   }
   initSticky() {
@@ -60,6 +61,22 @@ class Menu {
     });
     elm.addEventListener('show.bs.' + component, () => {
       document.documentElement.classList.add(toggleClass);
+      // Move the backdrop to be right after the modal element
+      if (component === 'modal') {
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(function (node) {
+              if (node.classList && node.classList.contains('modal-backdrop')) {
+                elm.parentNode.insertBefore(node, elm.nextSibling);
+                observer.disconnect();
+              }
+            });
+          });
+        });
+        observer.observe(document.body, {
+          childList: true
+        });
+      }
     });
   }
 }

@@ -1,5 +1,5 @@
 {{/*  Load offcanvas or modal main-menu  */}}
-{{- $type := site.Params.header.menu | default "offcanvas" -}}
+{{- $type := site.Params.header.layout | default "offcanvas" -}}
 {{- $partials := printf "header/%s.html" $type -}}
 {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
   {{- partial $partials . -}}

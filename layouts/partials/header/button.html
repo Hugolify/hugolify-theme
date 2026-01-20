@@ -1,4 +1,4 @@
-{{- $type := site.Params.header.menu | default "offcanvas" -}}
+{{- $type := site.Params.header.layout | default "offcanvas" -}}
 <button type="button"
     class="btn-menu"
     data-bs-toggle="{{ $type }}"
