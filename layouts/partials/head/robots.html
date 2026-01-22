@@ -1,5 +1,9 @@
 {{- if hugo.IsProduction }}
+  {{- if ne .Params.noIndex true }}
   <meta name="robots" content="index, follow">
-{{ else }}
+  {{- else }}
   <meta name="robots" content="noindex, nofollow">
-{{ end -}}
+  {{- end }}
+{{- else }}
+  <meta name="robots" content="noindex, nofollow">
+{{- end }}

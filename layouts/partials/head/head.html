@@ -5,9 +5,9 @@
   {{ partialCached "head/css.html" . }}
   {{ partial "head/canonical.html" . }}
   {{ partial "head/seo.html" . }}
-  {{ partial "head/favicons.html" . }}
+  {{ partialCached "head/favicons.html" . }}
   {{ partial "head/rss.html" . }}
-  {{ partialCached "head/robots.html" . }}
+  {{ partial "head/robots.html" . }}
   {{ partialCached "head/scripts.html" . }}
   {{ partial "head/pagefind.html" . }}
 {{ end }}
