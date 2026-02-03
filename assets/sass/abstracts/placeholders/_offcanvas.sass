@@ -1,0 +1,47 @@
+%offcanvas
+    @if $enable-bootstrap
+        @extend .offcanvas !optional
+    @else if $enable-tailwind
+        @apply fixed bottom-0 z-[1045] flex flex-col max-w-full bg-white bg-clip-padding outline-none transition-transform duration-300 ease-in-out
+
+%offcanvas-body
+    @if $enable-bootstrap
+        @extend .offcanvas-body !optional
+    @else if $enable-tailwind
+        @apply flex-grow p-4 overflow-y-auto
+
+%offcanvas-end
+    @if $enable-bootstrap
+        @extend .offcanvas-end !optional
+    @else if $enable-tailwind
+        @apply top-0 right-0 border-l border-gray-200 w-[400px] translate-x-full
+
+%offcanvas-header
+    @if $enable-bootstrap
+        @extend .offcanvas-header !optional
+    @else if $enable-tailwind
+        @apply flex items-center justify-between p-4
+
+%offcanvas-lg
+    @if $enable-bootstrap
+        @extend .offcanvas-lg !optional
+    @else if $enable-tailwind
+        @apply lg:static lg:z-auto lg:flex lg:translate-x-0 lg:border-none
+
+%offcanvas-md
+    @if $enable-bootstrap
+        @extend .offcanvas-md !optional
+    @else if $enable-tailwind
+        @apply md:static md:z-auto md:flex md:translate-x-0 md:border-none
+
+%offcanvas-start
+    @if $enable-bootstrap
+        @extend .offcanvas-start !optional
+    @else if $enable-tailwind
+        @apply top-0 left-0 border-r border-gray-200 w-[400px] -translate-x-full
+
+%offcanvas-title
+    @if $enable-bootstrap
+        @extend .offcanvas-title !optional
+    @else if $enable-tailwind
+        @apply mb-0 leading-normal

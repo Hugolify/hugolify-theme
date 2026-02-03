@@ -21,7 +21,7 @@
         --bs-card-spacer-x: 1.5rem
         --bs-card-bg: #{$gray-200}
         --bs-card-cap-bg: #{$gray-200}
-        @extend .card
+        @extend %card
         border: 0
         height: 100%
         text-align: left
@@ -36,12 +36,12 @@
     .media
         &-image,
         &-logo
-            @extend .ratio-21x9
+            @extend %ratio-21x9
     
     .icon
         font-size: 2rem
 
     .btn
-        @extend .btn-link
-        @extend .small
+        @extend %btn-link
+        @extend %small
         margin-left: - $btn-padding-x

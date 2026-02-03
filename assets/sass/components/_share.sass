@@ -1,10 +1,10 @@
 .share
-    @extend .dropdown
+    @extend %dropdown
     @include media-breakpoint-down(md)
         display: none
     > button
         @include button-variant($light,$light)
-        @extend .dropdown-toggle
+        @extend %dropdown-toggle
         @if variable-exists(icons-map)
             &::before
                 @include icon("share")
@@ -14,7 +14,7 @@
                 margin-top: -.1rem
                 vertical-align: middle
     ul
-        @extend .dropdown-menu
+        @extend %dropdown-menu
     li
         a
-            @extend .dropdown-item
+            @extend %dropdown-item

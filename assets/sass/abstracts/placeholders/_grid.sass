@@ -1,0 +1,139 @@
+%row
+    @if $enable-bootstrap
+        @extend .row !optional
+    @else if $enable-tailwind
+        @apply flex flex-wrap -mx-3
+
+%row-cols-1
+    @if $enable-bootstrap
+        @extend .row-cols-1 !optional
+    @else if $enable-tailwind
+        > *
+            @apply w-full
+
+%row-cols-2
+    @if $enable-bootstrap
+        @extend .row-cols-2 !optional
+    @else if $enable-tailwind
+        > *
+            @apply w-1/2
+
+%row-cols-md-2
+    @if $enable-bootstrap
+        @extend .row-cols-md-2 !optional
+    @else if $enable-tailwind
+        > *
+            @apply md:w-1/2
+
+%row-cols-md-3
+    @if $enable-bootstrap
+        @extend .row-cols-md-3 !optional
+    @else if $enable-tailwind
+        > *
+            @apply md:w-1/3
+
+%row-cols-xxl-3
+    @if $enable-bootstrap
+        @extend .row-cols-xxl-3 !optional
+    @else if $enable-tailwind
+        > *
+            @apply 2xl:w-1/3
+
+%col-md-4
+    @if $enable-bootstrap
+        @extend .col-md-4 !optional
+    @else if $enable-tailwind
+        @apply md:w-1/3 px-3
+
+%col-md-5
+    @if $enable-bootstrap
+        @extend .col-md-5 !optional
+    @else if $enable-tailwind
+        @apply md:w-[41.666667%] px-3
+
+%col-md-6
+    @if $enable-bootstrap
+        @extend .col-md-6 !optional
+    @else if $enable-tailwind
+        @apply md:w-1/2 px-3
+
+%col-md-7
+    @if $enable-bootstrap
+        @extend .col-md-7 !optional
+    @else if $enable-tailwind
+        @apply md:w-[58.333333%] px-3
+
+%col-md-8
+    @if $enable-bootstrap
+        @extend .col-md-8 !optional
+    @else if $enable-tailwind
+        @apply md:w-2/3 px-3
+
+%col-md-10
+    @if $enable-bootstrap
+        @extend .col-md-10 !optional
+    @else if $enable-tailwind
+        @apply md:w-[83.333333%] px-3
+
+%col-xl-4
+    @if $enable-bootstrap
+        @extend .col-xl-4 !optional
+    @else if $enable-tailwind
+        @apply xl:w-1/3 px-3
+
+%col-xl-5
+    @if $enable-bootstrap
+        @extend .col-xl-5 !optional
+    @else if $enable-tailwind
+        @apply xl:w-[41.666667%] px-3
+
+%col-xl-6
+    @if $enable-bootstrap
+        @extend .col-xl-6 !optional
+    @else if $enable-tailwind
+        @apply xl:w-1/2 px-3
+
+%col-xl-10
+    @if $enable-bootstrap
+        @extend .col-xl-10 !optional
+    @else if $enable-tailwind
+        @apply xl:w-[83.333333%] px-3
+
+%offset-md-1
+    @if $enable-bootstrap
+        @extend .offset-md-1 !optional
+    @else if $enable-tailwind
+        @apply md:ml-[8.333333%]
+
+%offset-md-2
+    @if $enable-bootstrap
+        @extend .offset-md-2 !optional
+    @else if $enable-tailwind
+        @apply md:ml-[16.666667%]
+
+%offset-md-3
+    @if $enable-bootstrap
+        @extend .offset-md-3 !optional
+    @else if $enable-tailwind
+        @apply md:ml-[25%]
+
+%offset-xl-1
+    @if $enable-bootstrap
+        @extend .offset-xl-1 !optional
+    @else if $enable-tailwind
+        @apply xl:ml-[8.333333%]
+
+%offset-xl-2
+    @if $enable-bootstrap
+        @extend .offset-xl-2 !optional
+    @else if $enable-tailwind
+        @apply xl:ml-[16.666667%]
+
+// Dynamic row-cols for gallery
+@for $i from 2 through 6
+    %row-cols-lg-#{$i}
+        @if $enable-bootstrap
+            @extend .row-cols-lg-#{$i} !optional
+        @else if $enable-tailwind
+            > *
+                @apply lg:w-[calc(100%/#{$i})]

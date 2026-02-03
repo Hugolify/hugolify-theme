@@ -6,9 +6,9 @@
     --bs-card-bg: var(--push-background-color)
     --bs-card-border-radius: 0
     --bs-card-border-width: 0
-    @extend .card
-    @extend .ratio
-    @extend .ratio-21x9
+    @extend %card
+    @extend %ratio
+    @extend %ratio-21x9
     color: var(--push-color)
     position: relative
     overflow: hidden
@@ -28,7 +28,7 @@
     h2, h3
         @include font-size(map-get($display-font-sizes, 2))
     p
-        @extend .lead
+        @extend %lead
 
     .content
         align-items: flex-start
@@ -78,5 +78,5 @@
 
     .btn
         @include button-variant($light,$light)
-        @extend .stretched-link
+        @extend %stretched-link
         margin-top: calc(#{$paragraph-margin-bottom} * 2)

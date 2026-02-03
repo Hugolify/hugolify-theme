@@ -1,0 +1,15 @@
+%mini-card
+    @if $enable-bootstrap
+        @extend .mini-card !optional
+    @else
+        @apply flex items-center relative
+        line-height: 1.4
+        picture,
+        .avatar
+            @apply flex-shrink-0 mr-4
+        .avatar
+            @apply bg-gray-100
+        span
+            @apply text-sm text-gray-500
+        a
+            @extend %stretched-link

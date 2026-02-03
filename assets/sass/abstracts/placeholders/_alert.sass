@@ -1,0 +1,47 @@
+%alert
+    @if $enable-bootstrap
+        @extend .alert !optional
+    @else if $enable-tailwind
+        @apply relative px-4 py-3 mb-4 border border-transparent rounded
+
+%alert-danger
+    @if $enable-bootstrap
+        @extend .alert-danger !optional
+    @else if $enable-tailwind
+        @apply text-red-800 bg-red-100 border-red-200
+
+%alert-dark
+    @if $enable-bootstrap
+        @extend .alert-dark !optional
+    @else if $enable-tailwind
+        @apply text-gray-800 bg-gray-200 border-gray-300
+
+%alert-light
+    @if $enable-bootstrap
+        @extend .alert-light !optional
+    @else if $enable-tailwind
+        @apply text-gray-600 bg-gray-50 border-gray-100
+
+%alert-link
+    @if $enable-bootstrap
+        @extend .alert-link !optional
+    @else if $enable-tailwind
+        @apply font-bold no-underline hover:underline
+
+%alert-primary
+    @if $enable-bootstrap
+        @extend .alert-primary !optional
+    @else if $enable-tailwind
+        @apply text-blue-800 bg-blue-100 border-blue-200
+
+%alert-secondary
+    @if $enable-bootstrap
+        @extend .alert-secondary !optional
+    @else if $enable-tailwind
+        @apply text-gray-700 bg-gray-100 border-gray-200
+
+%alert-warning
+    @if $enable-bootstrap
+        @extend .alert-warning !optional
+    @else if $enable-tailwind
+        @apply text-yellow-800 bg-yellow-100 border-yellow-200

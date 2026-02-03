@@ -1,9 +1,9 @@
 .contact-list
     --bs-card-border-width: 0
     --bs-card-bg: #{$gray-100}
-    @extend .card
+    @extend %card
     > div
-        @extend .card-body
+        @extend %card-body
         > p
             @include font-size($h5-font-size)
             font-family: $headings-font-family

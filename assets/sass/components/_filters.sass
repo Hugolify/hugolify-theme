@@ -1,21 +1,21 @@
 .filters
-    @extend .offcanvas-end
+    @extend %offcanvas-end
     .header
-        @extend .offcanvas-header
+        @extend %offcanvas-header
         .title
-            @extend .offcanvas-title
+            @extend %offcanvas-title
             @include font-size($h5-font-size)
             color: $headings-color
             font-family: $headings-font-family
             font-weight: $headings-font-weight
         button
-            @extend .btn-close
+            @extend %btn-close
             background-image: escape-svg($btn-close-bg)
             background-position: center
             background-repeat: no-repeat
             background-size: 1rem auto
     .content
-        @extend .offcanvas-body
+        @extend %offcanvas-body
         > div
             &:not(:first-child)
                 padding-top: calc(#{$global-spacing} / 2)
@@ -29,7 +29,7 @@
                 ul, ol
                     padding-left: 0
                 li
-                    @extend .mini-card
+                    @extend %mini-card
                     &::before
                         content: none
                     &:not(:last-child)

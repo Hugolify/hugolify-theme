@@ -71,33 +71,33 @@
                 @include button-outline-variant($light)
 
     &-content
-        @extend .col-md-6
-        @extend .col-xl-5
+        @extend %col-md-6
+        @extend %col-xl-5
     &-center &-content
-        @extend .offset-md-3
-        @extend .col-xl-6
+        @extend %offset-md-3
+        @extend %col-xl-6
     &-media
-        @extend .col-md-6
-        @extend .col-xl-4
-        @extend .offset-xl-1
+        @extend %col-md-6
+        @extend %col-xl-4
+        @extend %offset-xl-1
         img
             height: auto
             width: 100%
     .hero-content + .hero-content
-        @extend .col-md-5
-        @extend .offset-md-1
-        @extend .col-xl-4
-        @extend .offset-xl-2
+        @extend %col-md-5
+        @extend %offset-md-1
+        @extend %col-xl-4
+        @extend %offset-xl-2
         @include media-breakpoint-down(lg)
             margin-top: $grid-gutter-width
 
     // Only one content
     &:not(&-with-image):not(&-with-video):not(&-with-second-content)
         .hero-content
-            @extend .col-md-10
-            @extend .col-xl-10
+            @extend %col-md-10
+            @extend %col-xl-10
         &.hero-center .hero-content
-            @extend .offset-md-1
+            @extend %offset-md-1
     
     @include media-breakpoint-down(md)
         &-media

@@ -1,0 +1,95 @@
+%breadcrumb
+    @if $enable-bootstrap
+        @extend .breadcrumb !optional
+    @else if $enable-tailwind
+        @apply flex flex-wrap list-none
+
+%breadcrumb-item
+    @if $enable-bootstrap
+        @extend .breadcrumb-item !optional
+    @else if $enable-tailwind
+        @apply flex items-center before:content-['/'] before:px-2 before:text-gray-400 first:before:content-none
+
+%nav-item
+    @if $enable-bootstrap
+        @extend .nav-item !optional
+    @else if $enable-tailwind
+        @apply list-none
+
+%nav-link
+    @if $enable-bootstrap
+        @extend .nav-link !optional
+    @else if $enable-tailwind
+        @apply block px-3 py-2 no-underline hover:text-blue-700
+
+%nav-title
+    @if $enable-bootstrap
+        @extend .nav-title !optional
+    @else if $enable-tailwind
+        @apply font-bold mb-2
+
+%navbar
+    @if $enable-bootstrap
+        @extend .navbar !optional
+    @else if $enable-tailwind
+        @apply relative flex flex-wrap items-center justify-between py-2
+
+%navbar-expand-lg
+    @if $enable-bootstrap
+        @extend .navbar-expand-lg !optional
+    @else if $enable-tailwind
+        @apply lg:flex-nowrap lg:justify-start
+
+%navbar-expand-md
+    @if $enable-bootstrap
+        @extend .navbar-expand-md !optional
+    @else if $enable-tailwind
+        @apply md:flex-nowrap md:justify-start
+
+%navbar-expand-sm
+    @if $enable-bootstrap
+        @extend .navbar-expand-sm !optional
+    @else if $enable-tailwind
+        @apply sm:flex-nowrap sm:justify-start
+
+%navbar-expand-xl
+    @if $enable-bootstrap
+        @extend .navbar-expand-xl !optional
+    @else if $enable-tailwind
+        @apply xl:flex-nowrap xl:justify-start
+
+%navbar-expand-xxl
+    @if $enable-bootstrap
+        @extend .navbar-expand-xxl !optional
+    @else if $enable-tailwind
+        @apply 2xl:flex-nowrap 2xl:justify-start
+
+%navbar-toggler
+    @if $enable-bootstrap
+        @extend .navbar-toggler !optional
+    @else if $enable-tailwind
+        @apply px-2 py-1 text-xl leading-none bg-transparent border border-transparent rounded
+
+%navbar-toggler-icon
+    @if $enable-bootstrap
+        @extend .navbar-toggler-icon !optional
+    @else if $enable-tailwind
+        @apply inline-block w-6 h-6 align-middle bg-no-repeat bg-center bg-contain
+
+%page-item
+    @if $enable-bootstrap
+        @extend .page-item !optional
+    @else if $enable-tailwind
+        @apply list-none
+
+%page-link
+    @if $enable-bootstrap
+        @extend .page-link !optional
+    @else if $enable-tailwind
+        @apply relative block px-3 py-1.5 ml-0 leading-tight text-blue-600 bg-white border border-gray-300 hover:text-blue-700 hover:bg-gray-100
+
+%pagination
+    @if $enable-bootstrap
+        @extend .pagination !optional
+    @else if $enable-tailwind
+        @apply flex list-none

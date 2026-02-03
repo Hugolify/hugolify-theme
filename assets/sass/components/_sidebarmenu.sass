@@ -24,16 +24,16 @@
         --bs-nav-link-font-size: .875rem
         padding-left: 1rem
     .nav li
-        @extend .nav-item
+        @extend %nav-item
     .nav a
         --bs-nav-link-padding-x: 0
-        @extend .nav-link
+        @extend %nav-link
 
     // Offcanvas
     > div
         > p
-            @extend .d-none
-            @extend .d-lg-block
+            @extend %d-none
+            @extend %d-lg-block
             @include font-size($h5-font-size)
             color: $headings-color
             font-family: $headings-font-family
@@ -42,15 +42,15 @@
             margin-bottom: $headings-margin-bottom
         > button
             @include button-variant($light,$light)
-            @extend .d-md-none
+            @extend %d-md-none
             @if variable-exists(icons-map)
                 &::before
                     @include icon("list-nested")
                     margin-right: .5rem
 
     .offcanvas
-        @extend .offcanvas-md
-        @extend .offcanvas-start
+        @extend %offcanvas-md
+        @extend %offcanvas-start
         @include media-breakpoint-up(md)
             position: static
             transform: none
@@ -59,18 +59,18 @@
             width: auto
             z-index: auto
     .header
-        @extend .offcanvas-header
+        @extend %offcanvas-header
         button
-            @extend .btn-close
+            @extend %btn-close
             background-image: escape-svg($btn-close-bg)
             background-position: center
             background-repeat: no-repeat
             background-size: 1rem auto
     .title
-        @extend .offcanvas-title
+        @extend %offcanvas-title
         @include font-size($h5-font-size)
         color: $headings-color
         font-family: $headings-font-family
         font-weight: $headings-font-weight
     .content
-        @extend .offcanvas-body
+        @extend %offcanvas-body

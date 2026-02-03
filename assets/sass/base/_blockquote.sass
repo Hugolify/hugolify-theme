@@ -1,5 +1,5 @@
 blockquote
-    @extend .blockquote
+    @extend %blockquote
     color: $blockquote-color
     p
         @include font-size($blockquote-font-size)
@@ -11,5 +11,5 @@ blockquote
 figure
     blockquote
         & + figcaption
-            @extend .blockquote-footer
+            @extend %blockquote-footer
             margin-top: $blockquote-margin-y

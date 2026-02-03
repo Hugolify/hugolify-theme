@@ -1,0 +1,29 @@
+%dropdown
+    @if $enable-bootstrap
+        @extend .dropdown !optional
+    @else if $enable-tailwind
+        @apply relative
+
+%dropdown-item
+    @if $enable-bootstrap
+        @extend .dropdown-item !optional
+    @else if $enable-tailwind
+        @apply block w-full px-4 py-2 text-sm font-normal text-gray-700 whitespace-nowrap bg-transparent border-0 hover:bg-gray-100 focus:bg-gray-100
+
+%dropdown-menu
+    @if $enable-bootstrap
+        @extend .dropdown-menu !optional
+    @else if $enable-tailwind
+        @apply absolute z-[1000] hidden min-w-[10rem] py-2 mt-1 text-base list-none bg-white border border-gray-200 rounded shadow-md
+
+%dropdown-menu-lg-end
+    @if $enable-bootstrap
+        @extend .dropdown-menu-lg-end !optional
+    @else if $enable-tailwind
+        @apply lg:right-0 lg:left-auto
+
+%dropdown-toggle
+    @if $enable-bootstrap
+        @extend .dropdown-toggle !optional
+    @else if $enable-tailwind
+        @apply flex items-center whitespace-nowrap after:inline-block after:ml-2 after:align-middle after:content-[''] after:border-t-[.3em] after:border-t-current after:border-r-[.3em] after:border-r-transparent after:border-l-[.3em] after:border-l-transparent

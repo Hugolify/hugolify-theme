@@ -1,0 +1,41 @@
+%modal-body
+    @if $enable-bootstrap
+        @extend .modal-body !optional
+    @else if $enable-tailwind
+        @apply relative flex-auto p-4
+
+%modal-dialog
+    @if $enable-bootstrap
+        @extend .modal-dialog !optional
+    @else if $enable-tailwind
+        @apply relative w-auto m-2 pointer-events-none sm:max-w-lg sm:mx-auto
+
+%modal-dialog-centered
+    @if $enable-bootstrap
+        @extend .modal-dialog-centered !optional
+    @else if $enable-tailwind
+        @apply flex items-center min-h-[calc(100%-1rem)] sm:min-h-[calc(100%-3.5rem)]
+
+%modal-dialog-scrollable
+    @if $enable-bootstrap
+        @extend .modal-dialog-scrollable !optional
+    @else if $enable-tailwind
+        @apply flex flex-col max-h-[calc(100%-1rem)] sm:max-h-[calc(100%-3.5rem)]
+
+%modal-header
+    @if $enable-bootstrap
+        @extend .modal-header !optional
+    @else if $enable-tailwind
+        @apply flex items-center justify-between p-4 border-b border-gray-200 rounded-t
+
+%modal-sm
+    @if $enable-bootstrap
+        @extend .modal-sm !optional
+    @else if $enable-tailwind
+        @apply sm:max-w-sm
+
+%modal-title
+    @if $enable-bootstrap
+        @extend .modal-title !optional
+    @else if $enable-tailwind
+        @apply mb-0 text-xl font-medium leading-normal

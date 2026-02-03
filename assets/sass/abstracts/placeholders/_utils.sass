@@ -1,0 +1,77 @@
+%badge
+    @if $enable-bootstrap
+        @extend .badge !optional
+    @else if $enable-tailwind
+        @apply inline-block px-2 py-1 text-xs font-bold leading-none text-center white-space-nowrap align-baseline rounded
+
+%d-lg-block
+    @if $enable-bootstrap
+        @extend .d-lg-block !optional
+    @else if $enable-tailwind
+        @apply lg:block
+
+%d-lg-none
+    @if $enable-bootstrap
+        @extend .d-lg-none !optional
+    @else if $enable-tailwind
+        @apply lg:hidden
+
+%d-md-none
+    @if $enable-bootstrap
+        @extend .d-md-none !optional
+    @else if $enable-tailwind
+        @apply md:hidden
+
+%d-none
+    @if $enable-bootstrap
+        @extend .d-none !optional
+    @else if $enable-tailwind
+        @apply hidden
+
+%fade
+    @if $enable-bootstrap
+        @extend .fade !optional
+    @else if $enable-tailwind
+        @apply transition-opacity duration-150 ease-linear
+
+%ratio
+    @if $enable-bootstrap
+        @extend .ratio !optional
+    @else if $enable-tailwind
+        @apply relative block w-full before:block before:content-[""]
+
+%ratio-16x9
+    @if $enable-bootstrap
+        @extend .ratio-16x9 !optional
+    @else if $enable-tailwind
+        @apply before:pt-[56.25%]
+
+%ratio-1x1
+    @if $enable-bootstrap
+        @extend .ratio-1x1 !optional
+    @else if $enable-tailwind
+        @apply before:pt-[100%]
+
+%ratio-21x9
+    @if $enable-bootstrap
+        @extend .ratio-21x9 !optional
+    @else if $enable-tailwind
+        @apply before:pt-[42.857143%]
+
+%stretched-link
+    @if $enable-bootstrap
+        @extend .stretched-link !optional
+    @else if $enable-tailwind
+        @apply after:absolute after:inset-0 after:z-1
+
+%table
+    @if $enable-bootstrap
+        @extend .table !optional
+    @else if $enable-tailwind
+        @apply w-full mb-4 align-top border-gray-200
+
+%text-secondary
+    @if $enable-bootstrap
+        @extend .text-secondary !optional
+    @else if $enable-tailwind
+        @apply text-gray-500

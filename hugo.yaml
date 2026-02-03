@@ -11,8 +11,9 @@ module:
     - source: static
       target: static
   imports:
-    # Import Bootstrap 5
+    # Import Bootstrap 5 (Disable if not used)
     - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
+      disable: false
     # Import Bootstrap icons
     - path: github.com/twbs/icons
       ignoreConfig: true
@@ -21,6 +22,9 @@ module:
           target: static/assets/fonts/bootstrap-icons
         - source: font/bootstrap-icons.scss
           target: assets/scss/bootstrap-icons/bootstrap-icons.scss
+    # Import Tailwind CSS (Disable if not used)
+    - path: github.com/hugomods/tailwind-css
+      disable: true
     # Import Lightbox (Tobii)
     - path: github.com/midzer/tobii
       ignoreConfig: true
@@ -58,6 +62,9 @@ params:
   # Website
   animation: false # Load js and add data attributes
   bootstrap:
+    enable:
+      css: true
+      js: true
     alert: false 
     carousel: false 
     collapse: true 
@@ -69,6 +76,8 @@ params:
     tab: false 
     toast: false 
     tooltip: false 
+  tailwind:
+    enable: false
   carousel: true # Load splidejs
   cookie_banner:
     enable: false # Enable Cookie banner

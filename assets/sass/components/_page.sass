@@ -4,12 +4,12 @@
     --bs-card-border-width: 0
     --bs-card-border-radius: 4px
     --bs-card-bg: #{$light}
-    @extend .card
+    @extend %card
     .media
         --bs-aspect-ratio: 43%
         background-color: darken($light, 2)
     a
-        @extend .stretched-link
+        @extend %stretched-link
     .btn
-        @extend .btn-link
+        @extend %btn-link
         margin-left: calc(#{$btn-padding-x} * -1)

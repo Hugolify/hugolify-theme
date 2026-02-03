@@ -1,0 +1,41 @@
+%card
+    @if $enable-bootstrap
+        @extend .card !optional
+    @else if $enable-tailwind
+        @apply relative flex flex-col min-w-0 break-words bg-white border border-gray-200 rounded
+
+%card-body
+    @if $enable-bootstrap
+        @extend .card-body !optional
+    @else if $enable-tailwind
+        @apply flex-auto p-5
+
+%card-footer
+    @if $enable-bootstrap
+        @extend .card-footer !optional
+    @else if $enable-tailwind
+        @apply px-5 py-3 bg-gray-50 border-t border-gray-200
+
+%card-header
+    @if $enable-bootstrap
+        @extend .card-header !optional
+    @else if $enable-tailwind
+        @apply px-5 py-3 mb-0 bg-gray-50 border-b border-gray-200
+
+%card-img-top
+    @if $enable-bootstrap
+        @extend .card-img-top !optional
+    @else if $enable-tailwind
+        @apply w-full rounded-t
+
+%card-text
+    @if $enable-bootstrap
+        @extend .card-text !optional
+    @else if $enable-tailwind
+        @apply mb-3 text-base
+
+%card-title
+    @if $enable-bootstrap
+        @extend .card-title !optional
+    @else if $enable-tailwind
+        @apply mb-3 text-xl font-medium

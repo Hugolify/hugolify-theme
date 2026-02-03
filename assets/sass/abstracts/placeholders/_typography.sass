@@ -1,0 +1,29 @@
+%blockquote
+    @if $enable-bootstrap
+        @extend .blockquote !optional
+    @else if $enable-tailwind
+        @apply mb-4 text-xl
+
+%blockquote-footer
+    @if $enable-bootstrap
+        @extend .blockquote-footer !optional
+    @else if $enable-tailwind
+        @apply mt-[-1rem] mb-4 text-sm text-gray-600 before:content-["\2014\00A0"]
+
+%display-4
+    @if $enable-bootstrap
+        @extend .display-4 !optional
+    @else if $enable-tailwind
+        @apply text-5xl font-light leading-tight
+
+%lead
+    @if $enable-bootstrap
+        @extend .lead !optional
+    @else if $enable-tailwind
+        @apply text-xl font-light
+
+%small
+    @if $enable-bootstrap
+        @extend .small !optional
+    @else if $enable-tailwind
+        @apply text-sm

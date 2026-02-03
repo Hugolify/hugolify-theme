@@ -2,9 +2,9 @@
     justify-content: center
     margin-bottom: 0
     li
-        @extend .page-item
+        @extend %page-item
     a
-        @extend .page-link
+        @extend %page-link
         line-height: 1
         height: 100%
 
@@ -52,7 +52,7 @@
     --bs-pagination-hover-color: #{$pagination-color}
     --bs-pagination-focus-bg: transparent
     --bs-pagination-focus-color: #{$pagination-color}
-    @extend .pagination
+    @extend %pagination
     @include margin-top($global-spacing)
     @include padding-top($global-spacing)
     border-top: $border-width solid $border-color

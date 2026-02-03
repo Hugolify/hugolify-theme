@@ -10,6 +10,9 @@
 // Hugolify variables
 @import "abstracts/variables.default"
 
+// Placeholders
+@import "abstracts/placeholders"
+
 // Mixins
 @import "abstracts/mixins.default"
 @import "abstracts/mixins"
@@ -18,6 +21,8 @@
 @import "base/icons"
 
 // Vendors
+@if $enable-tailwind
+    @import "vendors/tailwind"
 @import "vendors/cookieconsent"
 @import "vendors/leaflet"
 @import "vendors/pagefind"

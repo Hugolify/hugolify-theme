@@ -15,7 +15,7 @@ header[role="banner"]
         position: sticky
 
     > nav
-        @extend .navbar
+        @extend %navbar
         @include navbar-expand($navbar-expand)
     
     .btn-search
@@ -25,12 +25,12 @@ header[role="banner"]
             flex-grow: initial
     
     .btn-menu
-        @extend .navbar-toggler
+        @extend %navbar-toggler
         border: 0
         margin-right: - $navbar-toggler-padding-x
         > span
             --bs-navbar-toggler-icon-bg: #{escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$header-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>"))}
-            @extend .navbar-toggler-icon
+            @extend %navbar-toggler-icon
     
     .logo
         color: $header-color

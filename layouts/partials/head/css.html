@@ -3,6 +3,10 @@
   "targetPath" "assets/css/main.css"
   "enableSourceMap" true
   "includePaths" (slice "node_modules")
+  "vars" (dict 
+    "enable-bootstrap" .Site.Params.bootstrap.enable.css
+    "enable-tailwind" .Site.Params.tailwind.enable
+  )
 ) -}}
 {{- $css := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
 {{ if hugo.IsProduction }}

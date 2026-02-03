@@ -17,7 +17,7 @@
             --bs-card-border-width: 0
             --bs-card-cap-bg: transparent
             --bs-card-cap-padding-y: 1rem
-            @extend .card
+            @extend %card
             height: 100%
             @include media-breakpoint-up(md)
                 --bs-card-spacer-x: 1.5rem
@@ -30,14 +30,14 @@
                 --bs-card-cap-padding-x: 2rem
                 --bs-card-cap-padding-y: 2rem
             blockquote
-                @extend .card-body
+                @extend %card-body
                 p
                     font-size: $small-font-size
                     line-height: $line-height-base
                     @include media-breakpoint-up(md)
                         font-size: $font-size-base
             blockquote + figcaption
-                @extend .card-footer
+                @extend %card-footer
 
     .splide
         &__track

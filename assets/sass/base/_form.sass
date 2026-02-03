@@ -1,6 +1,6 @@
 form
     label
-        @extend .form-label !optional
+        @extend %form-label !optional
 
     input[type=date],
     input[type=email],
@@ -15,23 +15,23 @@ form
     input[type=url],
     input[type=week],
     textarea
-        @extend .form-control !optional
+        @extend %form-control !optional
 
     input[type=checkbox],
     input[type=radio]
-        @extend .form-check-input !optional
+        @extend %form-check-input !optional
         & + label
-            @extend .form-check-label !optional
+            @extend %form-check-label !optional
             margin-bottom: 0
 
     input[type=range]
-        @extend .form-range !optional
+        @extend %form-range !optional
 
     select
-        @extend .form-select !optional
+        @extend %form-select !optional
 
     .help
-        @extend .form-text !optional
+        @extend %form-text !optional
         margin-bottom: 0
         a[href^="tel:"]
             color: inherit !important

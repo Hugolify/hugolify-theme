@@ -2,38 +2,40 @@
 import './utils/global';
 
 // Bootstrap
-{{ if .Site.Params.bootstrap.alert }}
-    import Alert from 'js/bootstrap/src/alert';
-{{ end }}
-{{ if .Site.Params.bootstrap.carousel }}
-    import Carousel from 'js/bootstrap/src/carousel';
-{{ end }}
-{{ if .Site.Params.bootstrap.collapse }}
-    import Collapse from 'js/bootstrap/src/collapse';
-{{ end }}
-{{ if .Site.Params.bootstrap.dropdown }}
-    import Dropdown from 'js/bootstrap/src/dropdown';
-{{ end }}
-{{ if .Site.Params.bootstrap.modal }}
-    import Modal from 'js/bootstrap/src/modal';
-{{ end }}
-{{ if .Site.Params.bootstrap.offcanvas }}
-    import Offcanvas from 'js/bootstrap/src/offcanvas';
-{{ end }}
-{{ if .Site.Params.bootstrap.popover }}
-    import Popover from 'js/bootstrap/src/popover';
-{{ end }}
-{{ if .Site.Params.bootstrap.scrollspy }}
-    import Scrollspy from 'js/bootstrap/src/scrollspy';
-{{ end }}
-{{ if .Site.Params.bootstrap.tab }}
-    import Tab from 'js/bootstrap/src/tab';
-{{ end }}
-{{ if .Site.Params.bootstrap.popover }}
-    import Toast from 'js/bootstrap/src/popover';
-{{ end }}
-{{ if .Site.Params.bootstrap.tooltip }}
-    import './features/tooltip';
+{{ if .Site.Params.bootstrap.enable.js }}
+    {{ if .Site.Params.bootstrap.alert }}
+        import Alert from 'js/bootstrap/src/alert';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.carousel }}
+        import Carousel from 'js/bootstrap/src/carousel';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.collapse }}
+        import Collapse from 'js/bootstrap/src/collapse';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.dropdown }}
+        import Dropdown from 'js/bootstrap/src/dropdown';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.modal }}
+        import Modal from 'js/bootstrap/src/modal';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.offcanvas }}
+        import Offcanvas from 'js/bootstrap/src/offcanvas';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.popover }}
+        import Popover from 'js/bootstrap/src/popover';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.scrollspy }}
+        import Scrollspy from 'js/bootstrap/src/scrollspy';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.tab }}
+        import Tab from 'js/bootstrap/src/tab';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.popover }}
+        import Toast from 'js/bootstrap/src/popover';
+    {{ end }}
+    {{ if .Site.Params.bootstrap.tooltip }}
+        import './features/tooltip';
+    {{ end }}
 {{ end }}
 
 // Add custom vendors

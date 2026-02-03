@@ -87,7 +87,7 @@
 
 // Close
 #cc-main button.pm__close-btn {
-  @extend .btn-close;
+  @extend %btn-close;
   background-image: escape-svg($btn-close-bg);
   background-position: center;
   background-repeat: no-repeat;

@@ -1,7 +1,7 @@
 .main-menu
     .header
         button
-            @extend .btn-close
+            @extend %btn-close
             background-image: escape-svg($btn-close-bg)
             background-position: center
             background-repeat: no-repeat
@@ -28,24 +28,24 @@
         --bs-offcanvas-bg: #{$menu-background-color}
         --bs-offcanvas-color: #{$menu-color}
         .header
-            @extend .offcanvas-header
+            @extend %offcanvas-header
             justify-content: space-between
             .title
-                @extend .offcanvas-title
+                @extend %offcanvas-title
         .content
-            @extend .offcanvas-body
+            @extend %offcanvas-body
 
     &.modal
         --bs-modal-bg: #{$menu-background-color}
         --bs-modal-color: #{$menu-color}
         --bs-modal-header-border-width: 0
         .header
-            @extend .modal-header
+            @extend %modal-header
             justify-content: space-between
             .title
-                @extend .modal-title
+                @extend %modal-title
         .content
-            @extend .modal-body
+            @extend %modal-body
 
     @include media-breakpoint-down($navbar-expand)
         .nav

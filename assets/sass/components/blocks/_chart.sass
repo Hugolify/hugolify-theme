@@ -14,22 +14,22 @@
     .container .row
         text-align: right
     canvas + .btn
-        @extend .btn-link
-        @extend .text-secondary !optional
+        @extend %btn-link
+        @extend %text-secondary !optional
         @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm)
         margin-top: .5rem
     .modal
-        @extend .fade
+        @extend %fade
     .modal-dialog
-        @extend .modal-dialog
-        @extend .modal-dialog-scrollable
-        @extend .modal-dialog-centered
-        @extend .modal-sm
+        @extend %modal-dialog
+        @extend %modal-dialog-scrollable
+        @extend %modal-dialog-centered
+        @extend %modal-sm
     .modal-header
         p
-            @extend .modal-title
+            @extend %modal-title
         button
-            @extend .btn-close
+            @extend %btn-close
             background-image: escape-svg($btn-close-bg)
             background-position: center
             background-repeat: no-repeat

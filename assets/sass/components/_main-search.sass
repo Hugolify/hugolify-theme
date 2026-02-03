@@ -1,7 +1,7 @@
 .main-search
     .header
         button
-            @extend .btn-close
+            @extend %btn-close
             background-image: escape-svg($btn-close-bg)
             background-position: center
             background-repeat: no-repeat
@@ -13,15 +13,15 @@
     &.offcanvas
         --bs-offcanvas-bg: #{$menu-background-color}
         --bs-offcanvas-color: #{$menu-color}
-        @extend .offcanvas
-        @extend .offcanvas-end
+        @extend %offcanvas
+        @extend %offcanvas-end
         .header
-            @extend .offcanvas-header
+            @extend %offcanvas-header
             justify-content: space-between
             .title
-                @extend .offcanvas-title
+                @extend %offcanvas-title
         .content
-            @extend .offcanvas-body
+            @extend %offcanvas-body
 
     &.modal
         --bs-modal-bg: #{$menu-background-color}
@@ -30,12 +30,12 @@
             transform: none
             transition: none
         .header
-            @extend .modal-header
+            @extend %modal-header
             justify-content: space-between
             .title
-                @extend .modal-title
+                @extend %modal-title
         .content
-            @extend .modal-body
+            @extend %modal-body
 
     &.raw
         background-color: $hero-background-color

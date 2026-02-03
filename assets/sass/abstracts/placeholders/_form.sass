@@ -1,0 +1,53 @@
+%form-check-input
+    @if $enable-bootstrap
+        @extend .form-check-input !optional
+    @else if $enable-tailwind
+        @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+
+%form-check-label
+    @if $enable-bootstrap
+        @extend .form-check-label !optional
+    @else if $enable-tailwind
+        @apply ml-2 text-sm font-medium text-gray-900
+
+%form-control
+    @if $enable-bootstrap
+        @extend .form-control !optional
+    @else if $enable-tailwind
+        @apply block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+
+%form-control-lg
+    @if $enable-bootstrap
+        @extend .form-control-lg !optional
+    @else if $enable-tailwind
+        @apply px-4 py-2 text-xl
+
+%form-label
+    @if $enable-bootstrap
+        @extend .form-label !optional
+    @else if $enable-tailwind
+        @apply inline-block mb-2 text-sm font-bold text-gray-700
+
+%form-range
+    @if $enable-bootstrap
+        @extend .form-range !optional
+    @else if $enable-tailwind
+        @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer
+
+%form-select
+    @if $enable-bootstrap
+        @extend .form-select !optional
+    @else if $enable-tailwind
+        @apply block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+
+%form-text
+    @if $enable-bootstrap
+        @extend .form-text !optional
+    @else if $enable-tailwind
+        @apply mt-1 text-sm text-gray-500
+
+%input-group
+    @if $enable-bootstrap
+        @extend .input-group !optional
+    @else if $enable-tailwind
+        @apply relative flex flex-wrap items-stretch w-full

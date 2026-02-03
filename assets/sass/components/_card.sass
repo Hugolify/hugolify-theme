@@ -1,12 +1,12 @@
 .card
     .media
-        @extend .card-img-top
-        @extend .ratio
+        @extend %card-img-top
+        @extend %ratio
         background-color: $light
         order: -1
         overflow: hidden
         img
-            @extend .card-img-top
+            @extend %card-img-top
             height: 100%
             object-fit: cover
         &-logo
@@ -22,9 +22,9 @@
             > .icon
                 position: static
     .content
-        @extend .card-body
+        @extend %card-body
     .name
-        @extend .card-title
+        @extend %card-title
         @include font-size($h5-font-size)
         font-family: $headings-font-family
         font-weight: $headings-font-weight
@@ -38,7 +38,7 @@
         &:hover .name
             text-decoration-color: currentColor
     p
-        @extend .card-text
+        @extend %card-text
     time
         color: $text-muted
     > a
