@@ -48,7 +48,7 @@
           {{- .Scratch.Set "large" true -}}
         {{- end -}}
         <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
-          {{ partial $partial . }}
+          {{ partialCached $partial . .File.UniqueID (.Scratch.Get "large") (.Scratch.Get "lazy") }}
         </div>
       {{ end -}}
     </div>
