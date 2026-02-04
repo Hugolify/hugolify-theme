@@ -7,7 +7,6 @@
   {{- if reflect.IsMap . }}
     {{- $path = .item }}
   {{- end }}
-  {{ warnf "path: %s" $path}}
 
   {{- if strings.Contains $path "/content" }}
     {{- $path = replaceRE `^\/content` "" $path }}
