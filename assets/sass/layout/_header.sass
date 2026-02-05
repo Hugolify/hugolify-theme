@@ -7,10 +7,10 @@ header[role="banner"]
     z-index: $zindex-sticky
     @media (prefers-reduced-motion: no-preference)
         transition: top .3s ease
-
-    html:not(.is-dropdown-menu-open).is-scrolling-down &
-        &:not(:hover)
-            top: calc(var(--header-height) * -1)
+    @media (hover: hover) and (pointer: fine)
+        html:not(.is-dropdown-menu-open).is-scrolling-down &
+            &:not(:hover)
+                top: calc(var(--header-height) * -1)
     &.is-sticky
         position: sticky
 

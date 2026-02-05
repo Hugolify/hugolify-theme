@@ -23,8 +23,9 @@
                 border-bottom: 1px solid $border-color
                 padding-bottom: calc(#{$global-spacing} / 2)
         .list
-            a:not(:hover)
-                text-decoration-color: transparent
+            @media (hover: hover) and (pointer: fine)
+                a:not(:hover)
+                    text-decoration-color: transparent
             &-mini_card
                 ul, ol
                     padding-left: 0

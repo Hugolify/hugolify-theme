@@ -17,8 +17,9 @@
                 border-radius: 0
                 &:not(:last-of-type)
                     margin-bottom: 0
-                &:hover
-                    box-shadow: none
+                @media (hover: hover) and (pointer: fine)
+                    &:hover
+                        box-shadow: none
                 summary
                     font-size: $font-size-base
                     padding-left: 0

@@ -3,13 +3,15 @@ details
     border: $border-width solid $border-color
     border-radius: 1rem
     transition: border 1s $transition-effect, box-shadow 1s $transition-effect
-    @media (prefers-reduced-motion: reduce)
-        transition: none
     &:not(:last-of-type)
         margin-bottom: $grid-gutter-width
-    &:hover
-        box-shadow: 0 0 5px 5px rgba(0,0,0,.05)
-    
+
+    @media (hover: hover) and (pointer: fine)
+        &:hover
+            box-shadow: 0 0 5px 5px rgba(0,0,0,.05)
+    @media (prefers-reduced-motion: reduce)
+        transition: none
+        
     summary
         @include font-size($h4-font-size)
         color: $headings-color

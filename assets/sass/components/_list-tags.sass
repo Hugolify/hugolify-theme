@@ -20,6 +20,8 @@
             @extend .badge !optional
             background-color: $secondary
             text-decoration: none
-            &:hover
-                background-color: darken($secondary, 2)
+            
+            @media (hover: hover) and (pointer: fine)
+                &:hover
+                    background-color: darken($secondary, 2)
 

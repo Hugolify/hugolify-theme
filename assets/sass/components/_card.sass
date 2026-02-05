@@ -52,12 +52,13 @@
                 right: 1rem
                 top: 1rem
 
+    @media (hover: hover) and (pointer: fine)
+        a:hover ~ .media
+            img
+                transform: scale(1.05)
     @media (prefers-reduced-motion: no-preference)
         a .name
             transition: text-decoration-color .2s ease
         a ~ .media
             img
                 transition: transform $transition-duration $transition-effect
-        a:hover ~ .media
-            img
-                transform: scale(1.05)

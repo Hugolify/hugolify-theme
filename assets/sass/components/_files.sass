@@ -12,7 +12,9 @@
         border-radius: $card-border-radius
         color: $black
         display: flex
+
+        @media (hover: hover) and (pointer: fine)
+            &:hover
+                background-color: $gray-400
         @media (prefers-reduced-motion: no-preference)
             transition: background .3s ease
-        &:hover
-            background-color: $gray-400

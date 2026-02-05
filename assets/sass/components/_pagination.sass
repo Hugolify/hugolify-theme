@@ -58,9 +58,10 @@
     border-top: $border-width solid $border-color
     a
         --bs-pagination-border-width: 0
-        &:hover
-            text-decoration-color: currentColor
-            text-decoration-line: underline 
+        @media (hover: hover) and (pointer: fine)
+            &:hover
+                text-decoration-color: currentColor
+                text-decoration-line: underline 
     .previous a::before,
     .next a::after
         display: inline-block
@@ -128,8 +129,9 @@
             font-size: 1.25rem
             line-height: 1.2
             padding: 0
-            &:hover
-                text-decoration: none
+            @media (hover: hover) and (pointer: fine)
+                &:hover
+                    text-decoration: none
         img
             display: block
             height: auto

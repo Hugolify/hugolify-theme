@@ -40,8 +40,10 @@
         a
             line-height: 1.5
             text-decoration-color: transparent
-            &:hover
-                text-decoration-color: $link-color
+            
+            @media (hover: hover) and (pointer: fine)
+                &:hover
+                    text-decoration-color: $link-color
         
     .offcanvas
         @extend .offcanvas-lg

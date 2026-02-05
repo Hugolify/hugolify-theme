@@ -87,10 +87,11 @@
             margin-left: -0.35rem
             margin-right: .5rem
             vertical-align: -0.35rem
-        @media (prefers-reduced-motion: no-preference)
+        @media (hover: hover) and (pointer: fine)
             &:hover
                 &::before
                     transform: translateX(.3rem)
+        @media (prefers-reduced-motion: no-preference) 
             &::before
                 transition: transform $transition-duration $transition-effect
 

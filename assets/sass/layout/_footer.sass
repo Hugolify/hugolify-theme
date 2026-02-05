@@ -55,9 +55,11 @@ footer[role="contentinfo"]
         --bs-nav-link-color: #{$footer-color}
         --bs-nav-link-hover-color: #{$footer-color}
         text-decoration-color: var(--bs-nav-link-color)
-        &:focus,
-        &:hover
+        &:focus
             text-decoration-color: transparent
+        @media (hover: hover) and (pointer: fine)
+            &:hover
+                text-decoration-color: transparent
     .hugolify
         @include font-size($small-font-size)
         margin-bottom: 0

@@ -27,9 +27,11 @@
         text-decoration-thickness: 1px
         text-underline-offset: 3px
         transition: text-decoration-color .2s ease
-        &.active,
-        &:hover
+        &.active
             text-decoration-color: currentColor
+        @media (hover: hover) and (pointer: fine)
+            &:hover
+                text-decoration-color: currentColor
     
     .dropdown
         display: flex

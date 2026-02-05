@@ -93,8 +93,10 @@
   background-repeat: no-repeat;
   background-size: 1rem auto;
 }
-#cc-main button.pm__close-btn:hover {
-  background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
+@media (hover: hover) and (pointer: fine) {
+  #cc-main button.pm__close-btn:hover {
+    background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
+  }
 }
 #cc-main .pm__close-btn span {
   display: none;
