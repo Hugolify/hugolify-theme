@@ -2,6 +2,5 @@
 {{- if .items }}
 <section class="block-testimonials block-testimonials-{{ $layout }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
   {{ partial "blocks/templates/testimonials/body.html" . }}
-  {{ partial "blocks/templates/testimonials/footer.html" . }}
 </section>
 {{ end -}}

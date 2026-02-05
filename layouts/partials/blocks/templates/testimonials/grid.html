@@ -1,5 +1,5 @@
 <div class="container">
-  {{- partial "blocks/templates/selected/header.html"  (dict "heading" .heading "container" false) -}}
+  {{- partial "blocks/templates/testimonials/header.html"  (dict "heading" .heading "container" false) -}}
   <div class="testimonials">
     {{ range .items }}
       <div>
@@ -7,4 +7,5 @@
       </div>
     {{ end }}
   </div>
+  {{- partial "blocks/templates/testimonials/footer.html"  (dict "footing" .footing "container" false) -}}
 </div>
