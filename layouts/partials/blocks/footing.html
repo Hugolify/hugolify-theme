@@ -1,6 +1,7 @@
+{{- $container := .container | default true -}}
 {{- if or .footing .show_more }}
   <footer class="footing">
-    <div class="container">
+    {{- with $container }}<div class="container">{{ end }}
       {{- with .footing }}
         {{- with .text }}
           {{ partial "commons/text.html" (dict "text" .) }}
@@ -13,6 +14,6 @@
       {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
         {{- partial $partials . -}}
       {{- end -}}
-    </div>
+    {{- with $container }}</div>{{ end }}
   </footer> 
 {{ end -}}
