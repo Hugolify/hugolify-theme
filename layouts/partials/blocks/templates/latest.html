@@ -2,6 +2,5 @@
 {{- if .section }}
 <section class="block-latest block-latest-{{ $layout }} block-latest-{{ .section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
   {{- partial "blocks/templates/latest/body" . -}}
-  {{- partial "blocks/templates/latest/footer" . -}}
 </section>
 {{ end -}}

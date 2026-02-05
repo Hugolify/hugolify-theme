@@ -1,11 +1,12 @@
-{{- $context := dict "heading" .context.heading "items" .items "layout" .layout "first" .context.first "section" .context.section "type" .context.type -}}
+{{- $context := dict "heading" .context.heading "footing" .context.footing "items" .items "layout" .layout "first" .context.first "section" .context.section "type" .context.type -}}
 {{- with $context }}
 <div class="container">
   {{- partial "blocks/templates/selected/header.html"  (dict "heading" .heading "container" false) -}}
   {{- if eq .layout "list" }}
     {{ partial "blocks/templates/selected/list.html" . }}
-  {{ else }}
+  {{- else }}
     {{ partial "blocks/templates/selected/grid.html" . }}
-  {{ end -}}
+  {{- end }}
+  {{- partial "blocks/templates/selected/footer.html"  (dict "footing" .footing "container" false) -}}
 </div>
 {{ end -}}
