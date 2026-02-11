@@ -2,12 +2,19 @@
 {{- $hasSpan := .span | default false -}}
 {{- with .link }}
   {{- if isset . "url"}}
-    {{- $title := i18n "link.blank_aria" (dict "Title" .title) -}}
+    {{- $title := false -}}
+    {{- if $hasSpan }}
+      {{- $title = .title -}}
+    {{- end -}}
+    {{- if .blank }}
+      {{- $title = i18n "link.blank_aria" (dict "Title" .title) -}}
+    {{- end -}}
     {{ $hasClass := slice }}
     {{- if hasPrefix $currentPage .url }}{{ $hasClass = $hasClass | append "active" }}{{ end -}}
     {{- if .is_highlighted }}{{ $hasClass = $hasClass | append "btn" }}{{ end -}}
     <a href="{{ .url | safeURL }}" 
-      {{- if .blank }} title="{{ safeHTML $title }}" target="_blank"{{ end -}}
+      {{- with $title }} title="{{ safeHTML . }}"{{ end -}}
+      {{- if .blank }} target="_blank"{{ end -}}
       {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end -}}
       {{- if hasPrefix $currentPage .url }} aria-current="page"{{ end }}>
       {{- if $hasSpan }}<span>{{ end }}
