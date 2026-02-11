@@ -9,9 +9,10 @@
 {{- $quality := site.Params.image.quality | default "normal" -}}
 
 {{/*  Strip filename from Uploadcare URL if present (e.g., /UUID/filename.ext -> /UUID/)  */}}
-{{- $file = replaceRE `(/[a-f0-9-]+)/[^/]+\.[a-z]+/?$` "$1/" $file -}}
+{{- $stripFilenamePattern := `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` -}}
+{{- $file = replaceRE $stripFilenamePattern "$1/" $file -}}
 {{- if $file_mobile -}}
-  {{- $file_mobile = replaceRE `(/[a-f0-9-]+)/[^/]+\.[a-z]+/?$` "$1/" $file_mobile -}}
+  {{- $file_mobile = replaceRE $stripFilenamePattern "$1/" $file_mobile -}}
 {{- end -}}
 
 {{/*  Return params  */}}
