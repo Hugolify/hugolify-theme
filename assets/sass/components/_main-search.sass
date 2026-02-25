@@ -7,8 +7,9 @@
             background-repeat: no-repeat
             background-size: 1rem auto
     .content
-        @include media-breakpoint-up($navbar-expand)
-            align-items: baseline
+        @if $navbar-expand != false
+            @include media-breakpoint-up($navbar-expand)
+                align-items: baseline
    
     &.offcanvas
         --bs-offcanvas-bg: #{$menu-background-color}

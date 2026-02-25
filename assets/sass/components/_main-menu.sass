@@ -7,8 +7,9 @@
             background-repeat: no-repeat
             background-size: 1rem auto
     .content
-        @include media-breakpoint-up($navbar-expand)
-            align-items: baseline
+        @if $navbar-expand != false
+            @include media-breakpoint-up($navbar-expand)
+                align-items: baseline
     .nav
         --bs-nav-link-color: #{$header-color}
     .nav-item-highlighted
@@ -47,66 +48,68 @@
         .content
             @extend .modal-body
 
-    @include media-breakpoint-down($navbar-expand)
-        .nav
-            --bs-nav-link-color: #{$menu-color}
-            --bs-nav-link-hover-color: #{$menu-color}
-            align-items: center
-            flex-direction: column
-            text-align: center
-            li
-                font-size: px2rem(20)
-            ul li
-                font-size: px2rem(16)
-            &:last-child
-                margin-right: 0
-            .dropdown
-                flex-wrap: wrap
-                justify-content: center
-            .dropdown-menu
-                --bs-dropdown-border-width: 0
-                --bs-dropdown-bg: transparent
-                --bs-dropdown-link-hover-bg: transparent
-                &.show
-                    position: static !important
-                    transform: none !important
-                    text-align: center
-                    width: 100%
-        .nav + .nav
-            margin-top: $spacer
-        .nav-item-highlighted
-            margin-top: $nav-link-padding-y
+    @if $navbar-expand != true
+        @include media-breakpoint-down($navbar-expand)
+            .nav
+                --bs-nav-link-color: #{$menu-color}
+                --bs-nav-link-hover-color: #{$menu-color}
+                align-items: center
+                flex-direction: column
+                text-align: center
+                li
+                    font-size: px2rem(20)
+                ul li
+                    font-size: px2rem(16)
+                &:last-child
+                    margin-right: 0
+                .dropdown
+                    flex-wrap: wrap
+                    justify-content: center
+                .dropdown-menu
+                    --bs-dropdown-border-width: 0
+                    --bs-dropdown-bg: transparent
+                    --bs-dropdown-link-hover-bg: transparent
+                    &.show
+                        position: static !important
+                        transform: none !important
+                        text-align: center
+                        width: 100%
+            .nav + .nav
+                margin-top: $spacer
+            .nav-item-highlighted
+                margin-top: $nav-link-padding-y
 
-        &.modal
-            @include transition($transition-fade)
-            &:not(.show)
-                opacity: 0
+            &.modal
+                @include transition($transition-fade)
+                &:not(.show)
+                    opacity: 0
 
-    @include media-breakpoint-up($navbar-expand)
-        .nav-primary
-            align-items: baseline
-            margin-left: auto
-        .nav:last-child
-            margin-right: - $nav-link-padding-x
+    @if $navbar-expand != false
+        @include media-breakpoint-up($navbar-expand)
+            .nav-primary
+                align-items: baseline
+                margin-left: auto
+            .nav:last-child
+                margin-right: - $nav-link-padding-x
 
-        // remove modal styles when menu is expand
-        &.modal
-            --bs-modal-bg: transparent
-            --bs-modal-border-width: 0
-            --bs-modal-margin: 0
-            --bs-modal-padding: 0
-            --bs-modal-width: auto
-            display: block !important
-            position: static
-            overflow: visible
-            width: auto
-            .modal-dialog
-                width: auto
-            .modal-content
+            // remove modal styles when menu is expand
+            &.modal
+                --bs-modal-bg: transparent
+                --bs-modal-border-width: 0
+                --bs-modal-margin: 0
+                --bs-modal-padding: 0
+                --bs-modal-width: auto
+                display: block !important
+                position: static
                 overflow: visible
-            .header
-                display: none
-            .content
-                overflow-y: visible !important
-            & + .modal-backdrop
-                display: none
+                width: auto
+                .modal-dialog
+                    width: auto
+                .modal-content
+                    overflow: visible
+                .header
+                    display: none
+                .content
+                    overflow-y: visible !important
+                & + .modal-backdrop
+                    display: none
