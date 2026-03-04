@@ -57,8 +57,16 @@
 {{- else if os.FileExists (printf "%s/share.jpg" $staticDirImages) -}}
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
 {{- end -}}
-{{- with .Site.Data.seo.image.src -}}
-  {{- $seoImage = . -}}
+{{- if hugo.IsMultilingual -}}
+  {{- with index .Site.Data.seo .Site.Language.Lang -}}
+    {{- with .src -}}
+      {{- $seoImage = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- with .Site.Data.seo.src -}}
+    {{- $seoImage = . -}}
+  {{- end -}}
 {{- end -}}
 {{- if not .IsHome -}}
   {{- with .Params.seo -}}
