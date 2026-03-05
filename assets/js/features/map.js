@@ -1,37 +1,40 @@
-// https://leafletjs.com/
+/**
+ * Map — lazy-loads Leaflet via a shared promise.
+ * Leaflet (JS + CSS) is injected dynamically on first use;
+ * subsequent maps wait on the same promise (no duplicate loading).
+ *
+ * @see https://leafletjs.com/
+ */
+/* global L */
 import scrollspy from '../utils/scrollspy';
+import mapTiles from '../datas/map-tiles';
 
-const maps = document.querySelectorAll('.js-map');
-let leafletLoaded = false;
+// Leaflet scripts
+let leafletLoadPromise = null;
+function loadLeaflet() {
+  if (leafletLoadPromise) return leafletLoadPromise;
 
+  leafletLoadPromise = new Promise((resolve) => {
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = '/assets/css/leaflet.min.css';
+    document.head.appendChild(css);
+
+    const js = document.createElement('script');
+    js.type = 'text/javascript';
+    js.src = '/assets/js/leaflet.min.js';
+    js.addEventListener('load', resolve);
+    document.body.appendChild(js);
+  });
+
+  return leafletLoadPromise;
+}
+
+// Map class
 class Map {
-  constructor(div) {
-    this.mapElm = div;
-
-    if (!leafletLoaded) {
-      this.addFiles();
-    } else {
-      this.init();
-    }
-  }
-
-  addFiles() {
-    // JS leaflet@1.9.4
-    this.leafletJS = document.createElement('script');
-    this.leafletJS.type = 'text/javascript';
-    this.leafletJS.src = '/assets/js/leaflet.min.js';
-    document.getElementsByTagName('body')[0].appendChild(this.leafletJS);
-
-    // CSS leaflet@1.9.4
-    this.leafletCSS = document.createElement('link');
-    this.leafletCSS.rel = 'stylesheet';
-    this.leafletCSS.href = '/assets/css/leaflet.min.css';
-    document.getElementsByTagName('head')[0].appendChild(this.leafletCSS);
-
-    this.leafletJS.addEventListener('load', () => {
-      leafletLoaded = true;
-      this.init();
-    });
+  constructor(map) {
+    this.mapElm = map;
+    loadLeaflet().then(() => this.init());
   }
 
   init() {
@@ -91,34 +94,8 @@ class Map {
 
   initTileLayer() {
     // https://leafletjs.com/reference.html#tilelayer
-    const tiles = [
-      // OpenStreetMap default
-      {
-        tile: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
-      },
-      // CartoDB Positron
-      {
-        tile: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; CARTO'
-      },
-      // CartoDB Dark Matter
-      {
-        tile: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors &copy; CARTO'
-      },
-      // Stadiamaps Alidade smooth
-      {
-        tile: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
-        attribution:
-          '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }
-    ];
-    L.tileLayer(tiles[this.tileSelect].tile, {
-      attribution: tiles[this.tileSelect].attribution
+    L.tileLayer(mapTiles[this.tileSelect].tile, {
+      attribution: mapTiles[this.tileSelect].attribution
     }).addTo(this.map);
   }
 
@@ -150,8 +127,8 @@ class Map {
   }
 }
 
+// Load maps
+const maps = document.querySelectorAll('.js-map');
 maps.forEach((map) => {
-  scrollspy(map, () => {
-    new Map(map);
-  });
+  scrollspy(map, () => new Map(map));
 });
