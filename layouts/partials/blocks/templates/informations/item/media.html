@@ -1,15 +1,17 @@
-{{- $column := .column -}}
-{{- $class := false -}}
-{{- if .icon -}}
-  {{- $class = "icon" -}}
-{{- else if .image.isLogo -}}
-  {{- $class = "logo" -}}
-{{- else if .image.src -}}
-  {{- $class = "image" -}}
-{{- end -}}
+{{- $column := .column }}
+{{- $class := false }}
+{{- if .icon }}
+  {{- $class = "media-icon" }}
+{{- else if .image }}
+  {{- if .image.isLogo }}
+    {{- $class = "media-logo" }}
+  {{- else if .image.src }}
+    {{- $class = "media-image" }}
+  {{- end }}
+{{- end }}
 
 {{- if $class -}}
-<div class="media media-{{ $class }}">
+<div class="media {{ $class }}">
   {{- with .icon -}}
     <i class="icon icon-{{ . }}"></i>
   {{- else -}}
