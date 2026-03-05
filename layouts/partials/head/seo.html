@@ -1,19 +1,21 @@
 {{- $staticDir := "static" -}}
 {{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
+{{- $lang := .Site.Language.Lang }}
+{{- $dataSeo := .Site.Data.seo }}
 
 {{/*  TITLE  */}}
 {{- $seoTitle := site.Title -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{- with index $dataSeo $lang -}}
     {{- with .title -}}
       {{- $seoTitle = . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
-  {{- with .Site.Data.seo.title -}}
+  {{- with $dataSeo.title -}}
     {{- $seoTitle = . -}}
   {{- else -}}
-    {{- with index .Site.Data.seo .Site.Language.Lang -}}
+    {{- with index $dataSeo $lang -}}
       {{- with .title -}}
         {{- $seoTitle = . -}}
       {{- end -}}
@@ -30,13 +32,13 @@
 {{/*  DESCRIPTION  */}}
 {{- $seoDescription := "" -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{- with index $dataSeo $lang -}}
     {{- with .description -}}
       {{- $seoDescription = . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
-  {{- with .Site.Data.seo.description -}}
+  {{- with $dataSeo.description -}}
     {{- $seoDescription = . -}}
   {{- end -}}
 {{- end -}}
@@ -58,14 +60,14 @@
   {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
 {{- end -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index .Site.Data.seo .Site.Language.Lang -}}
-    {{- with .src -}}
-      {{- $seoImage = . -}}
+  {{- with index $dataSeo $lang -}}
+    {{- with .image -}}
+      {{- $seoImage = printf "%s%s" (strings.TrimRight "/" site.BaseURL) . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
-  {{- with .Site.Data.seo.src -}}
-    {{- $seoImage = . -}}
+  {{- with $dataSeo.image -}}
+    {{- $seoImage = printf "%s%s" (strings.TrimRight "/" site.BaseURL) . -}}
   {{- end -}}
 {{- end -}}
 {{- if not .IsHome -}}
@@ -83,8 +85,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- $ogImage := $seoImage -}}
-{{- $twitterImage := $seoImage -}}
 
 {{/*  PERMALINK  */}}
 {{- $seoUrl := .Permalink -}}
@@ -98,6 +98,6 @@
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-{{ $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
+{{- $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
 {{- partial "head/opengraph.html" $seo -}}
 {{- partial "head/twitter.html" $seo -}}
