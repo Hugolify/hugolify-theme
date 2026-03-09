@@ -52,7 +52,7 @@
           {{- with .File -}}
             {{- $cacheKey = .UniqueID -}}
           {{- end -}}
-          {{ partialCached $partial . $cacheKey (.Scratch.Get "large") (.Scratch.Get "lazy") }}
+          {{ partialCached $partial . $cacheKey (.Scratch.Get "large") (.Scratch.Get "lazy") (.Scratch.Get "scrollsnap") }}
         </div>
       {{ end -}}
     </div>
