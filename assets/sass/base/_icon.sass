@@ -1,5 +1,0 @@
-@if variable-exists(icons-map)
-    @each $name, $glyph in $icons-map
-        .icon-#{$name}
-            &::before
-                @include icon($name)
