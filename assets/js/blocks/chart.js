@@ -1,32 +1,35 @@
-// https://www.chartjs.org/
+/**
+ * Chart — lazy-loads Chart.js via a shared promise.
+ * Chart.js is injected dynamically on first use;
+ * subsequent charts wait on the same promise (no duplicate loading).
+ *
+ * @see https://www.chartjs.org/
+ */
+/* global Chart */
 import scrollspy from '../utils/scrollspy';
 
-const charts = document.querySelectorAll('.block-chart');
-let chartjsLoaded = false;
+// Chart.js script
+let chartLoadPromise = null;
+function loadChartJs() {
+  if (chartLoadPromise) return chartLoadPromise;
 
+  chartLoadPromise = new Promise((resolve) => {
+    const js = document.createElement('script');
+    js.type = 'text/javascript';
+    js.src = '/assets/js/chart.umd.js';
+    js.addEventListener('load', resolve);
+    document.body.appendChild(js);
+  });
+
+  return chartLoadPromise;
+}
+
+// Chart class
 class BlockChart {
   constructor(block) {
     this.chart = block.querySelector('.js-chart');
     this.canvas = this.chart.getContext('2d');
-
-    if (!chartjsLoaded) {
-      this.addFiles();
-    } else {
-      this.init();
-    }
-  }
-
-  addFiles() {
-    this.chartjsJS = document.createElement('script');
-    this.chartjsJS.type = 'text/javascript';
-    // this.chartjsJS.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
-    this.chartjsJS.src = '/assets/js/chart.umd.js';
-    document.getElementsByTagName('body')[0].appendChild(this.chartjsJS);
-
-    this.chartjsJS.addEventListener('load', () => {
-      chartjsLoaded = true;
-      this.init();
-    });
+    loadChartJs().then(() => this.init());
   }
 
   init() {
@@ -92,12 +95,12 @@ class BlockChart {
     if (this.chart.dataset.color) {
       Chart.defaults.color = this.chart.dataset.color;
     }
-    let chart = new Chart(this.canvas, this.config);
+    new Chart(this.canvas, this.config);
   }
 }
 
+// Load charts
+const charts = document.querySelectorAll('.block-chart');
 charts.forEach((chart) => {
-  scrollspy(chart, () => {
-    new BlockChart(chart);
-  });
+  scrollspy(chart, () => new BlockChart(chart));
 });
