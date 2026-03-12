@@ -1,51 +1,44 @@
-document.addEventListener('DOMContentLoaded', function () {
-  let lazyVideos = [].slice.call(
-    document.querySelectorAll('.js-video.is-lazy')
-  );
-  if (lazyVideos.length > 0) {
-    if ('IntersectionObserver' in window) {
-      let lazyVideoObserver = new IntersectionObserver(function (
-        entries,
-        observer
-      ) {
-        entries.forEach(function (video) {
-          if (video.isIntersecting) {
-            
-            let hasMobileVideo = false;
-            for (let source in video.target.children) {
-              let videoSource = video.target.children[source];
-              if (
-                typeof videoSource.tagName === 'string' &&
-                videoSource.tagName === 'SOURCE'
-              ) {
-                if (videoSource.hasAttribute('data-src_mobile')) {
-                  hasMobileVideo = true;
-                }
-                if (
-                  window.matchMedia('(max-width: 767px)').matches &&
-                  hasMobileVideo
-                ) {
-                  if (videoSource.hasAttribute('data-src_mobile')) {
-                    videoSource.src = videoSource.dataset.src_mobile;
-                  }
-                } else {
-                  if (videoSource.hasAttribute('data-src')) {
-                    videoSource.src = videoSource.dataset.src;
-                  }
-                }
-              }
-            }
-
-            video.target.load();
-            video.target.classList.remove('is-lazy');
-            lazyVideoObserver.unobserve(video.target);
-          }
-        });
-      });
-
-      lazyVideos.forEach(function (lazyVideo) {
-        lazyVideoObserver.observe(lazyVideo);
-      });
-    }
+/**
+ * Video — lazy-loads video sources via IntersectionObserver.
+ * Supports mobile/desktop source variants via data-src_mobile / data-src.
+ */
+class Video {
+  constructor(el) {
+    this.el = el;
+    this.observe();
   }
-});
+
+  observe() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.load();
+          observer.unobserve(this.el);
+        }
+      });
+    });
+    observer.observe(this.el);
+  }
+
+  load() {
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    const hasMobile = Array.from(this.el.children).some(
+      (s) => s.tagName === 'SOURCE' && s.hasAttribute('data-src_mobile')
+    );
+
+    Array.from(this.el.children).forEach((source) => {
+      if (source.tagName !== 'SOURCE') return;
+      if (isMobile && hasMobile && source.hasAttribute('data-src_mobile')) {
+        source.src = source.dataset.src_mobile;
+      } else if (source.hasAttribute('data-src')) {
+        source.src = source.dataset.src;
+      }
+    });
+
+    this.el.load();
+    this.el.classList.remove('is-lazy');
+  }
+}
+
+// Load videos
+document.querySelectorAll('.js-video.is-lazy').forEach((el) => new Video(el));
