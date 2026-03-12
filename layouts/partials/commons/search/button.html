@@ -2,10 +2,9 @@
   {{- $type := site.Params.search.layout | default "modal" }}
   {{- if ne $type "raw" }}
     <button type="button"
-        class="btn btn-search"
+        class="btn btn-search js-{{ $type }}-toggle"
         id="search"
-        data-bs-toggle="{{ $type }}"
-        data-bs-target="#mainSearch"
+        data-target="#mainSearch"
         aria-controls="mainSearch">
       <span>{{ i18n "search.title" }}</span>
     </button>

@@ -11,16 +11,9 @@ module:
     - source: static
       target: static
   imports:
-    # Import Bootstrap 5
-    - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
-    # Import Bootstrap icons
-    - path: github.com/twbs/icons
-      ignoreConfig: true
-      mounts:
-        - source: font/fonts
-          target: static/assets/fonts/bootstrap-icons
-        - source: font/bootstrap-icons.scss
-          target: assets/scss/bootstrap-icons/bootstrap-icons.scss
+    # Import Hugolify Bootstrap (w/ bs icons)
+    - path: github.com/hugolify/hugolify-theme-bootstrap
+
     # Import Lightbox (Tobii)
     - path: github.com/midzer/tobii
       ignoreConfig: true
@@ -57,18 +50,6 @@ params:
 
   # Website
   animation: false # Load js and add data attributes
-  bootstrap:
-    alert: false 
-    carousel: false 
-    collapse: true 
-    dropdown: true 
-    modal: true 
-    offcanvas: true 
-    popover: false 
-    scrollspy: false 
-    tab: false 
-    toast: false 
-    tooltip: false 
   carousel: true # Load splidejs
   cookie_banner:
     enable: false # Enable Cookie banner
