@@ -1,13 +1,58 @@
-<!-- CSS -->
+{{/* CSS — styling module agnostic
+  Auto-detection (in order):
+    sass/main.sass  → SASS indented syntax  (hugolify-theme-bootstrap)
+    sass/main.scss  → SCSS syntax
+    css/main.css    → native CSS pipeline   (hugolify-theme-design-system)
+
+  Site params:
+    params.css.preload: true   → adds <link rel="preload">
+    params.css.print: true     → loads sass/print.sass, sass/print.scss or css/print.css with media="print"
+*/}}
+{{- $params := .Site.Params -}}
+
+{{/* --- Main stylesheet --- */}}
 {{- $cssOpts := (dict
-  "targetPath" "assets/css/main.css"
-  "enableSourceMap" true
-  "includePaths" (slice "node_modules")
+  "targetPath"      "assets/css/main.css"
+  "enableSourceMap" (not hugo.IsProduction)
+  "includePaths"    (slice "node_modules")
 ) -}}
-{{- $css := resources.Get "sass/main.sass" | toCSS $cssOpts -}}
-{{ if hugo.IsProduction }}
+{{- $css := "" -}}
+{{- if resources.Get "sass/main.sass" -}}
+  {{- $css = resources.Get "sass/main.sass" | toCSS $cssOpts -}}
+{{- else if resources.Get "sass/main.scss" -}}
+  {{- $css = resources.Get "sass/main.scss" | toCSS $cssOpts -}}
+{{- else if resources.Get "css/main.css" -}}
+  {{- $css = resources.Get "css/main.css" -}}
+{{- end -}}
+{{- if and hugo.IsProduction $css -}}
   {{- $css = $css | css.PostCSS | minify | fingerprint | resources.PostProcess -}}
-{{ end }}
-{{ with $css }}
-  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" media="all">
-{{ end }}
+{{- end -}}
+{{- with $css -}}
+  {{- if $params.css.preload }}
+  <link rel="preload" href="{{ .RelPermalink }}" as="style">
+  {{- end }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}"{{ with .Data.Integrity }} integrity="{{ . }}"{{ end }} media="all">
+{{- end }}
+
+{{/* --- Print stylesheet (optional) --- */}}
+{{- if $params.css.print -}}
+  {{- $printOpts := (dict
+    "targetPath"      "assets/css/print.css"
+    "enableSourceMap" (not hugo.IsProduction)
+    "includePaths"    (slice "node_modules")
+  ) -}}
+  {{- $print := "" -}}
+  {{- if resources.Get "sass/print.sass" -}}
+    {{- $print = resources.Get "sass/print.sass" | toCSS $printOpts -}}
+  {{- else if resources.Get "sass/print.scss" -}}
+    {{- $print = resources.Get "sass/print.scss" | toCSS $printOpts -}}
+  {{- else if resources.Get "css/print.css" -}}
+    {{- $print = resources.Get "css/print.css" -}}
+  {{- end -}}
+  {{- if and hugo.IsProduction $print -}}
+    {{- $print = $print | minify | fingerprint | resources.PostProcess -}}
+  {{- end -}}
+  {{- with $print }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}"{{ with .Data.Integrity }} integrity="{{ . }}"{{ end }} media="print">
+  {{- end -}}
+{{- end -}}

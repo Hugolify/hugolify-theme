@@ -59,6 +59,9 @@ params:
       functionality: false
       marketing: false
       disablePageInteraction: false
+  css:
+    preload: false
+    print: false
   header:
     layout: offcanvas # modal also available
     offcanvas:

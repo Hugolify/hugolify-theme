@@ -3,6 +3,7 @@
 [![banner](https://github.com/user-attachments/assets/a74f1b37-e24f-4762-971d-fe7824b23cb8)](https://www.hugolify.io/)
 
 ## Features
+
 * 100/100 Google PageSpeed Insights
 * Accessibility friendly
 * [Blocks](https://www.hugolify.io/docs/blocks/)
@@ -15,11 +16,20 @@
 * SEO friendly
 * [Shortcodes](https://www.hugolify.io/docs/shortcodes/)
 
+## Styling
+
+hugolify-theme contains no CSS or SASS. Styling is provided by a separate **styling module**, swappable without touching the theme or templates.
+
+The default module is `hugolify-theme-bootstrap` (Bootstrap 5 + SASS). It can be replaced by `hugolify-theme-design-system` (vanilla CSS) via `module.replacements` in the site config.
+
+See [STYLING.md](STYLING.md) for the full architecture and how to switch modules.
+
 ## Framework front
-* Bootstrap
+
+* Bootstrap (via hugolify-theme-bootstrap)
 
 ## Plugins
-* Bootstrap Icons
+
 * Chart.js
 * CookieConsent
 * LeafletJS OpenStreetMap
