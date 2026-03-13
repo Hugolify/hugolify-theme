@@ -1,3 +1,7 @@
+/**
+ * Gauge — triggers the CSS gauge animation when the element enters the viewport.
+ * Adds the `show` class on first intersection.
+ */
 import scrollspy from '../utils/scrollspy';
 
 const gauges = document.querySelectorAll('.js-gauge');

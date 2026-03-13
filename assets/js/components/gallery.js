@@ -1,4 +1,10 @@
-// https://github.com/midzer/tobii/
+/**
+ * Gallery — initializes Tobii lightbox on first viewport intersection.
+ * Tobii is initialized once even when multiple galleries are present.
+ * Uses i18n strings for close/next/previous labels.
+ *
+ * @see https://github.com/midzer/tobii
+ */
 import scrollspy from '../utils/scrollspy';
 import Tobii from '../vendors/tobii';
 

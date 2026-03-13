@@ -1,3 +1,6 @@
+import './dropdown';
 import './menu';
-import './toc';
+import './modal';
+import './offcanvas';
+import './tooltip';
 import './video';

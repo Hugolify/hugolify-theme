@@ -1,3 +1,10 @@
+/**
+ * YouTube — lazy-loads the YouTube IFrame API and initializes players.
+ * Uses youtube-nocookie.com for privacy. Supports autoplay (muted) and
+ * controls via data-video-* attributes. Adds is-playing class when playing.
+ *
+ * @see https://developers.google.com/youtube/iframe_api_reference
+ */
 var playerElements = document.querySelectorAll('.js-youtube-player');
 
 if (playerElements.length === 0) {

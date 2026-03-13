@@ -1,3 +1,9 @@
+/**
+ * Vimeo — lazy-loads the Vimeo Player API and initializes players.
+ * Supports autoplay (muted) and controls via data-video-* attributes.
+ *
+ * @see https://developer.vimeo.com/player/sdk
+ */
 var playerElements = document.querySelectorAll('.js-vimeo-player');
 
 if (playerElements.length === 0) {

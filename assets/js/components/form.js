@@ -1,3 +1,8 @@
+/**
+ * Form — async form submission with success/error state management.
+ * Supports Netlify (application/x-www-form-urlencoded) and generic
+ * JSON endpoints. Shows feedback via .js-form-message element.
+ */
 const forms = document.querySelectorAll('.js-form');
 
 class Form {
