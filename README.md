@@ -27,6 +27,7 @@ See [STYLING.md](STYLING.md) for the full architecture and how to switch modules
 ## Framework front
 
 * Bootstrap (via hugolify-theme-bootstrap)
+* None (via hugolify-theme-design-system)
 
 ## Plugins
 
