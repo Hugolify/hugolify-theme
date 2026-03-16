@@ -1,5 +1,3 @@
-const header = document.querySelector('header[role="banner"]');
-
 class Menu {
   constructor(elm) {
     this.elm = elm;
@@ -14,6 +12,7 @@ class Menu {
     this.classMenuOpen = 'is-menu-open';
     this.classDropdownMenuOpen = 'is-dropdown-menu-open';
     this.componentElm = document.getElementById('navigation');
+    if (!this.componentElm) return false;
     this.component = this.componentElm.dataset.component;
     this.dropdowns = this.elm.querySelectorAll('[data-bs-toggle="dropdown"]');
     this.offset = this.elm.offsetHeight;
@@ -81,6 +80,7 @@ class Menu {
   }
 }
 
+const header = document.querySelector('header[role="banner"]');
 if (header) {
   new Menu(header);
 }
