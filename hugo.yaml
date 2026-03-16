@@ -2,8 +2,6 @@ module:
   mounts:
     - source: archetypes
       target: archetypes
-    - source: assets
-      target: assets
     - source: i18n
       target: i18n
     - source: layouts
@@ -96,7 +94,7 @@ params:
   container:
     desktop: 1296
     mobile: 300
-  
+
   # Images
   hero:
     cover: '1600x400'
