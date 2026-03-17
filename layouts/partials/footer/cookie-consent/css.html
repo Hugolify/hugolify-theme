@@ -1,0 +1,9 @@
+<script>
+  const cc = document.cookie.match(/cc_cookie=([^;]+)/);
+  if (!cc) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/assets/css/cookieconsent.css';
+    document.head.appendChild(link);
+  }
+</script>
