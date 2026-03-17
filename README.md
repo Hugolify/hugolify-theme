@@ -2,34 +2,57 @@
 
 [![banner](https://github.com/user-attachments/assets/a74f1b37-e24f-4762-971d-fe7824b23cb8)](https://www.hugolify.io/)
 
-## Features
+## Performance & SEO
 
 * 100/100 Google PageSpeed Insights
+* Lazy loading and JS defer
+* PostCSS + [PurgeCSS](https://www.hugolify.io/docs/getting-started/purgecss/)
+* Responsive images and WebP
+* SEO friendly
+
+## Content & UX
+
 * Accessibility friendly
 * [Blocks](https://www.hugolify.io/docs/blocks/)
 * [Forms](https://www.hugolify.io/docs/getting-started/form/) (Netlify or other)
-* Lazy loading and JS defer
-* [PurgeCSS](https://www.hugolify.io/docs/getting-started/purgecss/)
 * Responsive design
-* Responsive images (and WebP)
 * [Search](https://www.hugolify.io/docs/getting-started/search/)
-* SEO friendly
 * [Shortcodes](https://www.hugolify.io/docs/shortcodes/)
 
-## Styling
+## Architecture
 
-hugolify-theme contains no CSS or SASS. Styling is provided by a separate **styling module**, swappable without touching the theme or templates.
+hugolify-theme provides **layouts, content types, i18n and archetypes only** — no CSS, no JavaScript.
 
-The default module is `hugolify-theme-bootstrap` (Bootstrap 5 + SASS). It can be replaced by `hugolify-theme-design-system` (vanilla CSS) via `module.replacements` in the site config.
+Styling and JS are provided by a separate **styling module**, declared in the site config. This makes it possible to swap the entire CSS/JS layer without touching the theme or templates.
 
-See [STYLING.md](STYLING.md) for the full architecture and how to switch modules.
+### Official modules
 
-## Framework front
+| Module | CSS | JS |
+| --- | --- | --- |
+| [hugolify-theme-bootstrap](https://github.com/hugolify/hugolify-theme-bootstrap) | Bootstrap 5 + SASS | Bootstrap 5 + Vanilla JS |
+| hugolify-theme-design-system | Vanilla CSS / Design tokens | Vanilla JS |
 
-* Bootstrap (via hugolify-theme-bootstrap)
-* None (via hugolify-theme-design-system)
+### Custom styling
 
-## Plugins
+You can build your own styling layer in two ways:
+
+**As a Hugo module** (`hugolify-theme-tailwind`, `hugolify-theme-bulma`…) — sharable, versionable, swappable via the site config:
+
+```yaml
+imports:
+  - path: github.com/yourorg/hugolify-theme-tailwind
+```
+
+**Directly in the site** — add `assets/sass/` and `assets/js/` to your project. Hugo merges assets from all sources, so your files take priority over the module.
+
+The contracts to respect in either case:
+
+* CSS classes used by templates are semantic (`btn`, `col-small`, `modal`, `badge-primary`…) — no framework-specific names
+* JS hooks are `js-*` CSS classes — no `data-framework-*` attributes
+* JS entry point: `assets/js/main.js`
+* SASS entry point: `assets/sass/main.sass` (or `main.scss` or `main.css`)
+
+## JS libraries
 
 * Chart.js
 * CookieConsent
@@ -46,26 +69,44 @@ See [STYLING.md](STYLING.md) for the full architecture and how to switch modules
 
 ## Install
 
-Use Hugolify starter template
+Use the Hugolify starter template:
 
-https://github.com/Hugolify/hugolify-template/
+<https://github.com/Hugolify/hugolify-template/>
 
-Or add as a Hugo Module
+Or add as Hugo modules. Edit `config/_default/module.yaml`:
 
-Edit `config/_default/module.yaml` to install the `hugolify-theme` module:
-
-```yml
+```yaml
 imports:
   - path: github.com/hugolify/hugolify-theme
+  - path: github.com/hugolify/hugolify-theme-bootstrap
 ```
+
+To switch styling module, replace the second import:
+
+```yaml
+imports:
+  - path: github.com/hugolify/hugolify-theme
+  - path: github.com/hugolify/hugolify-theme-design-system
+```
+
+## Migration from v1
+
+In v1, `hugolify-theme-bootstrap` was imported automatically by the theme.
+In v2, the styling module must be declared explicitly in the site config (see Install above).
+
+Other breaking changes:
+
+* JS hooks: `data-bs-toggle/target` → `class="js-*"` + `data-target`
+* Grid classes: `col-md-*` → `col-small`, `col-medium`, `col-large`, `col-xsmall`
+* Badge states: `text-bg-*` → `badge-*`
 
 ## Demo
 
-https://demo.hugolify.io/
+<https://demo.hugolify.io/>
 
 ## Documentation
 
-https://www.hugolify.io/docs/
+<https://www.hugolify.io/docs/>
 
 ## Licensing
 
