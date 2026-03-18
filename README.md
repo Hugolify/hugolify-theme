@@ -91,8 +91,7 @@ imports:
 
 ## Migration from v1
 
-In v1, `hugolify-theme-bootstrap` was imported automatically by the theme.
-In v2, the styling module must be declared explicitly in the site config (see Install above).
+In v1, Bootstrap (CSS and JS) was bundled directly inside `hugolify-theme`. In v2, the theme is framework-agnostic — styling is provided by a separate module declared explicitly in the site config (see Install above).
 
 Other breaking changes:
 
