@@ -1,0 +1,5 @@
+// Semantic badge color classes — Bootstrap mapping
+// Iterates over Bootstrap's $theme-colors map — automatically includes any custom color added to it
+@each $state, $value in $theme-colors
+    .badge-#{$state}
+        @extend .text-bg-#{$state}
