@@ -1,0 +1,19 @@
+{{- /* Mermaid diagram partial
+  Renders the diagram and loads Mermaid JS once per page.
+  Uses Page.Store to avoid duplicate script injection when
+  the shortcode is used multiple times on the same page.
+
+  @params
+    inner  (string) — diagram definition (.InnerDeindent from shortcode)
+    page   (object) — page context (.Page from shortcode)
+*/}}
+
+<pre class="mermaid">{{ .inner }}</pre>
+
+{{- if not (.page.Store.Get "mermaid") }}
+  {{- .page.Store.Set "mermaid" true }}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
+{{- end }}
