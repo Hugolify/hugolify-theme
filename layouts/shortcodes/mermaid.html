@@ -1,0 +1,15 @@
+{{/*
+
+  @params
+    (none — uses inner content)
+
+  @example - Shortcode
+    {{< mermaid >}}
+    graph TD
+      A --> B
+    {{< /mermaid >}}
+
+*/}}
+
+{{- /* Render. */}}
+{{ partial "commons/mermaid.html" (dict "inner" .InnerDeindent "page" .Page) }}
