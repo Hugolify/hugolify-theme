@@ -1,7 +1,7 @@
 {{- with . }}
   {{- $class := "badge" -}}
   {{- with .state -}}
-    {{- $class = print $class " text-bg-" . -}}
+    {{- $class = print $class " badge-" . -}}
   {{- end -}}
   {{- $text := .text | default false -}}
   {{- with $text }}
