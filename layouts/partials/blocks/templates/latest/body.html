@@ -9,20 +9,24 @@
   {{- $itemsSection := where site.Pages "Section" $section -}}
   {{- $items = where $itemsSection "Kind" "ne" "section" -}}
 {{- end -}}
-{{- $items = $items.ByTitle -}}
+{{- $pinned := (where $items "Params.weight" "gt" 0).ByParam "weight" -}}
+{{- $rest := (where $items "Params.weight" "eq" nil).ByTitle -}}
 {{- if isset (index $items 0).Params "date" -}}
-  {{- $items = $items.ByDate.Reverse -}}
+  {{- $rest = (where $items "Params.weight" "eq" nil).ByDate.Reverse -}}
 {{- end -}}
+{{- $items = $pinned | append $rest -}}
 {{- $items = first $count $items -}}
+
+{{- $context := merge . (dict "container" false) -}}
 
 {{- if $items }}
 <div class="container">
-  {{- partial "blocks/templates/latest/header.html" (dict "heading" .heading "section" .section "container" false) -}}
+  {{- partial "blocks/templates/latest/header.html" $context -}}
   {{- if eq $layout "list" }}
     {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else }}
     {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf "type" .type) }}
   {{- end }}
-  {{- partial "blocks/templates/latest/footer.html" (dict "footing" .footing "section" .section "container" false) -}}
+  {{- partial "blocks/templates/latest/footer.html" $context -}}
 </div>
 {{ end -}}
