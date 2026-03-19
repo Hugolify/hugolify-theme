@@ -5,17 +5,25 @@
     css/main.css    → native CSS pipeline   (hugolify-theme-design-system)
 
   Site params:
-    params.css.preload: true   → adds <link rel="preload">
-    params.css.print: true     → loads sass/print.sass, sass/print.scss or css/print.css with media="print"
+    params.css.postcss: "postcss/design-system"  → directory containing postcss.config.js (default: project root)
+    params.css.preload: true                      → adds <link rel="preload">
+    params.css.print: true                        → loads sass/print.sass, sass/print.scss or css/print.css with media="print"
 */}}
 {{- $params := .Site.Params -}}
 
 {{/* --- Main stylesheet --- */}}
+
+{{/*  Options  */}}
 {{- $cssOpts := (dict
   "targetPath"      "assets/css/main.css"
   "enableSourceMap" (not hugo.IsProduction)
   "includePaths"    (slice "node_modules")
 ) -}}
+
+{{/*  PostCSS — config directory (default: project root) */}}
+{{- $postCSSDirectoryConfig := $params.css.postcss | default "." -}}
+
+{{/*  CSS pipeline  */}}
 {{- $css := "" -}}
 {{- if resources.Get "sass/main.sass" -}}
   {{- $css = resources.Get "sass/main.sass" | toCSS $cssOpts -}}
@@ -24,9 +32,14 @@
 {{- else if resources.Get "css/main.css" -}}
   {{- $css = resources.Get "css/main.css" -}}
 {{- end -}}
-{{- if and hugo.IsProduction $css -}}
-  {{- $css = $css | css.PostCSS | minify | fingerprint | resources.PostProcess -}}
+{{- if $css -}}
+  {{- $css = $css | css.PostCSS (dict "config" $postCSSDirectoryConfig "inlineImports" true "skipInlineImportsNotFound" true) -}}
 {{- end -}}
+{{- if and hugo.IsProduction $css -}}
+  {{- $css = $css | minify | fingerprint | resources.PostProcess -}}
+{{- end -}}
+
+{{/*  HTML output  */}}
 {{- with $css -}}
   {{- if $params.css.preload }}
   <link rel="preload" href="{{ .RelPermalink }}" as="style">
@@ -36,11 +49,15 @@
 
 {{/* --- Print stylesheet (optional) --- */}}
 {{- if $params.css.print -}}
+
+  {{/*  Options  */}}
   {{- $printOpts := (dict
     "targetPath"      "assets/css/print.css"
     "enableSourceMap" (not hugo.IsProduction)
     "includePaths"    (slice "node_modules")
   ) -}}
+
+  {{/*  CSS pipeline  */}}
   {{- $print := "" -}}
   {{- if resources.Get "sass/print.sass" -}}
     {{- $print = resources.Get "sass/print.sass" | toCSS $printOpts -}}
@@ -52,6 +69,8 @@
   {{- if and hugo.IsProduction $print -}}
     {{- $print = $print | minify | fingerprint | resources.PostProcess -}}
   {{- end -}}
+
+  {{/*  HTML output  */}}
   {{- with $print }}
   <link rel="stylesheet" href="{{ .RelPermalink }}"{{ with .Data.Integrity }} integrity="{{ . }}"{{ end }} media="print">
   {{- end -}}
