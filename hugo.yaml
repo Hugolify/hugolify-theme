@@ -134,11 +134,11 @@ privacy:
   vimeo:
     enableDNT: true
     simple: false
-  youtube:
-    privacyEnhanced: true
   x:
     enableDNT: true
     simple: false
+  youtube:
+    privacyEnhanced: true
 
 # Services
 services:

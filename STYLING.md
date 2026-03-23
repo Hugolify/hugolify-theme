@@ -1,6 +1,6 @@
 # Styling architecture
 
-hugolify-theme contains **no SASS or CSS**. All styling is delegated to an external **styling module**, swappable via `module.replacements`.
+hugolify-theme contains **no SASS or CSS**. All styling is delegated to an external **styling module**.
 
 ---
 

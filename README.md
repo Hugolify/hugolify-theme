@@ -40,10 +40,11 @@ You can build your own styling layer in two ways:
 
 ```yaml
 imports:
+  - path: github.com/yourorg/hugolify-theme/v2
   - path: github.com/yourorg/hugolify-theme-tailwind
 ```
 
-**Directly in the site** — add `assets/sass/` and `assets/js/` to your project. Hugo merges assets from all sources, so your files take priority over the module.
+**Directly in the site** — add `assets/sass/` (or `assets/scss/` or `assets/css/`) and `assets/js/` to your project. Hugo merges assets from all sources, so your files take priority over the module.
 
 The contracts to respect in either case:
 
