@@ -26,7 +26,7 @@
       {{- $section = "pages" -}}
       {{- $partial = "pages/item.html" -}}
     {{- end -}}
-    <div class="{{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
+    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
       {{- range $index, $items := . }}
         {{- .Scratch.Set "index" $index -}}
         {{- .Scratch.Set "block" $block -}}
