@@ -156,9 +156,6 @@ params:
 privacy:
   instagram:
     simple: false
-  twitter:
-    enableDNT: true
-    simple: false
   vimeo:
     enableDNT: true
     simple: false
@@ -171,8 +168,6 @@ privacy:
 # Services
 services:
   instagram:
-    disableInlineCSS: false
-  twitter:
     disableInlineCSS: false
   x:
     disableInlineCSS: false
