@@ -14,7 +14,7 @@
       <li {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end }}>
         {{- partial "nav/link.html" (dict "link" . "currentPage" $currentPage) -}}
         {{- if $hasChildren }}
-          <button class="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="dropdown-toggle js-dropdown-toggle" role="button" aria-expanded="false">
             <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
           </button>
           <ul class="dropdown-menu">

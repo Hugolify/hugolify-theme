@@ -25,7 +25,7 @@
   {{ end }}
 
   {{ if .items }}
-  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#chart-modal-{{ $id }}">
+  <button type="button" class="btn js-modal-toggle" data-target="#chart-modal-{{ $id }}">
     {{- i18n "accessibility.alternative" (dict "Title" .title) -}}
   </button>
   {{ end }}
@@ -41,7 +41,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <p id="chart-modal-title-{{ $id }}">{{ .title }}</p>
-          <button type="button" data-bs-dismiss="modal" aria-label="{{ i18n "close" }}"></button>
+          <button type="button" class="js-modal-close" aria-label="{{ i18n "close" }}"></button>
         </div>
         <div class="modal-body">
           <table id="chart-table-{{ $id }}">

@@ -1,10 +1,19 @@
 {{ $class := false }}
-{{ if eq . "small" }}
-  {{ $class = "col-md-6 offset-md-3" }}
+
+{{/*  Grid  */}}
+{{ if eq . "xsmall" }}
+  {{ $class = "col-xsmall" }}
+{{ else if eq . "small" }}
+  {{ $class = "col-small" }}
 {{ else if eq . "medium" }}
-  {{ $class = "col-md-8 offset-md-2" }}
+  {{ $class = "col-medium" }}
 {{ else if eq . "large" }}
-  {{ $class = "col-md-10 offset-md-1" }}
+  {{ $class = "col-large" }}
+{{ end }}
+
+{{/*  Offset  */}}
+{{ if $class }}
+  {{ $class = printf "%s offset-center" $class }}
 {{ end }}
 
 {{ return $class }}

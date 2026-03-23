@@ -2,41 +2,34 @@ module:
   mounts:
     - source: archetypes
       target: archetypes
-    - source: assets
-      target: assets
     - source: i18n
       target: i18n
     - source: layouts
       target: layouts
     - source: static
       target: static
+
+  # Librairies
   imports:
-    # Import Bootstrap 5
-    - path: github.com/gohugoio/hugo-mod-bootstrap-scss/v5
-    # Import Bootstrap icons
-    - path: github.com/twbs/icons
-      ignoreConfig: true
-      mounts:
-        - source: font/fonts
-          target: static/assets/fonts/bootstrap-icons
-        - source: font/bootstrap-icons.scss
-          target: assets/scss/bootstrap-icons/bootstrap-icons.scss
+
     # Import Lightbox (Tobii)
     - path: github.com/midzer/tobii
       ignoreConfig: true
       mounts:
-        - source: src/scss
-          target: assets/scss/tobii
-        - source: src/js
-          target: assets/js/vendors/tobii
-    # Import Cookie consent
+        - source: dist/tobii.min.css
+          target: static/assets/css/tobii.min.css
+        - source: dist/tobii.min.js
+          target: static/assets/js/tobii.min.js
+
+    # Import GDPR complian (Cookie consent)
     - path: github.com/orestbida/cookieconsent
       ignoreConfig: true
       mounts:
-        - source: src/scss
-          target: assets/scss/cookieconsent
+        - source: dist/cookieconsent.css
+          target: static/assets/css/cookieconsent.css
         - source: dist/cookieconsent.umd.js
           target: static/assets/js/cookieconsent.umd.js
+
     # Import Carousel (Splide)
     - path: github.com/Splidejs/splide
       ignoreConfig: true
@@ -45,31 +38,18 @@ module:
           target: static/assets/css/splide.min.css
         - source: dist/js/splide.min.js
           target: static/assets/js/splide.min.js
+
     # Import Parallax (Rellax)
     - path: github.com/dixonandmoe/rellax
       ignoreConfig: true
       mounts:
         - source: rellax.min.js
-          target: assets/js/vendors/rellax.min.js
+          target: assets/js/vendors/rellax.min.js # import in javascript core pipe (only if parallax enabled in params)
 
 # Params
 params:
 
   # Website
-  animation: false # Load js and add data attributes
-  bootstrap:
-    alert: false 
-    carousel: false 
-    collapse: true 
-    dropdown: true 
-    modal: true 
-    offcanvas: true 
-    popover: false 
-    scrollspy: false 
-    tab: false 
-    toast: false 
-    tooltip: false 
-  carousel: true # Load splidejs
   cookie_banner:
     enable: false # Enable Cookie banner
     cookieconsent:
@@ -78,6 +58,9 @@ params:
       functionality: false
       marketing: false
       disablePageInteraction: false
+  css:
+    preload: false
+    print: false
   header:
     layout: offcanvas # modal also available
     offcanvas:
@@ -92,19 +75,11 @@ params:
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
-  map: true # Load leaflet
-  parallax:
-    enable: false # Load js and add data attributes
-    cover: -2
-    heading: -0.25
-    percentage: 0.5
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     layout: raw # offcanvas and modal also available
     filter: false
     sort: false
-  vimeo: false
-  youtube: false
 
   # Front
   column: 12
@@ -112,7 +87,7 @@ params:
   container:
     desktop: 1296
     mobile: 300
-  
+
   # Images
   hero:
     cover: '1600x400'
@@ -159,11 +134,11 @@ privacy:
   vimeo:
     enableDNT: true
     simple: false
-  youtube:
-    privacyEnhanced: true
   x:
     enableDNT: true
     simple: false
+  youtube:
+    privacyEnhanced: true
 
 # Services
 services:

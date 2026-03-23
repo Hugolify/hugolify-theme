@@ -1,10 +1,10 @@
 {{- with . }}
-  {{- $class := "badge" -}}
-  {{- with .state -}}
-    {{- $class = print $class " badge-" . -}}
-  {{- end -}}
-  {{- $text := .text | default false -}}
+  {{- $class := "badge" }}
+  {{- with .state }}
+    {{- $class = print $class " badge-" . }}
+  {{- end }}
+  {{- $text := .text | default false }}
   {{- with $text }}
     <span class="{{ $class }}">{{ partial "func/PrepareHTML.html" . | markdownify }}</span>
-  {{ end -}}
-{{ end -}}
+  {{- end }}
+{{- end }}
