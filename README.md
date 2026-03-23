@@ -77,7 +77,7 @@ Or add as Hugo modules. Edit `config/_default/module.yaml`:
 
 ```yaml
 imports:
-  - path: github.com/hugolify/hugolify-theme
+  - path: github.com/hugolify/hugolify-theme/v2
   - path: github.com/hugolify/hugolify-theme-bootstrap
 ```
 
@@ -85,7 +85,7 @@ To switch styling module, replace the second import:
 
 ```yaml
 imports:
-  - path: github.com/hugolify/hugolify-theme
+  - path: github.com/hugolify/hugolify-theme/v2
   - path: github.com/hugolify/hugolify-theme-design-system
 ```
 

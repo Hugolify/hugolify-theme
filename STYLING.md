@@ -25,27 +25,6 @@ Each styling module must provide one of these three files as its entry point. Th
 
 ---
 
-## Switching styling modules
-
-In the site config (`hugo.yaml`):
-
-```yaml
-module:
-  replacements: >
-    github.com/hugolify/hugolify-theme-bootstrap ->
-    github.com/hugolify/hugolify-theme-design-system
-```
-
-For local development (`go.mod` of the site):
-
-```
-replace (
-  github.com/hugolify/hugolify-theme-bootstrap => ../hugolify-theme-design-system
-)
-```
-
----
-
 ## CSS options (site params)
 
 ```yaml
