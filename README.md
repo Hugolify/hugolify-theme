@@ -1,6 +1,6 @@
 # Hugolify theme
 
-[![banner](https://github.com/user-attachments/assets/a74f1b37-e24f-4762-971d-fe7824b23cb8)](https://www.hugolify.io/)
+[![banner](https://github.com/user-attachments/assets/2cc7aeda-f1bc-4af6-ae7b-f05180b10d78)](https://www.hugolify.io/)
 
 ## Performance & SEO
 
