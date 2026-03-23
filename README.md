@@ -30,21 +30,15 @@ Styling and JS are provided by a separate **styling module**, declared in the si
 | Module | CSS | JS |
 | --- | --- | --- |
 | [hugolify-theme-bootstrap](https://github.com/hugolify/hugolify-theme-bootstrap) | Bootstrap 5 + SASS | Bootstrap 5 + Vanilla JS |
-| hugolify-theme-design-system | Vanilla CSS / Design tokens | Vanilla JS |
+| hugolify-theme-design-system (wip) | Vanilla CSS / Design tokens | Vanilla JS |
 
 ### Custom styling
 
 You can build your own styling layer in two ways:
 
-**As a Hugo module** (`hugolify-theme-tailwind`, `hugolify-theme-bulma`…) — sharable, versionable, swappable via the site config:
+* **As a Hugo module** (`hugolify-theme-tailwind`, `hugolify-theme-bulma`…) — sharable, versionable, swappable via the site config.
 
-```yaml
-imports:
-  - path: github.com/yourorg/hugolify-theme/v2
-  - path: github.com/yourorg/hugolify-theme-tailwind
-```
-
-**Directly in the site** — add `assets/sass/` (or `assets/scss/` or `assets/css/`) and `assets/js/` to your project. Hugo merges assets from all sources, so your files take priority over the module.
+* **Directly in the site** — add `assets/sass/` (or `assets/scss/` or `assets/css/`) and `assets/js/` to your project. Hugo merges assets from all sources, so your files take priority over the module.
 
 The contracts to respect in either case:
 
