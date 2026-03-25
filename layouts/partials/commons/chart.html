@@ -1,15 +1,15 @@
-{{ $id := .id | default "chart" }}
-{{ $class := partial "func/GetColClass" .context.grid }}
+{{- $id := .id | default "chart" }}
+{{- $class := partial "func/GetColClass" .context.grid }}
 
-{{ with .context.chart }}
-{{ $indexAxis := .indexAxis | default "x" }}
+{{- with .context.chart }}
+  {{- $indexAxis := .indexAxis | default "x" }}
 
-  {{ if $class }}
-    <div class="row">
-      <div class="{{ $class }}">
-  {{ end }}
+{{- if $class }}
+  <div class="row">
+    <div class="{{ $class }}">
+{{- end }}
 
-  <canvas id="{{ $id }}" class="js-chart" aria-label="{{ .title }}" aria-describedby="chart-table-{{ $id }}" role="img" 
+  <canvas id="{{ $id }}" class="js-chart" aria-label="{{ .title }}" aria-describedby="chart-table-{{ $id }}" role="img"
     {{- with .title }} data-label="{{ . }}"{{ end}}
     {{- with .type }} data-type="{{ . }}"{{ end}}
     {{- with .backgroundColor }} data-background-color="{{ . }}"{{ end}}
@@ -17,45 +17,35 @@
     {{- with site.Params.chart.color }} data-color="{{ . }}"{{ end}}
     {{- with .items }} data-items="{{ . | jsonify }}"{{ end}}>
   </canvas>
-  {{ with .data }}
+
+  {{- with .data }}
     <script>
       window.json = window.json || [];
       window.json[{{ $id }}] = {{ (index . "json") | safeJS }};
     </script>
-  {{ end }}
+  {{- end }}
 
-  {{ if .items }}
-  <button type="button" class="btn js-modal-toggle" data-target="#chart-modal-{{ $id }}">
-    {{- i18n "accessibility.alternative" (dict "Title" .title) -}}
-  </button>
-  {{ end }}
+  {{- if .items }}
+  <div class="alt-description">
+    <details>
+      <summary>{{- i18n "accessibility.alternative" (dict "Title" .title) -}}</summary>
+      <div>
+        <table id="chart-table-{{ $id }}">
+          {{ range .items }}
+            <tr>
+              <th scope="row">{{ partial "func/PrepareHTML.html" .label }}</th>
+              <td>{{ .value }}</td>
+            </tr>
+          {{ end }}
+        </table>
+      </div>
+    </details>
+  </div>
+  {{- end }}
 
-  {{ if $class }}
-      </div>
-    </div>
-  {{ end }}
-  
-  {{ if .items }}
-  <div class="modal" id="chart-modal-{{ $id }}" tabindex="-1" aria-labelledby="chart-modal-title-{{ $id }}" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <p id="chart-modal-title-{{ $id }}">{{ .title }}</p>
-          <button type="button" class="js-modal-close" aria-label="{{ i18n "close" }}"></button>
-        </div>
-        <div class="modal-body">
-          <table id="chart-table-{{ $id }}">
-            {{ range .items }}
-              <tr>
-                <th scope="row">{{ partial "func/PrepareHTML.html" .label }}</th>
-                <td>{{ .value }}</td>
-              </tr>
-            {{ end }}
-          </table>
-        </div>
-      </div>
+{{- if $class }}
     </div>
   </div>
-  {{ end }}
+{{- end }}
 
-{{ end }}
+{{- end }}
