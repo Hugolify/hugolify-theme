@@ -5,15 +5,15 @@
       {{- with .footing }}
         {{- with .text }}
           {{ partial "commons/text.html" (dict "text" .) }}
-        {{ end -}}
+        {{- end }}
         {{- with .ctas }}
           {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-        {{ end -}}
-      {{ end -}}
+        {{- end }}
+      {{- end }}
       {{- $partials := printf "blocks/templates/%s/more.html" .type -}}
       {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
         {{- partial $partials . -}}
       {{- end -}}
     {{- with $container }}</div>{{ end }}
-  </footer> 
+  </footer>
 {{ end -}}

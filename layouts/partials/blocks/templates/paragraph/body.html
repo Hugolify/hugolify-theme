@@ -8,16 +8,13 @@
 
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
 
-{{- partial "blocks/content-with-notes.html" (dict 
+{{- partial "blocks/content-with-notes.html" (dict
   "context" .
   "blockId" $index
 ) -}}
 
 {{- with .ctas }}
   {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-{{- else -}}
-  {{/*  Deprecated  */}}
-  {{ partial "commons/cta-group.html" (dict "cta" .cta) }}
-{{ end -}}
+{{- end }}
 
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}
