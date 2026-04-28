@@ -2,7 +2,7 @@
   <div>
     <p>{{ i18n "toc" }}</p>
     {{ partial "commons/toc/button.html" . }}
-    <div class="offcanvas" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+    <div class="drawer" tabindex="-1" id="toc" aria-labelledby="tocLabel">
       {{ partial "commons/toc/header.html" . }}
       {{ partial "sitemap/toc/content.html" . }}
     </div>

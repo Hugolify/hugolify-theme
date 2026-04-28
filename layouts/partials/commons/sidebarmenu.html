@@ -2,7 +2,7 @@
   <div>
     <p>{{ i18n "sidebar.menu" }}</p>
     {{ partial "commons/sidebarmenu/button" . }}
-    <div class="offcanvas" tabindex="-1" id="sidebarmenu" aria-labelledby="sidebarmenuLabel">
+    <div class="drawer" tabindex="-1" id="sidebarmenu" aria-labelledby="sidebarmenuLabel">
       {{ partial "commons/sidebarmenu/header" . }}
       {{ partial "commons/sidebarmenu/content" . }}
     </div>

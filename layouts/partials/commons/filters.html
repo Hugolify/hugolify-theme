@@ -1,7 +1,7 @@
 {{- $context := .context }}
 {{- with .section }}
-  <div class="filters offcanvas" tabindex="-1" id="{{ safeHTMLAttr . }}Filters" aria-labelledby="{{ safeHTMLAttr . }}FiltersLabel" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
-    {{ partialCached (print . "/filters/header") $context }}
+  <div class="filters drawer" tabindex="-1" id="filters" aria-labelledby="filtersLabel" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
+    {{ partialCached "commons/filters/header" $context }}
     {{ partialCached (print . "/filters/content") $context }}
   </div>
 {{- end }}

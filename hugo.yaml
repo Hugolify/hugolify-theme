@@ -62,8 +62,8 @@ params:
     preload: false
     print: false
   header:
-    layout: offcanvas # modal also available
-    offcanvas:
+    layout: drawer # modal also available
+    drawer:
       position: end
     modal:
       centered: true
@@ -77,7 +77,7 @@ params:
     footer: '/assets/images/logo.svg'
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
-    layout: raw # offcanvas and modal also available
+    layout: raw # drawer and modal also available
     filter: false
     sort: false
 

@@ -1,0 +1,8 @@
+{{- $drawerClass := slice "drawer" }}
+{{- with site.Params.header.drawer.position }}
+  {{- $drawerClass = $drawerClass | append (print "drawer-" .) }}
+{{- end }}
+<div class="main-menu {{ delimit $drawerClass ` ` }}" tabindex="-1" id="navigation" data-component="drawer" aria-labelledby="navigationLabel">
+  {{ partialCached "header/drawer-header.html" . }}
+  {{ partial "header/drawer-content.html" . }}
+</div>
