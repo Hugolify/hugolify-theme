@@ -31,6 +31,7 @@ Each styling module must provide one of these three files as its entry point. Th
 # hugo.yaml
 params:
   css:
+    darkmode: false # default: false (only light mode)
     preload: true   # adds <link rel="preload"> for performance
     print: true     # loads sass/print.sass or css/print.css with media="print"
 ```

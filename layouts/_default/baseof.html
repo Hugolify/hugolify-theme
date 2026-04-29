@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.LanguageCode }}" dir="{{ or .Site.Language.LanguageDirection `ltr` }}">
+<html lang="{{ .Site.Language.LanguageCode }}" dir="{{ or .Site.Language.LanguageDirection `ltr` }}"{{ if ne .Site.Params.css.darkmode true }} data-color-scheme="light"{{ end }}>
   <head>
     {{ block "head" . }}{{ end }}
   </head>

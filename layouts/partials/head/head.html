@@ -1,6 +1,7 @@
 {{ define "head" }}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- if ne .Site.Params.css.darkmode true }}<meta name="color-scheme" content="only light">{{ end -}}
   {{ partialCached "head/preload.html" . }}
   {{ partialCached "head/css.html" . }}
   {{ partial "head/canonical.html" . }}

@@ -59,6 +59,7 @@ params:
       marketing: false
       disablePageInteraction: false
   css:
+    darkmode: false # default: false (only light mode)
     preload: false
     print: false
   header:
