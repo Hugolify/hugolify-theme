@@ -2,7 +2,9 @@
     {{ with .id }}id="{{ . }}"{{ end }}
     {{ with .name }}name="{{ . }}"{{ end }}
     {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
-    {{ if .required }}required{{ end }}>
+    {{ if .required }}required{{ end }}
+    {{ if .disabled }}disabled{{ end }}
+    >
     {{- $selected := .selected | default false -}}
     {{- if not .required }}
     <option value="">--</option>
