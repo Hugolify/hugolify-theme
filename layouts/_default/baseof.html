@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.LanguageCode }}" dir="{{ or .Site.Language.LanguageDirection `ltr` }}"{{ if ne .Site.Params.css.darkmode true }} data-color-scheme="light"{{ end }}>
+<html
+  lang="{{ .Site.Language.LanguageCode }}"
+  dir="{{ or .Site.Language.LanguageDirection `ltr` }}"
+  {{ partial "func/GetColorScheme.html" . }}
+>
   <head>
     {{ block "head" . }}{{ end }}
   </head>

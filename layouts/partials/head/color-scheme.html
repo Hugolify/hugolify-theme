@@ -1,0 +1,10 @@
+{{/*
+  css.darkmode: true  → "light dark"  : OS controls the mode via prefers-color-scheme
+  css.darkmode: false → "only light"  : forced light, dark CSS tokens are suppressed
+                                        via :root:not([data-color-scheme="light"]
+*/}}
+{{- if .Site.Params.css.darkmode -}}
+  <meta name="color-scheme" content="light dark">
+{{- else -}}
+  <meta name="color-scheme" content="only light">
+{{- end -}}

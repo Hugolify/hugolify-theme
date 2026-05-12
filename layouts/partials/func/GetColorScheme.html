@@ -1,0 +1,11 @@
+{{/*
+  Returns the data-color-scheme HTML attribute based on site.Params.css.darkmode.
+  true  → no attribute (OS controls via prefers-color-scheme)
+  false → data-color-scheme="light" (forced light, ignores OS)
+*/}}
+{{- $attr := "" -}}
+{{- if not .Site.Params.css.darkmode -}}
+  {{- $attr = "data-color-scheme=\"light\"" -}}
+{{- end -}}
+{{- return ($attr | safeHTMLAttr) -}}
+
