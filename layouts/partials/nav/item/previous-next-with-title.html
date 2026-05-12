@@ -2,8 +2,9 @@
 {{ with .item }}
   {{- $section := i18n (printf "%s.title" .Type) 1 -}}
   <a href="{{ .Permalink }}">
-    <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
-    <span>{{ partial "func/PrepareHTML.html" .Title }}</span>
+    <span class="content">
+      <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
+      <span>{{ partial "func/PrepareHTML.html" .Title }}</span>
+    </span>
   </a>
 {{ end }}
-      

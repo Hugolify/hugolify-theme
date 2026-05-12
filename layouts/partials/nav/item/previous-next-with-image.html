@@ -8,8 +8,10 @@
     {{- $mobile = (index site.Params .Type).navigation.mobile | default $mobile -}}
   {{- end -}}
   <a href="{{ .Permalink }}">
-    <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
-    <span>{{ partial "func/PrepareHTML.html" .Title }}</span>
+    <span class="content">
+      <span class="surtitle">{{ i18n (print "pagination." $direction "_section") (dict "Section" $section) | safeHTML }}</span>
+      <span>{{ partial "func/PrepareHTML.html" .Title }}</span>
+    </span>
     {{- with .Params.image }}
       {{ partial "commons/image.html" (dict
         "src" .src
@@ -21,4 +23,3 @@
     {{ end -}}
   </a>
 {{ end }}
-      

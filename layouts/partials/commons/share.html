@@ -2,7 +2,7 @@
   <button type="button" class="btn btn-share js-dropdown-toggle" aria-expanded="false">
     {{- i18n "share.title" -}}
   </button>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu dropdown-menu-end">
     <li>
       {{ $name := i18n "contact.facebook" -}}
       <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
