@@ -4,9 +4,6 @@
     {{- $limit := .limit | default 5 -}}
     <div class="instagram items js-instagram" data-limit="{{ $limit }}" data-token="{{ $token }}"></div>
   {{ else }}
-    <p>{{ i18n "token.missing" }}</p>
+    <pre>{{ i18n "token.missing" }}</pre>
   {{ end -}}
-  {{- with .ctas }}
-    {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-  {{- end }}
 </div>

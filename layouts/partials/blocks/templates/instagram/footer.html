@@ -1,1 +1,2 @@
-{{- partial "blocks/footing.html" . -}}
+{{- $footing := dict "ctas" .ctas }}
+{{- partial "blocks/footing.html" (dict "footing" $footing) -}}
