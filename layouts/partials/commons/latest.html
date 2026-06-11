@@ -1,25 +1,20 @@
-{{- $limit := 3 -}}
-{{- with .limit }}
-  {{- $limit = . -}}  
-{{- end -}}
-{{- with .section }}
+{{- $limit := .limit | default 3 -}}
+{{- with .section -}}
   {{- $section := . -}}
   {{- $pages := first $limit ( ( where site.RegularPages "Section" $section ).ByDate.Reverse ) -}}
-  {{- if gt ($pages | len) 0 }}
-    <section class="latest latest-{{ $section }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
-      <header class="heading">
-        {{- $title := i18n (printf "%s.latest" $section) | default (i18n "pages.latest") -}}
-        <h2>{{ $title }}</h2>
-        {{- $index := site.GetPage (printf "/%s" $section) -}}
-        {{- with $index }}
-          {{- $i18n := printf "%s.more" $section -}}
-          <a href="{{ .Permalink }}" class="more">{{ i18n $i18n | default (i18n "more") }}</a>
-        {{ end -}}
-      </header>
-      {{- $partial := printf "%s/items.html" $section -}}
-      {{- if templates.Exists ( printf "partials/%s" $partial ) -}}
-        {{ partial $partial $pages }}
-      {{- end -}}
-    </section>
-  {{ end -}}
-{{ end -}}
+  {{- if gt ($pages | len) 0 -}}
+    {{- $title := i18n (printf "%s.latest" $section) | default (i18n "pages.latest") -}}
+    {{- $more := false -}}
+    {{- with site.GetPage (printf "/%s" $section) -}}
+      {{- $more = dict "url" .Permalink "label" (i18n (printf "%s.more" $section) | default (i18n "more")) -}}
+    {{- end -}}
+    {{- partial "commons/related.html" (dict
+      "section" $section
+      "pages" $pages
+      "title" $title
+      "more" $more
+      "variant" "latest"
+      "container" false
+    ) -}}
+  {{- end -}}
+{{- end -}}

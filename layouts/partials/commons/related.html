@@ -1,0 +1,31 @@
+{{- /*
+  commons/related.html — shared section block (homepage "latest" / in-page "related")
+
+  Params:
+    section   (string, required)  e.g. "posts" → {variant}-posts class + posts/items partial
+    pages     (pages, required)
+    title     (string, required)
+    more      (dict, optional)    { "url": ..., "label": ... } → .more link (omitted if absent)
+    variant   (string, optional)  "related" (default) | "latest"
+    container (bool, optional)    true (default) → wraps content in .container
+    class     (string, optional)  additional classes
+*/ -}}
+{{- $section := .section -}}
+{{- $pages := .pages -}}
+{{- $title := .title -}}
+{{- $more := .more -}}
+{{- $variant := .variant | default "related" -}}
+{{- $class := .class -}}
+{{- $container := true -}}
+{{- if isset . "container" }}{{ $container = .container }}{{ end -}}
+<section class="{{ $variant }} {{ $variant }}-{{ $section }}{{ with $class }} {{ . }}{{ end }}"{{ partial "func/SetAnim.html" (dict "element" "block") }}>
+  {{- if $container }}<div class="container">{{ end }}
+    <header class="heading"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
+      <h2>{{ $title }}</h2>
+      {{- with $more }}
+        <a href="{{ .url }}" class="more">{{ .label }}</a>
+      {{- end }}
+    </header>
+    {{ partial (printf "%s/items" $section) $pages }}
+  {{- if $container }}</div>{{ end }}
+</section>

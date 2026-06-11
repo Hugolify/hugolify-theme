@@ -7,28 +7,26 @@
 {{- $showMore := .more | default true -}}
 {{- $limit := .limit | default 3 -}}
 
-{{- $pages := partial "func/GetTaxonomyPageBySlug" (dict 
+{{- $pages := partial "func/GetTaxonomyPageBySlug" (dict
   "section" $section
   "taxonomy" $taxonomy
   "slug" $filename
   "additionalParams" $additionalParams
-  ) -}}
+) -}}
 
-{{ if $pages }}
-  {{ $count := $pages | len }}
-  {{ $pages = first $limit $pages }}
-  <section class="latest latest-{{ $section }}"{{ partial "func/SetAnim.html" (dict "element" "block") }}>
-    <div class="container">
-      <header class="heading"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
-        <h2>{{ $title }}</h2>
-        {{ if and $showMore (gt $count $limit) }}
-          {{ $item := partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) }}
-          {{ with $item }}
-            <a href="{{ .Permalink }}" class="more">{{ i18n (printf "%s.more_person" $section) (dict "Person" $name) }}</a>
-          {{ end }}
-        {{ end }}
-      </header>
-      {{ partial (printf "%s/items" $section) $pages }}
-    </div>
-  </section>
-{{ end }}
+{{- with $pages -}}
+  {{- $count := . | len -}}
+  {{- $pages = first $limit . -}}
+  {{- $more := false -}}
+  {{- if and $showMore (gt $count $limit) -}}
+    {{- with partial "func/GetTaxonomy" (dict "slug" $filename "taxonomy" $taxonomy) -}}
+      {{- $more = dict "url" .Permalink "label" (i18n (printf "%s.more_person" $section) (dict "Person" $name)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- partial "commons/related.html" (dict
+    "section" $section
+    "pages" $pages
+    "title" $title
+    "more" $more
+  ) -}}
+{{- end -}}
