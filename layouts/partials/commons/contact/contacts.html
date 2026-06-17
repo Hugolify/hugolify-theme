@@ -1,5 +1,5 @@
 {{ if or .phone .fax .email }}
-<ul>
+<ul class="contact-list">
   {{ with .phone }}
     <li class="phone">
       {{ partial "commons/contact/phone.html" . }}

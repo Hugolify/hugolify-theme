@@ -1,6 +1,6 @@
 {{ with .Params.contact }}
   {{ if or .email .phone .fax .linkedin .twitter .instagram }}
-    <aside class="card contact-list" {{- partial "func/SetAnim.html" (dict "element" "content") }}>
+    <aside class="card contact-card" {{- partial "func/SetAnim.html" (dict "element" "content") }}>
       <div class="content">
         {{ partial "commons/contact/title.html" . }}
         {{ partial "commons/contact/contacts.html" . }}
