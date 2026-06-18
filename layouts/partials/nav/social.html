@@ -6,7 +6,14 @@
   <ul class="nav nav-social">
     {{- range .links }}
       <li class="{{ lower (safeHTML .title) }}">
-        {{- partial "nav/link.html" (dict "link" . "span" true) -}}
+        {{- if templates.Exists "partials/icon.html" -}}
+          <a href="{{ .url | safeURL }}"{{ if .blank }} target="_blank" rel="noopener"{{ end }} title="{{ .title }}">
+            {{- partial "icon" (printf "brand:%s" (lower .title)) -}}
+            <span class="visually-hidden">{{ .title }}</span>
+          </a>
+        {{- else -}}
+          {{- partial "nav/link.html" (dict "link" . "span" true) -}}
+        {{- end -}}
       </li>
     {{- end }}
   </ul>

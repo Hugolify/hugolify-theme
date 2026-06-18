@@ -2,7 +2,7 @@
 
   @context
     text   (string or markdown)
-    state  (string) 
+    state  (string)
     title  (string) optional
     icon   (string) optional
 
@@ -22,7 +22,9 @@
   {{- $title := .title | default false }}
   {{- $icon := .icon | default "" }}
   {{- if $icon }}
-    {{- $icon = print `<i class="icon icon-` $icon `"></i> ` }}
+    {{- if templates.Exists "partials/icon.html" -}}
+    {{- $icon = printf "%s " (partial "icon.html" $icon) }}
+    {{- end -}}
   {{- else }}
     {{- $icon = "" }}
   {{- end }}

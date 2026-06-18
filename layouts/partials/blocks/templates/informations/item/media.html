@@ -13,7 +13,9 @@
 {{- if $class -}}
 <div class="media {{ $class }}">
   {{- with .icon -}}
-    <i class="icon icon-{{ . }}"></i>
+    {{- if templates.Exists "partials/icon.html" -}}
+      {{ partial "icon.html" . }}
+    {{- end -}}
   {{- else -}}
 
     {{- with .image }}
@@ -30,8 +32,8 @@
         {{- end -}}
       {{- end -}}
       {{ partial "commons/image.html" (dict
-        "src" .src 
-        "alt" .alt 
+        "src" .src
+        "alt" .alt
         "desktop" $desktop
         "mobile" $mobile
         ) }}

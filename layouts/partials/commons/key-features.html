@@ -4,7 +4,9 @@
       {{- range . }}
         <li>
           {{- with .icon -}}
-            <i class="icon icon-{{ . }}"></i>
+            {{- if templates.Exists "partials/icon.html" -}}
+              {{ partial "icon.html" . }}
+            {{- end -}}
           {{- end -}}
           <div>
             {{- if .title }}
