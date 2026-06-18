@@ -3,7 +3,7 @@
     <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .title }}
-    <p class="name">{{ partial "func/PrepareHTML.html" . }}</p>
+    <p class="title">{{ partial "func/PrepareHTML.html" . }}</p>
   {{ end -}}
   {{- with .text }}
     <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>

@@ -23,10 +23,10 @@
   {{- $icon := .icon | default "" }}
   {{- if $icon }}
     {{- if templates.Exists "partials/icon.html" -}}
-    {{- $icon = printf "%s " (partial "icon.html" $icon) }}
+      {{- $icon = printf "%s " (partial "icon.html" $icon) }}
+    {{- else -}}
+      {{- $icon = "" }}
     {{- end -}}
-  {{- else }}
-    {{- $icon = "" }}
   {{- end }}
   {{- if $text }}
     <div class="{{ $class }}">
