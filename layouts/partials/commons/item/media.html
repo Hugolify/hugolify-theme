@@ -10,12 +10,6 @@
   {{/*  Specific by Type */}}
   {{- if .Type -}}
     {{- $desktop = (index site.Params .Type).thumbnail.desktop | default $desktop -}}
-    {{ .Type }}
-    --
-    {{ (index site.Params .Type).thumbnail }}
-    --
-    {{ (index site.Params .Type).image }}
-
     {{- $mobile = (index site.Params .Type).thumbnail.mobile | default $mobile -}}
     {{- if .Scratch.Get "scrollsnap" -}}
       {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
