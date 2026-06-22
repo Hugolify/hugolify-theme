@@ -1,0 +1,29 @@
+{{/*  Fetch intrinsic image dimensions from a remote provider's JSON endpoint.
+      Shared by the responsive (srcset) Cloudinary/Uploadcare partials.
+
+      @param  url       (string) JSON endpoint to fetch.
+      @param  provider  (string) "cloudinary" | "uploadcare".
+      @return dict { width, height } — both false when unavailable.
+*/}}
+{{- $url := .url -}}
+{{- $provider := .provider -}}
+{{- $width := false -}}
+{{- $height := false -}}
+
+{{- with try (resources.GetRemote $url) -}}
+  {{- with .Err -}}
+    {{- warnf "GetRemoteImageSize: %s" . -}}
+  {{- else with .Value -}}
+    {{- $data := . | transform.Unmarshal -}}
+    {{/*  Cloudinary nests the original size under `input`; Uploadcare exposes it at the top level. */}}
+    {{- $node := cond (eq $provider "cloudinary") $data.input $data -}}
+    {{- with $node -}}
+      {{- $width = index . "width" -}}
+      {{- $height = index . "height" -}}
+    {{- end -}}
+  {{- else -}}
+    {{- warnf "GetRemoteImageSize: unable to retrieve remote resource: %s" $url -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return dict "width" $width "height" $height -}}

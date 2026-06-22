@@ -1,0 +1,28 @@
+{{/*  Expand a shorthand `sizes` CSV (per-breakpoint render widths) into a valid sizes attribute.
+
+      Input (.):  "100vw, 50vw, 25vw"        (mobile, tablet, desktop, …)
+      Output:     "(max-width: 576px) 100vw, (max-width: 1024px) 50vw, 25vw"
+
+      Each value but the last is paired with a max-width breakpoint (ascending); the last value is the
+      default (largest screens). Breakpoints come from site.Params.image.sizes_breakpoints.
+*/}}
+{{- $values := slice -}}
+{{- range (split . ",") -}}
+  {{- with trim . " " -}}{{- $values = $values | append . -}}{{- end -}}
+{{- end -}}
+
+{{- $bp := site.Params.image.sizes_breakpoints | default (slice 576 1024) -}}
+{{- $n := len $values -}}
+{{- $out := slice -}}
+{{- range $i, $v := $values -}}
+  {{- if lt $i (sub $n 1) -}}
+    {{/*  Reuse the last breakpoint if the list has fewer than (values-1) entries. */}}
+    {{- $w := index $bp (sub (len $bp) 1) -}}
+    {{- if lt $i (len $bp) -}}{{- $w = index $bp $i -}}{{- end -}}
+    {{- $out = $out | append (printf "(max-width: %vpx) %s" $w $v) -}}
+  {{- else -}}
+    {{- $out = $out | append $v -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return delimit $out ", " -}}

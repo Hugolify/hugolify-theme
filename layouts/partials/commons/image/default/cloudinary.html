@@ -1,12 +1,12 @@
 {{/*  Get params  */}}
-{{- $is_desktop_retina := site.Params.image.retina.desktop | default false -}}
+{{- $is_desktop_retina := site.Params.image.retina.desktop | default true -}}
 {{- $file := .file -}}
 {{- $file_mobile := .file_mobile -}}
 {{- $desktop_size := .desktop_size -}}
 {{- $mobile_size := .mobile_size -}}
 {{/*  crop: Check if a real cloundinary param */}}
-{{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}} 
-{{- $quality := site.Params.image.quality | default "" -}}
+{{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}}
+{{- $quality := site.Params.image.quality | default "auto:eco" -}}
 
 {{/*  Return params  */}}
 {{- $image_desktop := .file -}}
@@ -80,7 +80,7 @@
 
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
     {{- $image_desktop_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params ",")) $imageFile -}}
-    
+
     {{/*  If desktop retina  */}}
     {{- if $is_desktop_retina -}}
       {{- $image_desktop_webp_2x = replace $image_desktop_webp "f_webp" "dpr_2.0,f_webp" -}}
@@ -104,7 +104,7 @@
         {{- warnf "Error, unable to retrieve remote resource for: %s" $file -}}
       {{- end -}}
     {{- end -}}
-    
+
   {{- end -}}
 
   {{/*  Return mobile image  */}}
@@ -144,17 +144,17 @@
 
 {{- end -}}
 
-{{- return dict  
-  "image_desktop" $image_desktop 
+{{- return dict
+  "image_desktop" $image_desktop
   "image_desktop_webp" $image_desktop_webp
   "image_desktop_webp_2x" $image_desktop_webp_2x
-  "image_mobile" $image_mobile 
-  "image_mobile_2x" $image_mobile_2x 
-  "image_mobile_3x" $image_mobile_3x 
-  "image_mobile_webp" $image_mobile_webp 
-  "image_mobile_webp_2x" $image_mobile_webp_2x 
-  "image_mobile_webp_3x" $image_mobile_webp_3x 
-  "image_width" $image_width 
+  "image_mobile" $image_mobile
+  "image_mobile_2x" $image_mobile_2x
+  "image_mobile_3x" $image_mobile_3x
+  "image_mobile_webp" $image_mobile_webp
+  "image_mobile_webp_2x" $image_mobile_webp_2x
+  "image_mobile_webp_3x" $image_mobile_webp_3x
+  "image_width" $image_width
   "image_height" $image_height
   -}}
 

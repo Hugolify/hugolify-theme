@@ -1,18 +1,21 @@
 
-{{ $context := . }}
-{{/*  Legacy  */}}
-{{- if reflect.IsMap $context -}}
-  {{- $context = .context -}}
-{{- end -}}
-{{/* / Legacy  */}}
-{{- with $context -}}
+{{- with . -}}
   {{- $noop := .Content -}}{{/* https://gohugo.io/troubleshooting/faq/#why-is-my-page-scratch-or-store-missing-a-value */}}
-  
+
+  {{/*  Get default thumbnail  */}}
   {{- $desktop := site.Params.thumbnail.desktop | default false -}}
   {{- $mobile := site.Params.thumbnail.mobile | default false -}}
-  
+  {{- $sizes := site.Params.thumbnail.sizes | default false -}}
+
+  {{/*  Specific by Type */}}
   {{- if .Type -}}
     {{- $desktop = (index site.Params .Type).thumbnail.desktop | default $desktop -}}
+    {{ .Type }}
+    --
+    {{ (index site.Params .Type).thumbnail }}
+    --
+    {{ (index site.Params .Type).image }}
+
     {{- $mobile = (index site.Params .Type).thumbnail.mobile | default $mobile -}}
     {{- if .Scratch.Get "scrollsnap" -}}
       {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
@@ -20,23 +23,40 @@
     {{- if .Scratch.Get "large" -}}
       {{- $desktop = (index site.Params .Type).thumbnail.desktop_large | default site.Params.thumbnail.desktop_large -}}
     {{- end -}}
+    {{- $sizes = (index site.Params .Type).thumbnail.sizes | default $sizes -}}
   {{- end -}}
 
+  {{/*  Add ratio from media */}}
+  {{- $ratio := "--item-media-ratio: 100%;" -}}
+  {{- if $desktop -}}
+    {{- $w := float (index (split $desktop "x") 0 | default 100) -}}
+    {{- $y := float (index (split $desktop "x") 1 | default 100) -}}
+    {{- $value := string (mul (div $y $w) 100) -}}
+    {{- $ratio = printf "--item-media-ratio: %s%s;" $value "%" -}}
+  {{- end -}}
+  {{- $style := printf "style='%s'" $ratio -}}
+
+  {{/*  Lazy  */}}
   {{- $lazy := .Scratch.Get "lazy" | default true -}}
-  
-  <div class="media">
+
+  {{/*  Image  */}}
+  <div class="media" {{ safeHTMLAttr $style }}>
     {{- with .Params.image }}
       {{- if .src }}
-      {{- $args := merge . (dict "itemprop" "image" "lazy" $lazy "desktop" $desktop "mobile" $mobile) }}
+      {{- $args := merge . (dict
+        "itemprop" "image"
+        "lazy" $lazy
+        "desktop" $desktop
+        "mobile" $mobile
+        "sizes" $sizes
+      ) }}
       {{- partial "commons/image.html" $args -}}
       {{ end -}}
     {{ end -}}
   </div>
 
+  {{/*  Reset scratch variables  */}}
   {{- .Scratch.Delete "lazy" -}}
   {{- .Scratch.Delete "scrollsnap" -}}
   {{- .Scratch.Delete "large" -}}
 {{ end -}}
-
-
-

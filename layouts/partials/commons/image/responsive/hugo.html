@@ -1,0 +1,88 @@
+{{/*  Responsive image (srcset width descriptors) — Hugo image processing.
+
+      Retina is handled by the browser via DPR, so no explicit 2x/3x files are generated:
+      the width ladder just needs to reach ~2x the largest render width. Variants larger than
+      the source are skipped (no upscaling). AVIF is emitted since Hugo v0.162.0.
+*/}}
+{{- $file := .file -}}
+{{- $filter := .filter -}}
+{{- $hint := .hint -}}
+{{/*  Width ladder: explicit caller widths, else the lean Hugo ladder (every width is a file built locally). */}}
+{{- $widths := .widths -}}
+{{- if not $widths -}}
+  {{- $widths = site.Params.image.srcset_widths_hugo | default site.Params.image.srcset_widths | default (slice 400 800 1200 1600) -}}
+{{- end -}}
+
+{{- $image_desktop := false -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+{{- $srcset := slice -}}
+{{- $srcset_webp := slice -}}
+{{- $srcset_avif := slice -}}
+
+{{- $image := false -}}
+{{- with $file -}}{{- $image = resources.Get . -}}{{- end -}}
+
+{{- if $image -}}
+
+  {{- if strings.HasSuffix $file "svg" -}}
+
+    {{/*  SVG is resolution-independent: serve as-is, no srcset. */}}
+    {{- $dim := partial "func/GetImageDimensions.html" (dict "file" (print "/assets/" $file)) -}}
+    {{- $image_desktop = $image.RelPermalink -}}
+    {{- $image_width = index $dim 0 -}}
+    {{- $image_height = index $dim 1 -}}
+
+  {{- else -}}
+
+    {{- $crop := .crop -}}
+    {{- $crop_ratio := .crop_ratio -}}
+    {{/*  Crop mode (fill + anchor) keeps the requested aspect ratio at every width; otherwise plain resize. */}}
+    {{- $proc := cond $crop_ratio "fill" "resize" -}}
+    {{- if and $crop_ratio $crop -}}{{- $proc = printf "%s %s" $proc $crop -}}{{- end -}}
+    {{- if $filter -}}{{- $proc = printf "%s %s" $proc $filter -}}{{- end -}}
+    {{- if $hint -}}{{- $proc = printf "%s %s" $proc $hint -}}{{- end -}}
+    {{/*  AVIF encoding is available since Hugo v0.162.0; quality follows the imaging.avif config. */}}
+    {{- $supports_avif := ge hugo.Version "0.162.0" -}}
+    {{- $fallback := false -}}
+    {{- range $w := $widths -}}
+      {{- $w = int $w -}}
+      {{- if le $w $image.Width -}}
+        {{/*  Crop derives the height from the requested ratio; resize keeps the source ratio. */}}
+        {{- $spec := printf "%dx" $w -}}
+        {{- if $crop_ratio -}}{{- $spec = printf "%dx%d" $w (int (math.Round (mul (float $w) $crop_ratio))) -}}{{- end -}}
+        {{- $r := $image.Process (printf "%s %s" $proc $spec) -}}
+        {{- $rw := $image.Process (printf "%s %s webp" $proc $spec) -}}
+        {{- $srcset = $srcset | append (printf "%s %dw" $r.RelPermalink $w) -}}
+        {{- $srcset_webp = $srcset_webp | append (printf "%s %dw" $rw.RelPermalink $w) -}}
+        {{- if $supports_avif -}}
+          {{- $ra := $image.Process (printf "%s %s avif" $proc $spec) -}}
+          {{- $srcset_avif = $srcset_avif | append (printf "%s %dw" $ra.RelPermalink $w) -}}
+        {{- end -}}
+        {{- $fallback = $r -}}
+      {{- end -}}
+    {{- end -}}
+    {{/*  Fallback <img src>: largest variant that fits, else one variant at the source width. */}}
+    {{- if not $fallback -}}
+      {{- $sw := $image.Width -}}
+      {{- $spec := printf "%dx" $sw -}}
+      {{- if $crop_ratio -}}{{- $spec = printf "%dx%d" $sw (int (math.Round (mul (float $sw) $crop_ratio))) -}}{{- end -}}
+      {{- $fallback = $image.Process (printf "%s %s" $proc $spec) -}}
+    {{- end -}}
+    {{/*  <img> width/height follow the fallback variant, so a cropped ratio is reflected (no CLS). */}}
+    {{- $image_desktop = $fallback.RelPermalink -}}
+    {{- $image_width = $fallback.Width -}}
+    {{- $image_height = $fallback.Height -}}
+
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_width" $image_width
+  "image_height" $image_height
+  "srcset" $srcset
+  "srcset_webp" $srcset_webp
+  "srcset_avif" $srcset_avif
+  -}}

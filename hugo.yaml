@@ -102,10 +102,25 @@ params:
     mobile: '300x'
     mobile_full: '360x'
     scrollsnap: '240x'
+    # Responsive mode (srcset width descriptors + sizes). Retina is handled by the browser via DPR,
+    # so we never emit explicit 2x/3x files: the ladder just needs to reach ~2x the largest render width.
+    # Dense ladder for on-the-fly CDNs (Cloudinary/Uploadcare) — variants are free, no build cost.
+    srcset_widths: [320, 480, 640, 768, 960, 1280, 1440, 1600, 1920, 2560]
+    # Lean ladder for Hugo — every width is a file generated at build time, so keep it short.
+    # Variants larger than the source are skipped automatically (no upscaling).
+    srcset_widths_hugo: [400, 800, 1200, 1600]
+    sizes_default: '100vw'
+    # Below this requested width, lazy images stay in the fixed-size + 2x retina mode (avatars, icons,
+    # small thumbnails) instead of generating a responsive srcset ladder.
+    responsive_min_width: 320
+    # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
+    # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
+    sizes_breakpoints: [576, 1024]
   thumbnail:
     desktop: '414x177'
     mobile: '300x129'
     scrollsnap: '240x103'
+    sizes: 100vw, 50vw, 25vw
   navigation:
     desktop: '414x200'
     mobile: '300x150'

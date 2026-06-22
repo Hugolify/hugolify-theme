@@ -1,15 +1,18 @@
 {{ $params := . | default false }}
 {{ $file := .file | default false }}
+{{ $responsive := .responsive | default false }}
 {{ $imageParams := false }}
 
 {{ with $file }}
+  {{- $provider := "hugo" -}}
   {{- if or (in . "ucarecd.net") (in . "ucarecdn.com") -}}
-    {{- $imageParams =  partial "commons/image/uploadcare.html" $params }}
+    {{- $provider = "uploadcare" -}}
   {{- else if in . "cloudinary.com" -}}
-    {{- $imageParams =  partial "commons/image/cloudinary.html" $params }}
-  {{- else -}}
-    {{- $imageParams = partial "commons/image/hugo.html" $params -}}
+    {{- $provider = "cloudinary" -}}
   {{- end -}}
+  {{/*  Pick the strategy folder: responsive (srcset + sizes) or default (art-direction + DPR). */}}
+  {{- $mode := cond $responsive "responsive" "default" -}}
+  {{- $imageParams = partial (printf "commons/image/%s/%s.html" $mode $provider) $params -}}
 {{ end }}
 
 {{ return $imageParams }}

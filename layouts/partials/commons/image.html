@@ -7,20 +7,24 @@
 {{- $picture_class := .picture_class | default false -}}
 {{- $itemprop := .itemprop | default false -}}
 
+{{/* Responsive Params (srcset width descriptors + sizes) */}}
+{{- $sizes := .sizes | default false -}}
+{{/* Expand a shorthand CSV of per-breakpoint widths (e.g. "100vw, 50vw, 25vw") into a valid sizes
+     attribute. A value already containing a media query "(…)" is passed through untouched. */}}
+{{- if and $sizes (not (strings.Contains $sizes "(")) (strings.Contains $sizes ",") -}}
+  {{- $sizes = partial "func/BuildSizes.html" $sizes -}}
+{{- end -}}
+{{- $widths := .widths | default false -}}
+{{/* Responsive mode is opt-in: enabled as soon as the caller passes `sizes` or `widths`. */}}
+{{- $responsive := or $sizes $widths -}}
+
 {{/* Image Params  */}}
 {{- $is_desktop_retina := site.Params.image.retina.desktop | default false -}}
 {{- $desktop_size := .desktop | default false -}}
-{{- $desktop_size_2x := false -}}
-{{- if and $desktop_size $is_desktop_retina -}}
-  {{- $desktop_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $desktop_size) -}}
-{{- end -}}
 {{- $mobile_size := .mobile | default false -}}
+{{- $desktop_size_2x := false -}}
 {{- $mobile_size_2x := false -}}
 {{- $mobile_size_3x := false -}}
-{{- if $mobile_size -}}
-  {{- $mobile_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size) -}}
-  {{- $mobile_size_3x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size "multiply" 3) -}}
-{{- end -}}
 {{- $crop := .crop | default site.Params.image.crop -}}
 {{- $file := .src -}}
 {{- $file_mobile := .src_mobile | default $file -}}
@@ -37,18 +41,63 @@
   {{- $filter = "Linear" -}}
 {{- end -}}
 
+{{/* Auto-enable responsive for lazy images → modern srcset + sizes="auto", no config needed.
+     Skipped for: a distinct mobile *source* (src_mobile, true art-direction), and small fixed-size
+     thumbnails (avatars/icons) whose requested width is below responsive_min_width — those render at a
+     known small size, so the default mode (fixed size + 2x retina) is correct and lighter. */}}
+{{- if and $lazy (not $responsive) (not .src_mobile) -}}
+  {{- $req_width := 0 -}}
+  {{- with $desktop_size -}}{{- $req_width = int (index (split . "x") 0) -}}{{- end -}}
+  {{- if or (eq $req_width 0) (ge $req_width (int (site.Params.image.responsive_min_width | default 320))) -}}
+    {{- $responsive = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $crop_ratio := false -}}
+{{- if $responsive -}}
+  {{/* Responsive mode bypasses art-direction sizes and lets the browser handle DPR (no 2x/3x files).
+       A cropped target size is preserved by deriving its height/width ratio, applied per srcset width.
+       `sizes` defaults to "auto" for lazy images (real render width) and to the config value otherwise. */}}
+  {{- $crop_source := cond (and $desktop_size (partial "func/isCrop.html" $desktop_size)) $desktop_size (cond (and $mobile_size (partial "func/isCrop.html" $mobile_size)) $mobile_size false) -}}
+  {{- with $crop_source -}}
+    {{- $p := split . "x" -}}
+    {{- $cw := int (index $p 0) -}}
+    {{- $ch := int (index $p 1) -}}
+    {{- if and (gt $cw 0) (gt $ch 0) -}}
+      {{- $crop_ratio = div (float $ch) (float $cw) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $desktop_size = false -}}
+  {{- $mobile_size = false -}}
+  {{- if not $sizes -}}
+    {{- $sizes = cond $lazy "auto" (site.Params.image.sizes_default | default "100vw") -}}
+  {{- end -}}
+{{- else -}}
+  {{/* Default (art-direction) mode only: precompute the retina 2x/3x sizes (skipped when responsive). */}}
+  {{- if and $desktop_size $is_desktop_retina -}}
+    {{- $desktop_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $desktop_size) -}}
+  {{- end -}}
+  {{- if $mobile_size -}}
+    {{- $mobile_size_2x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size) -}}
+    {{- $mobile_size_3x = partial "func/GetMultiplyImage.html" (dict "size" $mobile_size "multiply" 3) -}}
+  {{- end -}}
+{{- end -}}
+
 {{/* Get Images */}}
-{{ $imageRenderParams := dict 
-    "file" $file 
-    "file_mobile" $file_mobile 
-    "desktop_size" $desktop_size 
+{{ $imageRenderParams := dict
+    "file" $file
+    "file_mobile" $file_mobile
+    "desktop_size" $desktop_size
     "desktop_size_2x" $desktop_size_2x
-    "mobile_size" $mobile_size 
-    "mobile_size_2x" $mobile_size_2x 
-    "mobile_size_3x" $mobile_size_3x 
-    "crop" $crop 
+    "mobile_size" $mobile_size
+    "mobile_size_2x" $mobile_size_2x
+    "mobile_size_3x" $mobile_size_3x
+    "crop" $crop
     "filter" $filter
     "hint" $hint
+    "responsive" $responsive
+    "widths" $widths
+    "crop_ratio" $crop_ratio
 }}
 {{- $imageParams := partial "func/GetImageParams.html" $imageRenderParams -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
@@ -58,35 +107,62 @@
 
 {{/* Display image  */}}
 {{- with $params }}
-  <picture 
+  {{- if .srcset }}
+    {{/* Responsive mode: a single width-descriptor srcset; the browser handles both sizing and DPR (retina). */}}
+    <picture
+      {{- with $picture_class }}
+        class="{{ . }}"
+        {{- if strings.Contains . `cover` }}{{- partial "func/SetParallax.html" (dict "element" "cover") }}{{ end }}
+      {{ end }}>
+      {{/*  srcset via safeHTMLAttr: provider URLs may contain commas/colons (e.g. Cloudinary q_auto:sensitive)
+            that Go's srcset autoescaping would otherwise mangle into #ZgotmplZ. */}}
+      {{- with .srcset_avif }}
+        <source type="image/avif" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
+      {{- end }}
+      {{- with .srcset_webp }}
+        <source type="image/webp" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
+      {{- end }}
+      <img src="{{ .image_desktop }}"
+        {{ printf "srcset=%q" (delimit .srcset ", ") | safeHTMLAttr }}
+        sizes="{{ $sizes }}"
+        alt="{{ $alt }}"
+        {{- with .image_width }} width="{{ . }}"{{ end -}}
+        {{ with .image_height }} height="{{ . }}"{{ end -}}
+        {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}
+        {{ with $class }} class="{{ . }}"{{ end -}}
+        {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
+    </picture>
+  {{- else }}
+  <picture
     {{- with $picture_class }}
-      class="{{ . }}" 
+      class="{{ . }}"
       {{- if strings.Contains . `cover` }}{{- partial "func/SetParallax.html" (dict "element" "cover") }}{{ end }}
     {{ end }}>
+    {{/*  srcset via safeHTMLAttr: Cloudinary URLs use commas (params) and colons (q_auto:sensitive),
+          which Go's srcset autoescaping would mangle into #ZgotmplZ. */}}
     {{- if .image_desktop_webp }}
-      <source srcset="{{ .image_desktop_webp }} 
-        {{- if $is_desktop_retina }}
-          {{- with .image_desktop_webp_2x }}, {{ . }} 2x{{ end -}}
-        {{ end }}" 
-        type="image/webp" {{- if .image_mobile}} media="(min-width: 577px)"{{ end }}>
+      {{- $ss := .image_desktop_webp -}}
+      {{- with .image_desktop_webp_2x }}{{- $ss = printf "%s, %s 2x" $ss . -}}{{- end -}}
+      <source {{ printf "srcset=%q" $ss | safeHTMLAttr }} type="image/webp" {{- if .image_mobile}} media="(min-width: 577px)"{{ end }}>
     {{- end -}}
     {{ if .image_mobile }}
       {{- if .image_mobile_webp }}
-        <source srcset="{{ .image_mobile_webp }} 
-          {{- with .image_mobile_webp_2x }}, {{ . }} 2x{{ end }}
-          {{- with .image_mobile_webp_3x }}, {{ . }} 3x{{ end }}"
-          type="image/webp" media="(max-width: 576px)">
+        {{- $ss := .image_mobile_webp -}}
+        {{- with .image_mobile_webp_2x }}{{- $ss = printf "%s, %s 2x" $ss . -}}{{- end -}}
+        {{- with .image_mobile_webp_3x }}{{- $ss = printf "%s, %s 3x" $ss . -}}{{- end -}}
+        <source {{ printf "srcset=%q" $ss | safeHTMLAttr }} type="image/webp" media="(max-width: 576px)">
       {{ end -}}
-      <source srcset="{{ .image_mobile }}
-        {{- with .image_mobile_2x }}, {{ . }} 2x{{ end }}
-        {{- with .image_mobile_3x }}, {{ . }} 3x{{ end }}"
-        type="image/jpg" media="(max-width: 576px)">
+      {{- $ss := .image_mobile -}}
+      {{- with .image_mobile_2x }}{{- $ss = printf "%s, %s 2x" $ss . -}}{{- end -}}
+      {{- with .image_mobile_3x }}{{- $ss = printf "%s, %s 3x" $ss . -}}{{- end -}}
+      <source {{ printf "srcset=%q" $ss | safeHTMLAttr }} type="image/jpg" media="(max-width: 576px)">
     {{ end -}}
-    <img src="{{ .image_desktop }}" alt="{{ $alt }}" 
-      {{- with .image_width }} width="{{ . }}"{{ end -}} 
-      {{ with .image_height }} height="{{ . }}"{{ end -}} 
+    <img src="{{ .image_desktop }}" alt="{{ $alt }}"
+      {{- with .image_width }} width="{{ . }}"{{ end -}}
+      {{ with .image_height }} height="{{ . }}"{{ end -}}
       {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}
       {{ with $class }} class="{{ . }}"{{ end -}}
       {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
   </picture>
+  {{- end }}
 {{ end }}

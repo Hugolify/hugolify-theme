@@ -1,0 +1,76 @@
+{{/*  Responsive image (srcset width descriptors) — Cloudinary.
+
+      Transformations are generated on the fly (no build cost), so a dense ladder is fine.
+      c_limit prevents upscaling; retina is handled by the browser via DPR.
+*/}}
+{{- $file := .file -}}
+{{- $quality := site.Params.image.quality | default "auto:eco" -}}
+{{/*  crop: a real Cloudinary gravity (g_*), else g_auto. crop_ratio (h/w) enables cropped variants. */}}
+{{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}}
+{{- $crop_ratio := .crop_ratio -}}
+{{/*  Width ladder: explicit caller widths, else the dense CDN ladder. */}}
+{{- $widths := .widths -}}
+{{- if not $widths -}}
+  {{- $widths = site.Params.image.srcset_widths | default (slice 320 480 640 768 960 1280 1600 1920) -}}
+{{- end -}}
+
+{{- $image_desktop := $file -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+{{- $srcset := slice -}}
+{{- $srcset_webp := slice -}}
+
+{{/*  Cloudinary path  */}}
+{{- $path := split $file "/upload/" -}}
+{{- $pathFile := print (index $path 0) "/upload/" -}}
+{{- $imageFile := index $path 1 -}}
+
+{{- if not (strings.HasSuffix $file "svg") -}}
+
+  {{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio. */}}
+  {{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile "fl_getinfo/" $imageFile) "provider" "cloudinary") -}}
+  {{- $image_width = $size.width -}}
+  {{- $image_height = $size.height -}}
+
+  {{- with $quality }}{{- $quality = printf "q_%s" $quality -}}{{- end -}}
+  {{- $base := slice -}}
+  {{- with $quality }}{{- $base = $base | append . -}}{{- end -}}
+
+  {{- $fallback := false -}}
+  {{- $fallback_w := false -}}
+  {{- $fallback_h := false -}}
+  {{- range $w := $widths -}}
+    {{- $w = int $w -}}
+    {{/*  When the intrinsic size is unknown, keep the width (c_limit / c_fill avoid upscaling server-side). */}}
+    {{- if or (not $image_width) (le $w (int $image_width)) -}}
+      {{- $p := $base -}}
+      {{- if $crop_ratio -}}
+        {{/*  Crop: derive height from the requested ratio, fill to w×h with the chosen gravity. */}}
+        {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
+        {{- $p = $p | append (printf "w_%d,h_%d,c_fill,%s" $w $h $crop) -}}
+        {{- $fallback_w = $w -}}
+        {{- $fallback_h = $h -}}
+      {{- else -}}
+        {{- $p = $p | append (printf "w_%d,c_limit" $w) -}}
+      {{- end -}}
+      {{- $srcset = $srcset | append (printf "%s%s/%s %dw" $pathFile (delimit $p ",") $imageFile $w) -}}
+      {{- $srcset_webp = $srcset_webp | append (printf "%s%s/%s %dw" $pathFile (print "f_webp," (delimit $p ",")) $imageFile $w) -}}
+      {{- $fallback = printf "%s%s/%s" $pathFile (delimit $p ",") $imageFile -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $image_desktop = $fallback | default $file -}}
+  {{/*  For a crop, the <img> dimensions are the fallback variant's computed crop size. */}}
+  {{- if $crop_ratio -}}
+    {{- $image_width = $fallback_w -}}
+    {{- $image_height = $fallback_h -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_width" $image_width
+  "image_height" $image_height
+  "srcset" $srcset
+  "srcset_webp" $srcset_webp
+  -}}

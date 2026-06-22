@@ -2,6 +2,7 @@
   {{- $picture_class := "hero-cover" -}}
   {{- $cover := site.Params.hero.cover -}}
   {{- $mobile := site.Params.hero.cover_mobile -}}
+  {{- $widths := site.Params.image.sizes_default | default false -}}
   {{- if .darken -}}
     {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
   {{- end -}}
@@ -10,6 +11,7 @@
     "alt" .alt
     "desktop" $cover
     "mobile" $mobile
+    "widths" $widths
     "picture_class" $picture_class
     "crop" .crop
     "lazy" false
