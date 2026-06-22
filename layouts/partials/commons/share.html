@@ -10,8 +10,8 @@
       </a>
     </li>
     <li>
-      {{ $name := i18n "contact.twitter" -}}
-      <a href="https://twitter.com/intent/tweet?text={{ .Title }}%20{{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
+      {{ $name := i18n "contact.x" -}}
+      <a href="https://x.com/intent/tweet?text={{ .Title }}%20{{ .Permalink | absURL }}" target="_blank" rel="noopener" title="{{ safeHTML (i18n "share.share_on" (dict "Website" $name )) }}">
         {{- $name -}}
       </a>
     </li>

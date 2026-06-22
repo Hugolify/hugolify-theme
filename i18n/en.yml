@@ -44,6 +44,7 @@ contact:
   us: 'Contact us'
   website: Website
   whatsapp: WhatsApp
+  x: X
 cookie_banner:
   accept: Accept
   label: Cookie notice
@@ -74,7 +75,7 @@ cookie_consent:
   sectionsMarketingDescription: Enables storage (such as cookies) related to advertising.
 credit:
   hugolify: a low impact website crafted with <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - external link">Hugolify</a>
-date: 
+date:
   one: Date
   other: Dates
 document:

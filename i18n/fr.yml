@@ -44,6 +44,7 @@ contact:
   us: 'Contactez-nous'
   website: Site web
   whatsapp: WhatsApp
+  x: X
 cookie_banner:
   accept: Accepter
   label: Avis sur les cookies
@@ -74,7 +75,7 @@ cookie_consent:
   sectionsMarketingDescription: Permet le stockage (comme les cookies) lié à la publicité.
 credit:
   hugolify: un site éco-conçu produit avec <a href="https://www.hugolify.io" target="_blank" rel="noopener noreferrer" title="« Hugolify » - lien externe">Hugolify</a>
-date: 
+date:
   one: Date
   other: Dates
 document:

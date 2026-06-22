@@ -1,10 +1,13 @@
-{{ if or .linkedin .twitter .instagram }}
+{{ if or .linkedin .twitter .instagram .x }}
   <ul class="nav nav-social">
     {{ with .linkedin }}
       {{ partial "commons/contact/linkedin.html" . }}
     {{ end }}
     {{ with .twitter }}
       {{ partial "commons/contact/twitter.html" . }}
+    {{ end }}
+    {{ with .x }}
+      {{ partial "commons/contact/x.html" . }}
     {{ end }}
     {{ with .instagram }}
       {{ partial "commons/contact/instagram.html" . }}
