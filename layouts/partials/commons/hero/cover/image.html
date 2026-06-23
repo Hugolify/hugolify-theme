@@ -2,7 +2,7 @@
   {{- $picture_class := "hero-cover" -}}
   {{- $cover := site.Params.hero.cover -}}
   {{- $mobile := site.Params.hero.cover_mobile -}}
-  {{- $widths := site.Params.image.sizes_default | default false -}}
+  {{- $widths := "100vw" -}}
   {{- if .darken -}}
     {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
   {{- end -}}
