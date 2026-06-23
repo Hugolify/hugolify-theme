@@ -22,7 +22,6 @@
 {{- $image_width := false -}}
 {{- $image_height := false -}}
 {{- $srcset := slice -}}
-{{- $srcset_webp := slice -}}
 
 {{- if not (strings.HasSuffix $file "svg") -}}
 
@@ -31,7 +30,9 @@
   {{- $image_width = $size.width -}}
   {{- $image_height = $size.height -}}
 
-  {{- $q := printf "-/quality/%s/" $quality -}}
+  {{/*  format/auto: Uploadcare negotiates AVIF/WebP/original per browser via the Accept header,
+        so a single srcset suffices — no hand-built webp/avif <source> needed. */}}
+  {{- $q := printf "-/format/auto/-/quality/%s/" $quality -}}
   {{- $fallback := false -}}
   {{- $fallback_w := false -}}
   {{- $fallback_h := false -}}
@@ -42,13 +43,11 @@
         {{/*  Crop: derive height from the requested ratio, scale_crop to w×h with the chosen alignment. */}}
         {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
         {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
-        {{- $srcset_webp = $srcset_webp | append (printf "%s-/format/webp/-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
         {{- $fallback = printf "%s-/scale_crop/%dx%d/%s/%s" $file $w $h $crop $q -}}
         {{- $fallback_w = $w -}}
         {{- $fallback_h = $h -}}
       {{- else -}}
         {{- $srcset = $srcset | append (printf "%s-/resize/%dx/%s %dw" $file $w $q $w) -}}
-        {{- $srcset_webp = $srcset_webp | append (printf "%s-/format/webp/-/resize/%dx/%s %dw" $file $w $q $w) -}}
         {{- $fallback = printf "%s-/resize/%dx/%s" $file $w $q -}}
       {{- end -}}
     {{- end -}}
@@ -67,5 +66,4 @@
   "image_width" $image_width
   "image_height" $image_height
   "srcset" $srcset
-  "srcset_webp" $srcset_webp
   -}}

@@ -15,6 +15,11 @@
   {{- $sizes = partial "func/BuildSizes.html" $sizes -}}
 {{- end -}}
 {{- $widths := .widths | default false -}}
+{{/* `widths` feeds a `range` downstream, so coerce a non-slice (e.g. a "400, 800, 1200" CSV string)
+     into a (whitespace-trimmed) slice. Each element is `int`-cast in the responsive partials. */}}
+{{- if and $widths (not (reflect.IsSlice $widths)) -}}
+  {{- $widths = apply (split (printf "%v" $widths) ",") "trim" "." " " -}}
+{{- end -}}
 {{/* Responsive mode is opt-in: enabled as soon as the caller passes `sizes` or `widths`. */}}
 {{- $responsive := or $sizes $widths -}}
 
@@ -157,7 +162,10 @@
       {{- with .image_mobile_3x }}{{- $ss = printf "%s, %s 3x" $ss . -}}{{- end -}}
       <source {{ printf "srcset=%q" $ss | safeHTMLAttr }} type="image/jpg" media="(max-width: 576px)">
     {{ end -}}
-    <img src="{{ .image_desktop }}" alt="{{ $alt }}"
+    {{/*  f_auto providers (Cloudinary) ship retina via the <img> srcset — no webp <source> needed.
+          safeHTMLAttr: Cloudinary transform URLs contain commas that srcset autoescaping would mangle. */}}
+    <img src="{{ .image_desktop }}"
+      {{- with .image_desktop_2x }} {{ printf "srcset=%q" (printf "%s, %s 2x" $params.image_desktop .) | safeHTMLAttr }}{{ end }} alt="{{ $alt }}"
       {{- with .image_width }} width="{{ . }}"{{ end -}}
       {{ with .image_height }} height="{{ . }}"{{ end -}}
       {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}

@@ -10,14 +10,10 @@
 
 {{/*  Return params  */}}
 {{- $image_desktop := .file -}}
-{{- $image_desktop_webp := false -}}
-{{- $image_desktop_webp_2x := false -}}
+{{- $image_desktop_2x := false -}}
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
 {{- $image_mobile_3x := false -}}
-{{- $image_mobile_webp := false -}}
-{{- $image_mobile_webp_2x := false -}}
-{{- $image_mobile_webp_3x := false -}}
 {{- $image_width := false -}}
 {{- $image_height := false -}}
 
@@ -55,7 +51,8 @@
 
   {{/*  Return desktop image  */}}
   {{- with $desktop_size -}}
-    {{- $params := slice -}}
+    {{/*  f_auto: Cloudinary negotiates AVIF/WebP/original per browser via the Accept header. */}}
+    {{- $params := slice "f_auto" -}}
 
     {{- with $quality }}
       {{ $params = $params | append . }}
@@ -79,11 +76,10 @@
     {{- end -}}
 
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
-    {{- $image_desktop_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params ",")) $imageFile -}}
 
-    {{/*  If desktop retina  */}}
+    {{/*  Desktop retina: a dpr_2.0 variant; the format stays negotiated by f_auto.  */}}
     {{- if $is_desktop_retina -}}
-      {{- $image_desktop_webp_2x = replace $image_desktop_webp "f_webp" "dpr_2.0,f_webp" -}}
+      {{- $image_desktop_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params ",")) $imageFile -}}
     {{- end -}}
 
     {{/*  Get modificated image dataset  */}}
@@ -109,7 +105,8 @@
 
   {{/*  Return mobile image  */}}
   {{- with $mobile_size -}}
-    {{- $params := slice -}}
+    {{/*  f_auto: format negotiated by the CDN; the dpr variants below carry it through. */}}
+    {{- $params := slice "f_auto" -}}
     {{- $params_1x := slice -}}
 
     {{- with $quality }}
@@ -135,25 +132,18 @@
     {{ end }}
 
     {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params_1x ",") $imageFile -}}
-    {{- $image_mobile_2x = replace $image_mobile "f_webp" "dpr_2.0,f_webp" -}}
-    {{- $image_mobile_3x = replace $image_mobile "f_webp" "dpr_3.0,f_webp" -}}
-    {{- $image_mobile_webp = printf "%s%s/%s" $pathFile (print "f_webp," (delimit $params_1x ",")) $imageFile -}}
-    {{- $image_mobile_webp_2x = replace $image_mobile_webp "f_webp" "dpr_2.0,f_webp" -}}
-    {{- $image_mobile_webp_3x = replace $image_mobile_webp "f_webp" "dpr_3.0,f_webp" -}}
+    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params_1x ",")) $imageFile -}}
+    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (print "dpr_3.0," (delimit $params_1x ",")) $imageFile -}}
   {{- end -}}
 
 {{- end -}}
 
 {{- return dict
   "image_desktop" $image_desktop
-  "image_desktop_webp" $image_desktop_webp
-  "image_desktop_webp_2x" $image_desktop_webp_2x
+  "image_desktop_2x" $image_desktop_2x
   "image_mobile" $image_mobile
   "image_mobile_2x" $image_mobile_2x
   "image_mobile_3x" $image_mobile_3x
-  "image_mobile_webp" $image_mobile_webp
-  "image_mobile_webp_2x" $image_mobile_webp_2x
-  "image_mobile_webp_3x" $image_mobile_webp_3x
   "image_width" $image_width
   "image_height" $image_height
   -}}

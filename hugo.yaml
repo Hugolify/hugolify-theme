@@ -88,6 +88,7 @@ params:
     cover_mobile: '360x400'
     desktop: '416x'
     mobile: '300x'
+    sizes: calc(100vw - 3.5rem), calc(50vw - 3.5rem)
   image:
     xlarge: '1600x'
     xsmall: '50x50'
