@@ -11,7 +11,7 @@
 {{- $sizes := .sizes | default false -}}
 {{/* Expand a shorthand CSV of per-breakpoint widths (e.g. "100vw, 50vw, 25vw") into a valid sizes
      attribute. A value already containing a media query "(…)" is passed through untouched. */}}
-{{- if and $sizes (not (strings.Contains $sizes "(")) (strings.Contains $sizes ",") -}}
+{{- if and $sizes (not (strings.Contains $sizes "width")) (strings.Contains $sizes ",") -}}
   {{- $sizes = partial "func/BuildSizes.html" $sizes -}}
 {{- end -}}
 {{- $widths := .widths | default false -}}

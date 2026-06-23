@@ -1,6 +1,21 @@
+{{ $type := .Type }}
 {{ with .Params.image}}
   {{- $desktop := site.Params.image.desktop | default false -}}
   {{- $mobile := site.Params.image.mobile_full | default false -}}
-  {{- $args := merge . (dict "lazy" false "figure_class" "featured-image" "desktop" $desktop "mobile" $mobile) }}
+  {{- $sizes := site.Params.image.sizes | default false -}}
+
+  {{/*  Specific by Type */}}
+  {{- with $type -}}
+    {{- $desktop = (index site.Params .).image.desktop | default $desktop -}}
+    {{- $mobile = (index site.Params .).image.mobile | default $mobile -}}
+    {{- $sizes = (index site.Params .).image.sizes | default $sizes -}}
+  {{- end -}}
+
+  {{- $args := merge . (dict
+    "lazy" false
+    "figure_class" "featured-image"
+    "desktop" $desktop
+    "mobile" $mobile
+    "sizes" $sizes) }}
   {{- partial "commons/figure.html" $args -}}
 {{ end }}
