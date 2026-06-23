@@ -169,6 +169,9 @@ reference:
   label_short: Réf.
   label_with_value: 'Référence : {{ .Value }}'
   label_short_with_value: 'Réf. : {{ .Value }}'
+result:
+  one: '{{ . }} résultat'
+  other: '{{ . }} résultats'
 search:
   title: Recherche
 share:
