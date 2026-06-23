@@ -37,12 +37,14 @@
   <div class="media" {{ safeHTMLAttr $style }}>
     {{- with .Params.image }}
       {{- if .src }}
+      {{/*  sizes precedence: a per-image front-matter `sizes` always wins; otherwise lazy images
+            get "auto" (resolved in image.html) and only non-lazy ones fall back to the config default. */}}
       {{- $args := merge . (dict
         "itemprop" "image"
         "lazy" $lazy
         "desktop" $desktop
         "mobile" $mobile
-        "sizes" $sizes
+        "sizes" (.sizes | default (cond $lazy false $sizes))
       ) }}
       {{- partial "commons/image.html" $args -}}
       {{ end -}}

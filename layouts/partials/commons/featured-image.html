@@ -11,11 +11,12 @@
     {{- $sizes = (index site.Params .).image.sizes | default $sizes -}}
   {{- end -}}
 
+  {{/*  merge: rightmost wins, so let a per-image front-matter `sizes` override the config default. */}}
   {{- $args := merge . (dict
     "lazy" false
     "figure_class" "featured-image"
     "desktop" $desktop
     "mobile" $mobile
-    "sizes" $sizes) }}
+    "sizes" (.sizes | default $sizes)) }}
   {{- partial "commons/figure.html" $args -}}
 {{ end }}
