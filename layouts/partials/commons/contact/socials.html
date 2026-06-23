@@ -1,19 +1,15 @@
-{{ if or .linkedin .twitter .instagram .x }}
+{{- $socials := dict }}
+{{- range $k, $v := . }}
+  {{- if and (ne $k "email") (ne $k "phone") (ne $k "fax") }}
+    {{- $socials = merge $socials (dict $k $v) }}
+  {{- end }}
+{{- end }}
+{{- if $socials }}
   <ul class="nav nav-social">
-    {{ with .linkedin }}
-      {{ partial "commons/contact/linkedin.html" . }}
-    {{ end }}
-    {{ with .twitter }}
-      {{ partial "commons/contact/twitter.html" . }}
-    {{ end }}
-    {{ with .x }}
-      {{ partial "commons/contact/x.html" . }}
-    {{ end }}
-    {{ with .instagram }}
-      {{ partial "commons/contact/instagram.html" . }}
-    {{ end }}
-    {{ with .youtube }}
-      {{ partial "commons/contact/youtube.html" . }}
-    {{ end }}
+    {{- range $k, $v := $socials }}
+      <li class="{{ lower (safeHTML $k) }}">
+        {{- partial "nav/link-with-icon.html" (dict "title" $k "url" $v "blank" true) -}}
+      </li>
+    {{- end }}
   </ul>
-{{ end }}
+{{- end }}
