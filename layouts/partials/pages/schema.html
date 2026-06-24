@@ -1,23 +1,52 @@
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "headline": {{ partial "func/PrepareData.html" .Title }},
-    
-  {{- with .Params.image }}
-    "image": {{ .src | absURL }},
+{{- /*
+  Schema.org for list/collection pages (sections, taxonomy terms, home).
+  Accepts either the page as the context (.) or a dict:
+    { "page": <page>, "types": <slice of extra @type to add alongside CollectionPage> }
+*/ -}}
+{{- $page := . -}}
+{{- $extraTypes := slice -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- with .types -}}{{- $extraTypes = . -}}{{- end -}}
+{{- end -}}
+
+{{- with $page -}}
+  {{- $types := slice "CollectionPage" -}}
+  {{- range $extraTypes -}}{{- $types = $types | append . -}}{{- end -}}
+
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" (cond (eq (len $types) 1) (index $types 0) $types)
+    "@id" (printf "%s#webpage" .Permalink)
+    "url" .Permalink
+    "headline" (partial "func/PrepareData.html" .Title)
+  -}}
+
+  {{- with .Params.image -}}{{- $schema = merge $schema (dict "image" (.src | absURL)) -}}{{- end -}}
+  {{- with .Date -}}{{- $schema = merge $schema (dict "datePublished" .) -}}{{- end -}}
+  {{- with .Params.description -}}{{- $schema = merge $schema (dict "abstract" (partial "func/PrepareData.html" .)) -}}{{- end -}}
+  {{- with .Content -}}{{- $schema = merge $schema (dict "description" (partial "func/PrepareData.html" .)) -}}{{- end -}}
+
+  {{- /* List the items of this collection (capped, in display order; override with params.schemaItemsLimit). */ -}}
+  {{- $limit := site.Params.schemaItemsLimit | default 30 -}}
+  {{- $elements := slice -}}
+  {{- range $i, $p := first $limit $page.Pages -}}
+    {{- $elements = $elements | append (dict
+      "@type" "ListItem"
+      "position" (add $i 1)
+      "url" $p.Permalink
+      "name" ($p.Title | plainify)
+    ) -}}
+  {{- end -}}
+  {{- with $elements -}}
+    {{- $schema = merge $schema (dict "mainEntity" (dict
+      "@type" "ItemList"
+      "numberOfItems" (len $page.Pages)
+      "itemListElement" .
+    )) -}}
   {{- end -}}
 
-  {{- with .Date }}
-    "datePublished": {{ . }},
-  {{- end -}}
-
-  {{- with .Params.description }}
-    "abstract": {{ partial "func/PrepareData.html" . }},
-  {{- end -}}
-
-  {{ with .Content }}
-    "description": {{ partial "func/PrepareData.html" . }},
-  {{- end -}}
-  }
-</script>
+  <script type="application/ld+json">
+  {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+  </script>
+{{- end -}}
