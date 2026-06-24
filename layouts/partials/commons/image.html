@@ -52,7 +52,8 @@
      known small size, so the default mode (fixed size + 2x retina) is correct and lighter. */}}
 {{- if and $lazy (not $responsive) (not .src_mobile) -}}
   {{- $req_width := 0 -}}
-  {{- with $desktop_size -}}{{- $req_width = int (index (split . "x") 0) -}}{{- end -}}
+  {{/* float→int so a fractional width string (e.g. "307.5x…") never breaks the int cast. */}}
+  {{- with $desktop_size -}}{{- $req_width = int (float (index (split . "x") 0)) -}}{{- end -}}
   {{- if or (eq $req_width 0) (ge $req_width (int (site.Params.image.responsive_min_width | default 320))) -}}
     {{- $responsive = true -}}
   {{- end -}}

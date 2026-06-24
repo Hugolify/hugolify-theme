@@ -5,4 +5,7 @@
 
 {{ $width := sub (mul (div (add $container $gutter) $columnTotal) $columnWanted) $gutter }}
 
-{{ return $width }}
+{{/* Round up to an integer: the column division is often fractional and the result feeds image
+     dimensions (Hugo Process / CDN resize), which require whole pixels. Ceil (not Round) so the image
+     is never narrower than its slot — avoids a sub-pixel upscale/blur, at most +1px. */}}
+{{ return int (math.Ceil $width) }}
