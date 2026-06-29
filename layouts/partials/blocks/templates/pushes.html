@@ -1,8 +1,29 @@
-{{- $layout := .layout | default "grid" -}}
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Image */}}
+{{- $width := partial "func/GetColumnWidth.html" (dict "column" $ui.columnWanted) -}}
+{{- $desktop := printf "%sx" (string $width) -}}
+{{- $mobile := site.Params.blocks.figure.mobile | default site.Params.container.mobile -}}
+{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
+
+{{/* Context */}}
+{{- $context := merge . .figure (dict
+  "desktop" $desktop
+  "mobile" $mobile
+  "lazy" $lazy
+) -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "pushes" "ui" $ui) -}}
+
+{{/* Block */}}
 {{- if .items }}
-<section class="block-pushes block-pushes-{{ $layout }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/pushes/header.html" . }}
   {{ partial "blocks/templates/pushes/body.html" . }}
   {{ partial "blocks/templates/pushes/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
 {{ end -}}

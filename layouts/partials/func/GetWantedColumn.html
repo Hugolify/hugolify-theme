@@ -1,10 +1,11 @@
-{{ $columnWanted := 12 }}
+{{ $base := site.Params.column | default 12 }}
+{{ $columnWanted := $base }}
 {{ if eq . "small" }}
-  {{ $columnWanted = 6 }}
+  {{ $columnWanted = math.Round (div $base 2) }}
 {{ else if eq . "medium" }}
-  {{ $columnWanted = 8 }}
+  {{ $columnWanted = math.Round (div (mul $base 2) 3) }}
 {{ else if eq . "large" }}
-  {{ $columnWanted = 10 }}
+  {{ $columnWanted = math.Round (div (mul $base 5) 6) }}
 {{ end }}
 
 {{ return $columnWanted }}

@@ -1,13 +1,12 @@
 {{- $params := .params -}}
 {{- with .context }}
-  {{- $items := slice -}}
+{{- $items := slice -}}
+{{- $carousel := .carousel | default false -}}
   {{- range .items }}
-      {{- $items = $items | append (dict "push" . "params" $params)  -}}
+    {{- $items = $items | append (dict "push" . "params" $params)  -}}
   {{ end -}}
-  <div class="container">
-    {{ partial "commons/carousel.html" (dict 
-        "context" (dict "items" $items)
-        "partial" "blocks/templates/pushes/push.html" 
-    ) }}
-  </div>
+  {{ partial "commons/carousel.html" (dict
+      "context" (dict "items" $items "carousel" $carousel)
+      "partial" "blocks/templates/pushes/push.html"
+  ) }}
 {{ end -}}

@@ -2,12 +2,6 @@
 {{- $tag := .params.tag | default "h2" -}}
 
 {{- with .push }}
-  {{- $hasOnlyLink := false -}}
-  {{- with .cta }}
-    {{- if and (or (not (isset . "text")) (eq .text "")) (and (isset . "url") (ne .url "")) -}}
-      {{- $hasOnlyLink = true -}}
-    {{- end -}}
-  {{- end -}}
 
   {{- $pushClass := "push" -}}
   {{- with .offset }}
@@ -31,62 +25,20 @@
 
   <div class="{{ $pushClass }}" {{- if or .background_color .color }}{{ $style | safeHTMLAttr }}{{ end }}>
 
-    {{- if $hasOnlyLink }}
-      {{- $blank := .cta.blank | default false -}}
-      {{- $title := i18n "link.blank" -}}
-      <a href="{{ .cta.url | safeURL }}" {{ if $blank }} target="_blank" title="{{ $title }}"{{ end }}>
-    {{ end -}}
+    {{/* Content */}}
+    {{ partial "commons/push/content.html" (merge . (dict "tag" $tag)) }}
 
-    {{- if or .title .text .cta.text }}
-    <div class="content">
-      {{- if .card }}
-      <div class="card">
-        <div class="content">
-      {{- end }}
-      {{- with .surtitle }}
-        <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
-      {{ end -}}
-      {{- with .title }}
-        {{- printf "<%s>" $tag | safeHTML -}}
-          {{ partial "func/PrepareHTML.html" . }}
-        {{- printf "</%s>" $tag | safeHTML -}}
-      {{ end -}}
-      {{- with .text }}
-        {{ partial "commons/text.html" (dict "text" .) }}
-      {{ end -}}
-      {{ with .cta }}
-        {{ partial "commons/cta.html" . }}
-      {{ end }}
-      {{- if .card }}
-        </div>
-      </div>
-      {{- end }}
-    </div>
-    {{ end -}}
+    {{/* Image */}}
+    {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div site.Params.column $column)) -}}
+    {{- $desktop := printf "%sx" (string $width) -}}
+    {{- $mobile := site.Params.blocks.pushes.mobile | default site.Params.container.mobile -}}
+    {{ if $mobile }}
+      {{- $mobile = printf "%sx%s" (string $mobile) (string $mobile) -}}
+    {{ end }}
+    {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 
-    <div class="media">
-    {{- with .image }}
-      {{- $columnTotal := site.Params.column | default false -}}
-      {{- $desktop := site.Params.container.desktop | default false -}}
-      {{- $mobile := site.Params.container.mobile | default false -}}
-      {{ if $desktop }}
-        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
-        {{- $desktop = printf "%sx" (string $width) -}}
-      {{ end }}
-      {{ if $mobile }}
-        {{- $mobile = printf "%sx%s" (string $mobile) (string $mobile) -}}
-      {{ end }}
-
-      {{- $args := merge . (dict "desktop" $desktop "mobile" $mobile) }}
-      {{- partial "commons/image.html" $args -}}
-    {{ end -}}
-    </div>
-
-    {{- if $hasOnlyLink }}
-      {{- $blank := .blank | default false -}}
-      {{- $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .text)) -}}
-      </a>
-    {{ end -}}
+    {{/* Media */}}
+    {{ partial "commons/push/media.html" (merge .image (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy)) }}
 
   </div>
 {{ end -}}

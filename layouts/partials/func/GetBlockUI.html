@@ -1,0 +1,63 @@
+{{/* GetBlockUI
+     Resolve a block's UI vars from its context, with optional overrides from a nested `.ui` dict.
+     Falls back to the legacy `.background` flag, mapping it to the "bg" theme.
+
+     Params:
+       align      (string) align, e.g. "center"
+       grid       (string) grid size, e.g. "medium"
+       layout     (string) layout variant
+       offset     (string) offset, e.g. "center" / "end"
+       theme      (string) theme, e.g. "bg"
+       background (bool)   legacy flag -> theme "bg" when no theme is set
+       ui         (dict)   optional overrides for any of grid/layout/offset/theme
+
+     Returns: dict
+       class        (string)    column/offset helper class (from GetColOffsetClass) or false
+       columnWanted (int)       column count wanted for the grid (from GetWantedColumn)
+       grid         (string)    resolved grid value, or false when unset
+       layout       (string)    resolved layout value, or false when unset
+       offset       (string)    resolved offset value, or false when unset
+       theme        (string)    resolved theme value, or false when unset
+*/}}
+{{- $align := .align | default false -}}
+{{- $grid := .grid | default false -}}
+{{- $layout := .layout | default false -}}
+{{- $offset := .offset | default false -}}
+{{- $theme := .theme | default false -}}
+{{- with .ui }}
+  {{- if isset . "align" }}
+  {{- $align = .align -}}
+  {{ end -}}
+  {{- if isset . "grid" }}
+  {{- $grid = .grid -}}
+  {{ end -}}
+  {{- if isset . "layout" }}
+  {{- $layout = .layout -}}
+  {{ end -}}
+  {{- if isset . "offset" }}
+  {{- $offset = .offset -}}
+  {{ end -}}
+  {{- if isset . "theme" }}
+  {{- $theme = .theme -}}
+  {{ end -}}
+{{- end }}
+
+{{/* Legacy "block-bg" */}}
+{{- if not $theme }}
+  {{- if .background }}
+    {{- $theme = "bg" -}}
+  {{- end }}
+{{- end }}
+
+{{/* Class */}}
+{{- $rowClass := partial "func/GetColOffsetClass" (dict "grid" $grid "offset" $offset) | default false -}}
+{{- $columnWanted := partial "func/GetWantedColumn" $grid -}}
+
+{{- return (dict
+  "columnWanted" $columnWanted
+  "grid" $grid
+  "layout" $layout
+  "offset" $offset
+  "rowClass" $rowClass
+  "theme" $theme
+) -}}

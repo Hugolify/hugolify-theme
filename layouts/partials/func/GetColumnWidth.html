@@ -1,9 +1,12 @@
-{{ $container := .container | default site.Params.container.desktop }}
-{{ $gutter := .gutter | default site.Params.gutter }}
+{{ $container := .container | default (sub site.Params.container.desktop (mul site.Params.gutter.desktop 2)) }}
+{{ $gap := .gap | default site.Params.gap.desktop }}
 {{ $columnTotal := .columnTotal | default site.Params.column }}
-{{ $columnWanted := (float .column) | default site.Params.column }}
+{{ $columnWanted := (float .column) | default 1 }}
 
-{{ $width := sub (mul (div (add $container $gutter) $columnTotal) $columnWanted) $gutter }}
+{{/* Width of a single column: container minus all internal gaps, divided by the column count. */}}
+{{ $oneColumnWidth := div (sub $container (mul (sub $columnTotal 1) $gap)) $columnTotal }}
+{{/* A span of k columns = k column widths + the (k-1) gaps that sit between them. */}}
+{{ $width := add (mul $oneColumnWidth $columnWanted) (mul (sub $columnWanted 1) $gap) }}
 
 {{/* Round up to an integer: the column division is often fractional and the result feeds image
      dimensions (Hugo Process / CDN resize), which require whole pixels. Ceil (not Round) so the image

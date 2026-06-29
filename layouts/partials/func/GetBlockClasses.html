@@ -1,0 +1,21 @@
+{{/* GetBlockClasses
+     Build a block's space-delimited CSS class string from its base name and resolved UI vars.
+     Each UI value is prefixed with "block-" (e.g. grid "medium" -> "block-medium").
+
+     Params:
+       name    (string) base block name, e.g. "figure" -> "block-figure"
+       ui      (dict)   resolved UI vars from "func/GetBlockUI" (grid/layout/offset/theme)
+       variant (string) optional modifier -> "block-<name>-<variant>", e.g. editorial direction
+
+     Returns: string, e.g. "block-figure block-medium block-bg"
+*/}}
+{{- $classes := slice (printf "block-%s" .name) -}}
+{{- with .variant }}{{ $classes = $classes | append (printf "block-%s-%s" $.name .) }}{{ end -}}
+{{- with .ui }}
+  {{- with .align }}{{ $classes = $classes | append (printf "block-align-%s" .) }}{{ end }}
+  {{- with .grid }}{{ $classes = $classes | append (printf "block-%s" .) }}{{ end }}
+  {{- with .layout }}{{ $classes = $classes | append (printf "block-%s" .) }}{{ end }}
+  {{- with .offset }}{{ $classes = $classes | append (printf "block-%s" .) }}{{ end }}
+  {{- with .theme }}{{ $classes = $classes | append (printf "block-%s" .) }}{{ end }}
+{{- end -}}
+{{- return (delimit $classes " ") -}}

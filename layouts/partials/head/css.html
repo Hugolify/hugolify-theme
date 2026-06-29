@@ -35,8 +35,13 @@
 {{- if $css -}}
   {{- $css = $css | css.PostCSS (dict "config" $postCSSDirectoryConfig "inlineImports" true "skipInlineImportsNotFound" true) -}}
 {{- end -}}
+{{- /* NOTE: do NOT pipe through resources.PostProcess here. PurgeCSS reads
+       hugo_stats.json (not the rendered HTML) and fingerprint already provides
+       the URL + SRI, so PostProcess is unnecessary — and its presence disables
+       templates.Defer site-wide, leaking __hdeferred placeholders and breaking
+       the deferred icon stylesheet (hugolify-theme-icons). */ -}}
 {{- if and hugo.IsProduction $css -}}
-  {{- $css = $css | minify | fingerprint | resources.PostProcess -}}
+  {{- $css = $css | minify | fingerprint -}}
 {{- end -}}
 
 {{/*  HTML output  */}}
@@ -67,7 +72,7 @@
     {{- $print = resources.Get "css/print.css" -}}
   {{- end -}}
   {{- if and hugo.IsProduction $print -}}
-    {{- $print = $print | minify | fingerprint | resources.PostProcess -}}
+    {{- $print = $print | minify | fingerprint -}}
   {{- end -}}
 
   {{/*  HTML output  */}}

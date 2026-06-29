@@ -1,0 +1,27 @@
+{{- if or .title .text .cta.text }}
+  {{- $tag := .tag }}
+  <div class="content">
+    {{- if .card }}
+    <div class="card">
+      <div class="content">
+    {{- end }}
+    {{- with .surtitle }}
+      <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
+    {{ end -}}
+    {{- with .title }}
+      {{- printf `<%s class="title">` $tag | safeHTML -}}
+        {{ partial "func/PrepareHTML.html" . }}
+      {{- printf `</%s>` $tag | safeHTML -}}
+    {{ end -}}
+    {{- with .text }}
+      {{ partial "commons/text.html" (dict "text" .) }}
+    {{ end -}}
+    {{ with .cta }}
+      {{ partial "commons/cta.html" . }}
+    {{ end }}
+    {{- if .card }}
+      </div>
+    </div>
+    {{- end }}
+  </div>
+{{ end -}}

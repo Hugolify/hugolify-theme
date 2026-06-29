@@ -1,17 +1,17 @@
 {{- $isFirst := .first -}}
-{{- $desktop := site.Params.container.desktop | default false -}}
-{{- $mobile := site.Params.image.mobile | default false -}}
+{{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
+{{- $mobile := sub site.Params.container.mobile (mul site.Params.gutter.mobile 2)| default false -}}
 
 <div class="images">
   {{ range $index, $image := .images }}
     {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) -}}
     {{- $figure_class := false -}}
     {{ if $desktop }}
-      {{- $width := partial "func/GetColumnWidth.html" (dict "column" 12) -}}
+      {{- $width := partial "func/GetColumnWidth.html" (dict "column" site.Params.column) -}}
       {{- $desktop = printf "%sx" (string $width) -}}
       {{ if .half }}
         {{- $figure_class = "half" -}}
-        {{- $width := partial "func/GetColumnWidth.html" (dict "column" 6) -}}
+        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div site.Params.column 2)) -}}
         {{- $desktop = printf "%sx" (string $width) -}}
       {{ end }}
     {{ end }}

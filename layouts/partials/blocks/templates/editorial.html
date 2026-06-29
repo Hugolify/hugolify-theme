@@ -1,5 +1,27 @@
-<section class="block-editorial block-editorial-{{ .direction }} {{- with .grid }} block-editorial-{{.}}{{ end }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Image */}}
+{{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $ui.columnWanted 2)) -}}
+{{- $desktop := printf "%sx" (string $width) -}}
+{{- $mobile := site.Params.blocks.editorial.mobile | default site.Params.container.mobile -}}
+{{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
+
+{{/* Context */}}
+{{- $context := merge . (dict
+  "desktop" $desktop
+  "mobile" $mobile
+  "lazy" $lazy
+) -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "editorial" "ui" $ui "variant" .direction) -}}
+
+{{/* Block */}}
+<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/editorial/header.html" . }}
-  {{ partial "blocks/templates/editorial/body.html" . }}
+  {{ partial "blocks/templates/editorial/body.html" $context }}
   {{ partial "blocks/templates/editorial/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>

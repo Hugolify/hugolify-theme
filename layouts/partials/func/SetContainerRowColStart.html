@@ -2,6 +2,8 @@
 <div class="container">
   {{- with .class }}
   <div class="row">
-    <div class="{{ . }}">
+    <div class="{{ . }} block-content">
   {{ end -}}
-{{ end -}}
+{{- else }}
+  <div class="block-content">
+{{- end }}

@@ -20,7 +20,7 @@
 
     {{- with .image }}
       {{- $columnTotal := site.Params.column | default false -}}
-      {{- $desktop := site.Params.container.desktop | default false -}}
+      {{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
       {{- $mobile := site.Params.image.scrollsnap | default false -}}
       {{- if $desktop -}}
         {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
