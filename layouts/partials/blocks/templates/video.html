@@ -1,5 +1,13 @@
-<section class="block-video {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "video" "ui" $ui) -}}
+
+<section class="{{- $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/video/header.html" . }}
   {{ partial "blocks/templates/video/body.html" . }}
   {{ partial "blocks/templates/video/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
