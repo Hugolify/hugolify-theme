@@ -1,0 +1,10 @@
+{{- $lazy := .lazy | default true -}}
+{{- $desktop := .desktop | default false -}}
+{{- $mobile := .mobile | default false -}}
+{{- $parallax := .parallax | default true -}}
+{{- with .image }}
+  {{- $figure := merge . (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy "parallax" $parallax) -}}
+  <div class="media">
+    {{- partial "commons/figure.html" $figure -}}
+  </div>
+{{ end -}}

@@ -13,13 +13,16 @@
   {{- with .offset }}
     {{- $pushClass = printf "%s push-%s" $pushClass . -}}
   {{- end -}}
+  {{- with .card -}}
+    {{- $pushClass = printf "%s push-card" $pushClass -}}
+  {{- end -}}
   {{- with .darken -}}
     {{- $pushClass = printf "%s push-darken" $pushClass -}}
   {{- end -}}
 
   {{- $style := "" -}}
   {{- with .background_color -}}
-    {{- $style = printf "--push-background-color: %s;" . -}}
+    {{- $style = printf "--push-color-background: %s;" . -}}
   {{- end -}}
   {{- with .color -}}
     {{- $style = printf "%s --push-color: %s;" $style . -}}
@@ -36,9 +39,10 @@
 
     {{- if or .title .text .cta.text }}
     <div class="content">
-      {{ if .card }}
-        <div>
-      {{ end }}
+      {{- if .card }}
+      <div class="card">
+        <div class="content">
+      {{- end }}
       {{- with .surtitle }}
         <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end -}}
@@ -48,17 +52,19 @@
         {{- printf "</%s>" $tag | safeHTML -}}
       {{ end -}}
       {{- with .text }}
-        <p>{{ partial "func/PrepareHTML.html" . }}</p>
+        {{ partial "commons/text.html" (dict "text" .) }}
       {{ end -}}
       {{ with .cta }}
         {{ partial "commons/cta.html" . }}
       {{ end }}
-      {{ if .card }}
+      {{- if .card }}
         </div>
-      {{ end }}
+      </div>
+      {{- end }}
     </div>
     {{ end -}}
 
+    <div class="media">
     {{- with .image }}
       {{- $columnTotal := site.Params.column | default false -}}
       {{- $desktop := site.Params.container.desktop | default false -}}
@@ -74,12 +80,13 @@
       {{- $args := merge . (dict "desktop" $desktop "mobile" $mobile) }}
       {{- partial "commons/image.html" $args -}}
     {{ end -}}
+    </div>
 
     {{- if $hasOnlyLink }}
       {{- $blank := .blank | default false -}}
       {{- $title := i18n "link.blank_aria" (dict "Title" (partial "func/PrepareHTML.html" .text)) -}}
       </a>
     {{ end -}}
-    
+
   </div>
 {{ end -}}

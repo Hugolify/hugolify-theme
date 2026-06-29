@@ -1,4 +1,4 @@
-<section class="block-editorial block-editorial-{{ .direction }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="block-editorial block-editorial-{{ .direction }} {{- with .grid }} block-editorial-{{.}}{{ end }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
   {{ partial "blocks/templates/editorial/header.html" . }}
   {{ partial "blocks/templates/editorial/body.html" . }}
   {{ partial "blocks/templates/editorial/footer.html" . }}

@@ -1,4 +1,4 @@
-{{- $index := .index -}}
+{{- $index := .index | default 0 -}}
 <div class="content">
   {{- partial "blocks/content-with-notes.html" (dict
     "context" .
