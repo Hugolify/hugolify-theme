@@ -1,7 +1,16 @@
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+
+{{/* Block */}}
 {{- if .items -}}
-<section class="block-form {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{- $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/form/header.html" . }}
   {{ partial "blocks/templates/form/body.html" . }}
   {{ partial "blocks/templates/form/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
 {{- end -}}

@@ -1,9 +1,7 @@
 {{- $token := getenv "HUGO_INSTAGRAM" | default false -}}
-<div class="container">
-  {{- if $token }}
-    {{- $limit := .limit | default 5 -}}
-    <div class="instagram items js-instagram" data-limit="{{ $limit }}" data-token="{{ $token }}"></div>
-  {{ else }}
-    <pre>{{ i18n "token.missing" }}</pre>
-  {{ end -}}
-</div>
+{{- if $token }}
+  {{- $limit := .limit | default 5 -}}
+  <div class="instagram items js-instagram" data-limit="{{ $limit }}" data-token="{{ $token }}"></div>
+{{ else }}
+  <pre>{{ i18n "token.missing" }}</pre>
+{{- end }}

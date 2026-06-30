@@ -1,5 +1,7 @@
-<div class="container">
-  {{ range .items }}
-    {{ partial "commons/details.html" . }}
-  {{ end }}
-</div>
+{{- with .items }}
+  <div class="faq">
+    {{ range . }}
+      {{ partial "commons/details.html" . }}
+    {{ end }}
+  </div>
+{{- end }}

@@ -1,5 +1,14 @@
-<section class="block-newsletter {{- with .background }} block-bg{{ end }} js-newsletter" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+
+{{/* Block */}}
+<section class="{{ $blockClass }} js-newsletter" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/newsletter/header.html" . }}
   {{ partial "blocks/templates/newsletter/body.html" . }}
   {{ partial "blocks/templates/newsletter/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>

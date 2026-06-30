@@ -2,7 +2,7 @@
 {{- $ui := partial "func/GetBlockUI" . -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "paragraph" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
 
 {{/* Block */}}
 <section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>

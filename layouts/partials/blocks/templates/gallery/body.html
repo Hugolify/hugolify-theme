@@ -3,7 +3,5 @@
 {{- $ratio := .ratio | default 1 -}}
 {{- $column := float .column | default 3 -}}
 {{- with .gallery }}
-  <div class="container">
-    {{ partial "commons/gallery.html" (dict "images" . "ratio" $ratio "column" $column "id" $id "isFirst" $isFirst) }}
-  </div>
+  {{ partial "commons/gallery.html" (dict "images" . "ratio" $ratio "column" $column "id" $id "isFirst" $isFirst) }}
 {{ end -}}

@@ -1,9 +1,10 @@
-{{- $index := .index -}}
+<div class="paragraph">
 {{- partial "blocks/content-with-notes.html" (dict
   "context" .
-  "blockId" $index
+  "blockId" .index
 ) -}}
 
 {{- with .ctas }}
   {{ partial "commons/cta-group.html" (dict "ctas" .) }}
 {{- end }}
+</div>

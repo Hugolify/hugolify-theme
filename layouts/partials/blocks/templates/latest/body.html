@@ -1,6 +1,6 @@
 {{- $atf := cond .first true false -}}
 {{- $section := .section -}}
-{{- $layout := .layout | default "grid" -}}
+{{- $layout := .ui.layout | default "grid" -}}
 {{- $count := .count | default 3 -}}
 {{- $items := false -}}
 {{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
@@ -20,13 +20,9 @@
 {{- $context := merge . (dict "container" false) -}}
 
 {{- if $items }}
-<div class="container">
-  {{- partial "blocks/templates/latest/header.html" $context -}}
   {{- if eq $layout "list" }}
     {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else }}
     {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf "type" .type) }}
   {{- end }}
-  {{- partial "blocks/templates/latest/footer.html" $context -}}
-</div>
 {{ end -}}

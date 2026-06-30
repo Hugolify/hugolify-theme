@@ -1,4 +1,4 @@
-{{- $container := .container | default true -}}
+{{- $container := .container | default false -}}
 {{- if or .footing .show_more }}
   <footer class="footing">
     {{- with $container }}<div class="container">{{ end }}

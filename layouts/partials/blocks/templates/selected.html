@@ -8,17 +8,14 @@
 {{- $items := partial "blocks/templates/selected/GetItems.html" (dict "section" .section "items" .items) -}}
 
 {{/* Context */}}
-{{- $context := merge . (dict
-  "items" $items
-  "layout" $ui.layout
-) -}}
+{{- $context := merge . (dict "items" $items) -}}
 
 {{- if $items }}
 <section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{- partial "blocks/templates/selected/header.html" . -}}
   {{- partial "blocks/templates/selected/body.html" $context -}}
-  {{- partial "blocks/templates/selected/footer.html" . -}}
+  {{- partial "blocks/templates/selected/footer.html" (merge . (dict "type" "selected")) -}}
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
 {{ end -}}

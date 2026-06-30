@@ -3,7 +3,6 @@
 {{- $show_gauge := .show_gauge | default false -}}
 {{- $column := .column | default 3 -}}
 {{- with .items }}
-<div class="container">
   <ul class="items items-{{ $column }}">
   {{- range . }}
     <li {{- partial "func/SetParallax.html" (dict "element" "item") }}>
@@ -29,5 +28,4 @@
     </li>
   {{ end -}}
   </ul>
-</div>
 {{ end -}}

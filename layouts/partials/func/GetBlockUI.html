@@ -54,6 +54,7 @@
 {{- $columnWanted := partial "func/GetWantedColumn" $grid -}}
 
 {{- return (dict
+  "align" $align
   "columnWanted" $columnWanted
   "grid" $grid
   "layout" $layout

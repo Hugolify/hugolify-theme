@@ -1,6 +1,14 @@
-{{- $layout := .layout | default "grid" -}}
-{{- if .section }}
-<section class="block-latest block-latest-{{ $layout }} block-latest-{{ .section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
-  {{- partial "blocks/templates/latest/body" . -}}
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "latest" "variant" .section "ui" $ui) -}}
+
+{{/* Block */}}
+<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
+  {{- partial "blocks/templates/latest/header.html" . -}}
+  {{- partial "blocks/templates/latest/body.html" . -}}
+  {{- partial "blocks/templates/latest/footer.html" . -}}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
-{{ end -}}
