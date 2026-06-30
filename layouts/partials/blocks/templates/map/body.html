@@ -1,10 +1,5 @@
 {{- $show_places := .show_places | default false -}}
-{{- $zoom := .zoom -}}
-{{- $marker_hidden := .marker_hidden | default false -}}
-{{- $grid := .grid | default false -}}
-{{- $class := partial "func/GetColClass.html" $grid -}}
 
-{{- partial "func/SetContainerRowColStart.html" (dict "grid" $grid "class" $class) -}}
 {{- if $show_places }}
   {{/*  Show all places with coordinates  */}}
   {{- $partial := "func/GetMarkers.html" -}}
@@ -17,9 +12,10 @@
 {{- else -}}
   {{- if or .location .coordinates }}
     {{- $marker := partial "func/GetMarker.html" . -}}
+    {{- $zoom := .zoom -}}
+    {{- $marker_hidden := .marker_hidden | default false -}}
     {{ with $marker }}
       {{ partial "commons/map.html" (dict "location" (slice .) "zoom" $zoom "marker_hidden" $marker_hidden) }}
     {{ end }}
   {{ end }}
 {{ end -}}
-{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $grid "class" $class) -}}

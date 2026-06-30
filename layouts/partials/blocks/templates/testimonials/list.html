@@ -1,13 +1,9 @@
-<div class="container">
-  {{- partial "blocks/templates/testimonials/header.html"  (dict "heading" .heading "container" false) -}}
-  {{ with .items }}
-    <ol class="items">
-      {{ range . }}
-        <li>
-          {{ partial "commons/quote.html" . }}
-        </li>
-      {{ end }}
-    </ol>
-  {{ end }}
-  {{- partial "blocks/templates/testimonials/footer.html"  (dict "footing" .footing "container" false) -}}
-</div>
+{{ with .items }}
+  <ol>
+    {{ range . }}
+      <li>
+        {{ partial "commons/quote.html" . }}
+      </li>
+    {{ end }}
+  </ol>
+{{ end }}

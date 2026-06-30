@@ -1,8 +1,24 @@
-{{- $layout := .layout | default "grid" -}}
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "selected" "variant" .section "ui" $ui) -}}
+
+{{/* Items */}}
 {{- $items := partial "blocks/templates/selected/GetItems.html" (dict "section" .section "items" .items) -}}
+
+{{/* Context */}}
+{{- $context := merge . (dict
+  "items" $items
+  "layout" $ui.layout
+) -}}
+
 {{- if $items }}
-<section class="block-selected block-selected-{{ $layout }} block-selected-{{ .section }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
-  {{- $context := dict "context" . "items" $items "layout" $layout -}}
+<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
+  {{- partial "blocks/templates/selected/header.html" . -}}
   {{- partial "blocks/templates/selected/body.html" $context -}}
+  {{- partial "blocks/templates/selected/footer.html" . -}}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
 {{ end -}}

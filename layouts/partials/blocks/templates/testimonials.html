@@ -1,6 +1,15 @@
-{{- $layout := .layout | default "grid" -}}
-{{- if .items }}
-<section class="block-testimonials block-testimonials-{{ $layout }} {{- with .background }} block-bg{{ end }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
-  {{ partial "blocks/templates/testimonials/body.html" . }}
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+
+{{ if .items }}
+<section class="{{- $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
+  {{ partial "blocks/templates/testimonials/header.html" . }}
+  {{ partial "blocks/templates/testimonials/body.html" (merge . (dict "layout" $ui.layout)) }}
+  {{ partial "blocks/templates/testimonials/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>
 {{ end -}}
