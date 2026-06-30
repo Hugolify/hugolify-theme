@@ -13,16 +13,7 @@
 {{ end }}
 
 {{- with $text }}
-  {{- $text = partial "commons/text.html" (dict "text" $text) -}}
-  {{- if $notes -}}
-    {{- partial "func/PrepareNotes.html" (dict 
-        "html" $text 
-        "blockId" $blockId 
-        "notes" $notes
-    ) -}}
-  {{- else -}}
-    {{ $text }}
-  {{- end -}}
+  {{ partial "commons/text.html" (dict "text" . "notes" $notes "blockId" $blockId) }}
 
   {{- with $notes }}
     {{ partial "commons/notes.html" (dict "notes" . "blockId" $blockId ) }}

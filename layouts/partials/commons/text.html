@@ -1,7 +1,19 @@
 {{- $text := .text -}}
 {{- $class := .class | default "text" -}}
+{{- $notes := .notes -}}
+{{- $blockId := .blockId | default "" -}}
 {{ with $text }}
-  {{- $text = partial "func/PrepareHTML.html" . | markdownify -}}
+  {{- if $notes -}}
+    {{/* PrepareNotes handles punctuation + markdownify itself so [*] markers are
+         protected across rendering (see func/PrepareNotes.html) */}}
+    {{- $text = partial "func/PrepareNotes.html" (dict
+        "html" $text
+        "blockId" $blockId
+        "notes" $notes
+    ) -}}
+  {{- else -}}
+    {{- $text = partial "func/PrepareHTML.html" . | markdownify -}}
+  {{- end -}}
   <div class="{{ $class }}">
     {{- if in (string .) "\n" }}
       {{ $text }}
