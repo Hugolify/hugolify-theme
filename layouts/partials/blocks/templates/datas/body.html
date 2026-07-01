@@ -1,7 +1,7 @@
 
 {{- $show_color := .show_color | default false -}}
 {{- $show_gauge := .show_gauge | default false -}}
-{{- $column := .column | default 3 -}}
+{{- $column := int .ui.column | default 3 -}}
 {{- with .items }}
   <ul class="items items-{{ $column }}">
   {{- range . }}

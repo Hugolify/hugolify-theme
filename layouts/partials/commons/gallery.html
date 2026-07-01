@@ -1,24 +1,25 @@
 {{- $images := .images | default false -}}
 {{- $ratio := .ratio | default 1 -}}
-{{- $column := .column | default 3 -}}
-{{- $id := .gallery | default "gallery" -}}
+{{- $column := int .column | default 3 -}}
+{{- $group := .gallery | default "gallery" -}}
 {{- $isFirst := .first | default false -}}
 {{- $columnTotal := site.Params.column | default false -}}
 {{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
 {{- $mobile := site.Params.container.mobile | default false -}}
+
 {{- if $desktop -}}
   {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
-  {{- $height := int (mul $width $ratio) -}}
+  {{- $height := int (div $width $ratio) -}}
   {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
 {{- end -}}
 {{- if $mobile -}}
   {{- $width := partial "func/GetColumnWidth.html" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
-  {{- $height := int (mul $width $ratio) -}}
+  {{- $height := int (div $width $ratio) -}}
   {{- $mobile = printf "%sx%s" (string $width) (string $height) -}}
 {{- end -}}
 
 {{- if $images }}
-  <div class="gallery items items-{{ $column }} js-gallery">
+  <div class="gallery items items-{{ $column }} js-gallery" style="--gallery-item-ratio: {{$ratio}}">
     {{ range $index, $image := $images }}
       {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) -}}
       <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
@@ -27,7 +28,7 @@
             "desktop" $desktop
             "mobile" $mobile
             "lazy" $lazy
-            "group" $id
+            "group" $group
             ) }}
       </div>
     {{ end }}

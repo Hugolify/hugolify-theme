@@ -1,6 +1,6 @@
 {{- $lazy := .lazy | default true -}}
 {{- $title := .title | default "" -}}
-{{- $column := float .column | default 4 -}}
+{{- $column := int .ui.column | default 4 -}}
 {{- $columnTotal := site.Params.column | default false -}}
 {{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
 {{- $mobile := sub site.Params.container.mobile (mul site.Params.gutter.mobile 2) | default false -}}

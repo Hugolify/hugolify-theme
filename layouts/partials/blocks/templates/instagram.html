@@ -4,11 +4,14 @@
 {{/* Class */}}
 {{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
 
+{{/* Context */}}
+{{- $context := merge . (dict "ui" $ui) -}}
+
 {{/* Block */}}
 <section class="{{- $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/instagram/header.html" . }}
-  {{ partial "blocks/templates/instagram/body.html" . }}
+  {{ partial "blocks/templates/instagram/body.html" $context }}
   {{ partial "blocks/templates/instagram/footer.html" . }}
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>

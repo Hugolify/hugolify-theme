@@ -1,7 +1,21 @@
+{{- $ratio := .ratio | default 1 -}}
+{{- $column := int .ui.column | default 3 -}}
 {{- $id := printf "gallery-%s" (.index | string) -}}
 {{- $isFirst := .first -}}
-{{- $ratio := .ratio | default 1 -}}
-{{- $column := float .column | default 3 -}}
+{{- $layout := .ui.layout | default "grid" -}}
+
+{{- $context := merge . (dict
+  "images" .gallery
+  "ratio" $ratio
+  "column" $column
+  "gallery" $id
+  "isFirst" $isFirst
+)}}
+
 {{- with .gallery }}
-  {{ partial "commons/gallery.html" (dict "images" . "ratio" $ratio "column" $column "id" $id "isFirst" $isFirst) }}
+  {{- if eq $layout "carousel" }}
+    {{ partial "blocks/templates/gallery/carousel.html" $context }}
+  {{- else }}
+    {{ partial "blocks/templates/gallery/grid.html" $context }}
+  {{- end }}
 {{ end -}}

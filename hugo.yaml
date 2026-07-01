@@ -135,7 +135,7 @@ params:
       mobile: '138x138'
     informations:
       image:
-        ratio: .5196
+        ratio: 1.9246
 
 # Privacy
 privacy:

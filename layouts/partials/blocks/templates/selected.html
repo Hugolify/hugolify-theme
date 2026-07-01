@@ -8,7 +8,7 @@
 {{- $items := partial "blocks/templates/selected/GetItems.html" (dict "section" .section "items" .items) -}}
 
 {{/* Context */}}
-{{- $context := merge . (dict "items" $items) -}}
+{{- $context := merge . (dict "items" $items "ui" $ui) -}}
 
 {{- if $items }}
 <section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>

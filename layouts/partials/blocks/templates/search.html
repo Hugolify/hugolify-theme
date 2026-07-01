@@ -4,10 +4,13 @@
 {{/* Class */}}
 {{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
 
+{{/* Context */}}
+{{- $context := merge . (dict "ui" $ui) -}}
+
 <section class="{{- $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/search/header.html" . }}
-  {{ partial "blocks/templates/search/body.html" . }}
+  {{ partial "blocks/templates/search/body.html" $ui }}
   {{ partial "blocks/templates/search/footer.html" . }}
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>

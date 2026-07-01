@@ -1,4 +1,4 @@
-{{- $column := .column | default 3 -}}
+{{- $column := int .ui.column | default 3 -}}
 {{- with .items }}
   <div class="items items-{{ $column }}">
     {{- range . }}

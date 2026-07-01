@@ -4,6 +4,7 @@
 
      Params:
        align      (string) align, e.g. "center"
+       column     (int)    column count wanted
        grid       (string) grid size, e.g. "medium"
        layout     (string) layout variant
        offset     (string) offset, e.g. "center" / "end"
@@ -20,6 +21,7 @@
        theme        (string)    resolved theme value, or false when unset
 */}}
 {{- $align := .align | default false -}}
+{{- $column := .column | default false -}}
 {{- $grid := .grid | default false -}}
 {{- $layout := .layout | default false -}}
 {{- $offset := .offset | default false -}}
@@ -27,6 +29,9 @@
 {{- with .ui }}
   {{- if isset . "align" }}
   {{- $align = .align -}}
+  {{ end -}}
+  {{- if isset . "column" }}
+  {{- $column = .column -}}
   {{ end -}}
   {{- if isset . "grid" }}
   {{- $grid = .grid -}}
@@ -55,6 +60,7 @@
 
 {{- return (dict
   "align" $align
+  "column" $column
   "columnWanted" $columnWanted
   "grid" $grid
   "layout" $layout

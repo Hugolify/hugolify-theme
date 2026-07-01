@@ -1,5 +1,5 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI.html" . -}}
 
 {{/* Image */}}
 {{- $width := partial "func/GetColumnWidth.html" (dict "column" $ui.columnWanted) -}}
@@ -12,6 +12,7 @@
   "desktop" $desktop
   "mobile" $mobile
   "lazy" $lazy
+  "ui" $ui
 ) -}}
 
 {{/* Class */}}
@@ -22,7 +23,7 @@
 <section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/pushes/header.html" . }}
-  {{ partial "blocks/templates/pushes/body.html" . }}
+  {{ partial "blocks/templates/pushes/body.html" $context }}
   {{ partial "blocks/templates/pushes/footer.html" . }}
 {{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
 </section>

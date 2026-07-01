@@ -1,4 +1,4 @@
-{{- $column := .column | default 3 -}}
+{{- $column := .ui.column | default 3 -}}
 {{- $tag := cond (ne .heading.title "") "h3" "h2" -}}
 {{- with .items }}
   <div class="items items-{{ $column }}">

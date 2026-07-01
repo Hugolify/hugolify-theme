@@ -22,16 +22,16 @@
   {{- $srcset := printf "%s 720w, %s 1024w, %s 1280w, %s 1440w, %s 1600w" $image_small $image_medium $image_large $image_xlarge $image_2xlarge -}}
   {{- $label := i18n "gallery.enlarge" }}
 
-  <a href="{{ $image_fallback }}" 
-    class="lightbox" 
-    aria-label="{{ $label }}" 
+  <a href="{{ $image_fallback }}"
+    class="lightbox"
+    aria-label="{{ $label }}"
     {{ with $group }}data-group="{{ . }}"{{ end }}
     {{ with $legend }}data-caption="{{ . }}"{{ end }}
     data-srcset="{{ $srcset }}">
     {{ partial "commons/figure.html" (dict
-      "src" $src 
+      "src" $src
       "alt" $alt
-      "lazy" $lazy 
+      "lazy" $lazy
       "desktop" .desktop
       "mobile" .mobile
       ) }}
