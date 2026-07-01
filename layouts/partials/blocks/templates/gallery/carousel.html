@@ -1,4 +1,4 @@
-{{- $items := apply .images "dict" "image" "." }}
+{{- $items := apply .images "dict" "image" "." "gallery" .gallery -}}
 {{ partial "commons/carousel.html" (dict
     "context" (merge . (dict "items" $items))
     "partial" "commons/image-lightbox.html"

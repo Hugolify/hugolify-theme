@@ -1,7 +1,7 @@
 {{- $images := .images | default false -}}
 {{- $ratio := .ratio | default 1 -}}
 {{- $column := int .column | default 3 -}}
-{{- $group := .gallery | default "gallery" -}}
+{{- $gallery := .gallery | default "gallery" -}}
 {{- $isFirst := .first | default false -}}
 {{- $columnTotal := site.Params.column | default false -}}
 {{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
@@ -28,7 +28,7 @@
             "desktop" $desktop
             "mobile" $mobile
             "lazy" $lazy
-            "group" $group
+            "gallery" $gallery
             ) }}
       </div>
     {{ end }}

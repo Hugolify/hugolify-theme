@@ -1,4 +1,4 @@
-{{- $group := .group }}
+{{- $gallery := .gallery | default "gallery" -}}
 {{- $lazy := .lazy }}
 {{- $src := .image -}}
 {{- $alt := false -}}
@@ -25,7 +25,7 @@
   <a href="{{ $image_fallback }}"
     class="lightbox"
     aria-label="{{ $label }}"
-    {{ with $group }}data-group="{{ . }}"{{ end }}
+    {{ with $gallery }}data-group="{{ . }}"{{ end }}
     {{ with $legend }}data-caption="{{ . }}"{{ end }}
     data-srcset="{{ $srcset }}">
     {{ partial "commons/figure.html" (dict
