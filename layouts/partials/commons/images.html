@@ -6,12 +6,13 @@
   {{ range $index, $image := .images }}
     {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) -}}
     {{- $figure_class := false -}}
+    {{- $columnTotal := site.Params.column.desktop | default 12 }}
     {{ if $desktop }}
-      {{- $width := partial "func/GetColumnWidth.html" (dict "column" site.Params.column) -}}
+      {{- $width := partial "func/GetColumnWidth.html" (dict "column" $columnTotal) -}}
       {{- $desktop = printf "%sx" (string $width) -}}
       {{ if .half }}
         {{- $figure_class = "half" -}}
-        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div site.Params.column 2)) -}}
+        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal 2)) -}}
         {{- $desktop = printf "%sx" (string $width) -}}
       {{ end }}
     {{ end }}

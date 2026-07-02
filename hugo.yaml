@@ -128,14 +128,14 @@ params:
       desktop: '856x'
       mobile: '360x'
   blocks:
-    editorial:
-      desktop: '636x'
-      mobile: '360x'
     gallery:
-      mobile: '138x138'
+      column:
+        mobile: 2
+      image:
+        ratio: 1
     informations:
       image:
-        ratio: 1.9246
+        ratio: 1.75
 
 # Privacy
 privacy:

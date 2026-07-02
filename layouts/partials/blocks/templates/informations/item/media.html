@@ -1,4 +1,4 @@
-{{- $column := int .ui.column | default 3 -}}
+{{/* Class */}}
 {{- $class := false }}
 {{- if .icon }}
   {{- $class = "media-icon" }}
@@ -10,8 +10,19 @@
   {{- end }}
 {{- end }}
 
+{{/* Ratio */}}
+{{- $defaultRatio := site.Params.blocks.informations.image.ratio | default false -}}
+{{- $ratio := .ui.ratio }}
+{{- if not $ratio }}
+  {{- $ratio = $defaultRatio }}
+{{- end }}
+
+{{/* UI */}}
+{{- $column := int .ui.column | default 3 -}}
+{{- $grid := .ui.grid -}}
+
 {{- if $class -}}
-<div class="media {{ $class }}">
+<div class="media {{ $class }}" {{- if ne $class `media-icon` }}{{ with $ratio }} style="--media-ratio:{{ . }};"{{ end }}{{ end }}>
   {{- with .icon -}}
     {{- if templates.Exists "partials/icon.html" -}}
       {{ partial "icon.html" . }}
@@ -19,22 +30,15 @@
   {{- else -}}
 
     {{- with .image }}
-      {{- $columnTotal := site.Params.column | default false -}}
-      {{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
+      {{/* Same grid-aware sizing as gallery. Crop to the informations ratio only for real images
+           (not logos); mobile keeps the fixed horizontal scroll-snap thumbnail size. */}}
+      {{- $ratio = cond (eq $class "media-image") $ratio false -}}
+      {{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" $column "grid" $grid "ratio" $ratio) -}}
       {{- $mobile := site.Params.image.scrollsnap | default false -}}
-      {{- if $desktop -}}
-        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
-        {{- if eq $class "image" -}}
-          {{- $height := int (div $width site.Params.blocks.informations.image.ratio) -}}
-          {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
-        {{- else -}}
-          {{- $desktop = printf "%sx" (string $width) -}}
-        {{- end -}}
-      {{- end -}}
       {{ partial "commons/image.html" (dict
         "src" .src
         "alt" .alt
-        "desktop" $desktop
+        "desktop" $size.desktop
         "mobile" $mobile
         ) }}
     {{ end -}}

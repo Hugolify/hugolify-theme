@@ -1,0 +1,72 @@
+{{/* GetBlockImageSize
+     Responsive resize dimensions (WxH) for one image slot inside a block.
+
+     Desktop: the block spans `columnWanted` of the desktop grid (from `grid`), split across
+     `columnDesktop` slots. Mobile: same, from `gridMobile` (default = `grid`) and `columnMobile`
+     slots — default 1, i.e. always max width unless a block subdivides it. Available width drops the
+     side gutters, except for a "full" grid which breaks out of the container and has none; `grid` and
+     `gridMobile` are resolved independently, so a block can be in-container on desktop but full-bleed
+     on mobile (editorial). Shared by any block laying images on the grid (gallery, carousel via
+     perPage, logos, pushes…).
+
+     Params:
+       columnDesktop (float)  desktop slots the block is split into (columns, carousel perPage…),
+                              default site.Params.column.desktop
+       columnMobile  (float)  mobile slots the block is split into, default 1 (one full-width slot →
+                              always max width). Pass e.g. 2 for a 2-up mobile grid
+       ratio         (float)  aspect ratio, width / height (matches CSS aspect-ratio). When false the
+                              height is omitted so the image keeps its natural ratio. Default false
+       grid          (string) desktop grid size (full/small/medium/large/…): drives the desktop span
+                              and whether side gutters apply. Default full-container
+       gridMobile    (string) mobile grid size, default = grid. Pass "full" for an edge-to-edge
+                              (full-bleed, no-gutter) mobile image while desktop stays in-container
+
+     Returns: dict { desktop, mobile } of "WxH" (or "Wx") strings; false when the container is unset.
+*/}}
+
+{{- $columnGlobalDesktop := site.Params.column.desktop | default 12 -}}
+{{- $columnGlobalMobile := site.Params.column.mobile | default 1 -}}
+{{- $gutterGlobalDesktop := site.Params.gutter.desktop | default 30 -}}
+{{- $gutterGlobalMobile := site.Params.gutter.mobile | default 30 -}}
+
+{{- $columnDesktop := .columnDesktop | default $columnGlobalDesktop -}}
+{{- $columnMobile := .columnMobile | default $columnGlobalMobile -}}
+
+{{- $ratio := .ratio | default false -}}
+{{- $grid := .grid | default false -}} {{/* container, full, small, medium, large… */}}
+{{- $gridMobile := .gridMobile | default $grid -}} {{/* mobile grid, e.g. "full" for edge-to-edge */}}
+
+{{/* "full" grids break out of the container, so they carry no side gutters; every other grid sits
+     inside the container and loses its left/right gutters from the available width. Resolved per
+     breakpoint so a block can be in-container on desktop but full-bleed on mobile. */}}
+{{- $isFull := eq $grid "full" -}}
+{{- $isFullMobile := eq $gridMobile "full" -}}
+
+{{- $desktop := false -}}
+{{- $mobile := false -}}
+
+{{/* Desktop: the block spans `columnWanted` of the desktop grid, split across its slots. */}}
+{{- with site.Params.container.desktop -}}
+  {{- $container := cond $isFull . (sub . (mul $gutterGlobalDesktop 2)) -}}
+  {{- $columnWanted := partial "func/GetWantedColumn.html" (dict "grid" $grid "base" $columnGlobalDesktop) -}}
+  {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (float $columnWanted) $columnDesktop) "columnTotal" $columnGlobalDesktop "container" $container) -}}
+  {{- if $ratio -}}
+    {{- $desktop = printf "%sx%s" (string $width) (string (int (div $width $ratio))) -}}
+  {{- else -}}
+    {{- $desktop = printf "%sx" (string $width) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Mobile: grids collapse to full width; the block spans the whole mobile grid, split across its slots. */}}
+{{- with site.Params.container.mobile -}}
+  {{- $container := cond $isFullMobile . (sub . (mul $gutterGlobalMobile 2)) -}}
+  {{- $columnWanted := partial "func/GetWantedColumn.html" (dict "grid" $gridMobile "base" $columnGlobalMobile) -}}
+  {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (float $columnWanted) $columnMobile) "columnTotal" $columnGlobalMobile "container" $container) -}}
+  {{- if $ratio -}}
+    {{- $mobile = printf "%sx%s" (string $width) (string (int (div $width $ratio))) -}}
+  {{- else -}}
+    {{- $mobile = printf "%sx" (string $width) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict "desktop" $desktop "mobile" $mobile) -}}

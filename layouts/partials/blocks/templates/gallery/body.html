@@ -1,8 +1,10 @@
-{{- $ratio := .ratio | default 1 -}}
-{{- $column := int .ui.column | default 3 -}}
 {{- $id := printf "gallery-%s" (.index | string) -}}
 {{- $isFirst := .first -}}
+
+{{- $column := int .ui.column | default 3 -}}
 {{- $layout := .ui.layout | default "grid" -}}
+{{- $defaultRatio := site.Params.blocks.gallery.image.ratio | default 1 -}}
+{{- $ratio := cond .ui.ratio .ui.ratio $defaultRatio -}}
 
 {{- $context := merge . (dict
   "images" .gallery

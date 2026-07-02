@@ -1,11 +1,25 @@
-{{ $base := site.Params.column | default 12 }}
-{{ $columnWanted := $base }}
-{{ if eq . "small" }}
-  {{ $columnWanted = math.Round (div $base 2) }}
-{{ else if eq . "medium" }}
-  {{ $columnWanted = math.Round (div (mul $base 2) 3) }}
-{{ else if eq . "large" }}
-  {{ $columnWanted = math.Round (div (mul $base 5) 6) }}
-{{ end }}
+{{/* GetWantedColumn
+     Number of grid columns a block spans, from its grid size.
 
-{{ return $columnWanted }}
+     Scales the total column count (`base`) down for narrower grids:
+       small -> 1/2    medium -> 2/3    large -> 5/6    (anything else / unset -> base)
+     `base` lets the same scaling serve both breakpoints (desktop 12, mobile 1…).
+
+     Params (dict):
+       grid (string) grid size: "small" | "medium" | "large" | full/unset
+       base (int)    total columns to scale from, default site.Params.column.desktop
+
+     Returns: int — column span (rounded).
+*/}}
+{{- $grid := .grid -}}
+{{- $base := .base | default (site.Params.column.desktop | default 12) -}}
+{{- $columnWanted := $base -}}
+{{- if eq $grid "small" -}}
+  {{- $columnWanted = math.Round (div $base 2) -}}
+{{- else if eq $grid "medium" -}}
+  {{- $columnWanted = math.Round (div (mul $base 2) 3) -}}
+{{- else if eq $grid "large" -}}
+  {{- $columnWanted = math.Round (div (mul $base 5) 6) -}}
+{{- end -}}
+
+{{- return $columnWanted -}}

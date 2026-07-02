@@ -1,10 +1,27 @@
+{{/* GetColumnWidth
+     Pixel width of a column span on the page grid.
+
+     A container is split into `columnTotal` equal columns separated by `gap`; this returns the width
+     of a `column`-column span (span widths + the gaps between them). `container` alone is not enough:
+     `columnTotal` is the divisor that gives a single column's width, and drives responsiveness
+     (12 columns desktop, 1 mobile -> one column = the whole container).
+
+     Params:
+       container   (number) available width in px, default = desktop container minus its gutters
+       gap         (number) gap between columns in px, default = site.Params.gap.desktop
+       columnTotal (int)    columns the container is split into, default = site.Params.column.desktop
+       column      (float)  column span wanted, default 1
+
+     Returns: int — span width in px, rounded up (Ceil) so the image is never narrower than its slot.
+*/}}
 {{ $container := .container | default (sub site.Params.container.desktop (mul site.Params.gutter.desktop 2)) }}
 {{ $gap := .gap | default site.Params.gap.desktop }}
-{{ $columnTotal := .columnTotal | default site.Params.column }}
+{{ $columnTotal := .columnTotal | default site.Params.column.desktop | default 12 }}
 {{ $columnWanted := (float .column) | default 1 }}
 
-{{/* Width of a single column: container minus all internal gaps, divided by the column count. */}}
-{{ $oneColumnWidth := div (sub $container (mul (sub $columnTotal 1) $gap)) $columnTotal }}
+{{/* Width of a single column: container minus all internal gaps, divided by the column count.
+     `float` forces real division — two ints would truncate (e.g. 990/12 -> 82 instead of 82.5). */}}
+{{ $oneColumnWidth := div (float (sub $container (mul (sub $columnTotal 1) $gap))) $columnTotal }}
 {{/* A span of k columns = k column widths + the (k-1) gaps that sit between them. */}}
 {{ $width := add (mul $oneColumnWidth $columnWanted) (mul (sub $columnWanted 1) $gap) }}
 

@@ -3,23 +3,19 @@
 {{- $column := int .column | default 3 -}}
 {{- $gallery := .gallery | default "gallery" -}}
 {{- $isFirst := .first | default false -}}
-{{- $columnTotal := site.Params.column | default false -}}
-{{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
-{{- $mobile := site.Params.container.mobile | default false -}}
 
-{{- if $desktop -}}
-  {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}
-  {{- $height := int (div $width $ratio) -}}
-  {{- $desktop = printf "%sx%s" (string $width) (string $height) -}}
-{{- end -}}
-{{- if $mobile -}}
-  {{- $width := partial "func/GetColumnWidth.html" (dict "column" 1 "columnTotal" 2 "container" $mobile) -}}
-  {{- $height := int (div $width $ratio) -}}
-  {{- $mobile = printf "%sx%s" (string $width) (string $height) -}}
+{{/* Image sizes are provided by the caller (grid-aware). Fall back to a full-container computation
+     so this partial stays usable on its own. */}}
+{{- $desktop := .desktop | default false -}}
+{{- $mobile := .mobile | default false -}}
+{{- if or (not $desktop) (not $mobile) -}}
+  {{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" $column "ratio" $ratio) -}}
+  {{- $desktop = $desktop | default $size.desktop -}}
+  {{- $mobile = $mobile | default $size.mobile -}}
 {{- end -}}
 
 {{- if $images }}
-  <div class="gallery items items-{{ $column }} js-gallery" style="--gallery-item-ratio: {{$ratio}}">
+  <div class="gallery items items-{{ $column }} js-gallery" style="--gallery-item-ratio: {{ $ratio }}">
     {{ range $index, $image := $images }}
       {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 1) -}}
       <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>

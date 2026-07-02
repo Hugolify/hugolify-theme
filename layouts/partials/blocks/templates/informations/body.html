@@ -1,4 +1,5 @@
 {{- $column := int .ui.column | default 3 -}}
+{{- $context := . -}}
 {{- with .items }}
   <div class="items items-{{ $column }}">
     {{- range . }}
@@ -7,7 +8,7 @@
         {{- with $item }}
           <div class="item">
             {{ partial "blocks/templates/informations/item/content" . }}
-            {{ partial "blocks/templates/informations/item/media" . }}
+            {{ partial "blocks/templates/informations/item/media" (merge . $context) }}
           </div>
         {{ end -}}
       </div>

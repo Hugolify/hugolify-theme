@@ -1,16 +1,14 @@
 {{/* UI */}}
 {{- $ui := partial "func/GetBlockUI" . -}}
 
-{{/* Image */}}
-{{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $ui.columnWanted 2)) -}}
-{{- $desktop := printf "%sx" (string $width) -}}
-{{- $mobile := site.Params.blocks.editorial.mobile | default site.Params.container.mobile -}}
+{{/* Image: half the block's grid on desktop, edge-to-edge (full-bleed) on mobile. */}}
+{{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" 2 "grid" $ui.grid "gridMobile" "full") -}}
 {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict
-  "desktop" $desktop
-  "mobile" $mobile
+  "desktop" $size.desktop
+  "mobile" $size.mobile
   "lazy" $lazy
   "ui" $ui
 ) -}}

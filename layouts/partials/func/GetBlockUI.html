@@ -25,6 +25,7 @@
 {{- $grid := .grid | default false -}}
 {{- $layout := .layout | default false -}}
 {{- $offset := .offset | default false -}}
+{{- $ratio := .ratio | default false -}}
 {{- $theme := .theme | default false -}}
 {{- with .ui }}
   {{- if isset . "align" }}
@@ -38,6 +39,9 @@
   {{ end -}}
   {{- if isset . "layout" }}
   {{- $layout = .layout -}}
+  {{ end -}}
+  {{- if isset . "ratio" }}
+  {{- $ratio = .ratio -}}
   {{ end -}}
   {{- if isset . "offset" }}
   {{- $offset = .offset -}}
@@ -56,7 +60,7 @@
 
 {{/* Class */}}
 {{- $rowClass := partial "func/GetColOffsetClass" (dict "grid" $grid "offset" $offset) | default false -}}
-{{- $columnWanted := partial "func/GetWantedColumn" $grid -}}
+{{- $columnWanted := partial "func/GetWantedColumn" (dict "grid" $grid) -}}
 
 {{- return (dict
   "align" $align
@@ -65,6 +69,7 @@
   "grid" $grid
   "layout" $layout
   "offset" $offset
+  "ratio" $ratio
   "rowClass" $rowClass
   "theme" $theme
 ) -}}

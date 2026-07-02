@@ -1,4 +1,22 @@
-{{- $items := apply .images "dict" "image" "." "gallery" .gallery -}}
+{{/* A carousel slot's width is driven by how many slides show at once (perPage), not gallery columns. */}}
+{{- $columnDesktop := .carousel.params.perPage | default 1 -}}
+{{/* Mobile slots = the perPage overridden at the mobile breakpoint (640); else full width. */}}
+{{- $columnMobile := 1 -}}
+{{- range .carousel.responsive -}}
+  {{- if eq .breakpoints 640 -}}
+    {{- $columnMobile = .params.perPage -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* One slide spans the block's grid width (full, container, small…) divided by perPage. */}}
+{{- $size := partial "func/GetBlockImageSize.html" (dict
+  "columnDesktop" $columnDesktop
+  "columnMobile" $columnMobile
+  "ratio" .ratio
+  "grid" .ui.grid
+) -}}
+
+{{- $items := apply .images "dict" "image" "." "gallery" .gallery "desktop" $size.desktop "mobile" $size.mobile -}}
 {{ partial "commons/carousel.html" (dict
     "context" (merge . (dict "items" $items))
     "partial" "commons/image-lightbox.html"

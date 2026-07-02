@@ -29,7 +29,7 @@
     {{ partial "commons/push/content.html" (merge . (dict "tag" $tag)) }}
 
     {{/* Image */}}
-    {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div site.Params.column $column)) -}}
+    {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (site.Params.column.desktop) $column)) -}}
     {{- $desktop := printf "%sx" (string $width) -}}
     {{- $mobile := site.Params.blocks.pushes.mobile | default site.Params.container.mobile -}}
     {{ if $mobile }}
