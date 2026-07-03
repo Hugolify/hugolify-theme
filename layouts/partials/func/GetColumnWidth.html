@@ -14,7 +14,8 @@
 
      Returns: int — span width in px, rounded up (Ceil) so the image is never narrower than its slot.
 */}}
-{{ $container := .container | default (sub site.Params.container.desktop (mul site.Params.gutter.desktop 2)) }}
+{{ $gutterPx := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.desktop "base" site.Params.container.desktop) }}
+{{ $container := .container | default (sub site.Params.container.desktop (mul $gutterPx 2)) }}
 {{ $gap := .gap | default site.Params.gap.desktop }}
 {{ $columnTotal := .columnTotal | default site.Params.column.desktop | default 12 }}
 {{ $columnWanted := (float .column) | default 1 }}

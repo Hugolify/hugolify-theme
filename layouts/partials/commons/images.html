@@ -1,6 +1,8 @@
 {{- $isFirst := .first -}}
-{{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
-{{- $mobile := sub site.Params.container.mobile (mul site.Params.gutter.mobile 2)| default false -}}
+{{- $gutterDesktop := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.desktop "base" site.Params.container.desktop) -}}
+{{- $gutterMobile := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.mobile "base" site.Params.container.mobile) -}}
+{{- $desktop := sub site.Params.container.desktop (mul $gutterDesktop 2) | default false -}}
+{{- $mobile := sub site.Params.container.mobile (mul $gutterMobile 2)| default false -}}
 
 <div class="images">
   {{ range $index, $image := .images }}

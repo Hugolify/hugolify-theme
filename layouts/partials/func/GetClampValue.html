@@ -1,0 +1,53 @@
+{{/* GetClampValue
+     Fluid CSS length that scales linearly between a mobile and a desktop value.
+
+     When mobile == desktop, or either end already carries an explicit unit (e.g. "4vw", "5%"), there is
+     nothing to interpolate: the mobile value is returned verbatim (unit string as-is, unitless 0 → "0px",
+     otherwise a bare px number → rem). Otherwise a Utopia clamp() is returned, interpolating
+     mobile→desktop between the `fromVw` and `toVw` viewports: slope = Δsize/Δviewport, intercept = size
+     at 0px width (all in px, output in rem with a 16px base). clamp bounds use min/max so it works
+     whichever direction the value grows.
+
+     A value is "already unitted" when Hugo parsed it as a string (units force a string), vs a bare
+     number parsed as int/float — so px→rem only ever runs on real numbers.
+
+     Params:
+       mobile  (number|string) value at the small viewport (bare px number, unit string, or 0)
+       desktop (number|string) value at the large viewport
+       fromVw  (float)         lower viewport bound in px, default 375
+       toVw    (float)         upper viewport bound in px, default 1440
+
+     Returns: a safe CSS length — clamp(...), "0px", "<n>rem", or the raw unit value. Marked safeCSS
+     because a function value like clamp() would otherwise trip Go's CSS autoescaping (ZgotmplZ); the
+     value is fully derived from site params, so it is author-controlled.
+*/}}
+
+{{- $mobile := .mobile -}}
+{{- $desktop := .desktop -}}
+{{- $fromVw := .fromVw | default 375.0 -}}
+{{- $toVw := .toVw | default 1440.0 -}}
+{{- $rootFontSize := 16.0 -}} {{/* px per rem, for px→rem conversion */}}
+
+{{- $mobileHasUnit := eq (printf "%T" $mobile) "string" -}}
+{{- $desktopHasUnit := eq (printf "%T" $desktop) "string" -}}
+{{- $result := "" -}}
+
+{{- if or (eq $mobile $desktop) $mobileHasUnit $desktopHasUnit -}}
+  {{- if $mobileHasUnit -}}
+    {{- $result = printf "%v" $mobile -}}
+  {{- else if eq $mobile 0 -}}
+    {{- $result = "0px" -}}
+  {{- else -}}
+    {{- $result = printf "%vrem" (math.Div $mobile $rootFontSize) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $slope := math.Div (math.Sub $desktop $mobile) (math.Sub $toVw $fromVw) -}}
+  {{- $intercept := math.Sub $mobile (math.Mul $slope $fromVw) -}}
+  {{- $clampMin := math.Div (math.Min $mobile $desktop) $rootFontSize -}}
+  {{- $clampMax := math.Div (math.Max $mobile $desktop) $rootFontSize -}}
+  {{- $interceptRem := printf "%.4f" (math.Div $intercept $rootFontSize) -}}
+  {{- $slopeVw := printf "%.4f" (math.Mul $slope 100.0) -}}
+  {{- $result = printf "clamp(%vrem, %srem + %svw, %vrem)" $clampMin $interceptRem $slopeVw $clampMax -}}
+{{- end -}}
+
+{{- return (safeCSS $result) -}}

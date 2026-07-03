@@ -1,0 +1,44 @@
+{{/* CSS variables from Hugo params.
+
+     Mirrors the grid params (column/container/gap/gutter) into the design-system CSS custom
+     properties so the rendered grid matches the image sizes computed by GetBlockImageSize.
+
+     This <style> is UNLAYERED, so it wins over the tokens defined in `@layer tokens` (unlayered
+     beats layered in the cascade) — no !important, and load order doesn't matter.
+
+     Params are two-tier (desktop/mobile); the CSS is mobile-first, so mobile values are the base and
+     desktop values kick in at the --tablet breakpoint (48rem). Adjust that breakpoint if needed. */}}
+{{- with site.Params -}}
+<style>
+  :root {
+    {{- with .column }}
+      {{- with .mobile }}
+    --columns-mobile: {{ . }};
+    --columns-tablet: {{ . }};
+      {{- end }}
+      {{- with .desktop }}
+    --columns-tablet-wide: {{ . }};
+    --columns-laptop: {{ . }};
+    --columns-desktop: {{ . }};
+      {{- end }}
+    {{- end }}
+    {{- with .container }}
+    {{- with .max }}
+    {{- with .desktop }}
+    --container-max-width-desktop: {{ if in (printf "%v" .) "%" }}{{ . }}{{ else }}{{ math.Div . 16.0 }}rem{{ end }};
+    {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- with .gap }}
+      {{- if and (isset . "mobile") (isset . "desktop") }}
+    --gap: {{ partial "func/GetClampValue.html" (dict "mobile" .mobile "desktop" .desktop) }};
+      {{- end }}
+    {{- end }}
+    {{- with .gutter }}
+      {{- if and (isset . "mobile") (isset . "desktop") }}
+    --gutter: {{ partial "func/GetClampValue.html" (dict "mobile" .mobile "desktop" .desktop) }};
+      {{- end }}
+    {{- end }}
+  }
+</style>
+{{- end -}}

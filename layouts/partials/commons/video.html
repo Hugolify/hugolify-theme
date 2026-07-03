@@ -1,5 +1,7 @@
 {{- $lazy := .lazy | default true -}}
 {{- with . -}}
+
+  {{/*  Video arguments  */}}
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $parallax := partial "func/SetParallax.html" (dict "element" "video") -}}
   {{- $args := slice "playsinline" -}}
@@ -7,18 +9,25 @@
   {{- if .controls }}{{ $args = $args | append "controls" }}{{ end -}}
   {{- if .loop }}{{ $args = $args | append "loop" }}{{ end -}}
   {{- if ne .muted false }}{{ $args = $args | append "muted" }}{{ end -}}
+
+  {{/*  Poster  */}}
   {{- with .poster }}
     {{- $desktop_size := site.Params.image.xlarge -}}
     {{- if and $desktop_size site.Params.image.retina.desktop -}}
       {{- $desktop_size = partial "func/GetMultiplyImage.html" (dict "size" $desktop_size) -}}
     {{- end -}}
-    {{- $imageParams := partial "func/GetImageParams.html" (dict 
+    {{- $imageParams := partial "func/GetImageParams.html" (dict
       "file" .
       "desktop_size" $desktop_size) -}}
     {{- with $imageParams }}
       {{ $args = $args | append (print ` poster="` .image_desktop_webp `"`) }}
     {{- end }}
   {{ end -}}
+
+  {{/*  Video wrapper */}}
+  <div class="video">
+
+  {{/*  Video  */}}
   <video class="js-video is-lazy" {{- if not $lazy }} preload="metadata"{{ end }} {{ (delimit $args ` `) | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
     {{- with .webm_mobile }}
       <source data-src_mobile="{{ . }}" type="video/webm" />
@@ -33,4 +42,21 @@
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/mp4" />
     {{- end }}
   </video>
+
+  {{/*  Toggle button if autoplay without controls (WCAG)  */}}
+  {{- if and .autoplay (not .controls) }}
+  <button
+    class="btn btn-toggle-video js-toggle-video is-playing"
+    aria-label="{{ i18n "video.pause" }}"
+    data-label-play="{{ i18n "video.play" }}"
+    data-label-pause="{{ i18n "video.pause" }}">
+    {{- if templates.Exists "partials/icon.html" -}}
+      {{ partial "icon.html" "pause" }}
+      {{ partial "icon.html" "play" }}
+    {{- end -}}
+  </button>
+  {{- end -}}
+
+  </div>
+
 {{- end -}}

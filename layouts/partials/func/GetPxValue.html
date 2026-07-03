@@ -1,0 +1,23 @@
+{{/* GetPxValue
+     Resolves a length param to a plain px number for build-time math (e.g. image sizing).
+
+     Viewport-relative values — "%" and "vw" (e.g. "4.16666%" / "4.16666vw") — are resolved against
+     `base` (base * n / 100); any other value is returned unchanged (assumed already in px). Both units
+     mean "n hundredths of a reference width", and at build time `base` (a container width) is that
+     reference. Lets grid params be expressed fluidly while the image-size helpers keep working in px.
+
+     Params:
+       value (number|string) the length: a px number, or an "<n>%" / "<n>vw" string
+       base  (number)        reference width the fraction resolves against (px)
+
+     Returns: a float px value.
+*/}}
+{{- $value := .value -}}
+{{- $base := .base -}}
+{{- $str := printf "%v" $value -}}
+{{- $result := $value -}}
+{{- if or (in $str "%") (in $str "vw") -}}
+  {{- $n := float (replace (replace $str "%" "") "vw" "") -}}
+  {{- $result = mul $base (div $n 100.0) -}}
+{{- end -}}
+{{- return $result -}}

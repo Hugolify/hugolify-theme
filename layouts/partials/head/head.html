@@ -4,6 +4,7 @@
   {{ partialCached "head/color-scheme.html" . }}
   {{ partialCached "head/preload.html" . }}
   {{ partialCached "head/css.html" . }}
+  {{ partialCached "head/css-vars.html" . }}
   {{ if templates.Exists "partials/head/icons.html" }}{{ partial "head/icons.html" . }}{{ end }}
   {{ partial "head/canonical.html" . }}
   {{ partial "head/seo.html" . }}

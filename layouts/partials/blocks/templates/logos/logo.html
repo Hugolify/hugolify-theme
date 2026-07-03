@@ -2,8 +2,10 @@
 {{- $title := .title | default "" -}}
 {{- $column := int .ui.column | default 4 -}}
 {{- $columnTotal := site.Params.column.desktop | default 12 -}}
-{{- $desktop := sub site.Params.container.desktop (mul site.Params.gutter.desktop 2) | default false -}}
-{{- $mobile := sub site.Params.container.mobile (mul site.Params.gutter.mobile 2) | default false -}}
+{{- $gutterDesktop := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.desktop "base" site.Params.container.desktop) -}}
+{{- $gutterMobile := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.mobile "base" site.Params.container.mobile) -}}
+{{- $desktop := sub site.Params.container.desktop (mul $gutterDesktop 2) | default false -}}
+{{- $mobile := sub site.Params.container.mobile (mul $gutterMobile 2) | default false -}}
 {{- $ratio := .ratio | default 1 -}}
 {{- if $desktop -}}
   {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal $column)) -}}

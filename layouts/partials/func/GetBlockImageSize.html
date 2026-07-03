@@ -47,7 +47,8 @@
 
 {{/* Desktop: the block spans `columnWanted` of the desktop grid, split across its slots. */}}
 {{- with site.Params.container.desktop -}}
-  {{- $container := cond $isFull . (sub . (mul $gutterGlobalDesktop 2)) -}}
+  {{- $gutter := partial "func/GetPxValue.html" (dict "value" $gutterGlobalDesktop "base" .) -}}
+  {{- $container := cond $isFull . (sub . (mul $gutter 2)) -}}
   {{- $columnWanted := partial "func/GetWantedColumn.html" (dict "grid" $grid "base" $columnGlobalDesktop) -}}
   {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (float $columnWanted) $columnDesktop) "columnTotal" $columnGlobalDesktop "container" $container) -}}
   {{- if $ratio -}}
@@ -59,7 +60,8 @@
 
 {{/* Mobile: grids collapse to full width; the block spans the whole mobile grid, split across its slots. */}}
 {{- with site.Params.container.mobile -}}
-  {{- $container := cond $isFullMobile . (sub . (mul $gutterGlobalMobile 2)) -}}
+  {{- $gutter := partial "func/GetPxValue.html" (dict "value" $gutterGlobalMobile "base" .) -}}
+  {{- $container := cond $isFullMobile . (sub . (mul $gutter 2)) -}}
   {{- $columnWanted := partial "func/GetWantedColumn.html" (dict "grid" $gridMobile "base" $columnGlobalMobile) -}}
   {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (float $columnWanted) $columnMobile) "columnTotal" $columnGlobalMobile "container" $container) -}}
   {{- if $ratio -}}
