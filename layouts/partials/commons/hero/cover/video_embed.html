@@ -1,5 +1,9 @@
 {{- with .video_embed }}
-  <div class="hero-cover">
+  {{- $media_class := "hero-cover" -}}
+  {{- if .darken -}}
+    {{- $media_class = printf "%s hero-cover-darken" $media_class -}}
+  {{- end -}}
+  <div class="{{ $media_class }}">
     {{ partial "commons/video-embed-api" . }}
   </div>
 {{- end }}
