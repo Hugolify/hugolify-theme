@@ -1,24 +1,12 @@
 {{- $isFirst := .first -}}
-{{- $gutterDesktop := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.desktop "base" site.Params.container.desktop) -}}
-{{- $gutterMobile := partial "func/GetPxValue.html" (dict "value" site.Params.gutter.mobile "base" site.Params.container.mobile) -}}
-{{- $desktop := sub site.Params.container.desktop (mul $gutterDesktop 2) | default false -}}
-{{- $mobile := sub site.Params.container.mobile (mul $gutterMobile 2)| default false -}}
 
 <div class="images">
   {{ range $index, $image := .images }}
     {{- $lazy := partial "func/isLazyImage" (dict "first" $isFirst "index" $index "limit" 0) -}}
-    {{- $figure_class := false -}}
-    {{- $columnTotal := site.Params.column.desktop | default 12 }}
-    {{ if $desktop }}
-      {{- $width := partial "func/GetColumnWidth.html" (dict "column" $columnTotal) -}}
-      {{- $desktop = printf "%sx" (string $width) -}}
-      {{ if .half }}
-        {{- $figure_class = "half" -}}
-        {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div $columnTotal 2)) -}}
-        {{- $desktop = printf "%sx" (string $width) -}}
-      {{ end }}
-    {{ end }}
-    {{- $args := merge . (dict "lazy" $lazy "figure_class" $figure_class "desktop" $desktop "mobile" $mobile) }}
+    {{/* Each image is full-width (one slot) or half-width (two slots) of the container. */}}
+    {{- $figure_class := cond .half "half" false -}}
+    {{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" (cond .half 2 1)) -}}
+    {{- $args := merge . (dict "lazy" $lazy "figure_class" $figure_class "desktop" $size.desktop "mobile" $size.mobile) }}
     {{- partial "commons/figure.html" $args -}}
   {{ end }}
 </div>

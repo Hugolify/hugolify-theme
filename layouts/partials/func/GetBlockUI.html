@@ -20,13 +20,13 @@
        offset       (string)    resolved offset value, or false when unset
        theme        (string)    resolved theme value, or false when unset
 */}}
-{{- $align := .align | default false -}}
-{{- $column := .column | default false -}}
-{{- $grid := .grid | default false -}}
-{{- $layout := .layout | default false -}}
-{{- $offset := .offset | default false -}}
-{{- $ratio := .ratio | default false -}}
-{{- $theme := .theme | default false -}}
+{{- $align := .align -}}
+{{- $column := .column -}}
+{{- $grid := .grid -}}
+{{- $layout := .layout -}}
+{{- $offset := .offset -}}
+{{- $ratio := .ratio -}}
+{{- $theme := .theme -}}
 {{- with .ui }}
   {{- if isset . "align" }}
   {{- $align = .align -}}
