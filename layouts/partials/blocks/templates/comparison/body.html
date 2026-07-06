@@ -11,9 +11,9 @@
               <span class="badge">{{ partial "func/PrepareHTML.html" . }}</span>
             {{ end -}}
             {{- with .title }}
-              {{- printf "<%s>" $tag | safeHTML -}}
+              {{- printf `<%s class="title">` $tag | safeHTML -}}
                 {{ partial "func/PrepareHTML.html" . }}
-              {{- printf "</%s>" $tag | safeHTML -}}
+              {{- printf `</%s>` $tag | safeHTML -}}
             {{ end -}}
             {{- with .text }}
               <p>{{ partial "func/PrepareHTML.html" . }}</p>
