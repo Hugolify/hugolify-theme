@@ -9,7 +9,7 @@
 
      Returns: string, e.g. "block-figure block-medium block-bg"
 */}}
-{{- $classes := slice (printf "block-%s" .name) -}}
+{{- $classes := slice (printf "block block-%s" .name) -}}
 {{- with .variant }}{{ $classes = $classes | append (printf "block-%s-%s" $.name .) }}{{ end -}}
 {{- with .ui }}
   {{- with .align }}{{ $classes = $classes | append (printf "block-align-%s" .) }}{{ end }}
