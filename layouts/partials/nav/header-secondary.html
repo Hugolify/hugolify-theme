@@ -1,0 +1,13 @@
+{{- $menu := site.Data.menu.header.secondary -}}
+{{- with index $menu .Site.Language.Lang -}}
+  {{- $menu = . -}}
+{{- end -}}
+{{- with $menu }}
+  <ul class="nav nav-secondary">
+    {{- range .links }}
+      <li>
+        {{- partial "nav/link.html" (dict "link" .) -}}
+      </li>
+    {{- end }}
+  </ul>
+{{ end -}}

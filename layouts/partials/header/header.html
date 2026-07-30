@@ -3,7 +3,7 @@
     <div class="container">
       {{ partialCached "header/logo.html" . }}
       {{ partialCached "commons/search/button.html" . }}
-      {{ if site.Data.menu.primary }}
+      {{ if or site.Data.menu.primary site.Data.menu.header.primary }}
         {{ partialCached "header/button.html" . }}
         {{ partial "header/main-menu.html" . }}
       {{ end }}

@@ -1,0 +1,32 @@
+{{- $currentPage := .RelPermalink -}}
+{{- $menu := site.Data.menu.header.primary -}}
+{{- with index $menu .Site.Language.Lang -}}
+  {{- $menu = . -}}
+{{- end -}}
+{{- with $menu }}
+  <ul class="nav nav-primary">
+    {{ range .links }}
+      {{- $hasChildren := false -}}
+      {{- if .links}}{{ $hasChildren = true }}{{ end -}}
+      {{- $hasClass := slice -}}
+      {{- if $hasChildren }}{{ $hasClass = $hasClass | append "dropdown" }}{{ end -}}
+      {{- if .is_highlighted }}{{ $hasClass = $hasClass | append "nav-item-highlighted" }}{{ end -}}
+      <li {{- with $hasClass }} class="{{ delimit . ` ` }}"{{ end }}>
+        {{- partial "nav/link.html" (dict "link" . "currentPage" $currentPage) -}}
+        {{- if $hasChildren }}
+          <button class="dropdown-toggle js-dropdown-toggle" role="button" aria-expanded="false">
+            <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
+          </button>
+          <ul class="dropdown-menu">
+            {{- range .links}}
+              <li>
+                {{- partial "nav/link.html" (dict "link" . "currentPage" $currentPage) -}}
+                {{- partial "nav/text.html" . -}}
+              </li>
+            {{ end -}}
+          </ul>
+        {{ end -}}
+      </li>
+    {{ end -}}
+  </ul>
+{{ end -}}
