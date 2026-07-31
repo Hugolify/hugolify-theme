@@ -1,7 +1,8 @@
 {{- if templates.Exists "partials/icon.html" -}}
-  <a href="{{ .url | safeURL }}" {{- if .blank }} target="_blank" rel="noopener"{{ end }} title="{{ .title }}">
-    {{- partial "icon" (printf "brand:%s" (lower .title)) -}}
-    <span class="visually-hidden">{{ .title }}</span>
+  {{- $title := cond .title .title .platform }}
+  <a href="{{ .url | safeURL }}" {{- if .blank }} target="_blank" rel="noopener"{{ end }} title="{{ safeHTML $title }}">
+    {{- partial "icon" (printf "brand:%s" (lower $title)) -}}
+    <span class="visually-hidden">{{ partial "func/PrepareHTML.html" $title }}</span>
   </a>
 {{- else -}}
   {{- partial "nav/link.html" (dict "link" . "span" true) -}}

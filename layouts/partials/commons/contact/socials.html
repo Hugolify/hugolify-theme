@@ -1,14 +1,34 @@
-{{- $socials := dict }}
-{{- range $k, $v := . }}
-  {{- if and (ne $k "email") (ne $k "phone") (ne $k "fax") }}
-    {{- $socials = merge $socials (dict $k $v) }}
+{{- /*
+Renders the social links of a contact object.
+
+Accepts both shapes:
+- `socials`: a list of objects with `platform` and `url` keys (CMS format).
+- legacy flat keys: one key per network (`linkedin: https://…`), next to email, phone and fax.
+
+@context {map} . The contact object.
+*/ -}}
+{{- $links := slice }}
+
+{{- range .socials }}
+  {{- if and .platform .url }}
+    {{- $links = $links | append (dict "title" .platform "url" .url "blank" true) }}
   {{- end }}
 {{- end }}
-{{- if $socials }}
+
+{{- $reserved := slice "email" "phone" "fax" "socials" }}
+{{- range $key, $value := . }}
+  {{- if in $reserved $key }}{{ continue }}{{ end }}
+  {{- if or (reflect.IsMap $value) (reflect.IsSlice $value) }}{{ continue }}{{ end }}
+  {{- with $value }}
+    {{- $links = $links | append (dict "title" $key "url" . "blank" true) }}
+  {{- end }}
+{{- end }}
+
+{{- with $links }}
   <ul class="nav nav-social">
-    {{- range $k, $v := $socials }}
-      <li class="{{ lower (safeHTML $k) }}">
-        {{- partial "nav/link-with-icon.html" (dict "title" $k "url" $v "blank" true) -}}
+    {{- range . }}
+      <li class="{{ lower .title }}">
+        {{- partial "nav/link-with-icon.html" . -}}
       </li>
     {{- end }}
   </ul>
