@@ -1,5 +1,7 @@
 {{- if eq .ui.layout "list" }}
   {{ partial "blocks/templates/selected/list.html" . }}
+{{- else if eq .ui.layout "carousel" }}
+  {{ partial "blocks/templates/selected/carousel.html" . }}
 {{- else }}
   {{ partial "blocks/templates/selected/grid.html" . }}
 {{- end }}

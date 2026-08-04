@@ -30,8 +30,13 @@
         {{- range $index, $items := .items }}
           <li class="splide__slide">
             {{- if $partial }}
-              {{- $item := . | merge (dict "index" $index) -}}
-              {{ partial $partial $item }}
+              {{- if reflect.IsMap . -}}
+                {{ partial $partial (merge (dict "index" $index) .) }}
+              {{- else -}}
+                {{/* A page.Page cannot be merged: pass the index through the Scratch, as in commons/items.html */}}
+                {{- .Scratch.Set "index" $index -}}
+                {{ partial $partial . }}
+              {{- end -}}
             {{ end -}}
           </li>
         {{ end -}}

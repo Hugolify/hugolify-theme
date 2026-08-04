@@ -1,0 +1,6 @@
+{{- $partial := printf "%s/item.html" .section -}}
+{{- $partial = cond (templates.Exists (printf "partials/%s" $partial)) $partial "pages/item.html" -}}
+{{ partial "commons/carousel.html" (dict
+  "context" .
+  "partial" $partial
+  ) }}
