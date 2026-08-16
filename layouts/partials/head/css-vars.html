@@ -14,6 +14,8 @@
     {{- with .column }}
       {{- with .mobile }}
     --columns-mobile: {{ . }};
+      {{- end }}
+      {{- with .tablet }}
     --columns-tablet: {{ . }};
       {{- end }}
       {{- with .desktop }}
@@ -31,12 +33,12 @@
     {{- end }}
     {{- with .gap }}
       {{- if and (isset . "mobile") (isset . "desktop") }}
-    --gap: {{ partial "func/GetClampValue.html" (dict "mobile" .mobile "desktop" .desktop) }};
+    --grid-gap: {{ partial "func/GetClampValue.html" . }};
       {{- end }}
     {{- end }}
     {{- with .gutter }}
       {{- if and (isset . "mobile") (isset . "desktop") }}
-    --gutter: {{ partial "func/GetClampValue.html" (dict "mobile" .mobile "desktop" .desktop) }};
+    --gutter: {{ partial "func/GetClampValue.html" . }};
       {{- end }}
     {{- end }}
   }
