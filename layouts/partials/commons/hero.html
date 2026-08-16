@@ -4,6 +4,20 @@
     {{- with .align -}}
       {{- $class = $class | append (printf "hero-%s" .) -}}
     {{- end -}}
+    {{- with .ui -}}
+      {{- with .align -}}
+        {{- $class = $class | append (printf "hero-%s" .) -}}
+      {{- end -}}
+      {{- with .vertical_align -}}
+        {{- $class = $class | append (printf "hero-vertical-%s" .) -}}
+      {{- end -}}
+      {{- with .theme -}}
+        {{- $class = $class | append (printf "hero-%s" .) -}}
+      {{- end -}}
+      {{- with .darken -}}
+        {{- $class = $class | append "hero-with-darken" -}}
+      {{- end -}}
+    {{- end -}}
     {{- with .image -}}
       {{- if or .background .background_image -}}
         {{- $class = $class | append "hero-with-cover" -}}
