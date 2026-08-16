@@ -11,6 +11,10 @@
      A value is "already unitted" when Hugo parsed it as a string (units force a string), vs a bare
      number parsed as int/float — so px→rem only ever runs on real numbers.
 
+     Bare numbers reach templates as uint64 when they come from site params, and uint64 subtraction
+     wraps around instead of going negative (0 - 30 → 1.8e19). Both ends are therefore cast to float
+     before any arithmetic, so a value that shrinks from mobile to desktop keeps a negative slope.
+
      Params:
        mobile  (number|string) value at the small viewport (bare px number, unit string, or 0)
        desktop (number|string) value at the large viewport
@@ -30,12 +34,18 @@
 
 {{- $mobileHasUnit := eq (printf "%T" $mobile) "string" -}}
 {{- $desktopHasUnit := eq (printf "%T" $desktop) "string" -}}
+{{- $hasUnit := or $mobileHasUnit $desktopHasUnit -}}
 {{- $result := "" -}}
 
-{{- if or (eq $mobile $desktop) $mobileHasUnit $desktopHasUnit -}}
+{{- if not $hasUnit -}}
+  {{- $mobile = float $mobile -}}
+  {{- $desktop = float $desktop -}}
+{{- end -}}
+
+{{- if or $hasUnit (eq $mobile $desktop) -}}
   {{- if $mobileHasUnit -}}
     {{- $result = printf "%v" $mobile -}}
-  {{- else if eq $mobile 0 -}}
+  {{- else if eq (float $mobile) 0.0 -}}
     {{- $result = "0px" -}}
   {{- else -}}
     {{- $result = printf "%vrem" (math.Div $mobile $rootFontSize) -}}
@@ -46,8 +56,14 @@
   {{- $clampMin := math.Div (math.Min $mobile $desktop) $rootFontSize -}}
   {{- $clampMax := math.Div (math.Max $mobile $desktop) $rootFontSize -}}
   {{- $interceptRem := printf "%.4f" (math.Div $intercept $rootFontSize) -}}
-  {{- $slopeVw := printf "%.4f" (math.Mul $slope 100.0) -}}
-  {{- $result = printf "clamp(%vrem, %srem + %svw, %vrem)" $clampMin $interceptRem $slopeVw $clampMax -}}
+  {{- $slopeVw := math.Mul $slope 100.0 -}}
+  {{/* A shrinking value has a negative slope: emit "- n" rather than "+ -n" */}}
+  {{- $sign := "+" -}}
+  {{- if lt $slopeVw 0.0 -}}
+    {{- $sign = "-" -}}
+    {{- $slopeVw = math.Mul $slopeVw -1.0 -}}
+  {{- end -}}
+  {{- $result = printf "clamp(%vrem, %srem %s %.4fvw, %vrem)" $clampMin $interceptRem $sign $slopeVw $clampMax -}}
 {{- end -}}
 
 {{- return (safeCSS $result) -}}
