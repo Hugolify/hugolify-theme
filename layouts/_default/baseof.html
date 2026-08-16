@@ -21,6 +21,7 @@
     <main id="main" role="main" tabindex="-1" {{- if site.Params.search.enable }} data-pagefind-body{{ end }}>
       {{- block "main" . }}{{- end }}
     </main>
+    {{- partial "footer/blocks.html" . -}}
     {{- partial "nav/breadcrumb.html" . -}}
     {{- partial "footer/footer.html" . -}}
     {{- partial "footer/cookie-banner.html" . -}}
