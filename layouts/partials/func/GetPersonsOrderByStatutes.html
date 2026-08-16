@@ -1,52 +1,65 @@
-/* Selection of pages or context */ 
+{{/* Selection of pages or context */}}
 {{ $persons := . }}
 
-/* Check if a selection of pages or current page */ 
+{{/* Check if a selection of pages or current page */}}
 {{ $pagination := false }}
 {{ $type := printf "%T" $persons }}
-/* if current page */ 
+{{/* if current page */}}
 {{ if (findRE "^(\\*hugolib\\.Page|.*hugolib\\.pageState)" $type) }}
-  /* Add context to $pagination */ 
+  {{/* Add context to $pagination */}}
   {{ $pagination = $persons }}
-  /* Add pages to $persons */ 
+  {{/* Add pages to $persons */}}
   {{ $persons = $persons.Pages }}
 {{ end }}
 
 {{ $pages := slice }}
 
-/* Sort by status */
-{{ if site.GetPage "section" "persons_statutes" }}
-  /* Create slice of maps, where each map contains the page and term weight. */
-  {{ $taxonomy := "persons_statutes" }}
-  {{ $s := slice }}
-  {{ range $persons }}
-    {{ $termWeight := 99999999 }}
+{{/* Sort by status, then by lastname */}}
+{{ $taxonomy := "persons_statutes" }}
+{{ $hasStatutes := site.GetPage "section" $taxonomy }}
+{{ $hasLastname := false }}
+
+{{/* Create slice of maps, where each map contains the page, the term weight and the sort key. */}}
+{{ $s := slice }}
+{{ range $persons }}
+  {{ $termWeight := 99999999 }}
+  {{ if $hasStatutes }}
     {{ with (index (.GetTerms $taxonomy) 0).Weight }}
       {{ $termWeight = . }}
     {{ end }}
-    {{ $s = $s | append (dict
-        "page" .
-        "termWeight" $termWeight
-      )
-    }}
   {{ end }}
+  {{/* Use the lastname param when it exists, fallback on the title otherwise */}}
+  {{ $lastname := .Title }}
+  {{ with .Params.lastname }}
+    {{ $hasLastname = true }}
+    {{ $lastname = . }}
+  {{ end }}
+  {{/* Composite key: zero padded weight to keep the numeric order, then the lastname */}}
+  {{ $sortKey := printf "%010d-%s" $termWeight (lower $lastname) }}
+  {{ $s = $s | append (dict
+      "page" .
+      "termWeight" $termWeight
+      "sortKey" $sortKey
+    )
+  }}
+{{ end }}
 
-  /* Create a slice of pages, sorted by the term weight. */
-  {{ $p := slice }}
-  {{ range (sort $s "termWeight") }}
+{{ $p := $persons }}
+{{/* Sort only when there is something to sort on */}}
+{{ if or $hasStatutes $hasLastname }}
+  {{/* Keep the term weight alone when no page provides a lastname */}}
+  {{ $sortBy := cond $hasLastname "sortKey" "termWeight" }}
+  {{/* Create a slice of pages, sorted by the term weight then by the lastname. */}}
+  {{ $p = slice }}
+  {{ range (sort $s $sortBy) }}
     {{ $p = $p | append .page }}
   {{ end }}
+{{ end }}
 
-  /* Render the page collection. */
-  {{ $pages = $p }}
-  {{ if $pagination }}
-    {{ $pages = ($pagination.Paginate $p).Pages }}
-  {{ end }}
-{{ else }}
-  {{ $pages = $persons }}
-  {{ if $pagination }}
-    {{ $pages = ($pagination.Paginate $persons).Pages }}
-  {{ end }}
+{{/* Render the page collection. */}}
+{{ $pages = $p }}
+{{ if $pagination }}
+  {{ $pages = ($pagination.Paginate $p).Pages }}
 {{ end }}
 
 {{ return $pages }}
