@@ -1,14 +1,14 @@
 <div class="content">
   {{- with .surtitle }}
     <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
-  {{ end -}}
+  {{- end }}
   {{- with .title }}
     <p class="title">{{ partial "func/PrepareHTML.html" . }}</p>
-  {{ end -}}
+  {{- end }}
   {{- with .text }}
-    <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
-  {{ end -}}
+    {{ partial "commons/text.html" (dict "text" .) }}
+  {{- end }}
   {{- with .cta }}
     {{ partial "commons/cta.html" . }}
-  {{ end -}}
+  {{- end }}
 </div>
