@@ -103,7 +103,7 @@ params:
     # Denser-than-lean ladder for Hugo — every width is a file generated at build time (cache
     # resources/ in CI to keep cold builds down). Variants larger than the source are skipped
     # automatically (no upscaling). Steps tightened at common render sizes to cut over-download.
-    srcset_widths_hugo: [320, 480, 640, 800, 1024, 1280, 1600, 1920]
+    srcset_widths_hugo: [320, 480, 640, 800, 1024, 1280, 1440, 1600, 1920]
     sizes_default: '100vw'
     # Below this requested width, lazy images stay in the fixed-size + 2x retina mode (avatars, icons,
     # small thumbnails) instead of generating a responsive srcset ladder.
