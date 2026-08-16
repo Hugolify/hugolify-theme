@@ -4,13 +4,17 @@
 {{- $notes := .context.notes -}}
 {{- $blockId := .blockId | default "" -}}
 
+{{- if or $surtitle $title }}
+<header class="heading">
 {{- with $surtitle }}
   <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
-{{ end }}
+{{- end }}
 
 {{- with $title }}
   <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML.html" . }}</h2>
-{{ end }}
+{{- end }}
+</header>
+{{- end }}
 
 {{- with $text }}
   {{ partial "commons/text.html" (dict "text" . "notes" $notes "blockId" $blockId) }}
