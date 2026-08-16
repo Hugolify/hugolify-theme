@@ -97,6 +97,9 @@ form:
   message: Message
   name: Nom
   organization: Organisation
+  required:
+    one: "* Ce champ est obligatoire"
+    other: "* Ces champs sont obligatoires"
   subject: Sujet
   success: Formulaire envoyé avec succès. Merci !
   tel: Téléphone

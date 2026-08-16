@@ -9,6 +9,7 @@
 {{- if site.Params.form.ajax -}}
   {{- $ajax = true -}}
 {{- end -}}
+{{- $requiredField := false -}}
 
 <form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
 
@@ -46,9 +47,13 @@
         <p id="help-{{ $id }}" class="help">{{ i18n (print "form.hint." .type) }}</p>
       {{ end -}}
     {{- if ne .type "hidden" }}</div>{{ end }}
+    {{- if .required }}{{ $requiredField = true }}{{ end -}}
   {{ end -}}
 
   <div class="actions">
+    {{- if $requiredField }}
+    <p class="required">{{ i18n "form.required" }}</p>
+    {{- end }}
     <button type="submit" class="btn">{{ partial "func/PrepareHTML.html" .submit | default "Submit" }}</button>
   </div>
 
