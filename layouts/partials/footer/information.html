@@ -11,7 +11,7 @@
       <p class="footer-title">{{- partial "func/PrepareHTML.html" . -}}</p>
       {{- end -}}
       {{- with .text -}}
-      <p>{{- partial "func/LineBreak" (partial "func/PrepareHTML.html" .) -}}</p>
+        {{ partial "commons/text.html" (dict "text" .) }}
       {{- end -}}
       {{- partial "commons/cta" .cta -}}
     </div>
