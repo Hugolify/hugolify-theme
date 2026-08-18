@@ -76,9 +76,9 @@ The principle: replace Bootstrap SASS dependencies with standard CSS using custo
 | Before (SASS + Bootstrap) | After (native CSS) |
 |---|---|
 | `@include media-breakpoint-down(md)` | `@media (max-width: 767px)` |
-| `color: $primary` | `color: var(--color-primary)` |
+| `color: $primary` | `color: var(--color-brand)` |
 | `margin: $spacer * 2` | `margin: var(--spacing-lg)` |
 | `@extend .btn-link` | copy the CSS rules directly |
 | `font-size: $font-size-sm` | `font-size: var(--font-size-sm)` |
 
-The CSS custom properties (`--color-primary`, `--spacing-lg`…) must be defined by the active styling module so that content modules can consume them regardless of the underlying framework.
+The CSS custom properties (`--color-brand`, `--spacing-lg`…) must be defined by the active styling module so that content modules can consume them regardless of the underlying framework.
