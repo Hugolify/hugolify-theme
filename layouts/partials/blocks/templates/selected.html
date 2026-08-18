@@ -5,7 +5,7 @@
 {{- $blockClass := partial "func/GetBlockClasses" (dict "name" "selected" "variant" .section "ui" $ui) -}}
 
 {{/* Items */}}
-{{- $items := partial "blocks/templates/selected/GetItems.html" (dict "section" .section "items" .items) -}}
+{{- $items := partial "blocks/templates/selected/GetItems.html" . -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "items" $items "ui" $ui) -}}

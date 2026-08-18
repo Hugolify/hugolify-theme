@@ -1,0 +1,56 @@
+{{/*
+  Returns the pages of a section filtered by the taxonomies set on the block.
+  A page is kept only when it matches every taxonomy filled in by the editor,
+  an empty taxonomy being ignored. Block fields holding the terms are named
+  after the taxonomies themselves (persons_statutes, categories, tags…).
+
+  - . (map) the block
+
+  Returns a page collection
+*/}}
+
+{{- $block := . -}}
+{{- $section := .section -}}
+
+{{/* All the pages of the section */}}
+{{- $pages := slice -}}
+{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
+  {{- $pages = where site.Pages "Params.isPage" true -}}
+{{- else -}}
+  {{- $pages = where (where site.Pages "Section" $section) "Kind" "ne" "section" -}}
+{{- end -}}
+
+{{/* Filter, one taxonomy after the other */}}
+{{- range $taxonomy, $terms := site.Taxonomies -}}
+  {{- with index $block $taxonomy -}}
+    {{/* The block holds a single term when the relation is not multiple */}}
+    {{- $wanted := cond (reflect.IsSlice .) . (slice .) -}}
+    {{- $matched := slice -}}
+    {{- range $page := $pages -}}
+      {{- with index $page.Params $taxonomy -}}
+        {{- $values := cond (reflect.IsSlice .) . (slice .) -}}
+        {{- if intersect $values $wanted -}}
+          {{- $matched = $matched | append $page -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{/* Intersect to keep a page collection, and not a plain slice */}}
+    {{- $pages = $pages | intersect $matched -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Persons keep their own order, by status then by lastname */}}
+{{- if eq $section "persons" -}}
+  {{- $pages = partial "func/GetPersonsOrderByStatutes" $pages -}}
+
+{{/* Pinned pages first, then by date when there is one, by title otherwise */}}
+{{- else -}}
+  {{- with $pages -}}
+    {{- $pinned := (where . "Params.weight" "gt" 0).ByParam "weight" -}}
+    {{- $rest := where . "Params.weight" "eq" nil -}}
+    {{- $rest = cond (isset (index . 0).Params "date") $rest.ByDate.Reverse $rest.ByTitle -}}
+    {{- $pages = $pinned | append $rest -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $pages -}}

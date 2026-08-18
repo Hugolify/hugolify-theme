@@ -1,36 +1,49 @@
 {{- $section := .section -}}
-{{- $items := cond (reflect.IsSlice .items) .items (slice .items) -}}
+{{- $source := .source | default "selection" -}}
 {{- $selected_items := slice -}}
-{{- range $items }}
 
-  {{- $path := . }}
-  {{- if reflect.IsMap . }}
-    {{- $path = .item }}
-  {{- end }}
+{{/* Pages filtered by the taxonomies set on the block */}}
+{{- if eq $source "taxonomies" -}}
 
-  {{- if strings.Contains $path "/content" }}
-    {{- $path = replaceRE `^\/content` "" $path }}
-  {{- else if strings.Contains $path "content/" }}
-    {{- $path = replaceRE `^content\/` "" $path }}
-  {{- else }}
-    {{- if ne $section "pages" }}
-      {{- $path = printf "%s/%s" $section $path }}
+  {{- $selected_items = partial "blocks/templates/selected/GetItemsByTaxonomies.html" . -}}
+
+{{/* Pages picked one by one */}}
+{{- else -}}
+
+  {{- $items := .items | default slice -}}
+  {{- $items = cond (reflect.IsSlice $items) $items (slice $items) -}}
+  {{- range $items }}
+
+    {{- $path := . }}
+    {{- if reflect.IsMap . }}
+      {{- $path = .item }}
     {{- end }}
-  {{- end }}
-  
-  {{- $item := site.GetPage $path }}
-  {{- if not $item }}
-    {{- $pages := site.RegularPages }}
-    {{- if ne $section "pages" }}
-      {{- $pages = where site.RegularPages "Section" $section }}
+
+    {{- if strings.Contains $path "/content" }}
+      {{- $path = replaceRE `^\/content` "" $path }}
+    {{- else if strings.Contains $path "content/" }}
+      {{- $path = replaceRE `^content\/` "" $path }}
     {{- else }}
-      {{- $pages = where site.Pages "Params.isPage" true }}
+      {{- if ne $section "pages" }}
+        {{- $path = printf "%s/%s" $section $path }}
+      {{- end }}
     {{- end }}
-    {{- $item = or (where $pages "Params.title" "==" $path) (where $pages "Params.id" "==" $path) }}
-  {{- end }}
-  {{- with $item }}
-    {{- $selected_items = $selected_items | append . }}
-  {{- end }}
-{{ end }}
+
+    {{- $item := site.GetPage $path }}
+    {{- if not $item }}
+      {{- $pages := site.RegularPages }}
+      {{- if ne $section "pages" }}
+        {{- $pages = where site.RegularPages "Section" $section }}
+      {{- else }}
+        {{- $pages = where site.Pages "Params.isPage" true }}
+      {{- end }}
+      {{- $item = or (where $pages "Params.title" "==" $path) (where $pages "Params.id" "==" $path) }}
+    {{- end }}
+    {{- with $item }}
+      {{- $selected_items = $selected_items | append . }}
+    {{- end }}
+  {{ end }}
+
+{{- end -}}
 
 {{ return $selected_items }}
