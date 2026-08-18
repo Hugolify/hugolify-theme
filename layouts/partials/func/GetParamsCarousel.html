@@ -5,4 +5,11 @@
   {{- end -}}
 {{- end -}}
 
+{{/* Splide expects a slide index or "center", not the boolean set in the CMS */}}
+{{- with $carousel -}}
+  {{- if eq .focus true -}}
+    {{- $carousel = merge . (dict "focus" "center") -}}
+  {{- end -}}
+{{- end -}}
+
 {{- return ($carousel | jsonify) -}}
