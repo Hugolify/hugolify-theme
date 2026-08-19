@@ -1,7 +1,10 @@
 
 {{- $layout := .ui.layout | default "grid" -}}
 {{- $column := int .ui.column | default 1 -}}
-{{- $tag := cond (ne .title "") "h3" "h2" -}}
+{{- $tag := "h2" -}}
+{{- with .heading.title }}
+	{{- $tag = "h3" -}}
+{{- end }}
 {{- $params := index (slice (dict "tag" $tag "column" $column)) 0 -}}
 {{- if eq $layout "carousel" }}
   {{ partial "blocks/templates/pushes/carousel.html" (dict "context" . "params" $params) }}
