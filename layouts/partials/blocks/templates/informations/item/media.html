@@ -11,10 +11,9 @@
 {{- end }}
 
 {{/* Ratio */}}
-{{- $defaultRatio := site.Params.blocks.informations.image.ratio | default false -}}
-{{- $ratio := .ui.ratio }}
-{{- if not $ratio }}
-  {{- $ratio = $defaultRatio }}
+{{- $ratio := site.Params.blocks.informations.image.ratio | default false -}}
+{{- with .ui.ratio }}
+  {{- $ratio = . -}}
 {{- end }}
 
 {{/* UI */}}
