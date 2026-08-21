@@ -21,9 +21,9 @@
   {{- end -}}
 
   {{- with $text }}
-    <div class="banner {{- with $state }} banner-{{ . }}{{ end }}" role="alert">
+    <div class="banner alert {{- with $state }} alert-{{ . }}{{ end }}" role="alert">
       <div class="container">
-          <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
+        <p>{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
       </div>
     </div>
   {{ end -}}
