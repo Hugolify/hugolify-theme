@@ -1,0 +1,26 @@
+{{/*  Trigger — renders the button that opens a panel.
+
+      Mirrors commons/dialog.html: the id drives both data-target and
+      aria-controls, and the same expand param yields .panel-trigger-*, which
+      css-components hides once the panel has gone inline. The pair therefore
+      derives from one value and cannot disagree, wherever the button sits in
+      the page — the filters one lives in the page heading, far from its panel.
+
+      id          (required) the panel's id
+      content     (required) the button's label, already rendered
+      params                 the component's site params: .expand
+      class                  extra classes, e.g. "btn btn-toc" or "btn-menu"
+      ariaLabel              accessible name when the label alone is not one  */}}
+{{- $expand := "md" }}
+{{- with .params }}{{ with .expand }}{{ $expand = . }}{{ end }}{{ end }}
+{{- $classes := slice }}
+{{- with .class }}{{ $classes = $classes | append . }}{{ end }}
+{{- $classes = $classes | append "js-dialog-toggle" }}
+{{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-trigger-" $expand) }}{{ end }}
+<button type="button"
+    class="{{ delimit $classes ` ` }}"
+    data-target="#{{ .id }}"
+    aria-controls="{{ .id }}"
+    {{- with .ariaLabel }} aria-label="{{ . }}"{{ end }}>
+  {{- .content -}}
+</button>

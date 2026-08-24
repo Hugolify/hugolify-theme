@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-toc js-dialog-toggle"
-  data-target="#toc"
-  aria-controls="toc">
-  {{- i18n "toc" -}}
-</button>
+{{ partial "commons/dialog-trigger.html" (dict
+  "id" "toc"
+  "class" "btn btn-toc"
+  "params" site.Params.toc
+  "content" (i18n "toc")) }}

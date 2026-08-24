@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-filter js-dialog-toggle"
-  data-target="#filters"
-  aria-controls="filters">
-  {{- i18n "filter" -}}
-</button>
+{{ partial "commons/dialog-trigger.html" (dict
+  "id" "filters"
+  "class" "btn btn-filter"
+  "params" site.Params.filters
+  "content" (i18n "filter")) }}

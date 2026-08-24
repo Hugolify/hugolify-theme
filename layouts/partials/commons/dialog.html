@@ -1,0 +1,46 @@
+{{/*  Panel — renders a .modal or .drawer from @uncinq/css-components.
+
+      Picks the element from the component's expand param. A panel that has an
+      inline mode is a popover, so it can shed its dialog role above the
+      breakpoint — a <dialog> would keep claiming role="dialog" even when the
+      CSS only makes it a sidebar. A panel that is always an overlay is a
+      native <dialog>, and lets the browser own Escape, the focus trap and the
+      inert background.
+
+      id          (required) targeted by .js-dialog-toggle[data-target="#id"]
+      button                 the trigger, already rendered. Emitted immediately
+                             before the panel, which is what lets css-components
+                             hide it once the panel goes inline — the rule there
+                             reaches the trigger as the panel's previous sibling.
+                             Omit it only when the trigger cannot live next to
+                             the panel, as the filters button cannot: it stays
+                             visible above the breakpoint.
+      labelledby  (required) id of the element naming the panel
+      content     (required) header / content / footer, already rendered
+      params                 the component's site params: .expand, .drawer.position
+      class                  extra classes, e.g. "filters" or "main-menu"
+      type                   "drawer" (default) or "modal"
+      style                  inline style, e.g. --modal-max-width
+      attrs                  extra attributes, e.g. data-pagefind-ignore  */}}
+{{- $expand := "md" }}
+{{- with .params }}{{ with .expand }}{{ $expand = . }}{{ end }}{{ end }}
+{{- $inline := ne $expand "none" }}
+{{- $type := .type | default "drawer" }}
+{{- $classes := slice }}
+{{- with .class }}{{ $classes = $classes | append . }}{{ end }}
+{{- $classes = $classes | append $type }}
+{{- if eq $type "drawer" }}
+  {{- with .params }}{{ with .drawer }}{{ with .position }}
+    {{- $classes = $classes | append (print "drawer-" .) }}
+  {{- end }}{{ end }}{{ end }}
+{{- end }}
+{{- if $inline }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
+{{- $attrs := "" }}
+{{- with .style }}{{ $attrs = printf `%s style="%s"` $attrs . }}{{ end }}
+{{- with .attrs }}{{ $attrs = printf "%s %s" $attrs . }}{{ end }}
+{{- with .button }}{{ . }}{{ end }}
+{{- if $inline -}}
+<div class="{{ delimit $classes ` ` }}" id="{{ .id }}" popover="auto" aria-labelledby="{{ .labelledby }}"{{ $attrs | safeHTMLAttr }}>{{ .content }}</div>
+{{- else -}}
+<dialog class="{{ delimit $classes ` ` }}" id="{{ .id }}" aria-labelledby="{{ .labelledby }}"{{ $attrs | safeHTMLAttr }}>{{ .content }}</dialog>
+{{- end -}}

@@ -1,5 +1,5 @@
-<button type="button" class="btn btn-menu js-dialog-toggle"
-  data-target="#sidebarmenu"
-  aria-controls="sidebarmenu">
-  {{- i18n "sidebar.menu" -}}
-</button>
+{{ partial "commons/dialog-trigger.html" (dict
+  "id" "sidebarmenu"
+  "class" "btn btn-menu"
+  "params" site.Params.sidebarmenu
+  "content" (i18n "sidebar.menu")) }}

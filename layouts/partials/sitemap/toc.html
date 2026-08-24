@@ -1,23 +1,11 @@
-{{- $classes := slice "drawer" }}
-{{- with site.Params.toc }}
-  {{- with .drawer }}
-    {{- with .position }}{{ $classes = $classes | append (print "drawer-" .) }}{{ end }}
-  {{- end }}
-  {{- $expand := .expand | default "md" }}
-  {{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
-{{- else }}
-  {{- $classes = $classes | append (slice "drawer-start" "panel-inline-md") }}
-{{- end }}
 <div class="toc">
   <div>
     <p>{{ i18n "toc" }}</p>
-    {{ partial "commons/toc/button.html" . }}
-    {{/*  Not a <dialog>: above --toc-expand the panel is a sticky sidebar of the
-          page. popover="auto" gives it the top layer without the role.
-          See components/dialog.js.  */}}
-    <div class="{{ delimit $classes ` ` }}" id="toc" popover="auto" aria-labelledby="tocLabel">
-      {{ partial "commons/toc/header.html" . }}
-      {{ partial "sitemap/toc/content.html" . }}
-    </div>
+    {{ partial "commons/dialog.html" (dict
+      "id" "toc"
+      "labelledby" "tocLabel"
+      "button" (partial "commons/toc/button.html" .)
+      "params" site.Params.toc
+      "content" (print (partial "commons/toc/header" .) (partial "sitemap/toc/content" .) | safeHTML)) }}
   </div>
 </div>

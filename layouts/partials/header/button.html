@@ -1,7 +1,6 @@
-<button type="button"
-    class="btn-menu js-dialog-toggle"
-    data-target="#navigation"
-    aria-controls="navigation"
-    aria-label="{{ i18n `navigation.menu` }}">
-  <span>{{ i18n `navigation.menu` }}</span>
-</button>
+{{ partial "commons/dialog-trigger.html" (dict
+  "id" "navigation"
+  "class" "btn-menu"
+  "params" site.Params.header
+  "ariaLabel" (i18n "navigation.menu")
+  "content" (printf "<span>%s</span>" (i18n "navigation.menu") | safeHTML)) }}
