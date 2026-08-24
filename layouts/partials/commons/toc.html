@@ -1,9 +1,23 @@
+{{- $classes := slice "drawer" }}
+{{- with site.Params.toc }}
+  {{- with .drawer }}
+    {{- with .position }}{{ $classes = $classes | append (print "drawer-" .) }}{{ end }}
+  {{- end }}
+  {{- $expand := .expand | default "md" }}
+  {{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
+{{- else }}
+  {{- $classes = $classes | append (slice "drawer-start" "panel-inline-md") }}
+{{- end }}
 {{ if ge (len .TableOfContents) 100 }}
 <div class="toc">
   <div>
     <p>{{ i18n "toc" }}</p>
     {{ partialCached "commons/toc/button" . }}
-    <div class="drawer" tabindex="-1" id="toc" aria-labelledby="tocLabel">
+    {{/*  Not a <dialog>: above --toc-expand the panel is a sticky sidebar of the
+          page, which a <dialog> could not be without claiming role="dialog"
+          there. popover="auto" gives the top layer without the role, and
+          components/dialog.js sets the dialog ARIA only while open.  */}}
+    <div class="{{ delimit $classes ` ` }}" id="toc" popover="auto" aria-labelledby="tocLabel">
       {{ partial "commons/toc/header" . }}
       {{ partial "commons/toc/content" . }}
     </div>

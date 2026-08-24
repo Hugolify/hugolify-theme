@@ -1,8 +1,21 @@
+{{- $classes := slice "drawer" }}
+{{- with site.Params.sidebarmenu }}
+  {{- with .drawer }}
+    {{- with .position }}{{ $classes = $classes | append (print "drawer-" .) }}{{ end }}
+  {{- end }}
+  {{- $expand := .expand | default "md" }}
+  {{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
+{{- else }}
+  {{- $classes = $classes | append (slice "drawer-start" "panel-inline-md") }}
+{{- end }}
 <aside class="sidebarmenu">
   <div>
     <p>{{ i18n "sidebar.menu" }}</p>
     {{ partial "commons/sidebarmenu/button" . }}
-    <div class="drawer" tabindex="-1" id="sidebarmenu" aria-labelledby="sidebarmenuLabel">
+    {{/*  Not a <dialog>: above --sidebarmenu-expand the panel is a sticky
+          sidebar of the page. popover="auto" gives it the top layer without the role.
+          See components/dialog.js.  */}}
+    <div class="{{ delimit $classes ` ` }}" id="sidebarmenu" popover="auto" aria-labelledby="sidebarmenuLabel">
       {{ partial "commons/sidebarmenu/header" . }}
       {{ partial "commons/sidebarmenu/content" . }}
     </div>

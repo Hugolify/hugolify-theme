@@ -1,6 +1,30 @@
+{{/*  Filters panel.
+
+      Not a <dialog>: like the table of contents, this panel is meant to become
+      a region of the page above its breakpoint, and a <dialog> is exposed as
+      role="dialog" even when it is only styled as a sidebar. popover="auto"
+      gives the same top layer and ::backdrop without the role; dialog.js sets
+      the dialog ARIA only while the panel is open.
+
+      site.Params.filters.expand          — sm | md | lg | xl
+      site.Params.filters.drawer.position — start | end | top | bottom  */}}
 {{- $context := .context }}
+{{- $classes := slice "filters" "drawer" }}
+{{- with site.Params.filters }}
+  {{- with .drawer }}
+    {{- with .position }}{{ $classes = $classes | append (print "drawer-" .) }}{{ end }}
+  {{- end }}
+  {{- $expand := .expand | default "md" }}
+  {{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
+{{- else }}
+  {{- $classes = $classes | append "panel-inline-md" }}
+{{- end }}
 {{- with .section }}
-  <div class="filters drawer" tabindex="-1" id="filters" aria-labelledby="filtersLabel" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
+  <div class="{{ delimit $classes ` ` }}"
+      id="filters"
+      popover="auto"
+      aria-labelledby="filtersLabel"
+      {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
     {{ partialCached "commons/filters/header" $context }}
     {{ partialCached (print . "/filters/content") $context }}
   </div>

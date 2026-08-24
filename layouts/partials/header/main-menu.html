@@ -1,6 +1,31 @@
-{{/*  Load drawer or modal main-menu  */}}
-{{- $type := site.Params.header.layout | default "drawer" -}}
-{{- $partials := printf "header/%s.html" $type -}}
-{{- if templates.Exists ( printf "partials/%s" $partials ) -}}
-  {{- partial $partials . -}}
-{{- end -}}
+{{/*  Main menu panel.
+
+      Not a <dialog>: above --header-expand the panel becomes the inline nav of
+      the header, and a <dialog> is exposed as role="dialog" even when it is
+      only styled as a nav. components/dialog.js drives it with a .show class
+      and sets the dialog ARIA solely while it is open.
+
+      site.Params.header.layout   — drawer (default) or modal, CSS variant only
+      site.Params.header.drawer.position — start | end | top | bottom
+      site.Params.header.dialog.width    — any CSS length, e.g. 40rem  */}}
+{{- $classes := slice "main-menu" }}
+{{- $width := "" }}
+{{- if eq (site.Params.header.layout | default "drawer") "drawer" }}
+  {{- $classes = $classes | append "drawer" }}
+  {{- with site.Params.header.drawer.position }}
+    {{- $classes = $classes | append (print "drawer-" .) }}
+  {{- end }}
+{{- else }}
+  {{- $classes = $classes | append "modal" }}
+  {{- with site.Params.header.dialog }}{{ $width = .width }}{{ end }}
+{{- end }}
+{{- $expand := site.Params.header.expand | default "md" }}
+{{- if ne $expand "none" }}{{ $classes = $classes | append (print "panel-inline-" $expand) }}{{ end }}
+<div class="{{ delimit $classes ` ` }}"
+    id="navigation"
+    popover="auto"
+    aria-labelledby="navigationLabel"
+    {{- with $width }} style="--modal-max-width: {{ . }};"{{ end }}>
+  {{ partialCached "header/panel/header.html" . }}
+  {{ partial "header/panel/content.html" . }}
+</div>

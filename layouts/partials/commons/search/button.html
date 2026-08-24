@@ -1,8 +1,7 @@
 {{ if site.Params.search.enable }}
-  {{- $type := site.Params.search.layout | default "modal" }}
-  {{- if ne $type "raw" }}
+  {{- if ne (site.Params.search.layout | default "drawer") "raw" }}
     <button type="button"
-        class="btn btn-search js-{{ $type }}-toggle"
+        class="btn btn-search js-dialog-toggle"
         id="search"
         data-target="#mainSearch"
         aria-controls="mainSearch">

@@ -63,6 +63,11 @@ params:
     preload: false
     print: false
   header:
+    # Breakpoint at which the menu stops being a panel and becomes the inline
+    # nav of the header. Drives both the .panel-inline-* class in the markup
+    # and the --header-expand custom media in css/main.css, so the two cannot
+    # disagree. One of: sm | md | lg | xl | none
+    expand: md
     layout: drawer # modal also available
     drawer:
       position: end
@@ -76,6 +81,20 @@ params:
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
+  # Breakpoint at which these panels stop being overlays and become regions of
+  # the page. Same contract as header.expand — sm | md | lg | xl | none.
+  filters:
+    expand: md
+    drawer:
+      position: end # start | end | top | bottom
+  sidebarmenu:
+    expand: md
+    drawer:
+      position: start # start | end | top | bottom
+  toc:
+    expand: md
+    drawer:
+      position: start # start | end | top | bottom
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     layout: raw # drawer and modal also available

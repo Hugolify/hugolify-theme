@@ -1,8 +1,7 @@
 {{ if site.Params.search.enable }}
-  {{/*  Load raw, drawer or modal search  */}}
-  {{- $type := site.Params.search.layout | default "drawer" -}}
-  {{- $partials := printf "commons/search/%s.html" $type -}}
-  {{- if templates.Exists ( printf "partials/%s" $partials ) -}}
-    {{- partial $partials . -}}
-  {{- end }}
+  {{- if eq (site.Params.search.layout | default "drawer") "raw" -}}
+    {{- partial "commons/search/raw.html" . -}}
+  {{- else -}}
+    {{- partial "commons/search/panel.html" . -}}
+  {{- end -}}
 {{- end }}
