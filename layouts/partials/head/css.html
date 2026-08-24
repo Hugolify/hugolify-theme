@@ -30,7 +30,12 @@
 {{- else if resources.Get "sass/main.scss" -}}
   {{- $css = resources.Get "sass/main.scss" | toCSS $cssOpts -}}
 {{- else if resources.Get "css/main.css" -}}
-  {{- $css = resources.Get "css/main.css" -}}
+  {{/*  Executed as a template: the responsive breakpoints of the panels come
+        from site params, so the @custom-media rules and the .panel-inline-*
+        classes in the markup are driven by one value each and cannot drift.
+        Only main.css is templated — its @imports are inlined afterwards by
+        PostCSS and are never executed.  */}}
+  {{- $css = resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main.css" . -}}
 {{- end -}}
 {{- if $css -}}
   {{- $css = $css | css.PostCSS (dict "config" $postCSSDirectoryConfig "inlineImports" true "skipInlineImportsNotFound" true) -}}
