@@ -21,12 +21,12 @@
   {{- end -}}
 
   {{/*  Add ratio from media */}}
-  {{- $ratio := "--item-media-ratio: 100%;" -}}
+  {{- $ratio := "--media-ratio: 100%;" -}}
   {{- if $desktop -}}
     {{- $w := float (index (split $desktop "x") 0 | default 100) -}}
     {{- $y := float (index (split $desktop "x") 1 | default 100) -}}
     {{- $value := string (mul (div $y $w) 100) -}}
-    {{- $ratio = printf "--item-media-ratio: %s%s;" $value "%" -}}
+    {{- $ratio = printf "--media-ratio: %s%s;" $value "%" -}}
   {{- end -}}
   {{- $style := printf "style='%s'" $ratio -}}
 
