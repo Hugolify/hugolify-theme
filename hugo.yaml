@@ -103,8 +103,9 @@ params:
 
   # Images
   hero:
-    cover: '1600x400'
-    cover_mobile: '360x400'
+    cover:
+      desktop: '1600x400'
+      mobile: '360x400'
     desktop: '416x'
     mobile: '300x'
     sizes: calc(100vw - 3.5rem), calc(50vw - 3.5rem)

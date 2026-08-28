@@ -1,7 +1,7 @@
 {{- with .image }}
   {{- $picture_class := "hero-cover" -}}
-  {{- $cover := site.Params.hero.cover -}}
-  {{- $mobile := site.Params.hero.cover_mobile -}}
+  {{- $cover := site.Params.hero.cover.desktop -}}
+  {{- $mobile := site.Params.hero.cover.mobile -}}
   {{- $sizes := "100vw" -}}
   {{- if .darken -}}
     {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}
