@@ -60,6 +60,7 @@
 {{- end -}}
 
 {{- $crop_ratio := false -}}
+{{- $crop_ratio_mobile := false -}}
 {{- if $responsive -}}
   {{/* Responsive mode bypasses art-direction sizes and lets the browser handle DPR (no 2x/3x files).
        A cropped target size is preserved by deriving its height/width ratio, applied per srcset width.
@@ -71,6 +72,16 @@
     {{- $ch := int (index $p 1) -}}
     {{- if and (gt $cw 0) (gt $ch 0) -}}
       {{- $crop_ratio = div (float $ch) (float $cw) -}}
+    {{- end -}}
+  {{- end -}}
+  {{/* A distinct mobile source is art-direction: it gets its own target ratio, taken from the
+       mobile crop size when there is one, else the mobile file keeps its own ratio. */}}
+  {{- if and .src_mobile $mobile_size (partial "func/isCrop.html" $mobile_size) -}}
+    {{- $p := split $mobile_size "x" -}}
+    {{- $cw := int (index $p 0) -}}
+    {{- $ch := int (index $p 1) -}}
+    {{- if and (gt $cw 0) (gt $ch 0) -}}
+      {{- $crop_ratio_mobile = div (float $ch) (float $cw) -}}
     {{- end -}}
   {{- end -}}
   {{- $desktop_size = false -}}
@@ -106,6 +117,13 @@
     "crop_ratio" $crop_ratio
 }}
 {{- $imageParams := partial "func/GetImageParams.html" $imageRenderParams -}}
+{{/* Responsive mode ignores `file_mobile` (the default/art-direction mode consumes it through
+     `mobile_size`), so a distinct mobile source gets its own srcset here, served under the mobile
+     media query only. */}}
+{{- $imageParamsMobile := false -}}
+{{- if and $responsive .src_mobile -}}
+  {{- $imageParamsMobile = partial "func/GetImageParams.html" (merge $imageRenderParams (dict "file" $file_mobile "crop_ratio" $crop_ratio_mobile)) -}}
+{{- end -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
 {{- with $imageParams -}}
   {{- $params = merge $imageParams $domParams -}}
@@ -122,6 +140,18 @@
       {{ end }}>
       {{/*  srcset via safeHTMLAttr: provider URLs may contain commas/colons (e.g. Cloudinary q_auto:sensitive)
             that Go's srcset autoescaping would otherwise mangle into #ZgotmplZ. */}}
+      {{/*  Art-direction: the mobile source comes first so it wins below the breakpoint. */}}
+      {{- with $imageParamsMobile }}
+        {{- with .srcset_avif }}
+          <source media="(max-width: 576px)" type="image/avif" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
+        {{- end }}
+        {{- with .srcset_webp }}
+          <source media="(max-width: 576px)" type="image/webp" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
+        {{- end }}
+        {{- with .srcset }}
+          <source media="(max-width: 576px)" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
+        {{- end }}
+      {{- end }}
       {{- with .srcset_avif }}
         <source type="image/avif" {{ printf "srcset=%q" (delimit . ", ") | safeHTMLAttr }} sizes="{{ $sizes }}">
       {{- end }}
