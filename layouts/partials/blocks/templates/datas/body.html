@@ -20,7 +20,7 @@
         <p class="value">{{ .prefix }}{{ .value }}{{ .suffix }}</p>
       {{ end -}}
       {{- with .title }}
-        <h3 class="title">{{ partial "func/PrepareHTML.html" . }}</h3>
+        <p class="title">{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end -}}
       {{- with .text }}
         {{ partial "commons/text.html" (dict "text" .) }}
