@@ -1,5 +1,5 @@
 {{- $menu := site.Data.menu.social -}}
-{{- with index $menu .Site.Language.Lang -}}
+{{- with index $menu (partial "func/GetLanguage.html").name -}}
   {{- $menu = . -}}
 {{- end -}}
 {{- with $menu }}

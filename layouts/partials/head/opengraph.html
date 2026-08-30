@@ -5,7 +5,7 @@
 {{- end }}
 <meta property="og:url" content="{{ .url | safeURL }}">
 <meta property="og:type" content="{{ .type }}">
-<meta property="og:locale" content="{{ site.Language.Lang }}">
+<meta property="og:locale" content="{{ (partial "func/GetLanguage.html").name }}">
 {{ with site.Title -}}
   <meta property="og:site_name" content="{{ . }}">
 {{ end -}}

@@ -1,3 +1,4 @@
+{{- $language := partial "func/GetLanguage.html" -}}
 <script type="module">
   import '/assets/js/cookieconsent.umd.js';
 
@@ -26,9 +27,9 @@
       marketing: {}
     },
     language: {
-      default: '{{ site.Language.Lang }}',
+      default: '{{ $language.name }}',
       translations: {
-        {{ site.Language.Lang }}: {
+        {{ $language.name }}: {
           consentModal: {
             title: "{{ i18n `cookie_consent.consentModalTitle` }}",
             description: "{{ i18n `cookie_consent.consentModalDescription` }}",

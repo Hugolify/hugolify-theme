@@ -1,15 +1,32 @@
+{{/* nav/language-toggle
+     Language switcher for bilingual sites: a single direct link to the other
+     language, without a dropdown. Alternative to nav/language, which lists
+     every language in a dropdown menu.
+
+     Not called by the theme: to use it, override a layout (header/panel/content.html
+     for instance) and call this partial in place of nav/language.
+
+     Context: the page. Reads .Page.Translations and .Site.Languages.
+     Caveat: with three languages or more, only the first alternative language
+             is rendered, as the range stops at the first match.
+     Renders nothing on a monolingual site.
+*/}}
 {{- if hugo.IsMultilingual }}
 {{- $pageTrans := .Page.Translations -}}
 <ul class="nav nav-language">
   <li>
-    {{- range .Site.Languages -}} 
+    {{- range .Site.Languages -}}
       {{- if ne . $.Site.Language -}}
-        {{- $p := where $pageTrans "Language.Lang" .Lang -}}
-        {{- $url := printf "/%s" .Lang -}}
-        {{- with (index $p 0) -}}
-          {{- $url = .Permalink -}}
+        {{- $language := partial "func/GetLanguage.html" . -}}
+        {{- $url := printf "/%s" $language.name -}}
+        {{- range $pageTrans -}}
+          {{- if eq (partial "func/GetLanguage.html" .Language).name $language.name -}}
+            {{- $url = .Permalink -}}
+          {{- end -}}
         {{- end -}}
-          <a href="{{ $url }}" title="{{ .LanguageName }}">{{ upper .Lang }}</a>
+        {{- with $language -}}
+          <a href="{{ $url }}" title="{{ .label }}">{{ upper .name }}</a>
+        {{- end -}}
         {{- break -}}
       {{ end -}}
     {{- end -}}

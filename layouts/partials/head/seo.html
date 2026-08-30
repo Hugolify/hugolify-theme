@@ -1,6 +1,6 @@
 {{- $staticDir := "static" -}}
 {{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
-{{- $lang := .Site.Language.Lang }}
+{{- $lang := (partial "func/GetLanguage.html").name }}
 {{- $dataSeo := .Site.Data.seo }}
 
 {{/*  TITLE  */}}

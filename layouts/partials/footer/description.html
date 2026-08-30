@@ -3,7 +3,7 @@
   {{ $description = . }}
 {{- end -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index .Site.Data.seo .Site.Language.Lang -}}
+  {{- with index .Site.Data.seo (partial "func/GetLanguage.html").name -}}
     {{ $description = .description }}
   {{- end -}}
 {{- end -}}

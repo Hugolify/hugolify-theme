@@ -1,6 +1,6 @@
 {{- $datas := .Site.Data.footer -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index $datas .Site.Language.Lang -}}
+  {{- with index $datas (partial "func/GetLanguage.html").name -}}
     {{- $datas = . -}}
   {{- end -}}
 {{- end -}}

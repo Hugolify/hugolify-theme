@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+{{- $language := partial "func/GetLanguage.html" }}
 <html
-  lang="{{ .Site.Language.LanguageCode }}"
-  dir="{{ or .Site.Language.LanguageDirection `ltr` }}"
+  lang="{{ $language.locale }}"
+  dir="{{ $language.direction }}"
   {{ partial "func/GetColorScheme.html" . }}
 >
   <head>

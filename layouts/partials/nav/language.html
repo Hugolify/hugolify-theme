@@ -1,9 +1,23 @@
+{{/* nav/language
+     Language switcher rendered as a dropdown: the current language, then a link
+     to each other language labelled with its name (English, Français, ...).
+     Used by header/panel/content.html.
+
+     See nav/language-toggle for the bilingual variant, a single direct link
+     without a dropdown.
+
+     Context: the page. Reads .Page.Translations and .Site.Languages.
+     Requires: the js-dropdown-toggle behaviour and the navigation.dropdown
+               i18n key.
+     Renders nothing on a monolingual site.
+*/}}
 {{- if hugo.IsMultilingual }}
   {{- $pageTrans := .Page.Translations -}}
+  {{- $current := partial "func/GetLanguage.html" -}}
   <ul class="nav nav-language">
     <li class="dropdown">
       <a href="{{ .Page.Permalink }}">
-        {{- upper .Site.Language.Lang -}}
+        {{- upper $current.name -}}
       </a>
       <button class="dropdown-toggle js-dropdown-toggle" role="button" aria-expanded="false">
         <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
@@ -11,13 +25,15 @@
       <ul class="dropdown-menu">
         {{- range .Site.Languages -}}
           {{- if ne . $.Site.Language -}}
-            {{- $p := where $pageTrans "Language.Lang" .Lang -}}
-            {{- $url := printf "/%s" .Lang -}}
-            {{- with (index $p 0) -}}
-              {{- $url = .Permalink -}}
+            {{- $language := partial "func/GetLanguage.html" . -}}
+            {{- $url := printf "/%s" $language.name -}}
+            {{- range $pageTrans -}}
+              {{- if eq (partial "func/GetLanguage.html" .Language).name $language.name -}}
+                {{- $url = .Permalink -}}
+              {{- end -}}
             {{- end -}}
             <li>
-              <a href="{{ $url }}">{{ .LanguageName }}</a>
+              <a href="{{ $url }}">{{ $language.label }}</a>
             </li>
           {{ end -}}
         {{- end -}}
