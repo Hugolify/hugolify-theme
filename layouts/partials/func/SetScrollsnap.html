@@ -1,0 +1,80 @@
+{{- /*
+  func/SetScrollsnap.html — class turning a grid of items into a horizontal
+  carousel with snap points below a breakpoint.
+
+  Which breakpoint — or whether it happens at all — depends on where the grid
+  is (a related section, a block, a plain listing), so it is a param rather
+  than a media query hardcoded in the component. The classes themselves live
+  in css/utilities/scrollsnap.css of hugolify-theme-design-system.
+
+  Params — the value alone, or a dict:
+    scrollsnap (string|bool, optional)  the value, wins over the params below
+    context    (string, optional)       params path to read it from, dotted —
+                                        only blocks name one: "blocks.datas"
+
+  Values:
+    sm | md | lg | xl   carousel below that breakpoint (md = mobile + tablet)
+    all                 carousel at every width
+    none | false        never a carousel
+    true                take it from the params
+
+  Params ladder — the most specific one set wins, so a generic value can be
+  overridden context by context:
+
+    blocks.datas.scrollsnap → blocks.scrollsnap → scrollsnap → md
+
+  Returns the class with its leading space, ready to drop inside a class
+  attribute, or "" when the grid is not a carousel.
+*/ -}}
+
+{{- $value := . -}}
+{{- $context := "" -}}
+{{- if reflect.IsMap . -}}
+  {{- $value = .scrollsnap -}}
+  {{- $context = .context -}}
+{{- end -}}
+
+{{- /* An explicit false switches the carousel off; true only says "this is a
+       carousel context" without saying how far, so the params decide. */ -}}
+{{- if eq $value false -}}
+  {{- $value = "none" -}}
+{{- else if eq $value true -}}
+  {{- $value = "" -}}
+{{- end -}}
+
+{{- if not $value -}}
+  {{- with $context -}}
+    {{- $keys := split . "." -}}
+    {{- /* Walk the path from the most specific key back to the shortest one:
+           blocks.datas.scrollsnap, then blocks.scrollsnap. */ -}}
+    {{- range $depth := seq (len $keys) 1 -}}
+      {{- if not $value -}}
+        {{- $params := site.Params -}}
+        {{- range $key := first $depth $keys -}}
+          {{- if reflect.IsMap $params -}}
+            {{- $params = index $params $key -}}
+          {{- else -}}
+            {{- $params = false -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if reflect.IsMap $params -}}
+          {{- $value = $params.scrollsnap | default "" -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $value -}}
+  {{- $value = site.Params.scrollsnap | default "md" -}}
+{{- end -}}
+
+{{- $class := "" -}}
+{{- if eq $value "all" -}}
+  {{- $class = " scrollsnap" -}}
+{{- else if in (slice "sm" "md" "lg" "xl") $value -}}
+  {{- $class = printf " scrollsnap-%s" $value -}}
+{{- else if ne $value "none" -}}
+  {{- warnidf "scrollsnap" "Unknown scrollsnap value %q — expected sm, md, lg, xl, all or none" $value -}}
+{{- end -}}
+
+{{- return $class -}}

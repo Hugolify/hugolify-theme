@@ -2,6 +2,7 @@
 {{- $section := .section -}}
 {{- $layout := .ui.layout | default "grid" -}}
 {{- $count := .count | default 3 -}}
+{{- $scrollsnap := .ui.scrollsnap | default true -}}
 {{- $items := false -}}
 {{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
   {{- $items = where site.Pages "Params.isPage" true -}}
@@ -23,6 +24,6 @@
   {{- if eq $layout "list" }}
     {{ partial "blocks/templates/latest/list.html" $items }}
   {{- else }}
-    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf "type" .type) }}
+    {{ partial "blocks/templates/latest/grid.html" (dict "section" $section "items" $items "atf" $atf "type" .type "scrollsnap" $scrollsnap) }}
   {{- end }}
 {{ end -}}

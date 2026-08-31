@@ -2,7 +2,7 @@
 {{- with .context }}
   {{- with .items }}
     {{- if gt (. | len) 1 }}
-      <div class="items items-{{ $params.column }}">
+      <div class="items items-{{ $params.column }} {{- $params.scrollsnapclass }}">
         {{- range . }}
           <div>
             {{- partial "blocks/templates/pushes/push.html" (dict "push" . "params" $params) -}}

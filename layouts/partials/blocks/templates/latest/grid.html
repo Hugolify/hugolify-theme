@@ -1,3 +1,8 @@
 {{- $partial := printf "%s/items.html" .section -}}
 {{- $partial = cond (templates.Exists (printf "partials/%s" $partial)) $partial "commons/items.html" -}}
-{{ partial $partial (dict "pages" .items "scrollsnap" true "abovethefold" .atf "block" .type) }}
+{{ partial $partial (dict
+  "pages" .items
+  "scrollsnap" .scrollsnap
+  "abovethefold" .atf
+  "block" .type
+  ) }}

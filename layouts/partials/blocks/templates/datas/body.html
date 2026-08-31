@@ -2,8 +2,9 @@
 {{- $show_color := .show_color | default false -}}
 {{- $show_gauge := .show_gauge | default false -}}
 {{- $column := int .ui.column | default 3 -}}
+{{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
 {{- with .items }}
-  <ul class="items items-{{ $column }}">
+  <ul class="items items-{{ $column }} {{- $scrollsnap }}">
   {{- range . }}
     <li {{- partial "func/SetParallax.html" (dict "element" "item") }}>
       {{- if $show_gauge }}

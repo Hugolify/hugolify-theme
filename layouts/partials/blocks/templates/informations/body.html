@@ -1,7 +1,8 @@
 {{- $column := int .ui.column | default 3 -}}
+{{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
 {{- $context := . -}}
 {{- with .items }}
-  <div class="items items-{{ $column }}">
+  <div class="items items-{{ $column }} {{- $scrollsnap }}">
     {{- range . }}
       <div>
         {{- $item := . | merge (dict "column" $column) -}}

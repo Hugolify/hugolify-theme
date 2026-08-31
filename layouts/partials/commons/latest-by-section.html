@@ -19,7 +19,7 @@
     </header>
     {{ with $query }}
       {{ $partial := printf "%s/items" $section }}
-      {{ partial $partial . }}
+      {{ partial $partial (dict "pages" . "scrollsnap" true) }}
     {{ end }}
   </section>
   {{ end }}

@@ -5,7 +5,8 @@
 {{- with .heading.title }}
 	{{- $tag = "h3" -}}
 {{- end }}
-{{- $params := index (slice (dict "tag" $tag "column" $column)) 0 -}}
+{{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
+{{- $params := index (slice (dict "tag" $tag "column" $column "scrollsnapclass" $scrollsnap)) 0 -}}
 {{- if eq $layout "carousel" }}
   {{ partial "blocks/templates/pushes/carousel.html" (dict "context" . "params" $params) }}
 {{- else -}}

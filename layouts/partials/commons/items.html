@@ -14,6 +14,12 @@
   {{- $scrollsnap = .scrollsnap | default false -}}
   {{- $block = .block | default false -}}
 {{- end -}}
+{{- /* Horizontal carousel below a breakpoint — see func/SetScrollsnap.html.
+       Inside a block it is configured under blocks.<type>.scrollsnap, falling
+       back to blocks.scrollsnap; anywhere else the generic param decides. */ -}}
+{{- $scrollsnapcontext := "" -}}
+{{- if $block }}{{ $scrollsnapcontext = printf "blocks.%s" $block }}{{ end -}}
+{{- $scrollsnapclass := partial "func/SetScrollsnap.html" (dict "scrollsnap" $scrollsnap "context" $scrollsnapcontext) -}}
 {{- with $pages }}
   {{- if gt . 0 }}
     {{- $section := (index . 0).Type -}}
@@ -26,7 +32,7 @@
       {{- $section = "pages" -}}
       {{- $partial = "pages/item.html" -}}
     {{- end -}}
-    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }}">
+    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }} {{- $scrollsnapclass }}">
       {{- range $index, $items := . }}
         {{- .Scratch.Set "index" $index -}}
         {{- .Scratch.Set "block" $block -}}
@@ -41,7 +47,7 @@
         {{- if and ($abovethefold) (lt $index $abovethefoldLimit) -}}
           {{- .Scratch.Set "lazy" false -}}
         {{- end -}}
-        {{- if $scrollsnap -}}
+        {{- if $scrollsnapclass -}}
           {{- .Scratch.Set "scrollsnap" true -}}
         {{- end }}
         {{- if $large -}}

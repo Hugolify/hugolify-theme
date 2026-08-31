@@ -95,6 +95,14 @@ params:
     expand: md
     drawer:
       position: start # start | end | top | bottom
+  # Breakpoint below which a grid of items scrolls sideways with snap points
+  # instead of wrapping — sm | md | lg | xl | all | none. The rung names the
+  # width at which the carousel STOPS, so md means mobile and tablet.
+  # A block reads the most specific param set, so this generic value can be
+  # overridden block type by block type:
+  #   blocks.datas.scrollsnap → blocks.scrollsnap → scrollsnap
+  # and a single block overrides them all with ui.scrollsnap in its front matter.
+  scrollsnap: md
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     layout: raw # drawer and modal also available

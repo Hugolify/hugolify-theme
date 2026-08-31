@@ -1,5 +1,6 @@
 {{- $column := int .ui.column | default 4 -}}
-<div class="logos items items-{{ $column }}">
+{{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
+<div class="logos items items-{{ $column }} {{- $scrollsnap }}">
   {{- range .items }}
     <div>
       {{ partial "blocks/templates/logos/logo.html" . }}
