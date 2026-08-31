@@ -1,5 +1,5 @@
 {{- $currentPage := .RelPermalink -}}
-{{- $menu := site.Data.menu.primary -}}
+{{- $menu := hugo.Data.menu.primary -}}
 {{- with index $menu (partial "func/GetLanguage.html").name -}}
   {{- $menu = . -}}
 {{- end -}}

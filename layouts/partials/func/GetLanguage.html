@@ -1,7 +1,7 @@
 {{/* GetLanguage
-     Normalize a language object across the Hugo v0.158.0 API rename, which
-     deprecated Lang, LanguageCode, LanguageDirection and LanguageName in favor
-     of Name, Locale, Direction and Label.
+     Normalize a language object into a stable dict, hiding the property names
+     Hugo settled on in v0.158.0 (Name, Locale, Direction, Label) and applying
+     defaults for the ones a site may leave unset.
 
      Params: a language object (site.Language, an item of site.Languages, or
              .Page.Language). Defaults to site.Language when no context is given.
@@ -27,17 +27,10 @@
 {{- $direction := "" -}}
 {{- $label := "" -}}
 {{- with $language -}}
-  {{- if ge hugo.Version "0.158.0" -}}
-    {{- $name = .Name -}}
-    {{- $locale = .Locale -}}
-    {{- $direction = .Direction -}}
-    {{- $label = .Label -}}
-  {{- else -}}
-    {{- $name = .Lang -}}
-    {{- $locale = .LanguageCode -}}
-    {{- $direction = .LanguageDirection -}}
-    {{- $label = .LanguageName -}}
-  {{- end -}}
+  {{- $name = .Name -}}
+  {{- $locale = .Locale -}}
+  {{- $direction = .Direction -}}
+  {{- $label = .Label -}}
 {{- end -}}
 
 {{- return (dict

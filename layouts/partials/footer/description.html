@@ -1,9 +1,9 @@
 {{ $description := false }}
-{{- with .Site.Data.seo.description -}}
+{{- with hugo.Data.seo.description -}}
   {{ $description = . }}
 {{- end -}}
 {{- if hugo.IsMultilingual -}}
-  {{- with index .Site.Data.seo (partial "func/GetLanguage.html").name -}}
+  {{- with index hugo.Data.seo (partial "func/GetLanguage.html").name -}}
     {{ $description = .description }}
   {{- end -}}
 {{- end -}}

@@ -6,6 +6,6 @@
 {{- else }}
 <meta name="twitter:card" content="summary">
 {{- end }}
-{{- with site.Data.seo.twitter }}
+{{- with hugo.Data.seo.twitter }}
 <meta name="twitter:site" content="@{{ . }}" />
 {{- end }}

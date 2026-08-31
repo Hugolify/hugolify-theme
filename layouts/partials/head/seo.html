@@ -1,7 +1,7 @@
 {{- $staticDir := "static" -}}
 {{- $staticDirImages := (printf "%s/assets/images" $staticDir) -}}
 {{- $lang := (partial "func/GetLanguage.html").name }}
-{{- $dataSeo := .Site.Data.seo }}
+{{- $dataSeo := hugo.Data.seo }}
 
 {{/*  TITLE  */}}
 {{- $seoTitle := site.Title -}}

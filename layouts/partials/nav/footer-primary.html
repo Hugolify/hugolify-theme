@@ -1,4 +1,4 @@
-{{- $menu := site.Data.menu.footer.primary -}}
+{{- $menu := hugo.Data.menu.footer.primary -}}
 {{- with index $menu (partial "func/GetLanguage.html").name -}}
   {{- $menu = . -}}
 {{- end -}}

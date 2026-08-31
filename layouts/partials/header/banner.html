@@ -1,6 +1,6 @@
 {{- $IsMultiLingual := hugo.IsMultilingual -}}
 {{- $Lang := (partial "func/GetLanguage.html").name -}}
-{{- with .Site.Data.banner -}}
+{{- with hugo.Data.banner -}}
   {{- $state := false -}}
   {{- $text := false -}}
   {{- with .text -}}

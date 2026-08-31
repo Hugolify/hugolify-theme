@@ -1,5 +1,5 @@
 {{ $name := .Site.Params.title | default false }}
-{{- with .Site.Data.seo.title -}}
+{{- with hugo.Data.seo.title -}}
   {{- $name = . -}}
 {{- end -}}
 {{ if $name }}

@@ -26,7 +26,7 @@
 {{- if os.FileExists (printf "%s/site.webmanifest" $staticDir) -}}
   <link rel="manifest" href="/site.webmanifest">
 {{ end -}}
-{{- $colorPrimary := .Site.Data.seo.color | default "#000000" -}}
+{{- $colorPrimary := hugo.Data.seo.color | default "#000000" -}}
 {{- if os.FileExists (printf "%s/safari-pinned-tab.svg" $staticDirFavicon) -}}
   <link rel="mask-icon" href="{{ printf `%s/safari-pinned-tab.svg` $dirFavicon }}" color="{{ $colorPrimary }}">
 {{ end -}}
