@@ -1,0 +1,24 @@
+{{- with .Params.datas }}
+  <div class="datas">
+    <ul>
+      {{- range . }}
+        <li>
+          <dl>
+            <dt>{{ partial "func/PrepareHTML.html" .title }}</dt>
+            <dd>
+              {{- $text := partial "func/PrepareHTML.html" .text -}}
+              {{- $i18n_text := i18n "link.blank_aria" (dict "Title" $text) -}}
+              {{- if gt (len (findRE `^https?://` .text)) 0 -}}
+                <a href="{{ .text }}" title="{{ safeHTML $i18n_text }}" target="_blank">
+                  {{- $text -}}
+                </a>
+              {{- else -}}
+                {{- $text -}}
+              {{- end -}}
+            </dd>
+          </dl>
+        </li>
+      {{- end }}
+    </ul>
+  </div>
+{{ end -}}
