@@ -8,6 +8,7 @@ address:
   country: Country
   direction: How to go?
   street: Street
+back: Back
 breadcrumb: Breadcrumb
 carousel:
   carousel: Carousel

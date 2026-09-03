@@ -8,6 +8,7 @@ address:
   country: Pays
   direction: Comment y aller ?
   street: Rue
+back: Retour
 breadcrumb: fil d’Arianne
 carousel:
   carousel: Carrousel
