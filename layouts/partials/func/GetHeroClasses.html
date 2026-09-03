@@ -1,0 +1,47 @@
+{{/* GetHeroClasses
+     Build the hero's space-delimited CSS class string from its params.
+     Each modifier is prefixed with "hero-" (e.g. align "center" -> "hero-center").
+
+     Params: the hero params map (.Params.hero)
+       align (string)        alignment -> "hero-<align>"
+       ui    (dict)          align / vertical_align / theme / darken
+       image (dict)          background or background_image -> cover variant
+       video (dict)          background or background_video -> cover variant
+
+     Returns: string, e.g. "hero hero-center hero-with-cover hero-with-cover-image"
+*/}}
+{{- $classes := slice "hero" -}}
+{{- with .align -}}
+  {{- $classes = $classes | append (printf "hero-%s" .) -}}
+{{- end -}}
+{{- with .ui -}}
+  {{- with .align -}}
+    {{- $classes = $classes | append (printf "hero-%s" .) -}}
+  {{- end -}}
+  {{- with .vertical_align -}}
+    {{- $classes = $classes | append (printf "hero-vertical-%s" .) -}}
+  {{- end -}}
+  {{- with .theme -}}
+    {{- $classes = $classes | append (printf "hero-%s" .) -}}
+  {{- end -}}
+  {{- with .darken -}}
+    {{- $classes = $classes | append "hero-with-darken" -}}
+  {{- end -}}
+{{- end -}}
+{{- with .image -}}
+  {{- if or .background .background_image -}}
+    {{- $classes = $classes | append "hero-with-cover" -}}
+    {{- $classes = $classes | append "hero-with-cover-image" -}}
+  {{- else -}}
+    {{- $classes = $classes | append "hero-with-image" -}}
+  {{- end -}}
+{{- end -}}
+{{- with .video -}}
+  {{- if or .background .background_video -}}
+    {{- $classes = $classes | append "hero-with-cover" -}}
+    {{- $classes = $classes | append "hero-with-cover-video" -}}
+  {{- else -}}
+    {{- $classes = $classes | append "hero-with-video" -}}
+  {{- end -}}
+{{- end -}}
+{{- return (delimit $classes " ") -}}

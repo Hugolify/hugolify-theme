@@ -117,6 +117,8 @@ params:
     desktop: '416x'
     mobile: '300x'
     sizes: calc(100vw - 3.5rem), calc(50vw - 3.5rem)
+    back:
+      enable: false # Set true to enable back button
   image:
     xlarge: '1600x'
     xsmall: '50x50'

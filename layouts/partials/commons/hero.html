@@ -1,40 +1,8 @@
-{{- with .Params.hero -}}
-  {{- if or (and (.title) (ne .title "")) (and (.text) (ne .text "")) -}}
-    {{- $class := slice "hero" -}}
-    {{- with .align -}}
-      {{- $class = $class | append (printf "hero-%s" .) -}}
-    {{- end -}}
-    {{- with .ui -}}
-      {{- with .align -}}
-        {{- $class = $class | append (printf "hero-%s" .) -}}
-      {{- end -}}
-      {{- with .vertical_align -}}
-        {{- $class = $class | append (printf "hero-vertical-%s" .) -}}
-      {{- end -}}
-      {{- with .theme -}}
-        {{- $class = $class | append (printf "hero-%s" .) -}}
-      {{- end -}}
-      {{- with .darken -}}
-        {{- $class = $class | append "hero-with-darken" -}}
-      {{- end -}}
-    {{- end -}}
-    {{- with .image -}}
-      {{- if or .background .background_image -}}
-        {{- $class = $class | append "hero-with-cover" -}}
-        {{- $class = $class | append "hero-with-cover-image" -}}
-      {{- else -}}
-        {{- $class = $class | append "hero-with-image" -}}
-      {{- end -}}
-    {{- end -}}
-    {{- with .video -}}
-      {{- if or .background .background_video -}}
-        {{- $class = $class | append "hero-with-cover" -}}
-        {{- $class = $class | append "hero-with-cover-video" -}}
-      {{- else -}}
-        {{- $class = $class | append "hero-with-video" -}}
-      {{- end -}}
-    {{- end -}}
-    <header class="{{ delimit $class ` ` }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
+{{- /* Expose the page kind in the hero context, which is rebound to .Params.hero */ -}}
+{{- with merge (.Params.hero | default dict) (dict "kind" .Kind) -}}
+  {{- if or .title .text -}}
+    {{- $class := partial "func/GetHeroClasses" . -}}
+    <header class="{{ $class }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
       {{ partial "commons/hero/cover.html" . }}
       <div class="container">
         <div class="row">

@@ -1,0 +1,4 @@
+{{- /* Only display the back link on section children, not on the home page nor on section index pages */}}
+{{- if and site.Params.hero.back.enable (ne .kind "home") (ne .kind "section") }}
+  {{ partialCached "commons/back.html" . }}
+{{- end }}

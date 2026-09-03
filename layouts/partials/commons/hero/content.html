@@ -1,17 +1,6 @@
 <div class="hero-content">
-  {{- if or .surtitle .title }}
-  <header class="heading">
-  {{- with .surtitle }}
-    <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
-  {{- end }}
-  {{- with .title }}
-    <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ partial "func/PrepareHTML.html" . }}</h1>
-  {{- end }}
-  </header>
-  {{- end }}
-
-  {{- partial "commons/text.html" (dict "text" .text "class" "description") -}}
-  {{- with .ctas }}
-    {{ partial "commons/cta-group.html" (dict "ctas" .) }}
-  {{- end }}
+  {{- partial "commons/hero/back.html" . -}}
+  {{- partial "commons/hero/heading.html" . -}}
+  {{- partial "commons/hero/text.html" . -}}
+  {{- partial "commons/hero/cta.html" . -}}
 </div>
