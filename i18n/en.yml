@@ -89,9 +89,11 @@ form:
   error: 'Error: something wrong'
   firstname: Firstname
   hint:
+    accept: 'Accepted formats: {{ . }}'
     email: 'e.g. email@domain.com'
     firstname: John
     lastname: Doe
+    pattern: 'Expected format: {{ . }}'
     tel: 'e.g. +1 718 123 4567'
     url: 'e.g. https://www.domain.com'
   lastname: Lastname

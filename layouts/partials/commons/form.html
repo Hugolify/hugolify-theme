@@ -24,9 +24,16 @@
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
     {{- $name := anchorize .name | default (anchorize .label) | default $id -}}
-    {{- $condHelp := or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
+    {{- $help := "" -}}
+    {{- if or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
+      {{- $help = i18n (print "form.hint." .type) -}}
+    {{- else if .accept -}}
+      {{- $help = i18n "form.hint.accept" .accept -}}
+    {{- else if .pattern -}}
+      {{- $help = i18n "form.hint.pattern" .pattern -}}
+    {{- end -}}
     {{- if ne .type "hidden" }}<div {{- if .full }} class="full"{{ end }}>{{ end }}
-      {{- $args := merge . (dict "id" $id "name" $name "condHelp" $condHelp) -}}
+      {{- $args := merge . (dict "id" $id "name" $name "condHelp" $help) -}}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "switch") (ne .type "hidden") }}
         {{ partial "commons/form/label.html" $args }}
       {{ else -}}
@@ -43,8 +50,8 @@
         {{ partial "commons/form/label.html" $args }}
         </div>
       {{ end -}}
-      {{- if $condHelp }}
-        <p id="help-{{ $id }}" class="help">{{ i18n (print "form.hint." .type) }}</p>
+      {{- if $help }}
+        <p id="help-{{ $id }}" class="help">{{ $help }}</p>
       {{ end -}}
     {{- if ne .type "hidden" }}</div>{{ end }}
     {{- if .required }}{{ $requiredField = true }}{{ end -}}
