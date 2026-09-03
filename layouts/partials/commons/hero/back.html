@@ -1,4 +1,8 @@
-{{- /* Only display the back link on section children, not on the home page nor on section index pages */}}
-{{- if and site.Params.hero.back.enable (ne .kind "home") (ne .kind "section") }}
+{{- /* Only display the back link on pages nested below a section, not on the home page nor on top level pages */}}
+{{- $nested := false -}}
+{{- with .Parent -}}
+  {{- $nested = not .IsHome -}}
+{{- end -}}
+{{- if and site.Params.hero.back.enable $nested }}
   {{ partialCached "commons/back.html" . }}
 {{- end }}

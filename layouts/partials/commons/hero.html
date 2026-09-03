@@ -1,5 +1,5 @@
 {{- /* Expose the page kind in the hero context, which is rebound to .Params.hero */ -}}
-{{- with merge (.Params.hero | default dict) (dict "kind" .Kind) -}}
+{{- with merge (.Params.hero | default dict) (dict "Parent" .Parent) -}}
   {{- if or .title .text -}}
     {{- $class := partial "func/GetHeroClasses" . -}}
     <header class="{{ $class }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
