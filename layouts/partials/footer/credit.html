@@ -1,0 +1,11 @@
+{{- $credit := hugo.Data.credit -}}
+{{- if hugo.IsMultilingual -}}
+  {{- with index $credit (partial "func/GetLanguage.html").name -}}
+    {{- $credit = . -}}
+  {{- end -}}
+{{- end -}}
+{{- with $credit -}}
+  {{- with .text -}}
+    <p class="credit">{{ partial "func/PrepareHTML.html" . }}</p>
+  {{- end -}}
+{{- end -}}
