@@ -1,0 +1,42 @@
+{{/* GetSchemaTypes
+     The schema.org types a page or the site can declare, split by branch.
+
+     Canonical list, shared with hugolify-admin so the select and the template
+     that reads it cannot drift apart. The branch decides the role, not just
+     the type: a place typed as an organization is an office someone works
+     for, a place typed as a location is somewhere they work at.
+
+     LocalBusiness belongs to both branches in schema.org — Thing > Organization
+     > LocalBusiness and Thing > Place > LocalBusiness. It is listed as an
+     organization here, because a business is something one works for.
+
+     Returns: map
+       organization (slice of string)
+       place        (slice of string)
+       all          (slice of string) both, in select order
+*/}}
+{{- $organization := slice
+  "Organization"
+  "Corporation"
+  "LocalBusiness"
+  "ProfessionalService"
+  "LegalService"
+  "MedicalOrganization"
+  "EducationalOrganization"
+  "NGO"
+-}}
+
+{{- $place := slice
+  "Place"
+  "LandmarksOrHistoricalBuildings"
+  "TouristAttraction"
+  "CivicStructure"
+  "Accommodation"
+  "Residence"
+-}}
+
+{{- return (dict
+  "organization" $organization
+  "place" $place
+  "all" ($organization | append $place)
+) -}}

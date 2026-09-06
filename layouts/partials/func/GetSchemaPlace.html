@@ -1,0 +1,59 @@
+{{/* GetSchemaPlace
+     Build the schema.org node for a place that is a location.
+
+     A place is a location by default — a venue, a landmark, an address people
+     go to — and says which kind through schema.type. Declaring an
+     organization subtype there makes it an office instead, and
+     func/GetSchemaOrganization.html describes it. The two nodes take
+     different @id suffixes so both can coexist.
+
+     Only properties Place actually defines are emitted: email and social
+     profiles belong to the organization or the person, not to a location.
+
+     Params: (page) a /places/ page, or the taxonomy term standing in for one
+             when GetRealPlace found none.
+
+     Returns: map, the Place node.
+*/}}
+{{- $place := . -}}
+
+{{- $type := "Place" -}}
+{{- with $place.Params.schema -}}
+  {{- with .type -}}
+    {{- if in (partial "func/GetSchemaTypes.html").place . -}}
+      {{- $type = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $node := dict
+  "@type" $type
+  "@id" (printf "%s#place" $place.Permalink)
+  "name" (partial "func/PrepareData.html" $place.Title)
+  "url" $place.Permalink
+-}}
+
+{{- with $place.Description -}}
+  {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" .)) -}}
+{{- end -}}
+
+{{- with $place.Params.image -}}
+  {{- with .src -}}
+    {{- $node = merge $node (dict "image" (dict "@type" "ImageObject" "url" (. | absURL))) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaAddress.html" $place.Params.address -}}
+  {{- $node = merge $node (dict "address" .) -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaGeo.html" $place.Params.address -}}
+  {{- $node = merge $node (dict "geo" .) -}}
+{{- end -}}
+
+{{- with $place.Params.contact -}}
+  {{- with .phone -}}{{- $node = merge $node (dict "telephone" (string .)) -}}{{- end -}}
+  {{- with .fax -}}{{- $node = merge $node (dict "faxNumber" (string .)) -}}{{- end -}}
+{{- end -}}
+
+{{- return $node -}}

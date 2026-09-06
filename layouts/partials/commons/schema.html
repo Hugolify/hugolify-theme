@@ -1,14 +1,45 @@
-{{ $name := .Site.Params.title | default false }}
-{{- with hugo.Data.seo.title -}}
-  {{- $name = . -}}
+{{/* Site-wide schema.org graph.
+
+     Emits the two nodes every other schema on the site hangs off: the WebSite
+     and the Organization publishing it. Both carry a stable @id, so a page
+     level schema (Person, Article, WebPage…) references them by @id instead of
+     repeating the data — which is what lets a crawler tie a person to the
+     organization they work for.
+
+     The organization is edited in the CMS as data/schema.yml and built
+     by func/GetSchemaOrganization.html; the WebSite name follows the same
+     resolution order as head/seo.html, so data/seo.yml wins over the site
+     title, in its flat form as well as its language-keyed one.
+
+     Called once per page (partialCached) from _default/baseof.html.
+*/}}
+{{- $language := partial "func/GetLanguage.html" -}}
+{{- /* The home permalink, not the baseURL: on a multilingual site each language
+       is its own WebSite and needs its own @id, while the organization behind
+       them stays a single entity anchored on the baseURL. */ -}}
+{{- $url := site.Home.Permalink -}}
+
+{{- $name := site.Title -}}
+{{- with site.Params.title -}}{{- $name = . -}}{{- end -}}
+{{- with partial "func/GetSeoData.html" "title" -}}{{- $name = . -}}{{- end -}}
+
+{{- with $name -}}
+  {{- $organization := partial "func/GetSchemaOrganization.html" (dict "name" $name) -}}
+
+  {{- $website := dict
+    "@type" "WebSite"
+    "@id" (printf "%s#website" $url)
+    "name" (partial "func/PrepareData.html" $name)
+    "url" $url
+    "inLanguage" $language.locale
+    "publisher" (dict "@id" (index $organization "@id"))
+  -}}
+
+  {{- with partial "func/GetSeoData.html" "description" -}}
+    {{- $website = merge $website (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+
+  <script type="application/ld+json">
+  {{ dict "@context" "https://schema.org" "@graph" (slice $website $organization) | jsonify (dict "indent" "  ") | safeJS }}
+  </script>
 {{- end -}}
-{{ if $name }}
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": {{ $name }},
-    "url": {{ .Site.BaseURL }}
-  }
-</script>
-{{ end }}

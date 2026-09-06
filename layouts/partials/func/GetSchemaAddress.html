@@ -1,0 +1,48 @@
+{{/* GetSchemaAddress
+     Convert an address object into a schema.org PostalAddress.
+
+     Reads the shape the CMS writes for every address on the site (see
+     admin/fields/address.yml): the one places, jobs and data/schema.yml all
+     share, so a single converter serves them.
+
+     A postal address is not translated: it is a physical fact, written the way
+     the local post office expects it. The country is the exception, and
+     schema.org settles it with a code rather than a name — addressCountry
+     wants the ISO 3166-1 alpha-2 form ("ES"), which belongs to no language,
+     where `country` holds whatever the visible <address> should read ("Spain",
+     "España", "Espagne"). Hence country_code, which wins when set. Without
+     one, a two letter country is taken for a code and anything longer for a
+     display name, still accepted by schema.org and emitted as is.
+
+     Params: {map} an address object
+       street, zipcode, city, country, country_code, region
+
+     Returns: map, the PostalAddress node — or false when the object carries
+              nothing worth publishing.
+*/}}
+{{- $address := dict "@type" "PostalAddress" -}}
+
+{{- with . -}}
+  {{- with .street -}}{{- $address = merge $address (dict "streetAddress" (partial "func/PrepareData.html" .)) -}}{{- end -}}
+  {{- with .zipcode -}}{{- $address = merge $address (dict "postalCode" (string .)) -}}{{- end -}}
+  {{- with .city -}}{{- $address = merge $address (dict "addressLocality" (partial "func/PrepareData.html" .)) -}}{{- end -}}
+  {{- with .region -}}{{- $address = merge $address (dict "addressRegion" (partial "func/PrepareData.html" .)) -}}{{- end -}}
+  {{- $country := "" -}}
+  {{- with .country -}}
+    {{- $country = partial "func/PrepareData.html" . -}}
+    {{- if eq (len $country) 2 -}}{{- $country = upper $country -}}{{- end -}}
+  {{- end -}}
+  {{- with .country_code -}}
+    {{- $country = upper (partial "func/PrepareData.html" .) -}}
+  {{- end -}}
+  {{- with $country -}}
+    {{- $address = merge $address (dict "addressCountry" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Only @type left: nothing to describe. */ -}}
+{{- if eq (len $address) 1 -}}
+  {{- $address = false -}}
+{{- end -}}
+
+{{- return $address -}}

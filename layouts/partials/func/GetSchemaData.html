@@ -1,0 +1,39 @@
+{{/* GetSchemaData
+     Read one value from data/schema.yml for the current language.
+
+     The file is edited in the CMS as part of the config collection, which is
+     translated, so it comes keyed by language — fr: / en: — and a locale the
+     editor has not filled in yet holds empty values rather than nothing at
+     all. The default language is therefore the base and the current one an
+     overlay where only the values actually set win: an English page keeps the
+     address and the phone of the head office until someone types different
+     ones, and only what genuinely differs has to be translated.
+
+     A flat file, hand written or produced by a single language site, is read
+     as is.
+
+     Params: (string) the key to read, e.g. "organization".
+
+     Returns: the value, or nil when the file or the key is missing.
+*/}}
+{{- $key := . -}}
+{{- $root := dict -}}
+
+{{- with hugo.Data.schema -}}
+  {{- $datas := . -}}
+  {{- $root = $datas -}}
+
+  {{- $defaultLanguage := site.Language.Lang -}}
+  {{- with site.Sites.Default -}}
+    {{- $defaultLanguage = .Language.Lang -}}
+  {{- end -}}
+
+  {{- with index $datas $defaultLanguage -}}
+    {{- $root = . -}}
+  {{- end -}}
+  {{- with index $datas site.Language.Lang -}}
+    {{- $root = partial "func/MergeDefined.html" (dict "base" $root "overlay" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return index $root $key -}}

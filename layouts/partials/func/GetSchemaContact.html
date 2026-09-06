@@ -1,0 +1,46 @@
+{{/* GetSchemaContact
+     Convert a contact object into the schema.org properties describing how to
+     reach a person, an organization or a place.
+
+     Accepts both contact shapes, like commons/contact/socials.html does: a
+     `socials` list of {platform, url}, and the legacy flat keys (linkedin:
+     https://…) sitting next to email, phone and fax.
+
+     Publishing email addresses can be turned off site wide in the CMS, with
+     data/schema.yml's `email` switch — JSON-LD is a convenient place to
+     harvest them from.
+
+     Params: {map} a contact object.
+
+     Returns: map of schema.org properties (email, telephone, faxNumber,
+              sameAs) to merge into a node. Empty when there is nothing to say.
+*/}}
+{{- $contact := dict -}}
+
+{{- with . -}}
+  {{- $exposeEmail := true -}}
+  {{- $switch := partial "func/GetSchemaData.html" "email" -}}
+  {{- if eq (printf "%T" $switch) "bool" -}}
+    {{- $exposeEmail = $switch -}}
+  {{- end -}}
+
+  {{- if $exposeEmail -}}
+    {{- with .email -}}{{- $contact = merge $contact (dict "email" .) -}}{{- end -}}
+  {{- end -}}
+  {{- with .phone -}}{{- $contact = merge $contact (dict "telephone" (string .)) -}}{{- end -}}
+  {{- with .fax -}}{{- $contact = merge $contact (dict "faxNumber" (string .)) -}}{{- end -}}
+
+  {{- $sameAs := slice -}}
+  {{- range .socials -}}
+    {{- with .url -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+  {{- end -}}
+  {{- $reserved := slice "email" "phone" "fax" "socials" -}}
+  {{- range $key, $value := . -}}
+    {{- if in $reserved $key -}}{{- continue -}}{{- end -}}
+    {{- if or (reflect.IsMap $value) (reflect.IsSlice $value) -}}{{- continue -}}{{- end -}}
+    {{- with $value -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+  {{- end -}}
+  {{- with $sameAs -}}{{- $contact = merge $contact (dict "sameAs" .) -}}{{- end -}}
+{{- end -}}
+
+{{- return $contact -}}

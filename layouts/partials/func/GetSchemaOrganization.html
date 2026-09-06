@@ -1,0 +1,146 @@
+{{/* GetSchemaOrganization
+     Build the schema.org node for the organization behind the site, or for one
+     of its offices.
+
+     Edited in the CMS as data/schema.yml (Config → Structured data), under the
+     `organization` key, in the very same shape a place uses so both feed this
+     partial unchanged. The file is translated, and func/GetSchemaData.html
+     resolves it for the current language — a locale only has to carry what it
+     changes:
+
+       organization:
+         name: Acme
+         type: Organization        # any Organization subtype, see
+                                   # func/GetSchemaTypes.html
+         image:
+           src: '/assets/images/logo.svg'
+         address:
+           street: 1 rue de l'Exemple
+           zipcode: '75001'
+           city: Paris
+           country: France
+           coordinates:
+             lat: 48.8566
+             lng: 2.3522
+         contact:
+           email: …
+           phone: …
+           fax: …
+           socials:
+             - platform: linkedin
+               url: …
+
+     Passing a place turns the node into that office: it keeps the logo the
+     whole firm shares, overrides whatever the place describes for itself,
+     takes its own @id and points back at the head office through
+     parentOrganization. That is how a person attached to a place ends up
+     working for their office rather than for the firm as a whole.
+
+     A place only qualifies as an office when its schema.type names an
+     organization subtype — the places section is generic, and a venue or a
+     landmark is a location, not an organization. Otherwise it stays a place:
+     see func/GetSchemaPlace.html. The key is nested rather than a top level
+     `type`, which Hugo reserves in front matter to select the content type.
+
+     Params: {map} optional
+       compact (bool) return only the fields needed to reference the node from
+                      another schema.
+       place   (page) a /places/ page to build a branch office from.
+       name    (string) fallback name when the data file has none. Defaults to
+                      the site title.
+
+     Returns: map, the schema.org node.
+*/}}
+{{- $compact := false -}}
+{{- $place := false -}}
+{{- $name := site.Title -}}
+{{- with . -}}
+  {{- $compact = .compact | default false -}}
+  {{- $place = .place | default false -}}
+  {{- with .name -}}{{- $name = . -}}{{- end -}}
+{{- end -}}
+
+{{- $datas := partial "func/GetSchemaData.html" "organization" | default dict -}}
+{{- with $datas.name -}}{{- $name = . -}}{{- end -}}
+
+{{- $type := $datas.type | default "Organization" -}}
+{{- $headName := $name -}}
+{{- $headType := $type -}}
+{{- $headId := printf "%s#organization" site.BaseURL -}}
+
+{{- $id := $headId -}}
+{{- $url := site.BaseURL -}}
+
+{{- /* An office of the firm: its own identity, and its own type when it
+       declares one — a group can run a clinic and a shop. */ -}}
+{{- with $place -}}
+  {{- $id = printf "%s#organization" .Permalink -}}
+  {{- $url = .Permalink -}}
+  {{- $name = .Title -}}
+  {{- with .Params.schema -}}
+    {{- with .type -}}{{- $type = . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $organization := dict
+  "@type" $type
+  "@id" $id
+  "name" (partial "func/PrepareData.html" $name)
+  "url" $url
+-}}
+
+{{- if not $compact -}}
+
+  {{- /* The logo belongs to the firm, wherever the office is. */ -}}
+  {{- with $datas.image -}}
+    {{- with .src -}}
+      {{- $logo := dict "@type" "ImageObject" "url" (. | absURL) -}}
+      {{- $organization = merge $organization (dict "logo" $logo "image" $logo) -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* The description is the site one, which data/seo.yml already holds per
+         language. data/schema.yml carries no prose at all, and that is what
+         keeps it out of the i18n machinery: an organization is a single entity
+         — one address, one phone, one @id — so nothing in it varies from one
+         language to the next. An office overrides it from its own page, which
+         is translatable content. */ -}}
+  {{- $description := partial "func/GetSeoData.html" "description" -}}
+
+  {{- /* What an office describes for itself wins; the firm fills in the rest. */ -}}
+  {{- $address := $datas.address -}}
+  {{- $contact := $datas.contact -}}
+  {{- with $place -}}
+    {{- with .Description -}}{{- $description = . -}}{{- end -}}
+    {{- with .Params.address -}}{{- $address = . -}}{{- end -}}
+    {{- with .Params.contact -}}{{- $contact = . -}}{{- end -}}
+    {{- with .Params.image -}}
+      {{- with .src -}}
+        {{- $organization = merge $organization (dict "image" (dict "@type" "ImageObject" "url" (. | absURL))) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $description -}}
+    {{- $organization = merge $organization (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+  {{- with partial "func/GetSchemaAddress.html" $address -}}
+    {{- $organization = merge $organization (dict "address" .) -}}
+  {{- end -}}
+  {{- with partial "func/GetSchemaGeo.html" $address -}}
+    {{- $organization = merge $organization (dict "geo" .) -}}
+  {{- end -}}
+  {{- $organization = merge $organization (partial "func/GetSchemaContact.html" $contact) -}}
+
+  {{- with $place -}}
+    {{- $organization = merge $organization (dict "parentOrganization" (dict
+      "@type" $headType
+      "@id" $headId
+      "name" (partial "func/PrepareData.html" $headName)
+      "url" site.BaseURL
+    )) -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return $organization -}}
