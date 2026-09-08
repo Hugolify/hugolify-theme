@@ -112,6 +112,14 @@ params:
   container:
     desktop: 1296
     mobile: 300
+
+  # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
+  # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
+  # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).
+  seo:
+    image:
+      size: '1200x630'
+      crop: smart
   
   # Images
   hero:
