@@ -84,7 +84,7 @@ params:
   # Breakpoint at which these panels stop being overlays and become regions of
   # the page. Same contract as header.expand — sm | md | lg | xl | none.
   filters:
-    expand: md
+    expand: all
     drawer:
       position: end # start | end | top | bottom
   sidebarmenu:
