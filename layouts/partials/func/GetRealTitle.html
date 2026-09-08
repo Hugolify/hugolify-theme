@@ -1,17 +1,3 @@
-{{ $context := . }}
-{{ $title := $context.Title }}
-{{ if eq $context.Kind "term" }}
-    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
-        {{ $page := partial "func/GetRealPerson" $context }}
-        {{ $title = $page.Title }}
-    {{ else if hasSuffix $context.Section "_expertises" }}
-        {{ $page := partial "func/GetRealExpertise" $context }}
-        {{ $title = $page.Title }}
-    {{ else if hasSuffix $context.Section "_places" }}
-        {{ $page := partial "func/GetRealPlace" $context }}
-        {{ $title = $page.Title }}
-    {{ end }}
-{{ end }}
-{{ $title := partial "func/PrepareHTML.html" $title }}
-
-{{ return $title }}
+{{/* Returns the title of the page a taxonomy term stands for, ready to print. */}}
+{{- $page := partial "func/GetRealContext.html" . -}}
+{{- return partial "func/PrepareHTML.html" $page.Title -}}

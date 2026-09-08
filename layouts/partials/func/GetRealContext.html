@@ -1,17 +1,50 @@
-{{ $context := . }}
-{{ $realContext := $context }}
+{{/*
+  Returns the page a taxonomy term stands for.
 
-{{ if eq $context.Kind "term" }}
-    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
-        {{ $page := partial "func/GetRealPerson.html" $context }}
-        {{ $realContext = $page }}
-    {{ else if hasSuffix $context.Section "_expertises" }}
-        {{ $page := partial "func/GetRealExpertise.html" $context }}
-        {{ $realContext = $page }}
-    {{ else if hasSuffix $context.Section "_places" }}
-        {{ $page := partial "func/GetRealPlace.html" $context }}
-        {{ $realContext = $page }}
-    {{ end }}
-{{ end }}
+  The terms of a taxonomy filled from a section (authors, *_persons,
+  *_expertises, *_places, *_awards) only carry a key, the content itself lives
+  in the matching page of the target section.
 
-{{ return $realContext }}
+  - . (page) the term, the target section is read from the taxonomy name
+  - . (map) "page" the term and "section" the target section, to force it
+
+  Returns the target page, or the page received when there is nothing to map.
+*/}}
+
+{{- $page := . -}}
+{{- $section := "" -}}
+
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $section = .section -}}
+{{- else if eq .Kind "term" -}}
+  {{- $sections := dict
+    "authors" "persons"
+    "publications_concerned" "persons"
+    "_persons" "persons"
+    "_expertises" "expertises"
+    "_places" "places"
+    "_awards" "awards" -}}
+  {{- range $taxonomy, $target := $sections -}}
+    {{- if or (eq $page.Section $taxonomy) (hasSuffix $page.Section $taxonomy) -}}
+      {{- $section = $target -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $real := $page -}}
+{{- with $section -}}
+  {{- $key := $page.Title | anchorize -}}
+  {{- with site.GetPage (printf "/%s/%s" . $key) -}}
+    {{- $real = . -}}
+  {{- else -}}
+    {{/* The folder name is not always the anchorized title: a CMS collapses the
+      repeated separators of a title like "Penal law - Compliance" into a single
+      dash, where anchorize keeps them all. Look the page up by title then. */}}
+    {{- with index (partialCached "func/GetPagesByTitle.html" . .) $key -}}
+      {{- $real = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $real -}}

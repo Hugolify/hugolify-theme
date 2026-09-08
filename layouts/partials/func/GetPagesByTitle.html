@@ -1,0 +1,22 @@
+{{/*
+  Indexes the pages of a section by their anchorized title.
+
+  Used to resolve a taxonomy term whose value no longer matches the folder name
+  of the page it stands for. Meant to be called through partialCached, the
+  section being the cache key.
+
+  - . (string) the section
+
+  Returns a map, anchorized title to page.
+*/}}
+
+{{- $section := . -}}
+{{- $pages := dict -}}
+
+{{- range where site.Pages "Section" $section -}}
+  {{- if ne .Path (printf "/%s" $section) -}}
+    {{- $pages = merge $pages (dict (.Title | anchorize) .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $pages -}}

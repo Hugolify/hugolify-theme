@@ -1,10 +1,2 @@
-{{ $expertise := . }}
-{{ $exists := os.FileExists $expertise }}
-
-{{ if not $exists }}
-  {{ with site.GetPage (printf "/expertises/%s" (.Title | anchorize)) }}
-    {{ $expertise = . }}
-  {{ end }}
-{{ end }}
-
-{{ return $expertise }}
+{{/* Shortcut on the expertises section, see func/GetRealContext.html */}}
+{{- return partial "func/GetRealContext.html" (dict "page" . "section" "expertises") -}}

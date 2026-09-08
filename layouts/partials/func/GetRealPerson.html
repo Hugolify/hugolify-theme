@@ -1,10 +1,2 @@
-{{ $person := . }}
-{{ $exists := os.FileExists $person }}
-
-{{ if not $exists }}
-  {{ with site.GetPage (printf "/persons/%s" (.Title | anchorize)) }}
-    {{ $person = . }}
-  {{ end }}
-{{ end }}
-
-{{ return $person }}
+{{/* Shortcut on the persons section, see func/GetRealContext.html */}}
+{{- return partial "func/GetRealContext.html" (dict "page" . "section" "persons") -}}
