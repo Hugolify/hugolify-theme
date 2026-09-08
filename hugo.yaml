@@ -141,6 +141,14 @@ params:
     # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
+  # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
+  # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
+  # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).
+  seo:
+    image:
+      size: '1200x630'
+      crop: smart
+  # Generic images
   thumbnail:
     desktop: '414x177'
     mobile: '300x129'
@@ -149,6 +157,7 @@ params:
   navigation:
     desktop: '414x200'
     mobile: '300x150'
+  # Pages specific
   pages:
     thumbnail:
       desktop: '416x179'
@@ -158,6 +167,7 @@ params:
     image:
       desktop: '856x'
       mobile: '360x'
+  # Blocks configuration
   blocks:
     gallery:
       column:

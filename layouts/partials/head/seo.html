@@ -51,38 +51,65 @@
 {{- $seoDescription = partial "func/PrepareData.html" $seoDescription -}}
 
 {{/*  IMAGE  */}}
-{{- $seoImage := "" -}}
+{{/*  Resolve a single source through the cascade (site-wide share → data/seo → front matter):
+      a crawler only ever fetches one flat image per URL.  */}}
+{{- $seoImageSrc := "" -}}
 {{- if site.Params.share -}}
-  {{- $seoImage = printf "%s%s" site.BaseURL site.Params.share -}}
+  {{- $seoImageSrc = site.Params.share -}}
 {{- else if os.FileExists (printf "%s/share.png" $staticDirImages) -}}
-  {{- $seoImage = printf "%sassets/images/share.png" site.BaseURL -}}
+  {{- $seoImageSrc = "/assets/images/share.png" -}}
 {{- else if os.FileExists (printf "%s/share.jpg" $staticDirImages) -}}
-  {{- $seoImage = printf "%sassets/images/share.jpg" site.BaseURL -}}
+  {{- $seoImageSrc = "/assets/images/share.jpg" -}}
 {{- end -}}
 {{- if hugo.IsMultilingual -}}
   {{- with index $dataSeo $lang -}}
     {{- with .image -}}
-      {{- $seoImage = printf "%s%s" (strings.TrimRight "/" site.BaseURL) . -}}
+      {{- $seoImageSrc = . -}}
     {{- end -}}
   {{- end -}}
 {{- else -}}
   {{- with $dataSeo.image -}}
-    {{- $seoImage = printf "%s%s" (strings.TrimRight "/" site.BaseURL) . -}}
+    {{- $seoImageSrc = . -}}
   {{- end -}}
 {{- end -}}
 {{- if not .IsHome -}}
   {{- with .Params.seo -}}
-    {{- $image := partial "func/GetImageParams.html" (dict "file" .image) -}}
-    {{- with $image -}}
-      {{- $seoImage = .image_desktop -}}
+    {{- with .image -}}
+      {{- $seoImageSrc = . -}}
     {{- end -}}
   {{- else -}}
     {{- with .Params.image -}}
-      {{- $image := partial "func/GetImageParams.html" (dict "file" .src) -}}
-      {{- with $image -}}
-        {{- $seoImage = .image_desktop -}}
+      {{- with .src -}}
+        {{- $seoImageSrc = . -}}
       {{- end -}}
     {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*  Render the card at a fixed target size instead of shipping the source image: 1200x630
+      (1.91:1) is the frame Open Graph and Twitter summary_large_image both crop to, and it
+      keeps the file far below their fetch limits. Size and crop anchor come from
+      params.seo.image, so a site can pick another format.  */}}
+{{- $seoImageSize := site.Params.seo.image.size -}}
+{{- $seoImageCrop := site.Params.seo.image.crop -}}
+{{- $seoImage := "" -}}
+{{- $seoImageWidth := false -}}
+{{- $seoImageHeight := false -}}
+{{- with $seoImageSrc -}}
+  {{- $seoImage = . -}}
+  {{/*  A file served from static/ is not a resource: GetImageParams returns nothing for it and
+        the original is used as is — a share image dropped there is supplied ready to publish.  */}}
+  {{- $seoImageParams := partial "func/GetImageParams.html" (dict "file" . "desktop_size" $seoImageSize "crop" $seoImageCrop) -}}
+  {{- with $seoImageParams -}}
+    {{- with .image_desktop -}}
+      {{- $seoImage = . -}}
+      {{- $seoImageWidth = $seoImageParams.image_width -}}
+      {{- $seoImageHeight = $seoImageParams.image_height -}}
+    {{- end -}}
+  {{- end -}}
+  {{/*  og:image must be absolute; CDN sources already are.  */}}
+  {{- if not (or (hasPrefix $seoImage "http") (hasPrefix $seoImage "//")) -}}
+    {{- $seoImage = $seoImage | absURL -}}
   {{- end -}}
 {{- end -}}
 
@@ -98,6 +125,15 @@
 <title>{{ $seoTitle }}</title>
 <meta name="description" content="{{ $seoDescription }}">
 
-{{- $seo := dict "title" $seoTitle "description" $seoDescription "url" $seoUrl "image" $seoImage "type" $seoType "date" $seoDate }}
+{{- $seo := dict
+  "title" $seoTitle
+  "description" $seoDescription
+  "url" $seoUrl
+  "image" $seoImage
+  "image_width" $seoImageWidth
+  "image_height" $seoImageHeight
+  "type" $seoType
+  "date" $seoDate
+}}
 {{- partial "head/opengraph.html" $seo -}}
 {{- partial "head/twitter.html" $seo -}}
