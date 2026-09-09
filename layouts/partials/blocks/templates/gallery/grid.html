@@ -6,7 +6,7 @@
   "columnDesktop" .column
   "columnMobile" $columnMobile
   "ratio" .ratio
-  "grid" .ui.grid
+  "grid" .grid
   ) -}}
 
-{{ partial "commons/gallery.html" (merge . (dict "desktop" $size.desktop "mobile" $size.mobile)) }}
+{{ partial "commons/gallery.html" (merge . (dict "desktop" $size.desktop "mobile" $size.mobile "scrollsnap" .scrollsnap)) }}
