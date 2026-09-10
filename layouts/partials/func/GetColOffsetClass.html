@@ -1,3 +1,16 @@
+{{/* GetColOffsetClass
+     Column + offset helper class for a block's row.
+
+     The "container" and "full" grids span the whole row, so they get no column class and no
+     offset: there is nothing narrower to push around. Returns false in that case, which tells
+     SetContainerRowColStart to skip the .row / .col wrapper entirely.
+
+     Params (dict):
+       grid   (string) grid size: "xsmall" | "small" | "medium" | "large" | container/full/unset
+       offset (string) "center" | "end" | start/unset
+
+     Returns: string such as "col-medium offset-center", or false.
+*/}}
 {{ $class := false }}
 
 {{/*  Grid  */}}
@@ -11,11 +24,13 @@
   {{ $class = "col-large" }}
 {{ end }}
 
-{{/*  Offset  */}}
-{{ if eq .offset "center" }}
-  {{ $class = printf "%s offset-center" $class }}
-{{ else if eq .offset "end" }}
-  {{ $class = printf "%s offset-end" $class }}
+{{/*  Offset: only meaningful on a column narrower than the row  */}}
+{{ if $class }}
+  {{ if eq .offset "center" }}
+    {{ $class = printf "%s offset-center" $class }}
+  {{ else if eq .offset "end" }}
+    {{ $class = printf "%s offset-end" $class }}
+  {{ end }}
 {{ end }}
 
 {{ return $class }}

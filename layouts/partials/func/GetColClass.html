@@ -1,19 +1,10 @@
-{{ $class := false }}
+{{/* GetColClass
+     Deprecated: use func/GetColOffsetClass with (dict "grid" … "offset" …).
 
-{{/*  Grid  */}}
-{{ if eq . "xsmall" }}
-  {{ $class = "col-xsmall" }}
-{{ else if eq . "small" }}
-  {{ $class = "col-small" }}
-{{ else if eq . "medium" }}
-  {{ $class = "col-medium" }}
-{{ else if eq . "large" }}
-  {{ $class = "col-large" }}
-{{ end }}
+     Kept as a shim because project-level layouts still call it with a bare grid string.
+     It always centred the column, so that behaviour is preserved here.
 
-{{/*  Offset  */}}
-{{ if $class }}
-  {{ $class = printf "%s offset-center" $class }}
-{{ end }}
-
-{{ return $class }}
+     Params: (string) grid size.
+     Returns: string such as "col-medium offset-center", or false.
+*/}}
+{{- return partial "func/GetColOffsetClass" (dict "grid" . "offset" "center") -}}
