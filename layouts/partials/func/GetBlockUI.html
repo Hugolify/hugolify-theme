@@ -4,24 +4,30 @@
 
      Params:
        align      (string) align, e.g. "center"
+       carousel   (dict)   carousel settings, e.g. params/responsive
        column     (int)    column count wanted
+       direction  (string) reading direction variant, e.g. "rtl"
        grid       (string) grid size, e.g. "medium"
        layout     (string) layout variant
        offset     (string) offset, e.g. "center" / "end"
        theme      (string) theme, e.g. "bg"
        background (bool)   legacy flag -> theme "bg" when no theme is set
-       ui         (dict)   optional overrides for any of grid/layout/offset/theme
+       ui         (dict)   optional overrides for any of the values above
 
      Returns: dict
+       carousel     (dict)      resolved carousel settings, or false when unset
        class        (string)    column/offset helper class (from GetColOffsetClass) or false
        columnWanted (int)       column count wanted for the grid (from GetWantedColumn)
+       direction    (string)    resolved direction value, or false when unset
        grid         (string)    resolved grid value, or false when unset
        layout       (string)    resolved layout value, or false when unset
        offset       (string)    resolved offset value, or false when unset
        theme        (string)    resolved theme value, or false when unset
 */}}
 {{- $align := .align -}}
+{{- $carousel := .carousel -}}
 {{- $column := .column -}}
+{{- $direction := .direction -}}
 {{- $grid := .grid -}}
 {{- $layout := .layout -}}
 {{- $offset := .offset -}}
@@ -31,8 +37,14 @@
   {{- if isset . "align" }}
   {{- $align = .align -}}
   {{ end -}}
+  {{- if isset . "carousel" }}
+  {{- $carousel = .carousel -}}
+  {{ end -}}
   {{- if isset . "column" }}
   {{- $column = .column -}}
+  {{ end -}}
+  {{- if isset . "direction" }}
+  {{- $direction = .direction -}}
   {{ end -}}
   {{- if isset . "grid" }}
   {{- $grid = .grid -}}
@@ -64,8 +76,10 @@
 
 {{- return (dict
   "align" $align
+  "carousel" $carousel
   "column" $column
   "columnWanted" $columnWanted
+  "direction" $direction
   "grid" $grid
   "layout" $layout
   "offset" $offset

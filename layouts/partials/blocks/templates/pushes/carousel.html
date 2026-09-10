@@ -1,7 +1,7 @@
 {{- $params := .params -}}
 {{- with .context }}
 {{- $items := slice -}}
-{{- $carousel := .carousel | default false -}}
+{{- $carousel := partial "func/GetCarousel.html" . -}}
   {{- range .items }}
     {{- $items = $items | append (dict "push" . "params" $params)  -}}
   {{ end -}}

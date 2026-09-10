@@ -1,10 +1,15 @@
+{{- $carousel := partial "func/GetCarousel.html" . -}}
+
 {{/* A carousel slot's width is driven by how many slides show at once (perPage), not gallery columns. */}}
-{{- $columnDesktop := .carousel.params.perPage | default 1 -}}
+{{- $columnDesktop := 1 -}}
 {{/* Mobile slots = the perPage overridden at the mobile breakpoint (640); else full width. */}}
 {{- $columnMobile := 1 -}}
-{{- range .carousel.responsive -}}
-  {{- if eq .breakpoints 640 -}}
-    {{- $columnMobile = .params.perPage -}}
+{{- with $carousel -}}
+  {{- with .params }}{{ $columnDesktop = .perPage | default 1 }}{{ end -}}
+  {{- range .responsive -}}
+    {{- if eq .breakpoints 640 -}}
+      {{- $columnMobile = .params.perPage -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

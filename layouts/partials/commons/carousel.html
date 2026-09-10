@@ -3,7 +3,7 @@
 
   $context
     - items (items for range)
-    - carousel (params from markdown)
+    - ui.carousel (params from markdown, legacy: carousel)
     - carouselParams (params from code)
   $partial (url of called partial into slide)
 */}}
@@ -12,18 +12,19 @@
 {{- $partial := .partial | default false -}}
 
 {{- with $context }}
+  {{- $carousel := partial "func/GetCarousel.html" . -}}
   {{- $global_params := false -}}
   {{- with .carouselParams -}}
     {{- $global_params = . | jsonify -}}
   {{- end -}}
   {{- if not $global_params -}}
-    {{- with .carousel -}}
+    {{- with $carousel -}}
       {{- $global_params = partial "func/GetGlobalParamsCarousel.html" . -}}
     {{- end -}}
   {{- end -}}
   <div class="splide carousel js-carousel"
     {{- if $global_params }} data-splide="{{ $global_params }}"{{ end }}
-    {{- with .carousel }} style="--perPage: {{ .params.perPage }}"{{ end }}
+    {{- with $carousel }} style="--perPage: {{ .params.perPage }}"{{ end }}
     >
     <div class="splide__track">
       <ul class="splide__list">
