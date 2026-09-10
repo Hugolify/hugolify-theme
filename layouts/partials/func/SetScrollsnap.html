@@ -1,5 +1,5 @@
 {{- /*
-  func/SetScrollsnap.html — class turning a grid of items into a horizontal
+  func/SetScrollsnap.html — classes turning a grid of items into a horizontal
   carousel with snap points below a breakpoint.
 
   Which breakpoint — or whether it happens at all — depends on where the grid
@@ -8,73 +8,138 @@
   in css/utilities/scrollsnap.css of @uncinq/css-components.
 
   Params — the value alone, or a dict:
-    scrollsnap (string|bool, optional)  the value, wins over the params below
-    context    (string, optional)       params path to read it from, dotted —
-                                        only blocks name one: "blocks.datas"
+    scrollsnap (map|string|bool, optional)  the block's own value, from its
+                                            front matter (ui.scrollsnap); wins
+                                            over the params below
+    context    (string, optional)           params path to read them from,
+                                            dotted — only blocks name one:
+                                            "blocks.datas"
 
-  Values:
+  Value — a map, or the breakpoint alone as a shorthand:
+
+    scrollsnap:
+      breakpoint: md
+      nav: true
+
+    scrollsnap: md      same as breakpoint: md
+    scrollsnap: false   same as breakpoint: none
+    scrollsnap: true    says nothing — the level below decides
+
+  breakpoint — the rung at which the carousel STOPS and the grid comes back:
     sm | md | lg | xl   carousel below that breakpoint (md = mobile + tablet)
     all                 carousel at every width
     none | false        never a carousel
-    true                take it from the params
 
-  Params ladder — the most specific one set wins, so a generic value can be
-  overridden context by context:
+  nav — prev/next buttons, off by default:
+    false     never
+    pointer   only where a fine pointer exists — a mouse, a trackpad, a stylus
+    true      always, touch screens included
 
-    blocks.datas.scrollsnap → blocks.scrollsnap → scrollsnap → md
+  A carousel is swiped on touch, so `pointer` is usually the one wanted: it is
+  a desktop and keyboard affordance. Mind that with a breakpoint of md the
+  carousel only exists below md, where `true` would put the buttons on phones
+  and tablets alone; buttons for desktop mean a carousel that reaches it —
+  breakpoint all, lg or xl.
 
-  Returns the class with its leading space, ready to drop inside a class
+  They add .js-scrollsnap-nav (or .js-scrollsnap-nav-pointer), which
+  js/components/scrollsnap.js of the design system picks up to inject them, and
+  they hide themselves while the row does not overflow.
+
+  Params ladder — each key is read on its own, from the most specific level
+  down, so a block overrides one without repeating the other:
+
+    blocks.datas.scrollsnap.nav → blocks.scrollsnap.nav → scrollsnap.nav
+
+  Defaults: breakpoint md, nav false.
+
+  Returns the classes with their leading space, ready to drop inside a class
   attribute, or "" when the grid is not a carousel.
 */ -}}
 
-{{- $value := . -}}
+{{- $scrollsnap := . -}}
 {{- $context := "" -}}
 {{- if reflect.IsMap . -}}
-  {{- $value = .scrollsnap -}}
-  {{- $context = .context -}}
+  {{- $scrollsnap = .scrollsnap -}}
+  {{- $context = .context | default "" -}}
 {{- end -}}
 
-{{- /* An explicit false switches the carousel off; true only says "this is a
-       carousel context" without saying how far, so the params decide. */ -}}
-{{- if eq $value false -}}
-  {{- $value = "none" -}}
-{{- else if eq $value true -}}
-  {{- $value = "" -}}
+{{- /* Every value set for scrollsnap, most specific first: the block's own
+       one, then blocks.datas.scrollsnap, blocks.scrollsnap, scrollsnap. Each
+       key is picked from the first level that sets it, so a level saying only
+       `nav: true` leaves the breakpoint to the level below. */ -}}
+{{- $levels := slice -}}
+{{- if or $scrollsnap (eq $scrollsnap false) -}}
+  {{- $levels = $levels | append $scrollsnap -}}
 {{- end -}}
-
-{{- if not $value -}}
-  {{- with $context -}}
-    {{- $keys := split . "." -}}
-    {{- /* Walk the path from the most specific key back to the shortest one:
-           blocks.datas.scrollsnap, then blocks.scrollsnap. */ -}}
-    {{- range $depth := seq (len $keys) 1 -}}
-      {{- if not $value -}}
-        {{- $params := site.Params -}}
-        {{- range $key := first $depth $keys -}}
-          {{- if reflect.IsMap $params -}}
-            {{- $params = index $params $key -}}
-          {{- else -}}
-            {{- $params = false -}}
-          {{- end -}}
-        {{- end -}}
-        {{- if reflect.IsMap $params -}}
-          {{- $value = $params.scrollsnap | default "" -}}
-        {{- end -}}
+{{- with $context -}}
+  {{- $keys := split . "." -}}
+  {{- /* Walk the path from the most specific key back to the shortest one:
+         blocks.datas, then blocks. */ -}}
+  {{- range $depth := seq (len $keys) 1 -}}
+    {{- $params := site.Params -}}
+    {{- range $name := first $depth $keys -}}
+      {{- if reflect.IsMap $params -}}
+        {{- $params = index $params $name -}}
+      {{- else -}}
+        {{- $params = false -}}
       {{- end -}}
+    {{- end -}}
+    {{- if and (reflect.IsMap $params) (isset $params "scrollsnap") -}}
+      {{- $levels = $levels | append (index $params "scrollsnap") -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- if not $value -}}
-  {{- $value = site.Params.scrollsnap | default "md" -}}
+{{- if isset site.Params "scrollsnap" -}}
+  {{- $levels = $levels | append site.Params.scrollsnap -}}
+{{- end -}}
+
+{{- $breakpoint := "" -}}
+{{- $nav := false -}}
+{{- $hasBreakpoint := false -}}
+{{- $hasNav := false -}}
+{{- range $levels -}}
+  {{- if reflect.IsMap . -}}
+    {{- if and (not $hasBreakpoint) (isset . "breakpoint") -}}
+      {{- $breakpoint = .breakpoint -}}
+      {{- $hasBreakpoint = true -}}
+    {{- end -}}
+    {{- if and (not $hasNav) (isset . "nav") -}}
+      {{- $nav = .nav -}}
+      {{- $hasNav = true -}}
+    {{- end -}}
+  {{- else if and (not $hasBreakpoint) (ne . true) -}}
+    {{- /* Shorthand: the value alone is the breakpoint, and an explicit false
+           switches the carousel off. */ -}}
+    {{- $breakpoint = cond (eq . false) "none" . -}}
+    {{- $hasBreakpoint = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if eq $breakpoint false -}}
+  {{- $breakpoint = "none" -}}
+{{- end -}}
+{{- if not $breakpoint -}}
+  {{- $breakpoint = "md" -}}
 {{- end -}}
 
 {{- $class := "" -}}
-{{- if eq $value "all" -}}
+{{- if eq $breakpoint "all" -}}
   {{- $class = " scrollsnap" -}}
-{{- else if in (slice "sm" "md" "lg" "xl") $value -}}
-  {{- $class = printf " scrollsnap-%s" $value -}}
-{{- else if ne $value "none" -}}
-  {{- warnidf "scrollsnap" "Unknown scrollsnap value %q — expected sm, md, lg, xl, all or none" $value -}}
+{{- else if in (slice "sm" "md" "lg" "xl") $breakpoint -}}
+  {{- $class = printf " scrollsnap-%s" $breakpoint -}}
+{{- else if ne $breakpoint "none" -}}
+  {{- warnidf "scrollsnap" "Unknown scrollsnap breakpoint %q — expected sm, md, lg, xl, all or none" $breakpoint -}}
+{{- end -}}
+
+{{- /* Buttons only mean something once the grid actually is a carousel. */ -}}
+{{- if and $class $nav -}}
+  {{- if eq $nav true -}}
+    {{- $class = printf "%s js-scrollsnap-nav" $class -}}
+  {{- else if eq $nav "pointer" -}}
+    {{- $class = printf "%s js-scrollsnap-nav-pointer" $class -}}
+  {{- else -}}
+    {{- warnidf "scrollsnap" "Unknown scrollsnap nav %q — expected true, false or pointer" $nav -}}
+  {{- end -}}
 {{- end -}}
 
 {{- return $class -}}
