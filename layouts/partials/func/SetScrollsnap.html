@@ -20,6 +20,7 @@
     scrollsnap:
       breakpoint: md
       nav: true
+      pagination: true
 
     scrollsnap: md      same as breakpoint: md
     scrollsnap: false   same as breakpoint: none
@@ -30,27 +31,29 @@
     all                 carousel at every width
     none | false        never a carousel
 
-  nav — prev/next buttons, off by default:
+  nav — prev/next buttons — and pagination — dots reporting and driving the
+  position — both off by default, both taking the same values:
     false     never
     pointer   only where a fine pointer exists — a mouse, a trackpad, a stylus
     true      always, touch screens included
 
-  A carousel is swiped on touch, so `pointer` is usually the one wanted: it is
-  a desktop and keyboard affordance. Mind that with a breakpoint of md the
-  carousel only exists below md, where `true` would put the buttons on phones
-  and tablets alone; buttons for desktop mean a carousel that reaches it —
-  breakpoint all, lg or xl.
+  A carousel is swiped on touch, so `pointer` suits the buttons: they are a
+  desktop and keyboard affordance, where dots usually earn their place
+  everywhere. Mind that with a breakpoint of md the carousel only exists below
+  md, where `true` would put the controls on phones and tablets alone;
+  controls for desktop mean a carousel that reaches it — breakpoint all, lg
+  or xl.
 
-  They add .js-scrollsnap-nav (or .js-scrollsnap-nav-pointer), which
-  js/components/scrollsnap.js of the design system picks up to inject them, and
-  they hide themselves while the row does not overflow.
+  They add .js-scrollsnap-nav and .js-scrollsnap-pagination (or their -pointer
+  variant), which js/components/scrollsnap.js of the design system picks up to
+  inject them, and they hide themselves while the row does not overflow.
 
   Params ladder — each key is read on its own, from the most specific level
   down, so a block overrides one without repeating the other:
 
     blocks.datas.scrollsnap.nav → blocks.scrollsnap.nav → scrollsnap.nav
 
-  Defaults: breakpoint md, nav false.
+  Defaults: breakpoint md, nav false, pagination false.
 
   Returns the classes with their leading space, ready to drop inside a class
   attribute, or "" when the grid is not a carousel.
@@ -95,8 +98,10 @@
 
 {{- $breakpoint := "" -}}
 {{- $nav := false -}}
+{{- $pagination := false -}}
 {{- $hasBreakpoint := false -}}
 {{- $hasNav := false -}}
+{{- $hasPagination := false -}}
 {{- range $levels -}}
   {{- if reflect.IsMap . -}}
     {{- if and (not $hasBreakpoint) (isset . "breakpoint") -}}
@@ -106,6 +111,10 @@
     {{- if and (not $hasNav) (isset . "nav") -}}
       {{- $nav = .nav -}}
       {{- $hasNav = true -}}
+    {{- end -}}
+    {{- if and (not $hasPagination) (isset . "pagination") -}}
+      {{- $pagination = .pagination -}}
+      {{- $hasPagination = true -}}
     {{- end -}}
   {{- else if and (not $hasBreakpoint) (ne . true) -}}
     {{- /* Shorthand: the value alone is the breakpoint, and an explicit false
@@ -131,14 +140,16 @@
   {{- warnidf "scrollsnap" "Unknown scrollsnap breakpoint %q — expected sm, md, lg, xl, all or none" $breakpoint -}}
 {{- end -}}
 
-{{- /* Buttons only mean something once the grid actually is a carousel. */ -}}
-{{- if and $class $nav -}}
-  {{- if eq $nav true -}}
-    {{- $class = printf "%s js-scrollsnap-nav" $class -}}
-  {{- else if eq $nav "pointer" -}}
-    {{- $class = printf "%s js-scrollsnap-nav-pointer" $class -}}
-  {{- else -}}
-    {{- warnidf "scrollsnap" "Unknown scrollsnap nav %q — expected true, false or pointer" $nav -}}
+{{- /* Controls only mean something once the grid actually is a carousel. */ -}}
+{{- if $class -}}
+  {{- range $kind, $value := (dict "nav" $nav "pagination" $pagination) -}}
+    {{- if eq $value true -}}
+      {{- $class = printf "%s js-scrollsnap-%s" $class $kind -}}
+    {{- else if eq $value "pointer" -}}
+      {{- $class = printf "%s js-scrollsnap-%s-pointer" $class $kind -}}
+    {{- else if $value -}}
+      {{- warnidf "scrollsnap" "Unknown scrollsnap %s %q — expected true, false or pointer" $kind $value -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

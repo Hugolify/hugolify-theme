@@ -98,10 +98,11 @@ params:
   # Grids of items that scroll sideways with snap points instead of wrapping.
   #   breakpoint — the width at which the carousel STOPS and the grid comes
   #     back: sm | md | lg | xl | all | none, so md means mobile and tablet
-  #   nav — prev/next buttons: false | pointer (only where there is a mouse,
-  #     a trackpad or a stylus) | true (touch screens included). They hide
+  #   nav — prev/next buttons, and pagination — dots reporting and driving the
+  #     position. Both take false | pointer (only where there is a mouse, a
+  #     trackpad or a stylus) | true (touch screens included). They hide
   #     themselves while the row does not overflow, so they only ever show
-  #     within the carousel's own range: buttons on desktop mean a breakpoint
+  #     within the carousel's own range: controls on desktop mean a breakpoint
   #     that reaches it — all, lg or xl.
   # `scrollsnap: md` is a shorthand for the breakpoint alone.
   # Each key is read on its own ladder, so a block overrides one without
@@ -112,6 +113,7 @@ params:
   scrollsnap:
     breakpoint: md
     nav: false
+    pagination: false
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     layout: raw # drawer and modal also available
