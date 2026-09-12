@@ -3,30 +3,51 @@
 
 {{- with .push }}
 
-  {{- $pushClass := "push" -}}
-  {{- with .offset }}
-    {{- $pushClass = printf "%s push-%s" $pushClass . -}}
-  {{- end -}}
-  {{- with .card -}}
-    {{- $pushClass = printf "%s push-card" $pushClass -}}
-  {{- end -}}
-  {{- with .darken -}}
-    {{- $pushClass = printf "%s push-darken" $pushClass -}}
+  {{/* UI: an item's UI values live under `ui`; the same keys at the item root are the
+       legacy form and act as the fallback, the way GetBlockUI treats a block's own. */}}
+  {{- $ui := dict
+    "align" .align
+    "background_color" .background_color
+    "card" .card
+    "color" .color
+    "darken" .darken
+    "offset" .offset
+    "vertical_align" .vertical_align -}}
+  {{- with .ui -}}
+    {{- $ui = merge $ui . -}}
   {{- end -}}
 
+  {{- $pushClass := slice "push" -}}
+  {{- with $ui.offset -}}
+    {{- $pushClass = $pushClass | append (printf "push-%s" .) -}}
+  {{- end -}}
+  {{- with $ui.align -}}
+    {{- $pushClass = $pushClass | append (printf "push-align-%s" .) -}}
+  {{- end -}}
+  {{- with $ui.vertical_align -}}
+    {{- $pushClass = $pushClass | append (printf "push-vertical-%s" .) -}}
+  {{- end -}}
+  {{- with $ui.card -}}
+    {{- $pushClass = $pushClass | append "push-card" -}}
+  {{- end -}}
+  {{- with $ui.darken -}}
+    {{- $pushClass = $pushClass | append "push-darken" -}}
+  {{- end -}}
+  {{- $pushClass = delimit $pushClass " " -}}
+
   {{- $style := "" -}}
-  {{- with .background_color -}}
+  {{- with $ui.background_color -}}
     {{- $style = printf "--push-color-background: %s;" . -}}
   {{- end -}}
-  {{- with .color -}}
+  {{- with $ui.color -}}
     {{- $style = printf "%s --push-color: %s;" $style . -}}
   {{- end -}}
   {{- $style = printf " style='%s'" $style -}}
 
-  <div class="{{ $pushClass }}" {{- if or .background_color .color }}{{ $style | safeHTMLAttr }}{{ end }}>
+  <div class="{{ $pushClass }}" {{- if or $ui.background_color $ui.color }}{{ $style | safeHTMLAttr }}{{ end }}>
 
     {{/* Content */}}
-    {{ partial "commons/push/content.html" (merge . (dict "tag" $tag)) }}
+    {{ partial "commons/push/content.html" (merge . (dict "tag" $tag "card" $ui.card)) }}
 
     {{/* Image */}}
     {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (site.Params.column.desktop) $column)) -}}
@@ -38,7 +59,13 @@
     {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 
     {{/* Media */}}
-    {{ partial "commons/push/media.html" (merge .image (dict "desktop" $desktop "mobile" $mobile "lazy" $lazy)) }}
+    {{ partial "commons/push/media.html" (dict
+      "image" .image
+      "video" .video
+      "desktop" $desktop
+      "mobile" $mobile
+      "lazy" $lazy
+    ) }}
 
   </div>
 {{ end -}}
