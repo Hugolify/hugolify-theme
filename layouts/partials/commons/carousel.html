@@ -24,7 +24,7 @@
   {{- end -}}
   <div class="splide carousel js-carousel"
     {{- if $global_params }} data-splide="{{ $global_params }}"{{ end }}
-    {{- with $carousel }} style="--perPage: {{ .params.perPage }}"{{ end }}
+    {{- with $carousel }}{{ with .params }}{{ with .perPage }} style="--perPage: {{ . }}"{{ end }}{{ end }}{{ end }}
     >
     <div class="splide__track">
       <ul class="splide__list">
