@@ -1,0 +1,45 @@
+{{/* paragraph-list
+
+     The `paragraph` block, repeated: each item is rendered by the same
+     commons/paragraph component, so a list entry and a standalone paragraph
+     look identical.
+
+     Front matter:
+       - type: paragraph-list
+         heading:        # block header (optional)
+           surtitle: …
+           title: …
+           text: …
+         items:
+           - surtitle: …
+             title: …
+             text: …     # markdown
+             ctas:       # or `cta` (single object)
+               - url: /
+                 text: …
+         footing: …      # optional
+         ui:
+           column: 1     # 1 or 2
+           grid: medium
+           offset: center
+*/}}
+
+{{/* UI */}}
+{{- $ui := partial "func/GetBlockUI.html" . -}}
+
+{{/* Class */}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+
+{{/* Context */}}
+{{- $context := merge . (dict "ui" $ui) -}}
+
+{{/* Block */}}
+{{- if .items -}}
+<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+{{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
+  {{ partial "blocks/templates/paragraph-list/header.html" . }}
+  {{ partial "blocks/templates/paragraph-list/body.html" $context }}
+  {{ partial "blocks/templates/paragraph-list/footer.html" . }}
+{{- partial "func/SetContainerRowColEnd.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
+</section>
+{{- end -}}
