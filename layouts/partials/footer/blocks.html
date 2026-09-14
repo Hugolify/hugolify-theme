@@ -1,0 +1,14 @@
+{{- $lang := .Site.Language.Name }}
+{{- with hugo.Data.footer }}
+  {{ $context := . }}
+  {{- if hugo.IsMultilingual }}
+    {{- with index . $lang -}}
+      {{ $context = . }}
+    {{- end -}}
+  {{- end -}}
+  {{- with $context -}}
+    {{- with .blocks -}}
+      {{- partial "blocks/range.html" . -}}
+    {{- end }}
+  {{- end }}
+{{- end }}
