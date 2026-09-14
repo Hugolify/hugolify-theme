@@ -1,8 +1,14 @@
 {{- with . -}}
-  {{- $class := "btn" -}}
-  {{- if .class -}}
-    {{- $class = printf "%s %s" $class .class -}}
+  {{/* `link` (admin field is_link) renders the CTA as a plain link: same
+       markup, minus the .btn class. A custom `class` is still appended. */}}
+  {{- $classes := slice -}}
+  {{- if not .link -}}
+    {{- $classes = $classes | append "btn" -}}
   {{- end -}}
+  {{- with .class -}}
+    {{- $classes = $classes | append . -}}
+  {{- end -}}
+  {{- $class := delimit $classes " " -}}
   {{- $text := partial "func/PrepareHTML.html" .text -}}
   {{- $blank := .blank | default false -}}
   {{- $title := (partial "func/PrepareHTML.html" .title) | default $text -}}
@@ -13,7 +19,9 @@
     {{- end -}}
     <a 
       {{ printf `href=%q` .url | safeHTMLAttr }} 
-      class="{{ $class }}" 
+      {{- with $class }}
+      class="{{ . }}" 
+      {{- end }}
       title="{{ $title }}" 
       {{- with $blank }} target="_blank" rel="noreferrer noopener"{{ end -}} 
       {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}
