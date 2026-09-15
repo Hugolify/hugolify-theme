@@ -20,18 +20,18 @@
   {{- end }}
   {{- $text := .text | default false }}
   {{- $title := .title | default false }}
-  {{- $icon := .icon | default "" }}
-  {{- if $icon }}
-    {{- if templates.Exists "partials/icon.html" -}}
-      {{- $icon = printf "%s " (partial "icon.html" $icon) }}
-    {{- else -}}
-      {{- $icon = "" }}
-    {{- end -}}
+  {{/* Start empty and only ever assign a real icon: callers pass `false` when they have none,
+       and that value used to survive as far as the output. */}}
+  {{- $icon := "" }}
+  {{- with .icon }}
+    {{- if templates.Exists "partials/icon.html" }}
+      {{- $icon = printf "%s " (partial "icon.html" .) }}
+    {{- end }}
   {{- end }}
   {{- if $text }}
     <div class="{{ $class }}">
       {{- with $title }}
-        <h4 class="alert-heading">{{ $icon | safeHTML -}} {{ partial "func/PrepareHTML.html" . }}</h4>
+        <p class="alert-heading">{{ $icon | safeHTML -}} {{ partial "func/PrepareHTML.html" . }}</p>
       {{- else }}
         {{ $icon | safeHTML }}
       {{- end }}
