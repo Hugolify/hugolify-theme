@@ -1,4 +1,35 @@
+{{- $carousel := partial "func/GetCarousel.html" . -}}
+
+{{/* A carousel slot is one of `perPage` slides, never one of the grid's `ui.column`. With no
+     perPage the styling module decides the slide width, and its own fallback is 4 on desktop and
+     2 on mobile (--perPage in the logos styles). */}}
+{{- $perPage := 4 -}}
+{{- $perPageMobile := 2 -}}
+{{- with $carousel -}}
+  {{- with .params -}}
+    {{- with .perPage }}{{ $perPage = . }}{{ end -}}
+  {{- end -}}
+  {{- range .responsive -}}
+    {{- if eq .breakpoints 640 -}}
+      {{- with .params -}}
+        {{- with .perPage }}{{ $perPageMobile = . }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $size := partial "func/GetBlockImageSize.html" (dict
+  "columnDesktop" $perPage
+  "columnMobile" $perPageMobile
+  "grid" .ui.grid
+) -}}
+
+{{- $items := slice -}}
+{{- range .items -}}
+  {{- $items = $items | append (merge . (dict "desktop" $size.desktop "mobile" $size.mobile)) -}}
+{{- end -}}
+
 {{ partial "commons/carousel.html" (dict
-  "context" .
+  "context" (merge . (dict "items" $items))
   "partial" "blocks/templates/logos/logo.html"
   ) }}
