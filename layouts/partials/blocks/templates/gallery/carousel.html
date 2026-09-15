@@ -22,7 +22,10 @@
 ) -}}
 
 {{- $items := apply .images "dict" "image" "." "gallery" .gallery "desktop" $size.desktop "mobile" $size.mobile -}}
+{{/* js-gallery is what components/gallery.js watches to load the lightbox, so the
+     carousel needs it as much as the grid does. */}}
 {{ partial "commons/carousel.html" (dict
     "context" (merge . (dict "items" $items))
     "partial" "commons/image-lightbox.html"
+    "class" "js-gallery"
 ) }}
