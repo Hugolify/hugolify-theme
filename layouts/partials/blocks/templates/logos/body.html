@@ -1,4 +1,4 @@
-{{- $layout := .layout | default false -}}
+{{- $layout := .ui.layout | default false -}}
 {{ if eq $layout "carousel" }}
   {{ partial "blocks/templates/logos/carousel.html" . }}
 {{ else }}
