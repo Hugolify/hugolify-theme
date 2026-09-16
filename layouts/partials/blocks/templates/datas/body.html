@@ -1,13 +1,17 @@
-
 {{- $show_color := .show_color | default false -}}
 {{- $show_gauge := .show_gauge | default false -}}
 {{- $column := int .ui.column | default 3 -}}
 {{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
+
+{{/* The gauge switches are block-level, so they are resolved once here and handed to each item. */}}
+{{- $media := dict "show_color" $show_color "show_gauge" $show_gauge -}}
+
 {{- with .items }}
   <ul class="items items-{{ $column }} {{- $scrollsnap }}">
   {{- range . }}
-    <li {{- partial "func/SetParallax.html" (dict "element" "item") }}>
-      {{ partial "blocks/templates/datas/item.html" (dict "show_color" $show_color "show_gauge" $show_gauge "item" .) }}
+    <li class="item" {{- partial "func/SetParallax.html" (dict "element" "item") }}>
+      {{ partial "blocks/templates/datas/item/media.html" (merge . $media) }}
+      {{ partial "blocks/templates/datas/item/content.html" . }}
     </li>
   {{ end -}}
   </ul>
