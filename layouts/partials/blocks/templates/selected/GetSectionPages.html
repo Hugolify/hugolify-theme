@@ -1,0 +1,43 @@
+{{/*
+  Returns the pages of a section a selected block can pick from.
+
+  A section whose items are branch bundles (expertises, sectors…) keeps them in
+  _index.md files, so they are pages of kind "section" and a plain filter on the
+  kind leaves the collection empty. They are kept here, unlike the page listing
+  the section itself and the sections Hugo builds on its own for the folders
+  that hold no _index.md, such as the date folders of the posts.
+
+  - . (string) the section
+
+  Returns a page collection
+*/}}
+
+{{- $section := . -}}
+{{- $pages := slice -}}
+
+{{/* The pages are spread over the whole site, they carry a flag instead */}}
+{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
+
+  {{- $pages = where site.Pages "Params.isPage" true -}}
+
+{{- else -}}
+
+  {{- $pages = where site.Pages "Section" $section -}}
+
+  {{/* Drop the pages that list the section instead of belonging to it */}}
+  {{- $skip := slice -}}
+  {{- range where $pages "Kind" "section" -}}
+    {{- if not .File -}}
+      {{- $skip = $skip | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with site.GetPage $section -}}
+    {{- $skip = $skip | append . -}}
+  {{- end -}}
+  {{- with $skip -}}
+    {{- $pages = complement . $pages -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return $pages -}}

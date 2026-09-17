@@ -13,12 +13,7 @@
 {{- $section := .section -}}
 
 {{/* All the pages of the section */}}
-{{- $pages := slice -}}
-{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
-  {{- $pages = where site.Pages "Params.isPage" true -}}
-{{- else -}}
-  {{- $pages = where (where site.Pages "Section" $section) "Kind" "ne" "section" -}}
-{{- end -}}
+{{- $pages := partialCached "blocks/templates/selected/GetSectionPages.html" $section $section site.Language.Lang -}}
 
 {{/* Filter, one taxonomy after the other */}}
 {{- range $taxonomy, $terms := site.Taxonomies -}}

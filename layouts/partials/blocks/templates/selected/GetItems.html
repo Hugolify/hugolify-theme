@@ -14,11 +14,12 @@
   {{- $items = cond (reflect.IsSlice $items) $items (slice $items) -}}
   {{- range $items }}
 
-    {{- $path := . }}
+    {{- $value := . }}
     {{- if reflect.IsMap . }}
-      {{- $path = .item }}
+      {{- $value = .item }}
     {{- end }}
 
+    {{- $path := $value }}
     {{- if strings.Contains $path "/content" }}
       {{- $path = replaceRE `^\/content` "" $path }}
     {{- else if strings.Contains $path "content/" }}
@@ -30,14 +31,28 @@
     {{- end }}
 
     {{- $item := site.GetPage $path }}
+
+    {{/* The path built above misses the page when the CMS wrote something else
+         than a path, and when it wrote the slug of a page nested under another
+         one, as the slugs of its parents are missing: the value is matched
+         against the whole section instead. */}}
     {{- if not $item }}
-      {{- $pages := site.RegularPages }}
-      {{- if ne $section "pages" }}
-        {{- $pages = where site.RegularPages "Section" $section }}
-      {{- else }}
-        {{- $pages = where site.Pages "Params.isPage" true }}
+      {{- $pages := partialCached "blocks/templates/selected/GetSectionPages.html" $section $section site.Language.Lang }}
+      {{- $matched := where $pages "Params.title" "==" $value }}
+      {{- if not $matched }}
+        {{- $matched = where $pages "Params.id" "==" $value }}
       {{- end }}
-      {{- $item = or (where $pages "Params.title" "==" $path) (where $pages "Params.id" "==" $path) }}
+      {{- if not $matched }}
+        {{- $slug := path.Base (strings.TrimSuffix "/_index" $value) }}
+        {{- range $pages }}
+          {{- if and (not $matched) (eq (path.Base .Path) $slug) }}
+            {{- $matched = slice . }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- with $matched }}
+        {{- $item = index . 0 }}
+      {{- end }}
     {{- end }}
     {{- with $item }}
       {{- $selected_items = $selected_items | append . }}
