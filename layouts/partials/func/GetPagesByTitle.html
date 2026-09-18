@@ -1,13 +1,20 @@
 {{/*
-  Indexes the pages of a section by their anchorized title.
+  Indexes the pages of a section by every key a taxonomy term may carry.
 
-  Used to resolve a taxonomy term whose value no longer matches the folder name
-  of the page it stands for. Meant to be called through partialCached, the
-  section being the cache key.
+  A term filled from a section only holds a key, and that key takes one of two
+  shapes: the folder name, or the anchorized title of the page in the primary
+  language. The two differ when a CMS collapses the repeated separators of a
+  title like "Penal law - Compliance", so both are indexed.
+
+  Both are language independent, which is the point: indexing the title of the
+  *current* language only resolves a page for as long as its title is left
+  untranslated, and silently stops the day it is.
+
+  Meant to be called through partialCached, the section being the cache key.
 
   - . (string) the section
 
-  Returns a map, anchorized title to page.
+  Returns a map, key to the page in the current language.
 */}}
 
 {{- $section := . -}}
@@ -15,7 +22,14 @@
 
 {{- range where site.Pages "Section" $section -}}
   {{- if ne .Path (printf "/%s" $section) -}}
-    {{- $pages = merge $pages (dict (.Title | anchorize) .) -}}
+    {{- $page := . -}}
+    {{- $keys := slice (path.Base .Path) -}}
+    {{- with index .AllTranslations 0 -}}
+      {{- $keys = $keys | append (.Title | anchorize) -}}
+    {{- end -}}
+    {{- range $keys -}}
+      {{- $pages = merge $pages (dict . $page) -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
