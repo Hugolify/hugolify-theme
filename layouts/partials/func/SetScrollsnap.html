@@ -51,7 +51,13 @@
   Params ladder — each key is read on its own, from the most specific level
   down, so a block overrides one without repeating the other:
 
-    blocks.datas.scrollsnap.nav → blocks.scrollsnap.nav → scrollsnap.nav
+    blocks.datas.ui.scrollsnap.nav → blocks.datas.scrollsnap.nav
+      → blocks.scrollsnap.nav → scrollsnap.nav
+
+  A level writes it under `ui`, next to the rest of the look and the way a
+  block does in its front matter. Written at the level itself it is still
+  read, which is the form the params used before, and `ui` wins when a level
+  carries both.
 
   Defaults: breakpoint md, nav false, pagination false.
 
@@ -87,8 +93,18 @@
         {{- $params = false -}}
       {{- end -}}
     {{- end -}}
-    {{- if and (reflect.IsMap $params) (isset $params "scrollsnap") -}}
-      {{- $levels = $levels | append (index $params "scrollsnap") -}}
+    {{- if reflect.IsMap $params -}}
+      {{- /* A level writes it under `ui`, next to the rest of the look, the
+             way a block does in its front matter — or at the level itself,
+             which is the older form and still read. */ -}}
+      {{- with index $params "ui" -}}
+        {{- if and (reflect.IsMap .) (isset . "scrollsnap") -}}
+          {{- $levels = $levels | append (index . "scrollsnap") -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if isset $params "scrollsnap" -}}
+        {{- $levels = $levels | append (index $params "scrollsnap") -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

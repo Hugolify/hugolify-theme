@@ -179,6 +179,33 @@ params:
       desktop: '856x'
       mobile: '360x'
   # Blocks configuration
+  #
+  # `ui` sets the look a block starts with, every key GetBlockUI resolves is
+  # accepted (align, carousel, column, direction, grid, layout, offset, ratio,
+  # theme). A block of the content overrides it, and drops one by writing the
+  # key under its own `ui`, even empty:
+  #
+  #   latest:
+  #     ui:
+  #       align: center
+  #       grid: large
+  #       layout: grid
+  #
+  # Nothing is written to the content, so a change here reaches the blocks
+  # already written.
+  #
+  # `scrollsnap` goes under `ui` too, like in the front matter of a block:
+  #
+  #   latest:
+  #     ui:
+  #       grid: large
+  #       scrollsnap: all
+  #
+  # It is read by SetScrollsnap rather than GetBlockUI, because it does not
+  # become a `block-*` class: it puts a utility class on the row of items, and
+  # falls back to the wider `blocks.scrollsnap` then `scrollsnap`. Written at
+  # the block level itself instead of under `ui` it is still read, which is
+  # the form the params used before.
   blocks:
     gallery:
       column:
