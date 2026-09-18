@@ -1,0 +1,14 @@
+{{- /*
+  Escapes a value so it can be used as a vCard text property.
+  Backslashes, commas, semicolons and line breaks are escaped as per RFC 2426.
+
+  @param  {string}  context  The raw value.
+  @return {string}           The escaped value.
+
+  @example  {{ printf "FN:%s" (partial "func/EscapeVCard.html" .Title) }}
+*/ -}}
+{{- $value := . | plainify | chomp -}}
+{{- $value = replaceRE `\\` `\\` $value -}}
+{{- $value = replaceRE `([;,])` `\$1` $value -}}
+{{- $value = replaceRE `\r?\n` `\n` $value -}}
+{{- return $value -}}

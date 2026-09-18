@@ -15,9 +15,12 @@
       {{ partial "commons/contact/email.html" . }}
     </li>
   {{- end }}
-  {{- $vcard := "persons/contact/vcard.html" }}
-  {{- if templates.Exists ( printf "partials/%s" $vcard ) }}
-    {{- partial $vcard . }}
+  {{- /* Optional vCard hook, provided by the module owning the content type. */}}
+  {{- with page }}
+    {{- $vcard := printf "%s/contact/vcard.html" .Type }}
+    {{- if templates.Exists ( printf "partials/%s" $vcard ) }}
+      {{- partial $vcard . }}
+    {{- end }}
   {{- end }}
 </ul>
 {{- end }}

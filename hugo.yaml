@@ -46,6 +46,12 @@ module:
         - source: rellax.min.js
           target: assets/js/vendors/rellax.min.js # import in javascript core pipe (only if parallax enabled in params)
 
+# vCard, built by commons/contact/vcard/build.html
+mediaTypes:
+  text/vcard:
+    suffixes:
+      - vcf
+
 # Params
 params:
 

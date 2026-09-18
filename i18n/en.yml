@@ -43,6 +43,7 @@ contact:
   title: Contact
   twitter: Twitter
   us: 'Contact us'
+  vcard: Download the vCard
   website: Website
   whatsapp: WhatsApp
   x: X
@@ -100,6 +101,9 @@ form:
   message: Message
   name: Name
   organization: Organization
+  required:
+    one: "* This field is required"
+    other: "* These fields are required"
   subject: Subject
   success: Form successfully submitted. Thank you!
   tel: Telephone

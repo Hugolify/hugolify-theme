@@ -1,0 +1,30 @@
+{{- /*
+  Wraps vCard properties into a `contact-info.vcf` resource, published next to
+  the page, e.g. /team/jane-doe/contact-info.vcf
+
+  Callers build the properties of their own content type — see
+  `persons/vcard.html` and `places/vcard.html` — and escape each value with
+  `func/EscapeVCard.html`. The envelope, the `URL` property and the target path
+  are handled here.
+
+  @param  {page}      page        The page the vCard belongs to.
+  @param  {slice}     properties  The vCard properties, e.g. "FN:Jane Doe".
+  @return {resource}              The vCard resource.
+
+  @example
+    {{ $properties := slice (printf "FN:%s" (partial "func/EscapeVCard.html" .Title)) }}
+    {{ partial "commons/contact/vcard/build.html" (dict "page" . "properties" $properties) }}
+*/ -}}
+
+{{- $page := .page -}}
+
+{{- $lines := slice "BEGIN:VCARD" "VERSION:3.0" -}}
+{{- $lines = $lines | append .properties -}}
+{{- $lines = $lines | append (printf "URL:%s" $page.Permalink) -}}
+{{- $lines = $lines | append "END:VCARD" -}}
+
+{{- /* Publish next to the page, without the baseURL sub-path. */ -}}
+{{- $base := (urls.Parse site.BaseURL).Path | strings.TrimSuffix "/" -}}
+{{- $target := printf "%scontact-info.vcf" (strings.TrimPrefix $base $page.RelPermalink) -}}
+
+{{- return resources.FromString $target (printf "%s\r\n" (delimit $lines "\r\n")) -}}
