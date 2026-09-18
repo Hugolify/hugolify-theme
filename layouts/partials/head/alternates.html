@@ -1,0 +1,31 @@
+{{/* head/alternates
+     Language alternates for search engines: one link per translation of this
+     page, this one included, since a set of hreflang links has to be
+     self-referencing to be honoured.
+
+     hreflang carries the locale rather than the bare language name, so a script
+     variant such as zh-Hans is not collapsed into an ambiguous "zh".
+
+     x-default points at the first translation: .AllTranslations comes sorted by
+     language weight, so that is the primary language wherever it exists for the
+     page, and the next best one where it does not.
+
+     Context: the page.
+     Renders nothing on a monolingual site, and nothing past the first page of a
+     paginated list, where page 2 of one language has no counterpart in another.
+*/}}
+{{- if hugo.IsMultilingual }}
+  {{- $paged := false }}
+  {{- with .Store.Get "paginator" }}
+    {{- $paged = gt $.Paginator.PageNumber 1 }}
+  {{- end }}
+  {{- if not $paged }}
+    {{- range $i, $translation := .AllTranslations }}
+      {{- $locale := (partial "func/GetLanguage.html" $translation.Language).locale }}
+  <link rel="alternate" hreflang="{{ $locale }}" href="{{ $translation.Permalink }}">
+      {{- if eq $i 0 }}
+  <link rel="alternate" hreflang="x-default" href="{{ $translation.Permalink }}">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
