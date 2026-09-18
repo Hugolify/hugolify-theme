@@ -1,19 +1,23 @@
-{{ if or .phone .fax .email }}
+{{- if or .phone .fax .email }}
 <ul class="contact-list">
-  {{ with .phone }}
+  {{- with .phone }}
     <li class="phone">
       {{ partial "commons/contact/phone.html" . }}
     </li>
-  {{ end }}
-  {{ with .fax }}
+  {{- end }}
+  {{- with .fax }}
     <li class="fax">
       {{ partial "commons/contact/fax.html" . }}
     </li>
-  {{ end }}
-  {{ with .email }}
+  {{- end }}
+  {{- with .email }}
     <li class="email">
       {{ partial "commons/contact/email.html" . }}
     </li>
-  {{ end }}
+  {{- end }}
+  {{- $vcard := "persons/contact/vcard.html" }}
+  {{- if templates.Exists ( printf "partials/%s" $vcard ) }}
+    {{- partial $vcard . }}
+  {{- end }}
 </ul>
-{{ end }}
+{{- end }}
