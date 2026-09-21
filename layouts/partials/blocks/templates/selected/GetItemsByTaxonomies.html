@@ -4,6 +4,10 @@
   an empty taxonomy being ignored. Block fields holding the terms are named
   after the taxonomies themselves (persons_statutes, categories, tags…).
 
+  Terms are matched without regard to case: Hugo already groups `Avocat-associé`
+  and `avocat-associé` under the same term page, while the front matter read
+  below keeps whatever casing the editor typed.
+
   - . (map) the block
 
   Returns a page collection
@@ -19,11 +23,11 @@
 {{- range $taxonomy, $terms := site.Taxonomies -}}
   {{- with index $block $taxonomy -}}
     {{/* The block holds a single term when the relation is not multiple */}}
-    {{- $wanted := cond (reflect.IsSlice .) . (slice .) -}}
+    {{- $wanted := apply (cond (reflect.IsSlice .) . (slice .)) "lower" "." -}}
     {{- $matched := slice -}}
     {{- range $page := $pages -}}
       {{- with index $page.Params $taxonomy -}}
-        {{- $values := cond (reflect.IsSlice .) . (slice .) -}}
+        {{- $values := apply (cond (reflect.IsSlice .) . (slice .)) "lower" "." -}}
         {{- if intersect $values $wanted -}}
           {{- $matched = $matched | append $page -}}
         {{- end -}}
