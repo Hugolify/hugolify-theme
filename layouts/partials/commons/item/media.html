@@ -20,15 +20,19 @@
     {{- $sizes = (index site.Params .Type).thumbnail.sizes | default $sizes -}}
   {{- end -}}
 
-  {{/*  Add ratio from media */}}
-  {{- $ratio := "--media-ratio: 100%;" -}}
-  {{- if $desktop -}}
-    {{- $w := float (index (split $desktop "x") 0 | default 100) -}}
-    {{- $y := float (index (split $desktop "x") 1 | default 100) -}}
-    {{- $value := string (mul (div $y $w) 100) -}}
-    {{- $ratio = printf "--media-ratio: %s%s;" $value "%" -}}
+  {{/*  Add ratio from media. `--media-ratio` feeds CSS `aspect-ratio`: a <ratio> written
+        width / height, never a percentage. A size without height keeps the natural ratio,
+        so nothing is written and `.media` falls back to `--item-media-ratio`. */}}
+  {{- $style := "" -}}
+  {{- with $desktop -}}
+    {{- $size := split . "x" -}}
+    {{- $w := index $size 0 -}}
+    {{- $h := "" -}}
+    {{- if ge (len $size) 2 -}}{{- $h = index $size 1 -}}{{- end -}}
+    {{- if and $w $h -}}
+      {{- $style = printf "style='--media-ratio: %s / %s;'" $w $h -}}
+    {{- end -}}
   {{- end -}}
-  {{- $style := printf "style='%s'" $ratio -}}
 
   {{/*  Crop: a type holding logos rather than photographs opts out with `<type>.image.crop: false`.
         The ratio box above is kept — so the grid stays aligned — but the image is resized to the
