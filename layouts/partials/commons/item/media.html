@@ -30,11 +30,22 @@
   {{- end -}}
   {{- $style := printf "style='%s'" $ratio -}}
 
+  {{/*  Crop: a type holding logos rather than photographs opts out with `<type>.image.crop: false`.
+        The ratio box above is kept — so the grid stays aligned — but the image is resized to the
+        configured width only (height dropped, never filled) and `.media-logo` contains and centres
+        it inside the box, leaving bleed around instead of cutting into the artwork. */}}
+  {{- $class := "media" -}}
+  {{- if not (partial "func/isCropEnabled.html" .Type) -}}
+    {{- $class = "media media-logo" -}}
+    {{- with $desktop -}}{{- $desktop = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
+    {{- with $mobile -}}{{- $mobile = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
+  {{- end -}}
+
   {{/*  Lazy  */}}
   {{- $lazy := .Scratch.Get "lazy" | default true -}}
 
   {{/*  Image  */}}
-  <div class="media" {{ safeHTMLAttr $style }}>
+  <div class="{{ $class }}" {{ safeHTMLAttr $style }}>
     {{- with .Params.image }}
       {{- if .src }}
       {{/*  sizes precedence: a per-image front-matter `sizes` always wins; otherwise lazy images

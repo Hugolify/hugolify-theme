@@ -1,0 +1,24 @@
+{{/* isCropEnabled
+     Whether images of a given content type may be cropped (filled) to their configured size.
+
+     Some types carry logos or brand marks rather than photographs: filling a fixed box eats into
+     the artwork. `<type>.image.crop: false` opts the type out — its images are then resized to the
+     configured width only, keeping their own proportions, and get bleed inside the ratio box.
+
+     A string value (a fill anchor, e.g. "smart") still means "crop", so existing configs are
+     unaffected. Cropping stays enabled when the key is absent.
+
+     Param: the content type (string), e.g. "awards".
+     Returns: bool
+*/}}
+{{- $enabled := true -}}
+{{- with . -}}
+  {{- with index site.Params . -}}
+    {{- with .image -}}
+      {{- if isset . "crop" -}}
+        {{- $enabled = not (not .crop) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $enabled -}}
