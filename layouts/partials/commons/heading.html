@@ -1,5 +1,9 @@
+{{/* On a taxonomy term the page only carries a key, the heading it deserves is
+  the title of the page it stands for, translated. GetRealContext hands back the
+  page it received when there is nothing to map, so every other kind of page is
+  left untouched. */}}
 {{- if not (partial "func/HasHero" .) -}}
-  {{- with .Title -}}
+  {{- with (partial "func/GetRealContext.html" .).Title -}}
     <header class="heading" {{- partial "func/SetAnim.html" (dict "element" "heading") }}>
       <h1 {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="heading"{{ end }}>{{ partial "func/PrepareHTML.html" . }}</h1>
     </header>

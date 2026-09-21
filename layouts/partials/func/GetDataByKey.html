@@ -1,0 +1,48 @@
+{{/*
+  Indexes a data collection by every key a taxonomy term may carry.
+
+  A section kept in data rather than in content takes one of two shapes: a map,
+  where an entry is keyed by its own key (data/<section>.yml) or by its file name
+  (data/<section>/<key>.yml), or a list, where the only key an entry has is its
+  anchorized title. Both shapes are indexed, and the title of a map entry is
+  indexed too, a term key being built from the title as often as from a name.
+
+  The title is the one the data file carries, so a collection translated the way
+  the data of the theme is, a branch per language, resolves on its own file.
+
+  Meant to be called through partialCached, the section being the cache key.
+
+  - . (string) the section
+
+  Returns a map, key to the data entry.
+*/}}
+
+{{- $section := . -}}
+{{- $entries := dict -}}
+
+{{- with index hugo.Data $section -}}
+  {{- if reflect.IsMap . -}}
+    {{- range $key, $entry := . -}}
+      {{- if reflect.IsMap $entry -}}
+        {{- $keys := slice $key -}}
+        {{- with $entry.title -}}
+          {{- $keys = $keys | append (. | anchorize) -}}
+        {{- end -}}
+        {{- range $keys -}}
+          {{- $entries = merge $entries (dict . $entry) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else if reflect.IsSlice . -}}
+    {{- range . -}}
+      {{- $entry := . -}}
+      {{- if reflect.IsMap $entry -}}
+        {{- with $entry.title -}}
+          {{- $entries = merge $entries (dict (. | anchorize) $entry) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $entries -}}

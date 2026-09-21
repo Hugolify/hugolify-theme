@@ -2,13 +2,17 @@
   Returns the page a taxonomy term stands for.
 
   The terms of a taxonomy filled from a section (authors, *_persons,
-  *_expertises, *_places, *_awards) only carry a key, the content itself lives
-  in the matching page of the target section.
+  *_expertises, *_places, *_sectors, *_awards) only carry a key, the content
+  itself lives in the matching page of the target section, or in the matching
+  entry of the data collection of the same name when the section is kept in
+  data rather than in content. Content wins, data is the fallback.
 
   - . (page) the term, the target section is read from the taxonomy name
   - . (map) "page" the term and "section" the target section, to force it
 
-  Returns the target page, or the page received when there is nothing to map.
+  Returns the target page, a page-like map when the target is a data entry, or
+  the page received when there is nothing to map. A data entry has no page of
+  its own, so nothing links to it: a caller that prints a link is on content.
 */}}
 
 {{- $page := . -}}
@@ -20,7 +24,6 @@
 {{- else if eq .Kind "term" -}}
   {{- $sections := dict
     "authors" "persons"
-    "publications_concerned" "persons"
     "_persons" "persons"
     "_expertises" "expertises"
     "_places" "places"
@@ -43,6 +46,18 @@
       dash, where anchorize keeps them all. Look the page up by title then. */}}
     {{- with index (partialCached "func/GetPagesByTitle.html" . .) $key -}}
       {{- $real = . -}}
+    {{- else -}}
+      {{/* The section itself may live in data, where an entry is a plain map:
+        it is dressed as a page so a caller reads it the same way, Params
+        holding the whole entry, and File standing for "this key resolved",
+        which is what a caller tests before humanizing a raw key. */}}
+      {{- with index (partialCached "func/GetDataByKey.html" . .) $key -}}
+        {{- $real = dict
+          "Title" .title
+          "Description" .description
+          "Params" .
+          "File" true -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

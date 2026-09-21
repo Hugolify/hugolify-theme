@@ -1,3 +1,13 @@
-{{ with .Title }}
-  <p class="title" itemprop="name">{{ partial "func/PrepareHTML.html" . }}</p>
+{{/* An item may be a taxonomy term, which only carries a key: the label lives in
+  the matching page of the target section, translated. GetRealContext hands back
+  the page it received when there is nothing to map, so an ordinary item is left
+  untouched. humanize is for a term that resolves to nothing, where the raw key
+  is all there is to show; applied to a real title it mangles it. */}}
+{{- $page := partial "func/GetRealContext.html" . -}}
+{{ with $page.Title }}
+  {{- $title := partial "func/PrepareHTML.html" . -}}
+  {{- if not $page.File -}}
+    {{- $title = $title | humanize -}}
+  {{- end -}}
+  <p class="title" itemprop="name">{{ $title }}</p>
 {{ end }}
