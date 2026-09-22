@@ -1,0 +1,11 @@
+{{- /*
+  nav/title.html — the heading a menu carries above its links.
+
+  Context: the title itself, the `title` of a menu straight from hugo.Data.menu.
+  Anything else naming a group of links passes its own string, the way
+  footer/information.html does for a place.
+
+  Renders nothing when the title is empty.
+*/ -}}
+
+{{- with . }}<p class="nav-title">{{ partial "func/PrepareHTML.html" . }}</p>{{ end -}}

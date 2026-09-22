@@ -3,11 +3,5 @@
   {{- $menu = . -}}
 {{- end -}}
 {{- with $menu }}
-  <ul class="nav nav-secondary">
-    {{- range .links }}
-      <li>
-        {{- partial "nav/link.html" (dict "link" .) -}}
-      </li>
-    {{- end }}
-  </ul>
+  {{- partial "nav/links.html" (dict "links" .links "name" "secondary") }}
 {{ end -}}
