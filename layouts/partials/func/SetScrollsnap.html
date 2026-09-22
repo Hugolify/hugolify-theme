@@ -51,8 +51,14 @@
   Params ladder — each key is read on its own, from the most specific level
   down, so a block overrides one without repeating the other:
 
-    blocks.datas.ui.scrollsnap.nav → blocks.datas.scrollsnap.nav
-      → blocks.scrollsnap.nav → scrollsnap.nav
+    the block's own ui.scrollsnap.nav
+      → blocks.datas.*.nav → blocks.*.nav → scrollsnap.nav
+
+  Every rung but the last is read twice, `data/blocks.yml` before the params,
+  so a default set from the CMS wins over the one the config ships — the order
+  func/GetBlockUI.html gives the rest of the look. `data/blocks.yml` is rooted
+  at `blocks`, so it answers for `blocks.datas` and `blocks`, never for the
+  site-wide `scrollsnap`.
 
   A level writes it under `ui`, next to the rest of the look and the way a
   block does in its front matter. Written at the level itself it is still
@@ -85,25 +91,33 @@
   {{- /* Walk the path from the most specific key back to the shortest one:
          blocks.datas, then blocks. */ -}}
   {{- range $depth := seq (len $keys) 1 -}}
-    {{- $params := site.Params -}}
-    {{- range $name := first $depth $keys -}}
-      {{- if reflect.IsMap $params -}}
-        {{- $params = index $params $name -}}
-      {{- else -}}
-        {{- $params = false -}}
-      {{- end -}}
-    {{- end -}}
-    {{- if reflect.IsMap $params -}}
-      {{- /* A level writes it under `ui`, next to the rest of the look, the
-             way a block does in its front matter — or at the level itself,
-             which is the older form and still read. */ -}}
-      {{- with index $params "ui" -}}
-        {{- if and (reflect.IsMap .) (isset . "scrollsnap") -}}
-          {{- $levels = $levels | append (index . "scrollsnap") -}}
+    {{- $path := first $depth $keys -}}
+    {{- /* Each rung is read twice, from `data/blocks.yml` before the params, so
+           what the CMS writes wins over what the config ships — the order
+           func/GetBlockUI.html gives the rest of the look. The same keys walk
+           both roots: a context of "blocks.datas" lands on hugo.Data.blocks.datas
+           on one side and site.Params.blocks.datas on the other. */ -}}
+    {{- range $root := slice hugo.Data site.Params -}}
+      {{- $level := $root -}}
+      {{- range $name := $path -}}
+        {{- if reflect.IsMap $level -}}
+          {{- $level = index $level $name -}}
+        {{- else -}}
+          {{- $level = false -}}
         {{- end -}}
       {{- end -}}
-      {{- if isset $params "scrollsnap" -}}
-        {{- $levels = $levels | append (index $params "scrollsnap") -}}
+      {{- if reflect.IsMap $level -}}
+        {{- /* A level writes it under `ui`, next to the rest of the look, the
+               way a block does in its front matter — or at the level itself,
+               which is the older form and still read. */ -}}
+        {{- with index $level "ui" -}}
+          {{- if and (reflect.IsMap .) (isset . "scrollsnap") -}}
+            {{- $levels = $levels | append (index . "scrollsnap") -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if isset $level "scrollsnap" -}}
+          {{- $levels = $levels | append (index $level "scrollsnap") -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
