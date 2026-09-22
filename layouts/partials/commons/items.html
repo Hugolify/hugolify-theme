@@ -22,8 +22,13 @@
 {{- $scrollsnapclass := partial "func/SetScrollsnap.html" (dict "scrollsnap" $scrollsnap "context" $scrollsnapcontext) -}}
 {{- with $pages }}
   {{- if gt . 0 }}
-    {{- $section := (index . 0).Type -}}
-    {{- if eq (index . 0).Kind "section" -}}
+    {{- $first := index . 0 -}}
+    {{- $section := $first.Type -}}
+    {{- /* A section whose items are branch bundles (expertises, sectors…) holds
+           them in _index.md files, so they are pages of kind "section" and keep
+           their own item partial. Only the page listing the section itself falls
+           back to the generic one. */ -}}
+    {{- if and (eq $first.Kind "section") (eq $first.Path (printf "/%s" $first.Section)) -}}
       {{- $section = "pages" -}}
     {{- end -}}
     {{- $partial := print $section "/item.html" -}}
