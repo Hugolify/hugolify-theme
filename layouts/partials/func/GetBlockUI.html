@@ -7,6 +7,14 @@
      values are the base: anything the entry sets wins over them, and an entry drops one by
      writing the key under its own `ui`, even empty.
 
+     `data/blocks.yml` layers over those params, key by key, so the same defaults stay
+     editable from the CMS. An empty value there is read as "not set" and lets the params
+     value through — the CMS writes empty strings for fields nobody filled in, and they
+     must not erase a default. To drop a default, a block writes the key under its own `ui`.
+
+     Precedence, lowest first:
+       params.blocks.<block>.ui  <  data/blocks.yml  <  entry root  <  entry `ui`
+
      Params:
        align      (string) align, e.g. "center"
        background (bool)   legacy flag -> theme "bg" when the entry sets no theme
@@ -48,6 +56,22 @@
         {{- with .ui -}}
           {{- if reflect.IsMap . -}}
             {{- $defaults = . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{/* data/blocks.yml, the CMS layer, key by key so an empty field keeps the param */}}
+  {{- with hugo.Data.blocks -}}
+    {{- with index . $name -}}
+      {{- if reflect.IsMap . -}}
+        {{- with .ui -}}
+          {{- if reflect.IsMap . -}}
+            {{- range $key, $value := . -}}
+              {{- if $value -}}
+                {{- $defaults = merge $defaults (dict $key $value) -}}
+              {{- end -}}
+            {{- end -}}
           {{- end -}}
         {{- end -}}
       {{- end -}}
