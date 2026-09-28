@@ -1,0 +1,51 @@
+{{- /*
+  commons/avatars.html — persons as overlapping avatars, the last one counting
+  those left out
+
+  The caller picks the taxonomy (authors, *_persons…) and passes its terms. Each
+  term only carries a key, the person lives in the matching page of the persons
+  section. A person without an image shows its initials, or the first letter
+  of its title when its first or last name is missing.
+
+  Params:
+    terms (pages, required)   the terms, as returned by .GetTerms
+    limit (int, optional)     the number of avatars shown, 3 by default
+    size  (string, optional)  the image size, the xsmall image param by default
+*/ -}}
+{{- $limit := .limit | default 3 }}
+{{- $size := .size | default site.Params.image.xsmall }}
+{{- with .terms }}
+  {{- $persons := slice }}
+  {{- range . }}
+    {{- $persons = $persons | append (partial "func/GetRealPerson.html" .) }}
+  {{- end }}
+<ul class="avatars">
+  {{- range first $limit $persons }}
+    <li><a href="{{ .RelPermalink }}" title="{{ .Title }}">
+      {{- with .Params.image }}
+        {{- partial "commons/image.html" (dict
+          "src" .src
+          "desktop" $size
+          "picture_class" "avatar"
+          "crop" "top"
+        ) }}
+      {{- else }}
+        {{- $initials := substr .Title 0 1 }}
+        {{- if and .Params.firstname .Params.lastname }}
+          {{- $initials = printf "%s%s" (substr .Params.firstname 0 1) (substr .Params.lastname 0 1) }}
+        {{- end }}
+        <span class="avatar" aria-hidden="true">{{ $initials | upper }}</span>
+      {{- end }}
+      <span class="visually-hidden">{{ partial "func/PrepareHTML.html" .Title }}</span>
+    </a></li>
+  {{- end }}
+  {{- with after $limit $persons }}
+    {{- $names := slice }}
+    {{- range . }}
+      {{- $names = $names | append .Title }}
+    {{- end }}
+    {{- $names = delimit $names ", " }}
+    <li class="avatars-count" title="{{ $names }}"><span aria-hidden="true">+{{ len . }}</span><span class="visually-hidden">{{ $names }}</span></li>
+  {{- end }}
+</ul>
+{{- end }}
