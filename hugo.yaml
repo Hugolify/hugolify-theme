@@ -93,6 +93,11 @@ params:
     expand: all
     drawer:
       position: end # start | end | top | bottom
+    more:
+      enable: false # Set true to fold the terms past limit behind a "show more", needs hugolify-theme-design-system
+      limit: 5 # Terms shown per taxonomy before the fold
+    search:
+      enable: false # Set true to add a field narrowing the terms, needs hugolify-theme-design-system
   sidebarmenu:
     expand: md
     drawer:

@@ -84,6 +84,11 @@ document:
   one: Document
   other: Documents
 filter: Filtrer
+filters:
+  search:
+    empty: Aucun résultat
+    label: Rechercher dans les filtres
+    placeholder: Rechercher…
 form:
   company: Société
   email: Email
@@ -184,6 +189,7 @@ search:
 share:
   share_on: Partager sur {{ .Website }}
   title: Partager
+show_more: Voir plus
 sidebar:
   menu: Menu
 the: Le
