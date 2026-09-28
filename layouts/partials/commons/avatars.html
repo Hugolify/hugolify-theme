@@ -11,9 +11,12 @@
     terms (pages, required)   the terms, as returned by .GetTerms
     limit (int, optional)     the number of avatars shown, 3 by default
     size  (string, optional)  the image size, the xsmall image param by default
+    show_link (bool, optional) link each avatar to its person, true by default;
+                               false inside a card that is already a link
 */ -}}
 {{- $limit := .limit | default 3 }}
 {{- $size := .size | default site.Params.image.xsmall }}
+{{- $show_link := .show_link | default true }}
 {{- with .terms }}
   {{- $persons := slice }}
   {{- range . }}
@@ -21,7 +24,8 @@
   {{- end }}
 <ul class="avatars">
   {{- range first $limit $persons }}
-    <li><a href="{{ .RelPermalink }}" title="{{ .Title }}">
+    <li title="{{ .Title }}">
+      {{- if $show_link }}<a href="{{ .RelPermalink }}">{{ end }}
       {{- with .Params.image }}
         {{- partial "commons/image.html" (dict
           "src" .src
@@ -37,7 +41,8 @@
         <span class="avatar" aria-hidden="true">{{ $initials | upper }}</span>
       {{- end }}
       <span class="visually-hidden">{{ partial "func/PrepareHTML.html" .Title }}</span>
-    </a></li>
+      {{- if $show_link }}</a>{{ end }}
+    </li>
   {{- end }}
   {{- with after $limit $persons }}
     {{- $names := slice }}
