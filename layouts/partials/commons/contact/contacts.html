@@ -1,4 +1,24 @@
+{{- /*
+  Renders the contact details of a contact object as a list.
+
+  The lists of this folder (contacts.html, socials.html) own the <ul> and every
+  <li class="{type}">; the entry partials (phone, fax, email, vcard) render what
+  goes inside one entry, so a site can reuse them in a list of its own.
+
+  The vCard comes from an optional hook, `{type}/contact/vcard.html`, provided by
+  the module owning the content type of the page: it returns the vCard resource,
+  or false.
+
+  @context {map} . The contact object.
+*/ -}}
 {{- if or .phone .fax .email }}
+{{- $vcard := false }}
+{{- with page }}
+  {{- $hook := printf "%s/contact/vcard.html" .Type }}
+  {{- if templates.Exists (printf "partials/%s" $hook) }}
+    {{- $vcard = partial $hook . }}
+  {{- end }}
+{{- end }}
 <ul class="contact-list">
   {{- with .phone }}
     <li class="phone">
@@ -15,12 +35,10 @@
       {{ partial "commons/contact/email.html" . }}
     </li>
   {{- end }}
-  {{- /* Optional vCard hook, provided by the module owning the content type. */}}
-  {{- with page }}
-    {{- $vcard := printf "%s/contact/vcard.html" .Type }}
-    {{- if templates.Exists ( printf "partials/%s" $vcard ) }}
-      {{- partial $vcard . }}
-    {{- end }}
+  {{- with $vcard }}
+    <li class="vcard">
+      {{- partial "commons/contact/vcard.html" . -}}
+    </li>
   {{- end }}
 </ul>
 {{- end }}

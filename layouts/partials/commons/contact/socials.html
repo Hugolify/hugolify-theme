@@ -1,26 +1,13 @@
 {{- /*
-Renders the social links of a contact object.
+  Renders the social links of a contact object as a nav-social list, one
+  <li class="{platform}"> per link.
 
-Accepts both shapes:
-- `socials`: a list of objects with `platform` and `url` keys (CMS format).
-- legacy flat keys: one key per network (`linkedin: https://…`), next to email, phone and fax.
-
-@context {map} . The contact object.
+  @context {map} . The contact object, whose `socials` lists `platform` and `url`.
 */ -}}
 {{- $links := slice }}
-
 {{- range .socials }}
   {{- if and .platform .url }}
     {{- $links = $links | append (dict "title" .platform "url" .url "blank" true) }}
-  {{- end }}
-{{- end }}
-
-{{- $reserved := slice "email" "phone" "fax" "socials" }}
-{{- range $key, $value := . }}
-  {{- if in $reserved $key }}{{ continue }}{{ end }}
-  {{- if or (reflect.IsMap $value) (reflect.IsSlice $value) }}{{ continue }}{{ end }}
-  {{- with $value }}
-    {{- $links = $links | append (dict "title" $key "url" . "blank" true) }}
   {{- end }}
 {{- end }}
 
