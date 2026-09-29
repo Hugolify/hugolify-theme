@@ -36,7 +36,7 @@
       {{- $args := merge . (dict "id" $id "name" $name "condHelp" $help) -}}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "switch") (ne .type "hidden") }}
         {{ partial "commons/form/label.html" $args }}
-      {{ else -}}
+      {{ else if ne .type "hidden" -}}
       <div class="form-check">
       {{ end -}}
       {{- if eq .type "textarea" }}
