@@ -4,7 +4,6 @@
 {{- $column := int .ui.column | default 3 -}}
 {{- $grid := .ui.grid | default "container" -}}
 {{- $layout := .ui.layout | default "grid" -}}
-{{- $scrollsnap := .ui.scrollsnap | default false -}}
 {{- $defaultRatio := site.Params.blocks.gallery.image.ratio | default 1 -}}
 {{- $ratio := cond .ui.ratio .ui.ratio $defaultRatio -}}
 
@@ -15,7 +14,6 @@
   "images" .gallery
   "isFirst" $isFirst
   "ratio" $ratio
-  "scrollsnap" $scrollsnap
 )}}
 
 {{- with .gallery }}
