@@ -38,7 +38,18 @@
 {{- $real := $page -}}
 {{- with $section -}}
   {{- $key := $page.Title | anchorize -}}
-  {{- with site.GetPage (printf "/%s/%s" . $key) -}}
+  {{/* A term picked in a nested collection holds the path of its page, like
+    "parent/child", and anchorize drops the slash: each segment is anchorized
+    on its own so the key still points at the page. */}}
+  {{- $path := $key -}}
+  {{- if strings.Contains $page.Title "/" -}}
+    {{- $segments := slice -}}
+    {{- range split $page.Title "/" -}}
+      {{- $segments = $segments | append (strings.TrimSpace . | anchorize) -}}
+    {{- end -}}
+    {{- $path = delimit $segments "/" -}}
+  {{- end -}}
+  {{- with site.GetPage (printf "/%s/%s" . $path) -}}
     {{- $real = . -}}
   {{- else -}}
     {{/* The folder name is not always the anchorized title: a CMS collapses the
