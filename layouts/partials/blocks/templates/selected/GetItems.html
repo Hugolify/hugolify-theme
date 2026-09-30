@@ -7,6 +7,11 @@
 
   {{- $selected_items = partial "blocks/templates/selected/GetItemsByTaxonomies.html" . -}}
 
+{{/* Children of the pages set on the block, or first level of the section */}}
+{{- else if in (slice "children" "toplevel") $source -}}
+
+  {{- $selected_items = partial "blocks/templates/selected/GetItemsByParents.html" . -}}
+
 {{/* Pages picked one by one */}}
 {{- else -}}
 
@@ -19,46 +24,16 @@
       {{- $value = .item }}
     {{- end }}
 
-    {{- $path := $value }}
-    {{- if strings.Contains $path "/content" }}
-      {{- $path = replaceRE `^\/content` "" $path }}
-    {{- else if strings.Contains $path "content/" }}
-      {{- $path = replaceRE `^content\/` "" $path }}
-    {{- else }}
-      {{- if ne $section "pages" }}
-        {{- $path = printf "%s/%s" $section $path }}
-      {{- end }}
-    {{- end }}
-
-    {{- $item := site.GetPage $path }}
-
-    {{/* The path built above misses the page when the CMS wrote something else
-         than a path, and when it wrote the slug of a page nested under another
-         one, as the slugs of its parents are missing: the value is matched
-         against the whole section instead. */}}
-    {{- if not $item }}
-      {{- $pages := partialCached "blocks/templates/selected/GetSectionPages.html" $section $section site.Language.Lang }}
-      {{- $matched := where $pages "Params.title" "==" $value }}
-      {{- if not $matched }}
-        {{- $matched = where $pages "Params.id" "==" $value }}
-      {{- end }}
-      {{- if not $matched }}
-        {{- $slug := path.Base (strings.TrimSuffix "/_index" $value) }}
-        {{- range $pages }}
-          {{- if and (not $matched) (eq (path.Base .Path) $slug) }}
-            {{- $matched = slice . }}
-          {{- end }}
-        {{- end }}
-      {{- end }}
-      {{- with $matched }}
-        {{- $item = index . 0 }}
-      {{- end }}
-    {{- end }}
-    {{- with $item }}
+    {{- with partial "blocks/templates/selected/GetItemPage.html" (dict "section" $section "value" $value) }}
       {{- $selected_items = $selected_items | append . }}
     {{- end }}
   {{ end }}
 
+{{- end -}}
+
+{{/* Every page comes out unless the block caps it */}}
+{{- with .limit -}}
+  {{- $selected_items = first . $selected_items -}}
 {{- end -}}
 
 {{ return $selected_items }}

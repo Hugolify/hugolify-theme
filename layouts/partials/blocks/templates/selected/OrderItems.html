@@ -1,0 +1,29 @@
+{{/*
+  Orders the pages a selected block gathered on its own, from the taxonomies or
+  from the tree. The manual selection keeps the order the editor typed and never
+  comes through here.
+
+  - section (string) the section the pages belong to
+  - pages (page collection)
+
+  Returns a page collection
+*/}}
+
+{{- $section := .section -}}
+{{- $pages := .pages -}}
+
+{{/* Persons keep their own order, by status then by lastname */}}
+{{- if eq $section "persons" -}}
+  {{- $pages = partial "func/GetPersonsOrderByStatutes" $pages -}}
+
+{{/* Pinned pages first, then by date when there is one, by title otherwise */}}
+{{- else -}}
+  {{- with $pages -}}
+    {{- $pinned := (where . "Params.weight" "gt" 0).ByParam "weight" -}}
+    {{- $rest := where . "Params.weight" "eq" nil -}}
+    {{- $rest = cond (isset (index . 0).Params "date") $rest.ByDate.Reverse $rest.ByTitle -}}
+    {{- $pages = $pinned | append $rest -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $pages -}}

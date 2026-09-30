@@ -1,0 +1,62 @@
+{{/*
+  Returns the children of the pages set on the block, the sub-expertises of an
+  expertise for one. The editor picks the parents, not the items, so the block
+  follows the tree as it grows.
+
+  With the source "toplevel" the section itself is the parent, and the first level
+  of the tree comes out, the expertises rather than their sub-expertises.
+
+  Only the direct children of a parent are returned: a deeper level would flatten
+  the tree into a listing mixing an item and its own children.
+
+  - . (map) the block
+
+  Returns a page collection
+*/}}
+
+{{- $section := .section -}}
+{{- $source := .source | default "children" -}}
+{{- $parents := slice -}}
+{{- $items := slice -}}
+
+{{/* The first level hangs under the page listing the section */}}
+{{- if eq $source "toplevel" }}
+
+  {{- with site.GetPage $section }}
+    {{- $parents = slice . }}
+  {{- end }}
+
+{{/* Parents picked one by one */}}
+{{- else }}
+
+  {{/* The block holds a single parent when the relation is not multiple */}}
+  {{- $values := .parent | default slice }}
+  {{- $values = cond (reflect.IsSlice $values) $values (slice $values) }}
+  {{- range $values }}
+
+    {{- $value := . }}
+    {{- if reflect.IsMap . }}
+      {{- $value = .item }}
+    {{- end }}
+
+    {{- with partial "blocks/templates/selected/GetItemPage.html" (dict "section" $section "value" $value) }}
+      {{- $parents = $parents | append . }}
+    {{- end }}
+  {{- end }}
+
+{{- end }}
+
+{{- range $parents }}
+  {{- with .Pages }}
+    {{- $items = $items | append . }}
+  {{- end }}
+{{- end }}
+
+{{/* Intersect to keep a page collection, and not a plain slice, and to drop the
+     children a parent shares with another one */}}
+{{- $pages := partialCached "blocks/templates/selected/GetSectionPages.html" $section $section site.Language.Lang -}}
+{{- $items = $pages | intersect $items -}}
+
+{{- $items = partial "blocks/templates/selected/OrderItems.html" (dict "section" $section "pages" $items) -}}
+
+{{- return $items -}}

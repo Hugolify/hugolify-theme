@@ -1,24 +1,8 @@
 {{- $atf := cond .first true false -}}
 {{- $section := .section -}}
 {{- $layout := .ui.layout | default "grid" -}}
-{{- $count := .count | default 3 -}}
 {{- $scrollsnap := .ui.scrollsnap | default true -}}
-{{- $items := false -}}
-{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
-  {{- $items = where site.Pages "Params.isPage" true -}}
-{{- else -}}
-  {{- $itemsSection := where site.Pages "Section" $section -}}
-  {{- $items = where $itemsSection "Kind" "ne" "section" -}}
-{{- end -}}
-{{- $pinned := (where $items "Params.weight" "gt" 0).ByParam "weight" -}}
-{{- $rest := (where $items "Params.weight" "eq" nil).ByTitle -}}
-{{- if isset (index $items 0).Params "date" -}}
-  {{- $rest = (where $items "Params.weight" "eq" nil).ByDate.Reverse -}}
-{{- end -}}
-{{- $items = $pinned | append $rest -}}
-{{- $items = first $count $items -}}
-
-{{- $context := merge . (dict "container" false) -}}
+{{- $items := partial "blocks/templates/latest/GetItems.html" . -}}
 
 {{- if $items }}
   {{- if eq $layout "list" }}

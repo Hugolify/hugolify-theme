@@ -1,0 +1,53 @@
+{{/*
+  Returns the page a value written by the CMS points to.
+
+  The value is read as a path first. That path misses the page when the CMS wrote
+  something else than a path, and when it wrote the slug of a page nested under
+  another one, as the slugs of its parents are missing: the value is then matched
+  against the whole section, by title, by id, and by folder name last.
+
+  - section (string) the section the value belongs to
+  - value (string) the value written by the CMS
+
+  Returns a page, or an empty string when nothing matches
+*/}}
+
+{{- $section := .section -}}
+{{- $value := .value -}}
+{{- $item := "" -}}
+
+{{- $path := $value }}
+{{- if strings.Contains $path "/content" }}
+  {{- $path = replaceRE `^\/content` "" $path }}
+{{- else if strings.Contains $path "content/" }}
+  {{- $path = replaceRE `^content\/` "" $path }}
+{{- else }}
+  {{- if ne $section "pages" }}
+    {{- $path = printf "%s/%s" $section $path }}
+  {{- end }}
+{{- end }}
+
+{{- with site.GetPage $path }}
+  {{- $item = . }}
+{{- end }}
+
+{{- if not $item }}
+  {{- $pages := partialCached "blocks/templates/selected/GetSectionPages.html" $section $section site.Language.Lang }}
+  {{- $matched := where $pages "Params.title" "==" $value }}
+  {{- if not $matched }}
+    {{- $matched = where $pages "Params.id" "==" $value }}
+  {{- end }}
+  {{- if not $matched }}
+    {{- $slug := path.Base (strings.TrimSuffix "/_index" $value) }}
+    {{- range $pages }}
+      {{- if and (not $matched) (eq (path.Base .Path) $slug) }}
+        {{- $matched = slice . }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- with $matched }}
+    {{- $item = index . 0 }}
+  {{- end }}
+{{- end }}
+
+{{- return $item -}}

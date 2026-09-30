@@ -38,18 +38,6 @@
   {{- end -}}
 {{- end -}}
 
-{{/* Persons keep their own order, by status then by lastname */}}
-{{- if eq $section "persons" -}}
-  {{- $pages = partial "func/GetPersonsOrderByStatutes" $pages -}}
-
-{{/* Pinned pages first, then by date when there is one, by title otherwise */}}
-{{- else -}}
-  {{- with $pages -}}
-    {{- $pinned := (where . "Params.weight" "gt" 0).ByParam "weight" -}}
-    {{- $rest := where . "Params.weight" "eq" nil -}}
-    {{- $rest = cond (isset (index . 0).Params "date") $rest.ByDate.Reverse $rest.ByTitle -}}
-    {{- $pages = $pinned | append $rest -}}
-  {{- end -}}
-{{- end -}}
+{{- $pages = partial "blocks/templates/selected/OrderItems.html" (dict "section" $section "pages" $pages) -}}
 
 {{- return $pages -}}
