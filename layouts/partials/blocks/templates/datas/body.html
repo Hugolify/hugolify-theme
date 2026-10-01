@@ -9,10 +9,9 @@
 {{- with .items }}
   <ul class="items items-{{ $column }} {{- $scrollsnap }}">
   {{- range . }}
-    <li class="item" {{- partial "func/SetParallax.html" (dict "element" "item") }}>
-      {{ partial "blocks/templates/datas/item/media.html" (merge . $media) }}
-      {{ partial "blocks/templates/datas/item/content.html" . }}
+    <li {{- partial "func/SetAnim.html" (dict "element" "item") }} {{- partial "func/SetParallax.html" (dict "element" "item") }}>
+      {{ partial "blocks/templates/datas/item.html" (merge . $media) }}
     </li>
-  {{ end -}}
+  {{- end }}
   </ul>
-{{ end -}}
+{{- end }}

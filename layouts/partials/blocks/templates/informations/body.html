@@ -18,14 +18,11 @@
   "ratio" $ratio -}}
 
 {{- with .items }}
-  <div class="items items-{{ $column }} {{- $scrollsnap }}">
+  <ul class="items items-{{ $column }} {{- $scrollsnap }}">
     {{- range . }}
-      <div>
-        <div class="item">
-          {{ partial "blocks/templates/informations/item/content" . }}
-          {{ partial "blocks/templates/informations/item/media" (merge . $media) }}
-        </div>
-      </div>
-    {{ end -}}
-  </div>
-{{ end -}}
+      <li {{- partial "func/SetAnim.html" (dict "element" "item") }} {{- partial "func/SetParallax.html" (dict "element" "item") }}>
+        {{ partial "blocks/templates/informations/item.html" (merge . $media) }}
+      </li>
+    {{- end }}
+  </ul>
+{{- end }}
