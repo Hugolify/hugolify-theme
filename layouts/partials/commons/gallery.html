@@ -13,7 +13,7 @@
 {{- end }}
 
 {{/*  set scrollsnap class by context  */}}
-{{- $context = .type | default "shortcodes.gallery" -}}
+{{- $context := .type | default "shortcodes.gallery" -}}
 {{- $scrollsnapclass := partial "func/SetScrollsnap.html" (dict
   "scrollsnap" $scrollsnap
   "context" $context
