@@ -44,10 +44,14 @@
     {{- if $hint -}}{{- $proc = printf "%s %s" $proc $hint -}}{{- end -}}
     {{/*  AVIF encoding is available since Hugo v0.162.0; quality follows the imaging.avif config. */}}
     {{- $supports_avif := ge hugo.Version "0.162.0" -}}
+    {{/*  Widest variant the source can yield without upscaling: a crop is also bounded by the source height,
+          otherwise Hugo stretches the crop box to the requested size and the image gets distorted. */}}
+    {{- $max_width := $image.Width -}}
+    {{- if $crop_ratio -}}{{- $max_width = int (math.Min $image.Width (math.Floor (div (float $image.Height) $crop_ratio))) -}}{{- end -}}
     {{- $fallback := false -}}
     {{- range $w := $widths -}}
       {{- $w = int $w -}}
-      {{- if le $w $image.Width -}}
+      {{- if le $w $max_width -}}
         {{/*  Crop derives the height from the requested ratio; resize keeps the source ratio. */}}
         {{- $spec := printf "%dx" $w -}}
         {{- if $crop_ratio -}}{{- $spec = printf "%dx%d" $w (int (math.Round (mul (float $w) $crop_ratio))) -}}{{- end -}}
@@ -62,9 +66,9 @@
         {{- $fallback = $r -}}
       {{- end -}}
     {{- end -}}
-    {{/*  Fallback <img src>: largest variant that fits, else one variant at the source width. */}}
+    {{/*  Fallback <img src>: largest variant that fits, else one variant at the widest undistorted width. */}}
     {{- if not $fallback -}}
-      {{- $sw := $image.Width -}}
+      {{- $sw := $max_width -}}
       {{- $spec := printf "%dx" $sw -}}
       {{- if $crop_ratio -}}{{- $spec = printf "%dx%d" $sw (int (math.Round (mul (float $sw) $crop_ratio))) -}}{{- end -}}
       {{- $fallback = $image.Process (printf "%s %s" $proc $spec) -}}
