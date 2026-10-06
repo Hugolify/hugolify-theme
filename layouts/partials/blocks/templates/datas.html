@@ -2,7 +2,7 @@
 {{- $ui := partial "func/GetBlockUI" . -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "datas" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}
