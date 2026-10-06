@@ -1,8 +1,8 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "chart") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "chart" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "chart" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}

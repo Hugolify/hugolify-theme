@@ -25,10 +25,10 @@
 */}}
 
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI.html" . -}}
+{{- $ui := partial "func/GetBlockUI.html" (merge (dict "type" "paragraph-list") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "paragraph-list" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "paragraph-list" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}

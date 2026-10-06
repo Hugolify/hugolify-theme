@@ -2,7 +2,7 @@
      Resolve a block's UI vars from its context, with optional overrides from a nested `.ui` dict.
      Falls back to the legacy `.background` flag, mapping it to the "bg" theme.
 
-     A block also takes the look the site gives it, `params.blocks.<block>.ui`, so a default
+     A block also takes the look the site gives it, `params.blocks.<type>.ui`, so a default
      stays out of the content and a change to it reaches the blocks already written. Those
      values are the base: anything the entry sets wins over them, and an entry drops one by
      writing the key under its own `ui`, even empty.
@@ -13,15 +13,11 @@
      must not erase a default. To drop a default, a block writes the key under its own `ui`.
 
      Precedence, lowest first:
-       params.blocks.<block>.ui  <  data/blocks.yml  <  entry root  <  entry `ui`
+       params.blocks.<type>.ui  <  data/blocks.yml  <  entry root  <  entry `ui`
 
      Params:
        align      (string) align, e.g. "center"
        background (bool)   legacy flag -> theme "bg" when the entry sets no theme
-       block      (string) name of the block, reads the site defaults, falls back to `type`.
-                           "blocks/range.html" copies `type` into it on every block of a content,
-                           so a partial calling a block template by hand only passes `type`,
-                           the way the front matter of a block names itself
        carousel   (dict)   carousel settings, e.g. params/responsive
        column     (int)    column count wanted
        direction  (string) reading direction variant, e.g. "rtl"
@@ -30,6 +26,10 @@
        offset     (string) offset, e.g. "center" / "end"
        ratio      (float)  image ratio
        theme      (string) theme, e.g. "bg"
+       type       (string) block type, reads the site defaults. Each template merges the
+                           context over its own type, so a partial calling it by hand may
+                           leave it out; an entry's `type` still wins, e.g. "selected-awards"
+                           over the template's "selected"
        ui         (dict)   optional overrides for any of the values above
 
      Returns: dict
@@ -47,7 +47,7 @@
 */}}
 
 {{/* Look the site gives to this block */}}
-{{- $name := .block | default .type -}}
+{{- $name := .type -}}
 {{- $defaults := dict -}}
 {{- with $name -}}
   {{- with site.Params.blocks -}}

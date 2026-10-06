@@ -1,8 +1,8 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "quote") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "quote" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "quote" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}

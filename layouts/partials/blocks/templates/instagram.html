@@ -1,8 +1,8 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "instagram") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "instagram" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "instagram" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}

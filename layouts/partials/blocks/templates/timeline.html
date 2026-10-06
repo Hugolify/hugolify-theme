@@ -1,8 +1,8 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "timeline") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" "timeline" "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "timeline" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}
