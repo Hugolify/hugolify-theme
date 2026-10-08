@@ -1,4 +1,15 @@
-{{- range $index, $block := . -}}
+{{- /* A block needs a type to pick its template. A CMS can leave holes in a
+       translated list (`null`, or an item without `type`): skip them, before
+       numbering, so `first` and `index` still count the rendered blocks. */ -}}
+{{- $blocks := slice -}}
+{{- range . -}}
+  {{- if and (reflect.IsMap .) .type -}}
+    {{- $blocks = $blocks | append . -}}
+  {{- else -}}
+    {{- warnidf "blocks" "Block skipped, no type: %v" . -}}
+  {{- end -}}
+{{- end -}}
+{{- range $index, $block := $blocks -}}
   {{- $isFirst := cond (eq $index 0) true false -}}
   {{- $block = merge $block (dict "first" $isFirst) -}}
   {{- $block = merge $block (dict "index" $index) -}}

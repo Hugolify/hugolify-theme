@@ -1,6 +1,6 @@
 {{ $hasMap := false }}
 {{ range .Params.blocks }}
-  {{ if eq .type "map" }}
+  {{ if and (reflect.IsMap .) (eq .type "map") }}
     {{ $hasMap = true }}
   {{ end }}
 {{ end }}
