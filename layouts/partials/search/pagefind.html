@@ -18,6 +18,9 @@
         element.querySelectorAll(".pagefind-ui__search-input:not([type=search])").forEach((input) => {
           input.type = "search";
         });
+        element.querySelectorAll(".pagefind-ui__button:not(.btn)").forEach((button) => {
+          button.classList.add("btn");
+        });
       };
       enhance();
       // "Load more" button is created and destroyed on each search
