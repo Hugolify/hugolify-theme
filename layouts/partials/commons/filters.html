@@ -14,7 +14,7 @@
     "labelledby" "filtersLabel"
     "class" "filters"
     "params" site.Params.filters
-    "attrs" (cond site.Params.search.enable "data-pagefind-ignore" "")
+    "attrs" (partial "func/SetSearchIgnore.html" .)
     "content" (print
       (partialCached "commons/filters/header" $context)
       $content | safeHTML)) }}

@@ -21,7 +21,7 @@
 {{- $container := true -}}
 {{- if isset . "container" }}{{ $container = .container }}{{ end -}}
 {{- $scrollsnap := .scrollsnap | default true -}}
-<section class="{{ $variant }} {{ $variant }}-{{ $section }}{{ with $class }} {{ . }}{{ end }}"{{ partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{ $variant }} {{ $variant }}-{{ $section }}{{ with $class }} {{ . }}{{ end }}"{{ partial "func/SetSearchIgnore.html" . }}{{ partial "func/SetAnim.html" (dict "element" "block") }}>
   {{- if $container }}<div class="container">{{ end }}
     <header class="heading"{{ partial "func/SetAnim.html" (dict "element" "heading") }}>
       <h2>{{ $title }}</h2>

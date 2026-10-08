@@ -1,8 +1,16 @@
+{{- /* Modules may hand another page as context (term pages show their
+       section's hero): that hero stays out of the index, it is indexed on its
+       own page and its h1 would title every term in the results. A map
+       context is built by the caller for the page being rendered. */ -}}
+{{- $searchAttr := partial "func/SetSearchBody.html" page -}}
+{{- if and (not (reflect.IsMap .)) (ne . page) -}}
+  {{- $searchAttr = partial "func/SetSearchIgnore.html" . -}}
+{{- end -}}
 {{- /* Expose the page kind in the hero context, which is rebound to .Params.hero */ -}}
 {{- with merge (.Params.hero | default dict) (dict "Parent" .Parent) -}}
   {{- if or .title .text -}}
     {{- $class := partial "func/GetHeroClasses" . -}}
-    <header class="{{ $class }}" {{- if site.Params.search.enable }} data-pagefind-body{{ end }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
+    <header class="{{ $class }}" {{- $searchAttr }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>
       {{ partial "commons/hero/cover.html" . }}
       <div class="container">
         <div class="row">

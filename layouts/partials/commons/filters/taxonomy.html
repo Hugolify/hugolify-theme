@@ -42,7 +42,7 @@
       {{- $folded = after $limit $terms }}
     {{- end }}
     {{- $title := i18n $i18n $nTaxs | default ($tax | humanize) }}
-    <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
+    <div class="list list-{{ $tax }} {{- if $isMiniCard }} list-mini_card{{ end }} {{- if $isTags }} list-tags{{ end }}" {{- partial "func/SetSearchIgnore.html" . }}>
       <p>{{ $title }}</p>
       <ol>
         {{- range $shown }}

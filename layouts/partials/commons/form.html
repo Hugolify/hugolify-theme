@@ -11,7 +11,7 @@
 {{- end -}}
 {{- $requiredField := false -}}
 
-<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
+<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}" {{- partial "func/SetSearchIgnore.html" . }}>
 
   {{- with $ajax }}
   <p class="message js-form-message" role="alert"></p>

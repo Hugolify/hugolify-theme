@@ -37,7 +37,7 @@
       {{- $section = "pages" -}}
       {{- $partial = "pages/item.html" -}}
     {{- end -}}
-    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }} {{- $scrollsnapclass }}">
+    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }} {{- $scrollsnapclass }}" {{- partial "func/SetSearchIgnore.html" . }}>
       {{- range $index, $items := . }}
         {{- .Scratch.Set "index" $index -}}
         {{- .Scratch.Set "block" $block -}}

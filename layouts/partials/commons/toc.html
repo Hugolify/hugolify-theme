@@ -1,7 +1,7 @@
 {{/*  site.Params.toc.expand — sm | md | lg | xl | none
       site.Params.toc.drawer.position — start | end | top | bottom  */}}
 {{ if ge (len .TableOfContents) 100 }}
-<div class="toc">
+<div class="toc" {{- partial "func/SetSearchIgnore.html" . }}>
   <div>
     <p>{{ i18n "toc" }}</p>
     {{ partial "commons/dialog.html" (dict

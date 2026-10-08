@@ -8,7 +8,7 @@
 {{- $context := merge . (dict "ui" $ui) -}}
 
 {{/* Block */}}
-<section class="{{ $blockClass }} js-newsletter" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{ $blockClass }} js-newsletter" {{- partial "func/SetSearchIgnore.html" . }} {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/newsletter/header.html" . }}
   {{ partial "blocks/templates/newsletter/body.html" $context }}

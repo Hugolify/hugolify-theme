@@ -11,7 +11,7 @@
 {{- $context := merge . (dict "items" $items "ui" $ui) -}}
 
 {{- if $items }}
-<section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{ $blockClass }}" {{- partial "func/SetSearchIgnore.html" . }} {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{- partial "blocks/templates/selected/header.html" . -}}
   {{- partial "blocks/templates/selected/body.html" $context -}}
