@@ -7,6 +7,11 @@
 
   {{- $selected_items = partial "blocks/templates/selected/GetItemsByTaxonomies.html" . -}}
 
+{{/* Children of the pages set on the block, or first level of the section */}}
+{{- else if in (slice "children" "toplevel") $source -}}
+
+  {{- $selected_items = partial "blocks/templates/selected/GetItemsByParents.html" . -}}
+
 {{/* Pages picked one by one */}}
 {{- else -}}
 
@@ -14,36 +19,21 @@
   {{- $items = cond (reflect.IsSlice $items) $items (slice $items) -}}
   {{- range $items }}
 
-    {{- $path := . }}
+    {{- $value := . }}
     {{- if reflect.IsMap . }}
-      {{- $path = .item }}
+      {{- $value = .item }}
     {{- end }}
 
-    {{- if strings.Contains $path "/content" }}
-      {{- $path = replaceRE `^\/content` "" $path }}
-    {{- else if strings.Contains $path "content/" }}
-      {{- $path = replaceRE `^content\/` "" $path }}
-    {{- else }}
-      {{- if ne $section "pages" }}
-        {{- $path = printf "%s/%s" $section $path }}
-      {{- end }}
-    {{- end }}
-
-    {{- $item := site.GetPage $path }}
-    {{- if not $item }}
-      {{- $pages := site.RegularPages }}
-      {{- if ne $section "pages" }}
-        {{- $pages = where site.RegularPages "Section" $section }}
-      {{- else }}
-        {{- $pages = where site.Pages "Params.isPage" true }}
-      {{- end }}
-      {{- $item = or (where $pages "Params.title" "==" $path) (where $pages "Params.id" "==" $path) }}
-    {{- end }}
-    {{- with $item }}
+    {{- with partial "blocks/templates/selected/GetItemPage.html" (dict "section" $section "value" $value) }}
       {{- $selected_items = $selected_items | append . }}
     {{- end }}
   {{ end }}
 
+{{- end -}}
+
+{{/* Every page comes out unless the block caps it */}}
+{{- with .limit -}}
+  {{- $selected_items = first . $selected_items -}}
 {{- end -}}
 
 {{ return $selected_items }}

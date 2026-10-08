@@ -1,6 +1,11 @@
 {{- $column := .ui.column | default 3 -}}
 {{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
-{{- $tag := cond (ne .heading.title "") "h3" "h2" -}}
+{{- $tag := "h2" -}}
+{{- with .heading }}
+  {{- if .title }}
+    {{- $tag = "h3" -}}
+  {{- end }}
+{{- end }}
 {{- with .items }}
   <div class="items items-{{ $column }} {{- $scrollsnap }}">
     {{- range . }}

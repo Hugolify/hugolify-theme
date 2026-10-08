@@ -11,7 +11,7 @@
 {{- end -}}
 {{- $requiredField := false -}}
 
-<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}">
+<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}" {{- partial "func/SetSearchIgnore.html" . }}>
 
   {{- with $ajax }}
   <p class="message js-form-message" role="alert"></p>
@@ -36,7 +36,7 @@
       {{- $args := merge . (dict "id" $id "name" $name "condHelp" $help) -}}
       {{- if and (ne .type "checkbox") (ne .type "radio") (ne .type "switch") (ne .type "hidden") }}
         {{ partial "commons/form/label.html" $args }}
-      {{ else -}}
+      {{ else if ne .type "hidden" -}}
       <div class="form-check">
       {{ end -}}
       {{- if eq .type "textarea" }}

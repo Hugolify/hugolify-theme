@@ -1,8 +1,18 @@
+{{/* content-with-notes
+     Heading (surtitle + title) and text, with optional footnotes.
+
+     Params (dict):
+       context (dict)   surtitle / title / text / notes
+       tag     (string) heading level for the title, default "h2"
+       blockId (any)    namespaces the note anchors so several blocks on the
+                        same page never collide
+*/}}
 {{- $surtitle := .context.surtitle -}}
 {{- $title := .context.title -}}
 {{- $text := .context.text -}}
 {{- $notes := .context.notes -}}
 {{- $blockId := .blockId | default "" -}}
+{{- $tag := .tag | default "h2" -}}
 
 {{- if or $surtitle $title }}
 <header class="heading">
@@ -11,7 +21,7 @@
 {{- end }}
 
 {{- with $title }}
-  <h2 id="{{ . | anchorize }}">{{ partial "func/PrepareHTML.html" . }}</h2>
+  {{ printf `<%s id="%s">` $tag (. | anchorize) | safeHTML }}{{ partial "func/PrepareHTML.html" . }}{{ printf `</%s>` $tag | safeHTML }}
 {{- end }}
 </header>
 {{- end }}

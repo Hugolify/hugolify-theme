@@ -46,6 +46,12 @@ module:
         - source: rellax.min.js
           target: assets/js/vendors/rellax.min.js # import in javascript core pipe (only if parallax enabled in params)
 
+# vCard, built by commons/contact/vcard/build.html
+mediaTypes:
+  text/vcard:
+    suffixes:
+      - vcf
+
 # Params
 params:
 
@@ -84,9 +90,14 @@ params:
   # Breakpoint at which these panels stop being overlays and become regions of
   # the page. Same contract as header.expand — sm | md | lg | xl | none.
   filters:
-    expand: md
+    expand: all
     drawer:
       position: end # start | end | top | bottom
+    more:
+      enable: false # Set true to fold the terms past limit behind a "show more", needs hugolify-theme-design-system
+      limit: 5 # Terms shown per taxonomy before the fold
+    search:
+      enable: false # Set true to add a field narrowing the terms, needs hugolify-theme-design-system
   sidebarmenu:
     expand: md
     drawer:
@@ -95,14 +106,25 @@ params:
     expand: md
     drawer:
       position: start # start | end | top | bottom
-  # Breakpoint below which a grid of items scrolls sideways with snap points
-  # instead of wrapping — sm | md | lg | xl | all | none. The rung names the
-  # width at which the carousel STOPS, so md means mobile and tablet.
-  # A block reads the most specific param set, so this generic value can be
-  # overridden block type by block type:
-  #   blocks.datas.scrollsnap → blocks.scrollsnap → scrollsnap
-  # and a single block overrides them all with ui.scrollsnap in its front matter.
-  scrollsnap: md
+  # Grids of items that scroll sideways with snap points instead of wrapping.
+  #   breakpoint — the width at which the carousel STOPS and the grid comes
+  #     back: sm | md | lg | xl | all | none, so md means mobile and tablet
+  #   nav — prev/next buttons, and pagination — dots reporting and driving the
+  #     position. Both take false | pointer (only where there is a mouse, a
+  #     trackpad or a stylus) | true (touch screens included). They hide
+  #     themselves while the row does not overflow, so they only ever show
+  #     within the carousel's own range: controls on desktop mean a breakpoint
+  #     that reaches it — all, lg or xl.
+  # `scrollsnap: md` is a shorthand for the breakpoint alone.
+  # Each key is read on its own ladder, so a block overrides one without
+  # repeating the other:
+  #   blocks.datas.scrollsnap.nav → blocks.scrollsnap.nav → scrollsnap.nav
+  # and a single block overrides them all with ui.scrollsnap in its front
+  # matter, map or shorthand alike.
+  scrollsnap:
+    breakpoint: md
+    nav: false
+    pagination: false
   search:
     enable: false # if true add search page to /content/search/_index.md or add a search block
     layout: raw # drawer and modal also available
@@ -141,6 +163,14 @@ params:
     # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
+  # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
+  # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
+  # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).
+  seo:
+    image:
+      size: '1200x630'
+      crop: smart
+  # Generic images
   thumbnail:
     desktop: '414x177'
     mobile: '300x129'
@@ -149,6 +179,7 @@ params:
   navigation:
     desktop: '414x200'
     mobile: '300x150'
+  # Pages specific
   pages:
     thumbnail:
       desktop: '416x179'
@@ -158,6 +189,34 @@ params:
     image:
       desktop: '856x'
       mobile: '360x'
+  # Blocks configuration
+  #
+  # `ui` sets the look a block starts with, every key GetBlockUI resolves is
+  # accepted (align, carousel, column, direction, grid, layout, offset, ratio,
+  # theme). A block of the content overrides it, and drops one by writing the
+  # key under its own `ui`, even empty:
+  #
+  #   latest:
+  #     ui:
+  #       align: center
+  #       grid: large
+  #       layout: grid
+  #
+  # Nothing is written to the content, so a change here reaches the blocks
+  # already written.
+  #
+  # `scrollsnap` goes under `ui` too, like in the front matter of a block:
+  #
+  #   latest:
+  #     ui:
+  #       grid: large
+  #       scrollsnap: all
+  #
+  # It is read by SetScrollsnap rather than GetBlockUI, because it does not
+  # become a `block-*` class: it puts a utility class on the row of items, and
+  # falls back to the wider `blocks.scrollsnap` then `scrollsnap`. Written at
+  # the block level itself instead of under `ui` it is still read, which is
+  # the form the params used before.
   blocks:
     gallery:
       column:

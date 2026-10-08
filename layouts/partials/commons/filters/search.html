@@ -1,0 +1,13 @@
+{{/*
+  Field narrowing the filters to the terms having a word that starts with the
+  query, driven by features/filters-search.js in hugolify-theme-design-system.
+  Rendered when site.Params.filters.search.enable is true.
+
+  The status is kept in the DOM while empty, so screen readers announce it
+  when it tells that nothing matches.
+*/}}
+<div class="filters-search">
+  <label class="visually-hidden" for="filtersSearch">{{ i18n "filters.search.label" }}</label>
+  <input type="search" id="filtersSearch" class="js-filters-search" placeholder="{{ i18n "filters.search.placeholder" }}" autocomplete="off" spellcheck="false">
+  <p role="status" data-empty="{{ i18n `filters.search.empty` }}"></p>
+</div>

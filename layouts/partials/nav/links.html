@@ -1,0 +1,25 @@
+{{- /*
+  nav/links.html — the flat list of a menu, one level, no dropdown.
+
+  The shape five menus share: footer primary and secondary, header secondary,
+  secondary and legal. A menu with children builds its own markup instead, see
+  nav/primary.html, and one whose items carry an icon, see nav/social.html.
+
+  Params:
+    links (slice, required)   the menu's `links`, straight from hugo.Data.menu
+    name  (string, required)  what follows "nav-" in the class, e.g.
+                              "footer-secondary" -> class="nav nav-footer-secondary"
+
+  Renders nothing when the menu carries no link.
+*/ -}}
+
+{{- $name := .name -}}
+{{- with .links }}
+  <ul class="nav nav-{{ $name }}">
+    {{- range . }}
+      <li>
+        {{- partial "nav/link.html" (dict "link" .) -}}
+      </li>
+    {{- end }}
+  </ul>
+{{ end -}}

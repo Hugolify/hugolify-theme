@@ -11,6 +11,13 @@
     {{- $sizes = (index site.Params .).image.sizes | default $sizes -}}
   {{- end -}}
 
+  {{/*  `<type>.image.crop: false` (logos, brand marks): keep the width but drop the height so the
+        image is resized to its own proportions instead of being filled into a fixed box. */}}
+  {{- if not (partial "func/isCropEnabled.html" $type) -}}
+    {{- with $desktop -}}{{- $desktop = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
+    {{- with $mobile -}}{{- $mobile = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
+  {{- end -}}
+
   {{/*  merge: rightmost wins, so let a per-image front-matter `sizes` override the config default. */}}
   {{- $args := merge . (dict
     "lazy" false

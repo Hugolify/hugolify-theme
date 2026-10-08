@@ -1,4 +1,4 @@
-<div class="content" {{- if site.Params.search.enable }} data-pagefind-ignore{{ end }}>
+<div class="content" {{- partial "func/SetSearchIgnore.html" . }}>
   
   {{- $pages := where site.Sections ".Params.isPage" "!=" true -}}
   {{- range $pages.ByTitle }}

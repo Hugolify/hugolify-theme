@@ -1,14 +1,21 @@
 {{/*  site.Params.filters.expand — sm | md | lg | xl | none
-      site.Params.filters.drawer.position — start | end | top | bottom  */}}
+      site.Params.filters.drawer.position — start | end | top | bottom
+      site.Params.filters.more.limit — terms shown per taxonomy before "show more"
+      site.Params.filters.search.enable — field narrowing the terms  */}}
 {{- $context := .context }}
 {{- with .section }}
+  {{- $content := partialCached (print . "/filters/content") $context }}
+  {{- if site.Params.filters.search.enable }}
+    {{/* Each section writes its own .content, the search opens it */}}
+    {{- $content = replace $content `<div class="content">` (print `<div class="content">` (partial "commons/filters/search.html")) 1 }}
+  {{- end }}
   {{ partial "commons/dialog.html" (dict
     "id" "filters"
     "labelledby" "filtersLabel"
     "class" "filters"
     "params" site.Params.filters
-    "attrs" (cond site.Params.search.enable "data-pagefind-ignore" "")
+    "attrs" (partial "func/SetSearchIgnore.html" .)
     "content" (print
       (partialCached "commons/filters/header" $context)
-      (partialCached (print . "/filters/content") $context) | safeHTML)) }}
+      $content | safeHTML)) }}
 {{- end }}

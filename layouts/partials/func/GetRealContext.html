@@ -1,17 +1,76 @@
-{{ $context := . }}
-{{ $realContext := $context }}
+{{/*
+  Returns the page a taxonomy term stands for.
 
-{{ if eq $context.Kind "term" }}
-    {{ if or (eq $context.Section "authors") (eq $context.Section "publications_concerned") (hasSuffix $context.Section "_persons") }}
-        {{ $page := partial "func/GetRealPerson.html" $context }}
-        {{ $realContext = $page }}
-    {{ else if hasSuffix $context.Section "_expertises" }}
-        {{ $page := partial "func/GetRealExpertise.html" $context }}
-        {{ $realContext = $page }}
-    {{ else if hasSuffix $context.Section "_places" }}
-        {{ $page := partial "func/GetRealPlace.html" $context }}
-        {{ $realContext = $page }}
-    {{ end }}
-{{ end }}
+  The terms of a taxonomy filled from a section (authors, *_persons,
+  *_expertises, *_places, *_sectors, *_awards) only carry a key, the content
+  itself lives in the matching page of the target section, or in the matching
+  entry of the data collection of the same name when the section is kept in
+  data rather than in content. Content wins, data is the fallback.
 
-{{ return $realContext }}
+  - . (page) the term, the target section is read from the taxonomy name
+  - . (map) "page" the term and "section" the target section, to force it
+
+  Returns the target page, a page-like map when the target is a data entry, or
+  the page received when there is nothing to map. A data entry has no page of
+  its own, so nothing links to it: a caller that prints a link is on content.
+*/}}
+
+{{- $page := . -}}
+{{- $section := "" -}}
+
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $section = .section -}}
+{{- else if eq .Kind "term" -}}
+  {{- $sections := dict
+    "authors" "persons"
+    "_persons" "persons"
+    "_expertises" "expertises"
+    "_places" "places"
+    "_awards" "awards" -}}
+  {{- range $taxonomy, $target := $sections -}}
+    {{- if or (eq $page.Section $taxonomy) (hasSuffix $page.Section $taxonomy) -}}
+      {{- $section = $target -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $real := $page -}}
+{{- with $section -}}
+  {{- $key := $page.Title | anchorize -}}
+  {{/* A term picked in a nested collection holds the path of its page, like
+    "parent/child", and anchorize drops the slash: each segment is anchorized
+    on its own so the key still points at the page. */}}
+  {{- $path := $key -}}
+  {{- if strings.Contains $page.Title "/" -}}
+    {{- $segments := slice -}}
+    {{- range split $page.Title "/" -}}
+      {{- $segments = $segments | append (strings.TrimSpace . | anchorize) -}}
+    {{- end -}}
+    {{- $path = delimit $segments "/" -}}
+  {{- end -}}
+  {{- with site.GetPage (printf "/%s/%s" . $path) -}}
+    {{- $real = . -}}
+  {{- else -}}
+    {{/* The folder name is not always the anchorized title: a CMS collapses the
+      repeated separators of a title like "Penal law - Compliance" into a single
+      dash, where anchorize keeps them all. Look the page up by title then. */}}
+    {{- with index (partialCached "func/GetPagesByTitle.html" . .) $key -}}
+      {{- $real = . -}}
+    {{- else -}}
+      {{/* The section itself may live in data, where an entry is a plain map:
+        it is dressed as a page so a caller reads it the same way, Params
+        holding the whole entry, and File standing for "this key resolved",
+        which is what a caller tests before humanizing a raw key. */}}
+      {{- with index (partialCached "func/GetDataByKey.html" . .) $key -}}
+        {{- $real = dict
+          "Title" .title
+          "Description" .description
+          "Params" .
+          "File" true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $real -}}

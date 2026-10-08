@@ -1,5 +1,5 @@
 {{ if or (.Pages) (.Content) }}
-  <div class="container">
+  <div class="container container-list">
     {{ with .Pages }}
       {{ partial "pages/items.html" . }}
     {{ else }}

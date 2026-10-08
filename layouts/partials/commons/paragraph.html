@@ -1,0 +1,37 @@
+{{/* commons/paragraph
+     The paragraph component: heading (surtitle + title), text with optional
+     footnotes, and CTAs, wrapped in .paragraph.
+
+     Shared by the `paragraph` block (a single paragraph), the `paragraph-list`
+     block (one per item) and the editorial component, so all three render the
+     same markup and accept the same fields.
+
+     Params (dict):
+       context (dict)   surtitle / title / text / notes / ctas (or a single cta)
+       tag     (string) heading level for the title, default "h2"
+       blockId (any)    namespaces the note anchors, see content-with-notes
+*/}}
+{{- $context := .context -}}
+{{- $tag := .tag | default "h2" -}}
+{{- $blockId := .blockId | default "" -}}
+
+{{- with $context -}}
+  {{- /* `ctas` (list) is the expected form; a single `cta` object is accepted */ -}}
+  {{- $ctas := .ctas -}}
+  {{- if not $ctas -}}
+    {{- with .cta -}}
+      {{- $ctas = slice . -}}
+    {{- end -}}
+  {{- end -}}
+<div class="paragraph">
+{{- partial "blocks/content-with-notes.html" (dict
+  "context" $context
+  "tag" $tag
+  "blockId" $blockId
+) -}}
+
+{{- with $ctas }}
+  {{ partial "commons/cta-group.html" (dict "ctas" .) }}
+{{- end }}
+</div>
+{{- end -}}

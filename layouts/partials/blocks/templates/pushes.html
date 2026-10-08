@@ -1,5 +1,5 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI.html" . -}}
+{{- $ui := partial "func/GetBlockUI.html" (merge (dict "type" "pushes") .) -}}
 
 {{/* Image */}}
 {{- $width := partial "func/GetColumnWidth.html" (dict "column" $ui.columnWanted) -}}
@@ -16,7 +16,7 @@
 ) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "pushes" "ui" $ui) -}}
 
 {{/* Block */}}
 {{- if .items }}

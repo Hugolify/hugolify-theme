@@ -1,0 +1,8 @@
+{{- /* Marks the regions Pagefind indexes. Once one page carries the attribute,
+       Pagefind skips every page without it, which is how pages hidden from
+       robots (noIndex) stay out of the search too. */ -}}
+{{- $attr := "" -}}
+{{- if and site.Params.search.enable (ne .Params.noIndex true) -}}
+  {{- $attr = " data-pagefind-body" -}}
+{{- end -}}
+{{- return ($attr | safeHTMLAttr) -}}

@@ -1,14 +1,14 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "newsletter") .) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "newsletter" "ui" $ui) -}}
 
 {{/* Context */}}
 {{- $context := merge . (dict "ui" $ui) -}}
 
 {{/* Block */}}
-<section class="{{ $blockClass }} js-newsletter" {{- partial "func/SetAnim.html" (dict "element" "block") }}>
+<section class="{{ $blockClass }} js-newsletter" {{- partial "func/SetSearchIgnore.html" . }} {{- partial "func/SetAnim.html" (dict "element" "block") }}>
 {{- partial "func/SetContainerRowColStart.html" (dict "grid" $ui.grid "class" $ui.rowClass) -}}
   {{ partial "blocks/templates/newsletter/header.html" . }}
   {{ partial "blocks/templates/newsletter/body.html" $context }}

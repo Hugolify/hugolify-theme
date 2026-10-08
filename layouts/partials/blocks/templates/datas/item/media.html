@@ -1,0 +1,18 @@
+{{/* The figure of a data item: a gauge when the block asks for one, the bare value otherwise.
+     `show_gauge` and `show_color` are block-level switches, resolved once by body.html. */}}
+{{- $show_color := .show_color | default false -}}
+{{- $show_gauge := .show_gauge | default false -}}
+
+{{- if $show_gauge }}
+  {{- $stat := . -}}
+  {{- with .value }}
+    {{ partial "commons/gauge.html" (dict
+      "value" .
+      "limit" $stat.limit
+      "show_color" $show_color
+      "prefix" $stat.prefix
+      "suffix" $stat.suffix ) }}
+  {{- end }}
+{{- else }}
+  <p class="value">{{ .prefix }}{{ .value }}{{ .suffix }}</p>
+{{- end }}

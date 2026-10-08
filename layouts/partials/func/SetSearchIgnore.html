@@ -1,0 +1,9 @@
+{{- /* Keeps an element out of the Pagefind index: lists of other pages,
+       navigation and forms would otherwise repeat the same text on every page
+       showing them, and point the search to the wrong page. "all" also drops
+       the filters, meta and sort keys inside, which belong to the listed pages. */ -}}
+{{- $attr := "" -}}
+{{- if site.Params.search.enable -}}
+  {{- $attr = ` data-pagefind-ignore="all"` -}}
+{{- end -}}
+{{- return ($attr | safeHTMLAttr) -}}

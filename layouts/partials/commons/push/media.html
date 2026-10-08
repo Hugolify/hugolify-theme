@@ -1,3 +1,15 @@
+{{/* A video takes precedence over an image when both are filled in */}}
+{{- $video := false -}}
+{{- with .video }}
+  {{- if or .mp4 .webm }}
+    {{- $video = . -}}
+  {{ end -}}
+{{ end -}}
+
 <div class="media">
-  {{- partial "commons/image.html" . -}}
+  {{- with $video -}}
+    {{- partial "commons/video.html" (merge . (dict "lazy" $.lazy)) -}}
+  {{- else -}}
+    {{- partial "commons/image.html" (merge $.image (dict "desktop" $.desktop "mobile" $.mobile "lazy" $.lazy)) -}}
+  {{- end -}}
 </div>

@@ -1,4 +1,5 @@
-<div class="testimonials items">
+{{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
+<div class="testimonials items {{- $scrollsnap }}">
   {{ range .items }}
     <div>
       {{ partial "commons/quote.html" . }}

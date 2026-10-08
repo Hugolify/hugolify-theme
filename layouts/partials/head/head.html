@@ -7,6 +7,7 @@
   {{ partialCached "head/css-vars.html" . }}
   {{ if templates.Exists "partials/head/icons.html" }}{{ partial "head/icons.html" . }}{{ end }}
   {{ partial "head/canonical.html" . }}
+  {{ partial "head/alternates.html" . }}
   {{ partial "head/seo.html" . }}
   {{ partialCached "head/favicons.html" . }}
   {{ partial "head/rss.html" . }}

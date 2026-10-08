@@ -2,7 +2,7 @@
   {{- $tag := .tag }}
   <div class="content">
     {{- if .card }}
-    <div class="card">
+    <div class="card" {{- partial "func/SetAnim.html" (dict "element" "card") }}>
       <div class="content">
     {{- end }}
     {{- with .surtitle }}

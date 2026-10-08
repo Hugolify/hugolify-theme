@@ -1,0 +1,30 @@
+{{/*
+  Returns the latest items of the section set on the block: pinned first, those
+  with a weight, then by date when the section has one, by title otherwise.
+
+  - . (map) the block
+
+  Returns a page collection
+*/}}
+
+{{- $section := .section -}}
+{{/* count is the former name of limit, still read for the blocks written with it */}}
+{{- $limit := .limit | default .count | default 3 -}}
+{{- $items := slice -}}
+
+{{/* The pages are spread over the whole site, they carry a flag instead */}}
+{{- if and (eq $section "pages") (site.GetPage "section" "pages") -}}
+  {{- $items = where site.Pages "Params.isPage" true -}}
+{{- else -}}
+  {{- $itemsSection := where site.Pages "Section" $section -}}
+  {{- $items = where $itemsSection "Kind" "ne" "section" -}}
+{{- end -}}
+
+{{- with $items -}}
+  {{- $pinned := (where . "Params.weight" "gt" 0).ByParam "weight" -}}
+  {{- $rest := where . "Params.weight" "eq" nil -}}
+  {{- $rest = cond (isset (index . 0).Params "date") $rest.ByDate.Reverse $rest.ByTitle -}}
+  {{- $items = $pinned | append $rest -}}
+{{- end -}}
+
+{{- return (first $limit $items) -}}

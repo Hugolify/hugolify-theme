@@ -1,0 +1,28 @@
+{{/*
+
+  @context
+    icon  (string) named only: the admin editors parse named arguments, and would drop
+          a positional one when saving
+
+  @example - Shortcode
+    {{< icon icon="phone" >}}
+    {{< icon icon="brand:github" >}}
+
+  Names are those of the site's icon set:
+    - hugolify-theme-icons: partials/icon.html renders Lucide, and Simple Icons for "brand:"
+    - hugolify-theme-bootstrap: no partial, the icon-{name} class is styled by its
+      Bootstrap Icons font
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $icon := or (.Get "icon") "" }}
+
+{{- /* Render, trimmed: the icon sits inline, so any stray newline would show as a space. */}}
+{{- with $icon }}
+  {{- if templates.Exists "partials/icon.html" }}
+    {{- partial "icon.html" . | strings.TrimSpace | safeHTML }}
+  {{- else -}}
+    <i class="icon icon-{{ . }}" aria-hidden="true"></i>
+  {{- end }}
+{{- end -}}

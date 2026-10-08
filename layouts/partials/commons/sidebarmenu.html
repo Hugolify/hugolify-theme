@@ -1,6 +1,6 @@
 {{/*  site.Params.sidebarmenu.expand — sm | md | lg | xl | none
       site.Params.sidebarmenu.drawer.position — start | end | top | bottom  */}}
-<aside class="sidebarmenu">
+<aside class="sidebarmenu" {{- partial "func/SetSearchIgnore.html" . }}>
   <div>
     <p>{{ i18n "sidebar.menu" }}</p>
     {{ partial "commons/dialog.html" (dict

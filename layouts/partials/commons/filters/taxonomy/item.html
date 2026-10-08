@@ -1,0 +1,42 @@
+{{/*
+  A term of commons/filters/taxonomy.html
+
+  - page (page or map) the page the term stands for, see func/GetRealContext
+  - url (string) the term permalink
+  - active (boolean) the term is the current page
+  - mini_card (boolean) shows the avatar of the page
+*/}}
+
+{{- $page := .page }}
+{{- $isMiniCard := .mini_card | default false }}
+<li>
+  {{- $title := partial "func/PrepareHTML.html" $page.Title -}}
+  {{- if not $page.File -}}
+    {{- $title = $title | humanize -}}
+  {{- end }}
+  {{- if $isMiniCard }}
+    {{- if $page.Params.image }}
+      {{- with $page.Params.image }}
+        {{- $desktop := site.Params.image.xsmall | default false }}
+        {{- $mobile := site.Params.image.xsmall | default false }}
+        {{- partial "commons/image.html" (dict
+          "src" .src
+          "alt" .alt
+          "picture_class" "avatar"
+          "desktop" $desktop
+          "mobile" $mobile
+          "crop" "top"
+        ) }}
+      {{- end }}
+    {{- else }}
+      <div class="avatar"></div>
+    {{- end }}
+    <div>
+  {{- end }}
+  <a href="{{ .url }}" {{- if .active }} class="active"{{ end }}>
+    {{- $title }}
+  </a>
+  {{- if $isMiniCard }}
+    </div>
+  {{- end }}
+</li>

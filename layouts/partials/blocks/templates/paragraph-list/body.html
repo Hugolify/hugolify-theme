@@ -1,0 +1,21 @@
+{{- $column := int .ui.column | default 1 -}}
+
+{{/* An item's title drops to h3 as soon as the block header takes the h2 */}}
+{{- $tag := "h2" -}}
+{{- with .heading }}
+  {{- with .title }}
+    {{- $tag = "h3" -}}
+  {{- end }}
+{{- end }}
+
+{{- $index := .index -}}
+
+<div class="items items-{{ $column }}">
+  {{- range $i, $item := .items }}
+    {{- partial "commons/paragraph.html" (dict
+      "context" $item
+      "tag" $tag
+      "blockId" (printf "%v-%v" $index $i)
+    ) -}}
+  {{- end }}
+</div>

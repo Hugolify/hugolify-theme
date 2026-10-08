@@ -19,7 +19,7 @@
     {{- partial "header/header.html" . -}}
     {{- partial "commons/search.html" . -}}
     {{- block "hero" . }}{{- end }}
-    <main id="main" role="main" tabindex="-1" {{- if site.Params.search.enable }} data-pagefind-body{{ end }}>
+    <main id="main" role="main" tabindex="-1" {{- partial "func/SetSearchBody.html" . }}>
       {{- block "main" . }}{{- end }}
     </main>
     {{- partial "footer/blocks.html" . -}}

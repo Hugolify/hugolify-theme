@@ -14,12 +14,16 @@
   {{- $types := slice "CollectionPage" -}}
   {{- range $extraTypes -}}{{- $types = $types | append . -}}{{- end -}}
 
+  {{/* A term only carries a key, so the title goes through GetRealContext to
+    reach the page it stands for, where the translated label lives. That partial
+    hands back the page it received when there is nothing to map, so an ordinary
+    list is left untouched. */}}
   {{- $schema := dict
     "@context" "https://schema.org"
     "@type" (cond (eq (len $types) 1) (index $types 0) $types)
     "@id" (printf "%s#webpage" .Permalink)
     "url" .Permalink
-    "headline" (partial "func/PrepareData.html" .Title)
+    "headline" (partial "func/PrepareData.html" (partial "func/GetRealContext.html" .).Title)
   -}}
 
   {{- with .Params.image -}}{{- $schema = merge $schema (dict "image" (.src | absURL)) -}}{{- end -}}
@@ -35,7 +39,7 @@
       "@type" "ListItem"
       "position" (add $i 1)
       "url" $p.Permalink
-      "name" ($p.Title | plainify)
+      "name" ((partial "func/GetRealContext.html" $p).Title | plainify)
     ) -}}
   {{- end -}}
   {{- with $elements -}}

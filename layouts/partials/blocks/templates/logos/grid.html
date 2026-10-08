@@ -1,9 +1,17 @@
 {{- $column := int .ui.column | default 4 -}}
 {{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
+
+{{/* One logo spans the block's grid width divided by its columns; mobile keeps a 2-up row. */}}
+{{- $size := partial "func/GetBlockImageSize.html" (dict
+  "columnDesktop" $column
+  "columnMobile" 2
+  "grid" .ui.grid
+) -}}
+
 <div class="logos items items-{{ $column }} {{- $scrollsnap }}">
   {{- range .items }}
     <div>
-      {{ partial "blocks/templates/logos/logo.html" . }}
+      {{ partial "blocks/templates/logos/logo.html" (merge . (dict "desktop" $size.desktop "mobile" $size.mobile)) }}
     </div>
   {{- end }}
 </div>

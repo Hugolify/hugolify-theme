@@ -1,5 +1,5 @@
 {{/* UI */}}
-{{- $ui := partial "func/GetBlockUI" . -}}
+{{- $ui := partial "func/GetBlockUI" (merge (dict "type" "editorial") .) -}}
 
 {{/* Image: half the block's grid on desktop, edge-to-edge (full-bleed) on mobile. */}}
 {{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" 2 "grid" $ui.grid "gridMobile" "full") -}}
@@ -14,7 +14,7 @@
 ) -}}
 
 {{/* Class */}}
-{{- $blockClass := partial "func/GetBlockClasses" (dict "name" .block "ui" $ui "variant" .direction) -}}
+{{- $blockClass := partial "func/GetBlockClasses" (dict "type" "editorial" "ui" $ui "variant" $ui.direction) -}}
 
 {{/* Block */}}
 <section class="{{ $blockClass }}" {{- partial "func/SetAnim.html" (dict "element" "block") }}>

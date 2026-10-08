@@ -1,13 +1,7 @@
 {{- $id := .id | default "chart" }}
-{{- $class := partial "func/GetColClass" .context.grid }}
 
 {{- with .context.chart }}
   {{- $indexAxis := .indexAxis | default "x" }}
-
-{{- if $class }}
-  <div class="row">
-    <div class="{{ $class }}">
-{{- end }}
 
   <canvas id="{{ $id }}" class="js-chart" aria-label="{{ .title }}" aria-describedby="chart-table-{{ $id }}" role="img"
     {{- with .title }} data-label="{{ . }}"{{ end}}
@@ -42,10 +36,5 @@
     </details>
   </div>
   {{- end }}
-
-{{- if $class }}
-    </div>
-  </div>
-{{- end }}
 
 {{- end }}

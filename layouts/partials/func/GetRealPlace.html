@@ -1,10 +1,2 @@
-{{ $place := . }}
-{{ $exists := os.FileExists $place }}
-
-{{ if not $exists }}
-  {{ with site.GetPage (printf "/places/%s" (.Title | anchorize)) }}
-    {{ $place = . }}
-  {{ end }}
-{{ end }}
-
-{{ return $place }}
+{{/* Shortcut on the places section, see func/GetRealContext.html */}}
+{{- return partial "func/GetRealContext.html" (dict "page" . "section" "places") -}}

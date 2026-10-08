@@ -1,0 +1,19 @@
+{{- /*
+  Renders the download link of a vCard.
+
+  @context {resource} . The vCard resource, as returned by `persons/vcard.html`.
+
+  @example  {{ with partial "persons/vcard.html" . }}{{ partial "commons/contact/vcard.html" . }}{{ end }}
+*/ -}}
+{{- $title := i18n "contact.vcard" -}}
+<a
+  href="{{ .RelPermalink }}"
+  type="{{ .MediaType.Type }}"
+  title="{{ safeHTML $title }}"
+  download
+>
+  {{- if templates.Exists "partials/icon.html" -}}
+    {{- partial "icon" "contact-round" -}}
+  {{- end -}}
+  <span>{{ partial "func/PrepareHTML.html" $title }}</span>
+</a>

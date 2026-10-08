@@ -1,0 +1,17 @@
+{{/* GetCarousel
+     Resolve a block's carousel settings from its context.
+     Reads them from the nested `.ui` dict, and falls back to the legacy top-level `.carousel` key.
+
+     Params: the block context (dict), e.g.
+       carousel (dict) legacy carousel settings
+       ui       (dict) optional dict holding `carousel`
+
+     Returns: dict of carousel settings, or false when unset
+*/}}
+{{- $carousel := false -}}
+{{- with .carousel }}{{ $carousel = . }}{{ end -}}
+{{- with .ui }}
+  {{- with .carousel }}{{ $carousel = . }}{{ end -}}
+{{- end -}}
+
+{{- return $carousel -}}

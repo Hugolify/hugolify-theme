@@ -10,7 +10,8 @@
       content     (required) the button's label, already rendered
       params                 the component's site params: .expand
       class                  extra classes, e.g. "btn btn-toc" or "btn-menu"
-      ariaLabel              accessible name when the label alone is not one  */}}
+      ariaLabel              accessible name when the label alone is not one
+      attrs                  extra attributes, e.g. data-pagefind-ignore  */}}
 {{- $expand := "md" }}
 {{- with .params }}{{ with .expand }}{{ $expand = . }}{{ end }}{{ end }}
 {{- $classes := slice }}
@@ -21,6 +22,7 @@
     class="{{ delimit $classes ` ` }}"
     data-target="#{{ .id }}"
     aria-controls="{{ .id }}"
-    {{- with .ariaLabel }} aria-label="{{ . }}"{{ end }}>
+    {{- with .ariaLabel }} aria-label="{{ . }}"{{ end }}
+    {{- with .attrs }} {{ . | safeHTMLAttr }}{{ end }}>
   {{- .content -}}
 </button>

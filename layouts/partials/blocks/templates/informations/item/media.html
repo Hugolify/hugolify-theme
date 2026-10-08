@@ -10,15 +10,11 @@
   {{- end }}
 {{- end }}
 
-{{/* Ratio */}}
-{{- $ratio := site.Params.blocks.informations.image.ratio | default false -}}
-{{- with .ui.ratio }}
-  {{- $ratio = . -}}
-{{- end }}
-
-{{/* UI */}}
-{{- $column := int .ui.column | default 3 -}}
-{{- $grid := .ui.grid -}}
+{{/* Sizes come from body.html: a logo is the uncropped one, a real image the one cropped to the
+     informations ratio. The ratio still drives the box for both, only the crop is image-only. */}}
+{{- $desktop := cond (eq $class "media-logo") .desktopLogo .desktop -}}
+{{- $mobile := .mobile -}}
+{{- $ratio := .ratio -}}
 
 {{- if $class -}}
 <div class="media {{ $class }}" {{- if ne $class `media-icon` }}{{ with $ratio }} style="--media-ratio:{{ . }};"{{ end }}{{ end }}>
@@ -29,15 +25,10 @@
   {{- else -}}
 
     {{- with .image }}
-      {{/* Same grid-aware sizing as gallery. Crop to the informations ratio only for real images
-           (not logos); mobile keeps the fixed horizontal scroll-snap thumbnail size. */}}
-      {{- $ratio = cond (eq $class "media-image") $ratio false -}}
-      {{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" $column "grid" $grid "ratio" $ratio) -}}
-      {{- $mobile := site.Params.image.scrollsnap | default false -}}
       {{ partial "commons/image.html" (dict
         "src" .src
         "alt" .alt
-        "desktop" $size.desktop
+        "desktop" $desktop
         "mobile" $mobile
         ) }}
     {{ end -}}
