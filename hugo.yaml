@@ -2,6 +2,8 @@ module:
   mounts:
     - source: archetypes
       target: archetypes
+    - source: content
+      target: content
     - source: i18n
       target: i18n
     - source: layouts
@@ -54,6 +56,24 @@ mediaTypes:
 
 # Params
 params:
+
+  # Hugolify admin
+  # The block library, content/reusables: blocks written once and displayed on
+  # any page by the reusable block. The theme ships the section, headless, so it
+  # enables the collection the way a module enables the section it brings.
+  # Flat, an entry being a single file the reusable block points to by slug.
+  admin:
+    collections:
+      reusables:
+        enable: true
+        icon:
+          bootstrap_icons: collection
+          iconoir: book-stack
+          lucide: library
+          material_icons: library_books
+          material_symbols: library_books
+          sveltiacms: library_books # legacy
+        path: "{{slug}}"
 
   # Website
   cookie_banner:

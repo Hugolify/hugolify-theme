@@ -1,7 +1,28 @@
-{{- range $index, $block := . -}}
-  {{- $isFirst := cond (eq $index 0) true false -}}
+{{/* range
+     Render a list of blocks, each one through blocks/templates/<type>.html, and
+     tell it where it stands: `index`, its position, and `first`, true for the
+     block opening the page, which loads its images eagerly.
+
+     Takes the list itself, or a dict when the list is held by another block, the
+     reusable one:
+       blocks (slice) the blocks
+       first  (bool)  the block holding them opens the page
+       index  (any)   position of the block holding them, prefixed to the one of
+                      each block so the ids built on it, those of the forms, the
+                      charts or the notes, stay unique on the page
+*/}}
+{{- $blocks := . -}}
+{{- $first := true -}}
+{{- $prefix := "" -}}
+{{- if reflect.IsMap . -}}
+  {{- $blocks = .blocks -}}
+  {{- $first = .first -}}
+  {{- $prefix = printf "%v-" .index -}}
+{{- end -}}
+{{- range $index, $block := $blocks -}}
+  {{- $isFirst := cond (and $first (eq $index 0)) true false -}}
   {{- $block = merge $block (dict "first" $isFirst) -}}
-  {{- $block = merge $block (dict "index" $index) -}}
+  {{- $block = merge $block (dict "index" (cond (eq $prefix "") $index (print $prefix $index))) -}}
   {{- $template := printf "blocks/templates/%s.html" $block.type -}}
   {{- if and (strings.Contains .type "selected-") (not (templates.Exists ( printf "partials/%s" $template ))) -}}
     {{- $template = "blocks/templates/selected.html" -}}

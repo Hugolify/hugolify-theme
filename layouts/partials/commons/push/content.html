@@ -1,10 +1,6 @@
 {{- if or .title .text .cta.text }}
   {{- $tag := .tag }}
-  <div class="content">
-    {{- if .card }}
-    <div class="card" {{- partial "func/SetAnim.html" (dict "element" "card") }}>
-      <div class="content">
-    {{- end }}
+  <div class="content" {{- if .card }}{{ partial "func/SetAnim.html" (dict "element" "card") }}{{ end }}>
     {{- with .surtitle }}
       <p class="surtitle">{{ partial "func/PrepareHTML.html" . }}</p>
     {{ end -}}
@@ -19,9 +15,5 @@
     {{ with .cta }}
       {{ partial "commons/cta.html" . }}
     {{ end }}
-    {{- if .card }}
-      </div>
-    </div>
-    {{- end }}
   </div>
 {{ end -}}

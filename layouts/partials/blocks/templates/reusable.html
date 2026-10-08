@@ -1,0 +1,30 @@
+{{/* reusable
+     Displays an entry of the block library, content/reusables, so blocks written
+     once show on as many pages as needed and a change to the entry reaches every
+     one of them.
+
+     The block draws nothing of its own, no section and no ui: the blocks of the
+     entry render as if they were written on the page, each with its own look.
+     They take the position of the reusable block, so the first of them opens the
+     page when the reusable block does.
+
+     An entry cannot hold a reusable block, the entries would include one another
+     with no end: those are left out, with a warning.
+
+     Params (dict):
+       item  (string) the entry, as the CMS writes it, its slug most of the time
+       first (bool)   set by blocks/range.html
+       index (int)    set by blocks/range.html
+*/}}
+{{- with partial "blocks/templates/reusable/GetItemPage.html" .item -}}
+  {{- $blocks := .Params.blocks | default slice -}}
+  {{- $kept := where $blocks "type" "!=" "reusable" -}}
+  {{- if lt (len $kept) (len $blocks) -}}
+    {{- warnidf "blocks" "Reusable block left out of %s: an entry of the block library cannot hold one" .Path -}}
+  {{- end -}}
+  {{- with $kept -}}
+    {{- partial "blocks/range.html" (dict "blocks" . "first" $.first "index" $.index) -}}
+  {{- end -}}
+{{- else -}}
+  {{- warnidf "blocks" "Reusable block: no entry of the block library matches %q in %s" (.item | default "") site.Language.Lang -}}
+{{- end -}}

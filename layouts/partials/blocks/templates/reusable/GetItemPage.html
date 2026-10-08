@@ -1,0 +1,44 @@
+{{/*
+  Returns the entry of the block library a reusable block points to.
+
+  The value is read as a path below content/reusables, which is what the CMS
+  writes: the slug of the entry. A leading content/ or reusables/, the /_index of
+  a bundle and the extension are dropped first, a value copied from a file path
+  carrying them. When the path misses, the value is matched against the entries,
+  by title, then by id for a site keying its relations on ids.
+
+  The entries are headless and kept out of site.Pages: the library itself, which
+  lists them locally, is the only place to look them up.
+
+  - . (string) the value written by the CMS
+
+  Returns a page, or an empty string when nothing matches
+*/}}
+
+{{- $value := . | default "" | string -}}
+{{- $item := "" -}}
+
+{{- with site.GetPage "/reusables" -}}
+  {{- $library := . -}}
+
+  {{- $slug := $value | strings.TrimPrefix "/" | strings.TrimPrefix "content/" | strings.TrimPrefix "reusables/" -}}
+  {{- $slug = $slug | strings.TrimSuffix ".md" | strings.TrimSuffix "/_index" | strings.TrimSuffix "/index" -}}
+  {{- with $slug -}}
+    {{- with site.GetPage (printf "/reusables/%s" .) -}}
+      {{- $item = . -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if and (not $item) $value -}}
+    {{- with where $library.Pages "Title" $value -}}
+      {{- $item = index . 0 -}}
+    {{- else -}}
+      {{- with where $library.Pages "Params.id" $value -}}
+        {{- $item = index . 0 -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return $item -}}
