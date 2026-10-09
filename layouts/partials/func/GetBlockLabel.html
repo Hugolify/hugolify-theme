@@ -13,4 +13,4 @@
   {{- $section := i18n (printf "admin.collections.%s.label" $collection) 2 | default (humanize $collection) -}}
   {{- $label = i18n "admin.blocks.selected.label" (dict "section" $section) -}}
 {{- end -}}
-{{- return $label | default (humanize .) -}}
+{{- $label | default (humanize .) -}}
