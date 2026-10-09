@@ -6,6 +6,6 @@
 {{- end -}}
 {{- with $credit -}}
   {{- with .text -}}
-    <p class="credit">{{ partial "func/PrepareHTML.html" . }}</p>
+    <p class="credit">{{ partial "func/PrepareHTML.html" . | markdownify }}</p>
   {{- end -}}
 {{- end -}}
