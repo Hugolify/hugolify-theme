@@ -2,23 +2,28 @@
      Build the schema.org node for the organization behind the site, or for one
      of its offices.
 
-     Edited in the CMS as data/schema.yml (Config → Structured data), under the
-     `organization` key, in the very same shape a place uses so both feed this
-     partial unchanged. The file is translated, and func/GetSchemaData.html
-     resolves it for the current language — a locale only has to carry what it
-     changes:
+     Most of what describes the organization, the site knows already, and it
+     is taken from there rather than typed twice:
+
+       name         the site title
+       logo         the header logo, params.logo.header, when the header shows
+                    it (see commons/logo.html)
+       sameAs       the links of the social menu, data/menu/social.yml
+       description  the site description, data/seo.yml, per language
+
+     data/schema.yml (Config → Structured data in the CMS) holds the rest, read
+     through func/GetSchemaData.html:
 
        organization:
-         name: Acme
-         type: Organization        # any Organization subtype, see
-                                   # func/GetSchemaTypes.html
-         image:
-           src: '/assets/images/logo.svg'
-         address:
+         type: LegalService     # any Organization subtype, see
+                                # func/GetSchemaTypes.html
+         legal_name: Acme SAS   # when it differs from the site title
+         place: paris           # the head office, among the places
+         address:               # for a site without a head office place
            street: 1 rue de l'Exemple
            zipcode: '75001'
            city: Paris
-           country: France
+           country_code: FR
            coordinates:
              lat: 48.8566
              lng: 2.3522
@@ -26,15 +31,20 @@
            email: …
            phone: …
            fax: …
-           socials:
-             - platform: linkedin
-               url: …
 
-     Passing a place turns the node into that office: it keeps the logo the
-     whole firm shares, overrides whatever the place describes for itself,
-     takes its own @id and points back at the head office through
-     parentOrganization. That is how a person attached to a place ends up
-     working for their office rather than for the firm as a whole.
+     The head office lends its address, coordinates and contact — a page of the
+     places section or an entry of data/places alike, resolved the way a
+     persons_places term is, through func/GetRealContext.html — and the fields
+     above fill in what its contact lacks. That place is the organization
+     itself: passed here as an office, it comes back as the organization, not
+     as an office of itself.
+
+     Passing a place turns the node into that office: it keeps the logo of the
+     whole firm, overrides whatever the place describes for itself, takes its
+     own @id and points back at the organization through parentOrganization.
+     That is how a person attached to a place ends up working for their office
+     rather than for the firm as a whole. The social profiles stay the firm's:
+     an office only lists its own.
 
      A place only qualifies as an office when its schema.type names an
      organization subtype — the places section is generic, and a venue or a
@@ -48,37 +58,48 @@
                       one: @type, @id, name, url and the logo — which Google
                       reads on a publisher or a hiringOrganization.
        place   (page) a /places/ page to build a branch office from.
-       name    (string) fallback name when the data file has none. Defaults to
-                      the site title.
 
      Returns: map, the schema.org node.
 */}}
 {{- $compact := false -}}
 {{- $place := false -}}
-{{- $name := site.Title -}}
 {{- with . -}}
   {{- $compact = .compact | default false -}}
   {{- $place = .place | default false -}}
-  {{- with .name -}}{{- $name = . -}}{{- end -}}
 {{- end -}}
 
 {{- $datas := partial "func/GetSchemaData.html" "organization" | default dict -}}
-{{- with $datas.name -}}{{- $name = . -}}{{- end -}}
-
 {{- $type := $datas.type | default "Organization" -}}
-{{- $headName := $name -}}
 {{- $headType := $type -}}
 {{- $headId := printf "%s#organization" site.BaseURL -}}
 
+{{- /* The head office, given by the key of a place. GetRealContext hands back
+       what it received when nothing matches, which carries no File. */ -}}
+{{- $headOffice := false -}}
+{{- with $datas.place -}}
+  {{- $real := partial "func/GetRealContext.html" (dict "page" (dict "Title" .) "section" "places") -}}
+  {{- if $real.File -}}{{- $headOffice = $real -}}{{- end -}}
+{{- end -}}
+{{- if and $place $headOffice (not (reflect.IsMap $headOffice)) -}}
+  {{- if eq $place $headOffice -}}{{- $place = false -}}{{- end -}}
+{{- end -}}
+
 {{- $id := $headId -}}
 {{- $url := site.BaseURL -}}
+{{- $name := site.Title -}}
 
 {{- /* The logo belongs to the firm, wherever the office is. It carries an @id
        of its own so every copy of it — the full node, each compact reference —
        merges back into a single image. */ -}}
 {{- $logo := false -}}
-{{- with partial "func/GetSchemaImage.html" $datas.image -}}
-  {{- $logo = merge . (dict "@id" (printf "%s#logo" site.BaseURL)) -}}
+{{- with site.Params.logo -}}
+  {{- with .header -}}
+    {{- if os.FileExists (printf "static%s" .) -}}
+      {{- with partial "func/GetSchemaImage.html" . -}}
+        {{- $logo = merge . (dict "@id" (printf "%s#logo" site.BaseURL)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* An office of the firm: its own identity, and its own type when it
@@ -112,25 +133,45 @@
 {{- if not $compact -}}
 
   {{- /* The description is the site one, which data/seo.yml already holds per
-         language, so data/schema.yml needs no prose of its own. An office
-         overrides it from its own page, which is translatable content. */ -}}
+         language. An office overrides it from its own page, which is
+         translatable content. */ -}}
   {{- $description := partial "func/GetSeoData.html" "description" -}}
 
-  {{- /* What an office describes for itself wins; the firm fills in the rest.
-         The address is taken whole — half an office's address completed with
-         the head office's would point nowhere — where a contact is completed
-         field by field: the switchboard still reaches an office that has no
-         line of its own. */ -}}
+  {{- /* The firm: its head office describes it, data/schema.yml fills in what
+         the head office contact lacks. */ -}}
   {{- $address := $datas.address -}}
   {{- $contact := $datas.contact | default dict -}}
-  {{- $image := $logo -}}
-  {{- with $place -}}
-    {{- with .Description -}}{{- $description = . -}}{{- end -}}
+  {{- with $headOffice -}}
     {{- with .Params.address -}}{{- $address = . -}}{{- end -}}
     {{- with .Params.contact -}}
       {{- $contact = partial "func/MergeDefined.html" (dict "base" $contact "overlay" .) -}}
     {{- end -}}
+  {{- end -}}
+
+  {{- $image := $logo -}}
+  {{- with $place -}}
+    {{- /* What an office describes for itself wins; the firm fills in the
+           rest. The address is taken whole — half an office's address
+           completed with the head office's would point nowhere — where a
+           contact is completed field by field: the switchboard still reaches
+           an office that has no line of its own. Its profiles, the firm's
+           ones, are not handed down. */ -}}
+    {{- with .Description -}}{{- $description = . -}}{{- end -}}
+    {{- with .Params.address -}}{{- $address = . -}}{{- end -}}
+    {{- $base := dict "email" $contact.email "phone" $contact.phone "fax" $contact.fax -}}
+    {{- $contact = partial "func/MergeDefined.html" (dict "base" $base "overlay" (.Params.contact | default dict)) -}}
     {{- with partial "func/GetSchemaImage.html" .Params.image -}}{{- $image = . -}}{{- end -}}
+  {{- else -}}
+    {{- /* The social menu lists the firm's own profiles. */ -}}
+    {{- $menu := dict -}}
+    {{- with hugo.Data.menu -}}{{- with .social -}}{{- $menu = . -}}{{- end -}}{{- end -}}
+    {{- with index $menu (partial "func/GetLanguage.html").name -}}{{- $menu = . -}}{{- end -}}
+    {{- $socials := $menu.links | default slice -}}
+    {{- with $contact.socials -}}{{- $socials = $socials | append . -}}{{- end -}}
+    {{- $contact = merge $contact (dict "socials" $socials) -}}
+    {{- with $datas.legal_name -}}
+      {{- $organization = merge $organization (dict "legalName" (partial "func/PrepareData.html" .)) -}}
+    {{- end -}}
   {{- end -}}
 
   {{- /* Set once: merge recurses into a map already there, and the office
@@ -154,7 +195,7 @@
     {{- $parent := dict
       "@type" $headType
       "@id" $headId
-      "name" (partial "func/PrepareData.html" $headName)
+      "name" (partial "func/PrepareData.html" site.Title)
       "url" site.BaseURL
     -}}
     {{- with $logo -}}{{- $parent = merge $parent (dict "logo" .) -}}{{- end -}}

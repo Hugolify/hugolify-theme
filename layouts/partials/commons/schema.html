@@ -6,10 +6,10 @@
      repeating the data — which is what lets a crawler tie a person to the
      organization they work for.
 
-     The organization is edited in the CMS as data/schema.yml and built
-     by func/GetSchemaOrganization.html; the WebSite name follows the same
-     resolution order as head/seo.html, so data/seo.yml wins over the site
-     title, in its flat form as well as its language-keyed one.
+     The organization is built by func/GetSchemaOrganization.html, from what
+     the site knows of it and data/schema.yml; the WebSite name follows the
+     same resolution order as head/seo.html, so data/seo.yml wins over the
+     site title, in its flat form as well as its language-keyed one.
 
      Called once per page (partialCached) from _default/baseof.html.
 */}}
@@ -24,7 +24,7 @@
 {{- with partial "func/GetSeoData.html" "title" -}}{{- $name = . -}}{{- end -}}
 
 {{- with $name -}}
-  {{- $organization := partial "func/GetSchemaOrganization.html" (dict "name" $name) -}}
+  {{- $organization := partial "func/GetSchemaOrganization.html" -}}
 
   {{- $website := dict
     "@type" "WebSite"
