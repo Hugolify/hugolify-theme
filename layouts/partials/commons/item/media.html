@@ -39,7 +39,8 @@
         configured width only (height dropped, never filled) and `.media-logo` contains and centres
         it inside the box, leaving bleed around instead of cutting into the artwork. */}}
   {{- $class := "media" -}}
-  {{- if not (partial "func/isCropEnabled.html" .Type) -}}
+  {{- $crop := partial "func/GetImageCrop.html" .Type -}}
+  {{- if not $crop.enabled -}}
     {{- $class = "media media-logo" -}}
     {{- with $desktop -}}{{- $desktop = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
     {{- with $mobile -}}{{- $mobile = printf "%sx" (index (split . "x") 0) -}}{{- end -}}
@@ -59,6 +60,7 @@
         "desktop" $desktop
         "mobile" $mobile
         "sizes" (.sizes | default (cond $lazy false $sizes))
+        "crop" (.crop | default $crop.anchor)
       ) }}
       {{- partial "commons/image.html" $args -}}
       {{ end -}}

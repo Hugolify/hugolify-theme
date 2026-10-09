@@ -1,0 +1,33 @@
+{{/* GetImageCrop
+     How the images of a given content type are cropped (filled) to their configured size, read
+     from `<type>.image.crop`:
+
+     - false: no crop. Some types carry logos or brand marks rather than photographs, and filling
+       a fixed box eats into the artwork: their images are resized to the configured width only,
+       keeping their own proportions, and get bleed inside the ratio box.
+     - a string: crop, around that anchor (e.g. "smart_faces" on Uploadcare, "g_auto:face" on
+       Cloudinary), handed to commons/image.html as `crop`. A per-image `crop` in the front matter
+       still wins.
+     - absent or true: crop, around the site default (site.Params.image.crop).
+
+     The anchor is empty rather than false without one: `default` takes a bool as set, so a false
+     would reach the CDN URL instead of letting the defaults downstream apply.
+
+     Param: the content type (string), e.g. "awards".
+     Returns: dict { enabled, anchor }
+*/}}
+{{- $enabled := true -}}
+{{- $anchor := "" -}}
+{{- with . -}}
+  {{- with index site.Params . -}}
+    {{- with .image -}}
+      {{- if isset . "crop" -}}
+        {{- $enabled = not (not .crop) -}}
+        {{- if eq (printf "%T" .crop) "string" -}}
+          {{- $anchor = .crop -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "enabled" $enabled "anchor" $anchor -}}
