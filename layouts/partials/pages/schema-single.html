@@ -1,23 +1,2 @@
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "headline": {{ partial "func/PrepareData.html" .Title }},
-    
-  {{- with .Params.image }}
-    "image": {{ .src | absURL }},
-  {{- end -}}
-
-  {{- with .Date }}
-    "datePublished": {{ . }},
-  {{- end -}}
-
-  {{- with .Params.description }}
-    "abstract": {{ partial "func/PrepareData.html" . }},
-  {{- end -}}
-
-  {{ with .Content }}
-    "description": {{ partial "func/PrepareData.html" . }},
-  {{- end -}}
-  }
-</script>
+{{- /* Schema.org for a page: a WebPage, see func/GetSchemaWebPage.html. */ -}}
+{{- partial "commons/jsonld.html" (partial "func/GetSchemaWebPage.html" (dict "page" .)) -}}

@@ -1,0 +1,65 @@
+{{/* GetSchemaEntity
+     The schema.org node a page of one of the shared sections stands for.
+
+     Persons, places, expertises and awards are the sections other content
+     points at — an author, an office, a practice area — so a node referencing
+     one of them comes from here rather than from each module. That is also
+     where a place is told apart: an office when its schema.type names an
+     organization subtype, a location otherwise.
+
+       persons    → Person, see func/GetSchemaPerson.html
+       places     → Organization subtype (an office), see
+                    func/GetSchemaOrganization.html, or Place, see
+                    func/GetSchemaPlace.html
+       expertises → Service, see func/GetSchemaService.html
+       anything else, awards included → Thing, named and linked
+
+     Params: (page) the page, or a taxonomy term: it goes through
+             func/GetRealContext.html first.
+             {map} to pass options:
+       page    (page) as above.
+       compact (bool) return only what another node needs to reference the
+                      entity.
+
+     Returns: map, the node — or false when the page is no entity, a data
+              entry with no page to point at among them.
+*/}}
+{{- $page := . -}}
+{{- $compact := false -}}
+{{- if and (reflect.IsMap .) (isset . "page") -}}
+  {{- $page = .page -}}
+  {{- $compact = .compact | default false -}}
+{{- end -}}
+
+{{- $entity := false -}}
+{{- with $page -}}
+  {{- $real := partial "func/GetRealContext.html" . -}}
+  {{- if not (reflect.IsMap $real) -}}
+    {{- $section := $real.Section -}}
+    {{- if eq $section "persons" -}}
+      {{- $entity = partial "func/GetSchemaPerson.html" (dict "page" $real "compact" $compact) -}}
+    {{- else if eq $section "places" -}}
+      {{- $isOffice := false -}}
+      {{- with $real.Params.schema -}}
+        {{- with .type -}}
+          {{- $isOffice = in (partial "func/GetSchemaTypes.html").organization . -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $isOffice -}}
+        {{- $entity = partial "func/GetSchemaOrganization.html" (dict "place" $real "compact" $compact) -}}
+      {{- else -}}
+        {{- $entity = partial "func/GetSchemaPlace.html" (dict "page" $real "compact" $compact) -}}
+      {{- end -}}
+    {{- else if eq $section "expertises" -}}
+      {{- $entity = partial "func/GetSchemaService.html" (dict "page" $real "compact" $compact) -}}
+    {{- else -}}
+      {{- $entity = dict
+        "@type" "Thing"
+        "name" (partial "func/PrepareData.html" $real.Title)
+        "url" $real.Permalink
+      -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $entity -}}

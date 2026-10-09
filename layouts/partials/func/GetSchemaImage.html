@@ -1,0 +1,49 @@
+{{/* GetSchemaImage
+     Convert an image object into a schema.org ImageObject.
+
+     Reads the shape the CMS writes for every image on the site (see
+     admin/fields/image.yml): a source, an alternative text and a credit. The
+     source is published as is when it is already absolute — a CDN URL — and
+     made absolute against the site otherwise. The alternative text becomes
+     the caption, and the credit, written in Markdown in the CMS, its plain
+     text creditText.
+
+     Params: {map} an image object — src, alt, credit — or (string) a bare
+             source, the shape data/seo.yml and seo.image use.
+
+     Returns: map, the ImageObject node — or false without a source.
+*/}}
+{{- $src := "" -}}
+{{- $alt := "" -}}
+{{- $credit := "" -}}
+{{- if reflect.IsMap . -}}
+  {{- with .src -}}{{- $src = . -}}{{- end -}}
+  {{- with .alt -}}{{- $alt = . -}}{{- end -}}
+  {{- with .credit -}}{{- $credit = . -}}{{- end -}}
+{{- else if eq (printf "%T" .) "string" -}}
+  {{- $src = . -}}
+{{- end -}}
+
+{{- $image := false -}}
+{{- with $src -}}
+  {{- $url := . -}}
+  {{- if hasPrefix $url "//" -}}
+    {{- $url = printf "https:%s" $url -}}
+  {{- else if not (hasPrefix $url "http") -}}
+    {{- $url = absURL $url -}}
+  {{- end -}}
+
+  {{- $image = dict
+    "@type" "ImageObject"
+    "url" $url
+    "contentUrl" $url
+  -}}
+  {{- with partial "func/PrepareData.html" $alt -}}
+    {{- $image = merge $image (dict "caption" .) -}}
+  {{- end -}}
+  {{- with partial "func/PrepareData.html" (markdownify $credit) -}}
+    {{- $image = merge $image (dict "creditText" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $image -}}

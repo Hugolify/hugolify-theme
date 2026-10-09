@@ -1,0 +1,23 @@
+{{/* GetSeoData
+     Read one site wide value from data/seo.yml.
+
+     The file comes in two shapes: flat on a single language site, keyed by
+     language on a multilingual one — the language keyed value wins when both
+     are there. Page level overrides are head/seo.html's business, not this
+     partial's.
+
+     Params: (string) the key, e.g. "title" or "description".
+
+     Returns: string, empty when the key is not set.
+*/}}
+{{- $key := . -}}
+{{- $value := "" -}}
+
+{{- with hugo.Data.seo -}}
+  {{- with index . $key -}}{{- $value = . -}}{{- end -}}
+  {{- with index . (partial "func/GetLanguage.html").name -}}
+    {{- with index . $key -}}{{- $value = . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $value -}}

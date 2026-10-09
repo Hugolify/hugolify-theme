@@ -1,0 +1,30 @@
+{{/* MergeDefined
+     Overlay a map onto another, keeping the base value wherever the overlay
+     has nothing to say.
+
+     Hugo's merge lets an empty value win — merge (dict "city" "Paris")
+     (dict "city" "") yields an empty city — which loses data whenever a CMS
+     writes out every key of a locale nobody has filled in yet. Here an empty
+     string, an empty map or a missing key leaves the base untouched, and the
+     overlay recurses so a partially filled nested object behaves the same.
+     Booleans are the exception: false is a deliberate value, not an absence.
+
+     Params: {map}
+       base    (map) the values to fall back on
+       overlay (map) the values that win where they are set
+
+     Returns: map
+*/}}
+{{- $result := .base -}}
+
+{{- range $key, $value := .overlay -}}
+  {{- $current := index $result $key -}}
+  {{- if and (reflect.IsMap $value) (reflect.IsMap $current) -}}
+    {{- $value = partial "func/MergeDefined.html" (dict "base" $current "overlay" $value) -}}
+  {{- end -}}
+  {{- if or $value (eq (printf "%T" $value) "bool") -}}
+    {{- $result = merge $result (dict $key $value) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $result -}}

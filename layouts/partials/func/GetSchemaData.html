@@ -1,0 +1,14 @@
+{{/* GetSchemaData
+     Read one value from data/schema.yml.
+
+     The file is edited in the CMS (Config → Structured data) and is not
+     translated: it only holds what the site does not know already about the
+     organization behind it — its type, its legal name, its head office — and
+     the switch on email addresses, none of which varies from one language to
+     the next. See func/GetSchemaOrganization.html.
+
+     Params: (string) the key to read, e.g. "organization".
+
+     Returns: the value, or nil when the file or the key is missing.
+*/}}
+{{- return index (hugo.Data.schema | default dict) . -}}

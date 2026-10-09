@@ -1,0 +1,51 @@
+{{/* GetSchemaOffer
+     Convert an offer object into a schema.org Offer.
+
+     Reads the shapes the CMS writes for a product (admin/fields/offer.yml:
+     price, discount, hide_price) and for a real estate listing
+     (admin/fields/realestates_offer.yml: price, sold, hide_price). A discount,
+     an amount or a percentage, is applied the way the page applies it,
+     through func/GetDiscountedPrice.html, and the price before it goes along
+     as the strikethrough price Google shows next to the sale one. A price the
+     editor hid stays hidden: the offer is still published, without a price.
+
+     Params: {map}
+       offer    (map) the offer object.
+       url      (string) the page the offer is made on.
+       function (string) "sell" (default) or "lease", for a rental.
+       seller   (map) optional, the seller node, compact.
+
+     Returns: map, the Offer node — or false without an offer object.
+*/}}
+{{- $node := false -}}
+
+{{- with .offer -}}
+  {{- $offer := . -}}
+  {{- $function := cond (eq $.function "lease") "LeaseOut" "Sell" -}}
+  {{- $currency := site.Params.currency | default "EUR" -}}
+
+  {{- $node = dict
+    "@type" "Offer"
+    "businessFunction" (printf "http://purl.org/goodrelations/v1#%s" $function)
+    "availability" (cond (.sold | default false) "https://schema.org/SoldOut" "https://schema.org/InStock")
+  -}}
+  {{- with $.url -}}{{- $node = merge $node (dict "url" .) -}}{{- end -}}
+  {{- with $.seller -}}{{- $node = merge $node (dict "seller" .) -}}{{- end -}}
+
+  {{- if and .price (not .hide_price) -}}
+    {{- $price := float .price -}}
+    {{- $realPrice := partial "func/GetDiscountedPrice.html" (dict "price" $price "discount" (.discount | default false)) -}}
+    {{- $realPrice = div (math.Round (mul $realPrice 100)) 100 -}}
+    {{- $node = merge $node (dict "price" $realPrice "priceCurrency" $currency) -}}
+    {{- if lt $realPrice $price -}}
+      {{- $node = merge $node (dict "priceSpecification" (dict
+        "@type" "UnitPriceSpecification"
+        "priceType" "https://schema.org/StrikethroughPrice"
+        "price" $price
+        "priceCurrency" $currency
+      )) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $node -}}

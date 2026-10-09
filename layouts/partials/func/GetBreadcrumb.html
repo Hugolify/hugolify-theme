@@ -1,0 +1,52 @@
+{{/* GetBreadcrumb
+     The trail from the home page down to a page: what nav/breadcrumb.html
+     prints, and what func/GetSchemaBreadcrumb.html describes for search
+     engines, so the two always agree.
+
+     Walks up the parents. A parent whose URL is not the directory above the
+     page — a taxonomy mounted under a section, /team/places/ under /team/ —
+     is looked up by URL instead, through func/GetPageByUrl.html. That search
+     is expensive: it only runs then, and callers go through partialCached
+     with the permalink as variant. The root of the pages section is left
+     out, it would read as a second home.
+
+     Params: (page) the page.
+
+     Returns: slice of maps, from the home page down — empty for a page
+              without parent, the home page itself:
+       page   (page) the page of that step.
+       active (bool) true for the last step, the page itself.
+*/}}
+{{- $target := . -}}
+{{- $steps := slice -}}
+
+{{- if .Parent -}}
+  {{- $current := . -}}
+  {{- $path := strings.TrimSuffix "/" .RelPermalink -}}
+  {{- /* Bounded: no tree is that deep, and a loop in the parents cannot hang
+         the build. */ -}}
+  {{- range seq 32 -}}
+    {{- if ne $current.RelPermalink "/pages/" -}}
+      {{- $steps = slice (dict "page" $current "active" (eq $current $target)) | append $steps -}}
+    {{- end -}}
+    {{- with $current.Parent -}}
+      {{- $split := path.Split (strings.TrimSuffix "/" $path) -}}
+      {{- $next := . -}}
+      {{- if ne .RelPermalink $split.Dir -}}
+        {{- with partial "func/GetPageByUrl.html" $split.Dir -}}
+          {{- $next = . -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $path = $split.Dir -}}
+      {{- $current = $next -}}
+    {{- else -}}
+      {{- /* A page with no parent that is no section still starts from home. */ -}}
+      {{- if not $current.IsNode -}}
+        {{- $steps = slice (dict "page" site.Home "active" false) | append $steps -}}
+      {{- end -}}
+      {{- break -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $steps -}}

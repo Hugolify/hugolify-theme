@@ -1,0 +1,51 @@
+{{/* GetSchemaService
+     Build the schema.org Service node for something the organization offers:
+     a page of the services section, or an expertise — the practice area of a
+     law firm, the specialty of a clinic, which is what the firm sells.
+
+     Provided by the organization behind the site, referenced by @id, unless
+     the caller names the providers: the services module hands in the persons
+     who perform the service.
+
+     Params: (page) the page.
+             {map} to pass options:
+       page     (page) as above.
+       compact  (bool) return only what another node needs to reference the
+                       service: @type, @id, name and url.
+       provider (map or slice) the provider node(s), compact. Defaults to the
+                       organization.
+
+     Returns: map, the Service node.
+*/}}
+{{- $page := . -}}
+{{- $compact := false -}}
+{{- $provider := false -}}
+{{- if and (reflect.IsMap .) (isset . "page") -}}
+  {{- $page = .page -}}
+  {{- $compact = .compact | default false -}}
+  {{- $provider = .provider | default false -}}
+{{- end -}}
+
+{{- $node := dict
+  "@type" "Service"
+  "name" (partial "func/PrepareData.html" $page.Title)
+-}}
+{{- /* A section kept out of the build (render: never) has no URL. */ -}}
+{{- with $page.Permalink -}}
+  {{- $node = merge $node (dict "@id" (printf "%s#service" .) "url" .) -}}
+{{- end -}}
+
+{{- if not $compact -}}
+  {{- with $page.Description -}}
+    {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+  {{- with partial "func/GetSchemaImage.html" $page.Params.image -}}
+    {{- $node = merge $node (dict "image" .) -}}
+  {{- end -}}
+  {{- if not $provider -}}
+    {{- $provider = partial "func/GetSchemaOrganization.html" (dict "compact" true) -}}
+  {{- end -}}
+  {{- $node = merge $node (dict "provider" $provider) -}}
+{{- end -}}
+
+{{- return $node -}}

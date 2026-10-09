@@ -5,7 +5,6 @@
 {{- $lazy := .lazy | default true -}}
 {{- $class := .class | default false -}}
 {{- $picture_class := .picture_class | default false -}}
-{{- $itemprop := .itemprop | default false -}}
 
 {{/* Responsive Params (srcset width descriptors + sizes) */}}
 {{- $sizes := .sizes | default false -}}
@@ -124,7 +123,7 @@
 {{- if and $responsive .src_mobile -}}
   {{- $imageParamsMobile = partial "func/GetImageParams.html" (merge $imageRenderParams (dict "file" $file_mobile "crop_ratio" $crop_ratio_mobile)) -}}
 {{- end -}}
-{{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class "itemprop" $itemprop -}}
+{{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class -}}
 {{- with $imageParams -}}
   {{- $params = merge $imageParams $domParams -}}
 {{- end -}}
@@ -165,8 +164,7 @@
         {{- with .image_width }} width="{{ . }}"{{ end -}}
         {{ with .image_height }} height="{{ . }}"{{ end -}}
         {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}
-        {{ with $class }} class="{{ . }}"{{ end -}}
-        {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
+        {{ with $class }} class="{{ . }}"{{ end }}>
     </picture>
   {{- else }}
   <picture
@@ -200,8 +198,7 @@
       {{- with .image_width }} width="{{ . }}"{{ end -}}
       {{ with .image_height }} height="{{ . }}"{{ end -}}
       {{ if $lazy }} loading="lazy" decoding="async"{{ else }} fetchpriority="high"{{ end -}}
-      {{ with $class }} class="{{ . }}"{{ end -}}
-      {{ with $itemprop }} itemprop="{{ . }}"{{ end }}>
+      {{ with $class }} class="{{ . }}"{{ end }}>
   </picture>
   {{- end }}
 {{ end }}

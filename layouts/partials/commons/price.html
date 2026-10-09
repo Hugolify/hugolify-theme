@@ -1,10 +1,9 @@
 {{- $discount := .discount | default false -}}
 {{- $frequency := .frequency | default false -}}
 {{- $price := .price | default false -}}
-{{- $itemprop := .itemprop | default false -}}
 {{ with $price }}
   {{- $realPrice := partial "func/GetDiscountedPrice" (dict "price" . "discount" $discount) -}}
-  <p class="pricing" {{- if $itemprop }} itemprop="price" content="{{ $realPrice }}"{{ end }}>
+  <p class="pricing">
     {{ partial "func/GetHumanPrice" $realPrice }} 
     {{- if $discount }} 
       {{- $realDiscount := $discount -}}

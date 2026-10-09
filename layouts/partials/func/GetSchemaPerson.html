@@ -1,0 +1,121 @@
+{{/* GetSchemaPerson
+     Build the schema.org Person node for a member of the team.
+
+     Reads a /persons/ page and the taxonomies the persons modules hang on
+     it, each only when the site declares it:
+
+       persons_statutes   → jobTitle
+       persons_expertises → knowsAbout, a Thing linked to the expertise page
+       persons_awards     → award
+       persons_places     → worksFor the offices among them, workLocation for
+                            every one of them — see func/GetSchemaEntity.html
+                            for what makes a place an office
+
+     A member of the team attached to no office works for the organization
+     behind the site, referenced by @id: func/GetSchemaOrganization.html
+     builds it once for the whole page in commons/schema.html.
+
+     The same person shows up as the author of a post, the speaker of an
+     event, the agent of a listing: they all take the compact form, whose @id
+     merges back into the full node on the person's own page.
+
+     Params: (page) a /persons/ page, or a taxonomy term standing for one — it
+             goes through func/GetRealPerson.html. A term with no page behind
+             it describes the person itself, the way an author of the
+             posts-authors module does, with flat email, phone and fax keys.
+             A person kept in data has no URL, and gets no @id.
+             {map} to pass options:
+       page    (page) as above.
+       compact (bool) return only what another node needs to reference the
+                      person: @type, @id, name and url.
+
+     Returns: map, the Person node.
+*/}}
+{{- $page := . -}}
+{{- $compact := false -}}
+{{- if and (reflect.IsMap .) (isset . "page") -}}
+  {{- $page = .page -}}
+  {{- $compact = .compact | default false -}}
+{{- end -}}
+
+{{- $person := $page -}}
+{{- if and (not (reflect.IsMap $page)) (eq $page.Kind "term") -}}
+  {{- $person = partial "func/GetRealPerson.html" $page -}}
+{{- end -}}
+{{- $isPage := not (reflect.IsMap $person) -}}
+
+{{- $node := dict
+  "@type" "Person"
+  "name" (partial "func/PrepareData.html" $person.Title)
+-}}
+{{- /* A section kept out of the build (render: never) has no URL either. */ -}}
+{{- if $isPage -}}
+  {{- with $person.Permalink -}}
+    {{- $node = merge $node (dict "@id" (printf "%s#person" .) "url" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $compact -}}
+  {{- with $person.Params.firstname -}}
+    {{- $node = merge $node (dict "givenName" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+  {{- with $person.Params.lastname -}}
+    {{- $node = merge $node (dict "familyName" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+  {{- with $person.Description -}}
+    {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+  {{- with partial "func/GetSchemaImage.html" $person.Params.image -}}
+    {{- $node = merge $node (dict "image" .) -}}
+  {{- end -}}
+
+  {{- /* A contact object on a person page; flat keys on an author term. */ -}}
+  {{- $contact := $person.Params.contact -}}
+  {{- if not $contact -}}
+    {{- $contact = dict
+      "email" $person.Params.email
+      "phone" $person.Params.phone
+      "fax" $person.Params.fax
+    -}}
+  {{- end -}}
+  {{- $node = merge $node (partial "func/GetSchemaContact.html" $contact) -}}
+
+  {{- /* Only a member of the team works for the organization: an author with
+         no page in the persons section may well be a guest. */ -}}
+  {{- if and $isPage (eq $person.Section "persons") -}}
+    {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_statutes") -}}
+      {{- $node = merge $node (dict "jobTitle" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_expertises" "format" "thing") -}}
+      {{- $node = merge $node (dict "knowsAbout" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_awards") -}}
+      {{- $node = merge $node (dict "award" .) -}}
+    {{- end -}}
+
+    {{- $worksFor := slice -}}
+    {{- $workLocation := slice -}}
+    {{- $organizationTypes := (partial "func/GetSchemaTypes.html").organization -}}
+    {{- range partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_places" "format" "page") -}}
+      {{- /* A term with no place page behind it has nothing to locate. */ -}}
+      {{- if and (not (reflect.IsMap .)) (eq .Section "places") -}}
+        {{- $entity := partial "func/GetSchemaEntity.html" (dict "page" . "compact" true) -}}
+        {{- if in $organizationTypes (index $entity "@type") -}}
+          {{- $worksFor = $worksFor | append $entity -}}
+        {{- end -}}
+        {{- /* The full Place, address included: nothing else on a person's
+               page describes where they work. */ -}}
+        {{- $workLocation = $workLocation | append (partial "func/GetSchemaPlace.html" .) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if not $worksFor -}}
+      {{- $worksFor = slice (partial "func/GetSchemaOrganization.html" (dict "compact" true)) -}}
+    {{- end -}}
+    {{- $node = merge $node (dict "worksFor" $worksFor) -}}
+    {{- with $workLocation -}}
+      {{- $node = merge $node (dict "workLocation" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $node -}}

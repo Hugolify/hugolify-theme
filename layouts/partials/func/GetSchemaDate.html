@@ -1,0 +1,29 @@
+{{/* GetSchemaDate
+     Format a date for schema.org, which reads ISO 8601.
+
+     Takes what Hugo hands out — a time for .Date, .Lastmod and the like, a
+     string for a date nested in front matter such as event.date_from — and
+     returns RFC 3339. A bare day stays a bare day rather than gaining a
+     midnight nobody set. A value that does not parse is dropped rather than
+     failing the build: structured data is no reason to stop a site.
+
+     Params: (time or string) the date.
+
+     Returns: string, empty when there is no date.
+*/}}
+{{- $date := "" -}}
+{{- with . -}}
+  {{- if and (eq (printf "%T" .) "string") (findRE `^\d{4}-\d{2}-\d{2}$` .) -}}
+    {{- $date = . -}}
+  {{- else -}}
+    {{- with try (time.AsTime .) -}}
+      {{- if not .Err -}}
+        {{- with .Value -}}
+          {{- $date = .Format "2006-01-02T15:04:05Z07:00" -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $date -}}

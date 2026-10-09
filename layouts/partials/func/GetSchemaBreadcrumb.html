@@ -1,0 +1,42 @@
+{{/* GetSchemaBreadcrumb
+     Build the schema.org BreadcrumbList of a page.
+
+     The very trail nav/breadcrumb.html prints, from func/GetBreadcrumb.html,
+     so what search engines read cannot drift from what people see. Each step
+     is named as it is printed — breadcrumb_title first, the translated title
+     of the page a taxonomy term stands for otherwise — and numbered from 1,
+     the home page, down to the page itself. A step without a name, a
+     translation still missing its title, is left out: Google rejects a
+     nameless item, and a shorter trail is still a valid one.
+
+     Params: (page) the page.
+
+     Returns: map, the BreadcrumbList node — or false for a page without a
+              trail, the home page.
+*/}}
+{{- $breadcrumb := false -}}
+
+{{- with partialCached "func/GetBreadcrumb.html" . .Permalink -}}
+  {{- $items := slice -}}
+  {{- range . -}}
+    {{- $url := .page.Permalink -}}
+    {{- $name := .page.Params.breadcrumb_title | default (partial "func/GetRealContext.html" .page).Title -}}
+    {{- with partial "func/PrepareData.html" $name -}}
+      {{- $items = $items | append (dict
+        "@type" "ListItem"
+        "position" (add (len $items) 1)
+        "name" .
+        "item" $url
+      ) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $items -}}
+    {{- $breadcrumb = dict
+      "@type" "BreadcrumbList"
+      "@id" (printf "%s#breadcrumb" $.Permalink)
+      "itemListElement" .
+    -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $breadcrumb -}}

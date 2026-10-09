@@ -1,0 +1,7 @@
+{{- /* Schema.org for the search page: a SearchResultsPage, see
+       func/GetSchemaWebPage.html. The results are drawn in the browser, by
+       Pagefind: they are not part of the page. */ -}}
+{{- partial "commons/jsonld.html" (partial "func/GetSchemaWebPage.html" (dict
+  "page" .
+  "type" "SearchResultsPage"
+)) -}}

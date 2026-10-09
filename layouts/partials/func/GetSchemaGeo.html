@@ -1,0 +1,37 @@
+{{/* GetSchemaGeo
+     Convert an address object into a schema.org GeoCoordinates.
+
+     Two pin shapes coexist, because admin/fields/address.yml picks one per CMS
+     (see its $pin): a coordinates object for most of them, a GeoJSON string
+     under `location` for Decap, Netlify and Sveltia. The explicit object is
+     read directly — lat and lng leave no room for an axis mix up — and the
+     GeoJSON string goes through func/GetMarker.html, which normalizes it to
+     the [lat, lng] order the maps consume.
+
+     Params: {map} an address object carrying .coordinates or .location.
+
+     Returns: map, the GeoCoordinates node — or false when there is no pin.
+*/}}
+{{- $geo := false -}}
+
+{{- with . -}}
+  {{- with .coordinates -}}
+    {{- if and .lat .lng -}}
+      {{- $geo = dict "@type" "GeoCoordinates" "latitude" .lat "longitude" .lng -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with partial "func/GetMarker.html" . -}}
+      {{- with (unmarshal .).coordinates -}}
+        {{- if eq (len .) 2 -}}
+          {{- $geo = dict
+            "@type" "GeoCoordinates"
+            "latitude" (index . 0)
+            "longitude" (index . 1)
+          -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $geo -}}

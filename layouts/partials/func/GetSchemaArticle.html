@@ -1,0 +1,64 @@
+{{/* GetSchemaArticle
+     Build the schema.org node for a page that is an article: a blog post, a
+     case study, a documentation page, a publication.
+
+     Carries what Google reads on an article — headline, image, dates, author
+     — and ties it to the page it is the main entity of. The authors and the
+     publisher default to the organization behind the site, referenced by @id
+     with the name and logo a reader of the node alone needs. A module adds
+     what its own taxonomies say (articleSection, keywords, about) by merging
+     into the result.
+
+     The image is the page's primary image, under the same @id
+     func/GetSchemaWebPage.html gives it, so both copies merge back into one.
+
+     Params: {map}
+       page      (page) the page.
+       type      (string) an Article subtype — BlogPosting, TechArticle,
+                 NewsArticle, ScholarlyArticle… Defaults to Article.
+       author    (map or slice) optional, the author node(s), compact.
+       publisher (map) optional, the publisher node, compact.
+
+     Returns: map, the Article node.
+*/}}
+{{- $page := .page -}}
+{{- $type := .type | default "Article" -}}
+{{- $organization := partial "func/GetSchemaOrganization.html" (dict "compact" true) -}}
+{{- /* or, not default: a caller with nothing to say passes false, which
+       default keeps as a value. */ -}}
+{{- $author := or .author $organization -}}
+{{- $publisher := or .publisher $organization -}}
+
+{{- $language := partial "func/GetLanguage.html" $page.Language -}}
+
+{{- $node := dict
+  "@type" $type
+  "@id" (printf "%s#article" $page.Permalink)
+  "headline" (partial "func/PrepareData.html" $page.Title)
+  "url" $page.Permalink
+  "mainEntityOfPage" (dict "@id" (printf "%s#webpage" $page.Permalink))
+  "inLanguage" $language.locale
+  "author" $author
+  "publisher" $publisher
+-}}
+
+{{- with $page.Description -}}
+  {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" .)) -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaImage.html" $page.Params.image -}}
+  {{- $node = merge $node (dict "image" (merge . (dict "@id" (printf "%s#primaryimage" $page.Permalink)))) -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaDate.html" $page.PublishDate -}}
+  {{- $node = merge $node (dict "datePublished" .) -}}
+{{- end -}}
+{{- with partial "func/GetSchemaDate.html" $page.Lastmod -}}
+  {{- $node = merge $node (dict "dateModified" .) -}}
+{{- end -}}
+
+{{- with $page.WordCount -}}
+  {{- $node = merge $node (dict "wordCount" .) -}}
+{{- end -}}
+
+{{- return $node -}}

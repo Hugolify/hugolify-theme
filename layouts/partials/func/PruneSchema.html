@@ -1,0 +1,44 @@
+{{/* PruneSchema
+     Drop the empty values of a schema.org node, all the way down.
+
+     The CMS writes every field out, filled or not, and a translation may
+     still miss its title: a property left empty says nothing a crawler can
+     use, and an empty name or headline is flagged as an error where a
+     missing one is merely a warning. commons/jsonld.html runs every node
+     through here, so a builder does not have to guard each value.
+
+     Empty means an empty string, nil, or a list or map left empty once
+     pruned. false and 0 are values — a boolean amenity, a ground floor — and
+     stay.
+
+     Params: (map or slice) a node, or a list of them.
+
+     Returns: the same, pruned — empty, hence falsy, when nothing is left.
+*/}}
+{{- $value := . -}}
+
+{{- if reflect.IsMap . -}}
+  {{- $value = dict -}}
+  {{- range $key, $item := . -}}
+    {{- if or (reflect.IsMap $item) (reflect.IsSlice $item) -}}
+      {{- with partial "func/PruneSchema.html" $item -}}
+        {{- $value = merge $value (dict $key .) -}}
+      {{- end -}}
+    {{- else if and (ne $item nil) (ne (printf "%v" $item) "") -}}
+      {{- $value = merge $value (dict $key $item) -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if reflect.IsSlice . -}}
+  {{- $value = slice -}}
+  {{- range . -}}
+    {{- if or (reflect.IsMap .) (reflect.IsSlice .) -}}
+      {{- with partial "func/PruneSchema.html" . -}}
+        {{- $value = $value | append . -}}
+      {{- end -}}
+    {{- else if and (ne . nil) (ne (printf "%v" .) "") -}}
+      {{- $value = $value | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $value -}}
