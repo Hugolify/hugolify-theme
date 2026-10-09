@@ -8,7 +8,7 @@
   {{- end -}}
   {{- with $context -}}
     {{- with .blocks -}}
-      {{- partial "blocks/range.html" . -}}
+      {{- partial "blocks/range.html" (dict "blocks" . "prefix" "footer") -}}
     {{- end }}
   {{- end }}
 {{- end }}

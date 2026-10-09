@@ -1,0 +1,11 @@
+{{/* GetBlockId
+     The id blocks/range.html sets on the section of a block: block-<type>-<rank>,
+     the rank counted from 1, behind the context prefix range.html is given, if
+     any (footer-block-<type>-<rank>). The block- part keeps it apart from the ids
+     the templates build from the type and the index (form-<index>).
+
+     Params: block, with the index blocks/range.html numbers it with
+
+     Returns: string
+*/}}
+{{- return printf "block-%s-%d" .type (add .index 1) -}}

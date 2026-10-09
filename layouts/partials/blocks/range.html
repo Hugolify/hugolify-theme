@@ -1,8 +1,18 @@
+{{- /* Params: slice of blocks, or dict { blocks, prefix }, the prefix naming the
+       context of the list (footer, header…) put before the id of each block,
+       so the lists rendered on one page never share an id. The blocks of the
+       page go without one. */ -}}
+{{- $list := . -}}
+{{- $prefix := "" -}}
+{{- if reflect.IsMap . -}}
+  {{- $list = .blocks -}}
+  {{- $prefix = .prefix -}}
+{{- end -}}
 {{- /* A block needs a type to pick its template. A CMS can leave holes in a
        translated list (`null`, or an item without `type`): skip them, before
        numbering, so `first` and `index` still count the rendered blocks. */ -}}
 {{- $blocks := slice -}}
-{{- range . -}}
+{{- range $list -}}
   {{- if and (reflect.IsMap .) .type -}}
     {{- $blocks = $blocks | append . -}}
   {{- else -}}
@@ -19,7 +29,13 @@
     {{- warnidf "blocks" "Partial block missed: %s" $block.type -}}
   {{- end -}}
   {{- if templates.Exists ( printf "partials/%s" $template ) -}}
-    {{ partial $template $block }}
+    {{- /* Every block carries an id on its section, which the TOC links to
+           (func/GetBlockHeading.html). */ -}}
+    {{- $id := partial "func/GetBlockId.html" $block -}}
+    {{- with $prefix -}}
+      {{- $id = printf "%s-%s" . $id -}}
+    {{- end }}
+    {{ replaceRE `<section\b` (printf `<section id="%s"` $id) (partial $template $block) 1 | safeHTML }}
   {{- else -}}
     {{- warnidf "blocks" "Partial block missed: %s" $template -}}
   {{- end -}}

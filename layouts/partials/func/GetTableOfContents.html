@@ -1,0 +1,57 @@
+{{/* GetTableOfContents
+     The TOC of a page: the body headings (.TableOfContents, shaped by
+     markup.tableOfContents), then the page blocks (func/GetBlocksHeadings.html).
+
+     The blocks come after the body. A layout rendering them first says so with
+     `toc.blocks: before`, in the site params, or in the front matter of a page,
+     where a cascade sets it for a whole section.
+
+     Without body headings there is no list to take the type from, and Hugo
+     does not expose markup.tableOfContents.ordered to templates:
+     site.Params.toc.ordered stands in for it.
+
+     Params: page
+
+     Returns: string, the HTML of nav#TableOfContents
+*/}}
+{{- $toc := .TableOfContents -}}
+
+{{- with partial "func/GetBlocksHeadings.html" . -}}
+  {{- $items := "" -}}
+  {{- range . -}}
+    {{- $items = printf "%s\n    <li><a href=\"#%s\">%s</a></li>" $items .id .title -}}
+  {{- end -}}
+
+  {{/* Side of the blocks, the page wins over the site */}}
+  {{- $position := "after" -}}
+  {{- with site.Params.toc -}}
+    {{- with .blocks -}}
+      {{- $position = . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $.Params.toc -}}
+    {{- if reflect.IsMap . -}}
+      {{- with .blocks -}}
+        {{- $position = . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* Top-level list of the body, nested lists included */}}
+  {{- $tag := "ul" -}}
+  {{- with site.Params.toc -}}
+    {{- if .ordered -}}
+      {{- $tag = "ol" -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $body := "" -}}
+  {{- with findRESubmatch `(?s)<(ol|ul)>(.*)</(?:ol|ul)>` $toc 1 -}}
+    {{- $tag = index . 0 1 -}}
+    {{- $body = index . 0 2 | strings.TrimRight " \n" -}}
+  {{- end -}}
+
+  {{- $list := cond (eq $position "before") (print $items $body) (print $body $items) -}}
+  {{- $toc = printf "<nav id=\"TableOfContents\">\n  <%s>%s\n  </%s>\n</nav>" $tag $list $tag -}}
+{{- end -}}
+
+{{- return $toc -}}

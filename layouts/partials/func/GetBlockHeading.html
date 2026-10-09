@@ -1,0 +1,28 @@
+{{/* GetBlockHeading
+     The TOC entry of a block, linked to the id blocks/range.html sets on its
+     section (func/GetBlockId.html). Its title is read from the params: the title
+     of its heading, or the title at its root for the paragraph and editorial
+     blocks, whose content is a heading. Without one, the name of its type
+     (func/GetBlockLabel.html).
+
+     Params: block, with the index blocks/range.html numbers it with
+
+     Returns: dict { id, title }, title as HTML without tags
+*/}}
+{{- $title := "" -}}
+{{- if in (slice "paragraph" "editorial") .type -}}
+  {{- $title = .title -}}
+{{- else -}}
+  {{- with .heading -}}
+    {{- $title = .title -}}
+  {{- end -}}
+{{- end -}}
+{{- with $title -}}
+  {{- $title = partial "func/PrepareHTML.html" . | plainify -}}
+{{- else -}}
+  {{- $title = partial "func/GetBlockLabel.html" .type -}}
+{{- end -}}
+{{- return dict
+  "id" (partial "func/GetBlockId.html" .)
+  "title" $title
+-}}

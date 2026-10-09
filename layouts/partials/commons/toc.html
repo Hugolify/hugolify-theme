@@ -1,6 +1,10 @@
 {{/*  site.Params.toc.expand — sm | md | lg | xl | none
-      site.Params.toc.drawer.position — start | end | top | bottom  */}}
-{{ if ge (len .TableOfContents) 100 }}
+      site.Params.toc.drawer.position — start | end | top | bottom
+      site.Params.toc.ordered — true | false, list type of a TOC made of block
+      headings only, set it like markup.tableOfContents.ordered
+      site.Params.toc.blocks — before | after, side of the body headings the
+      block headings take, overridden by `toc.blocks` in the front matter  */}}
+{{ if ge (len (partialCached "func/GetTableOfContents.html" . .RelPermalink)) 100 }}
 <div class="toc" {{- partial "func/SetSearchIgnore.html" . }}>
   <div>
     <p>{{ i18n "toc" }}</p>

@@ -1,0 +1,18 @@
+{{/* GetBlocksHeadings
+     The TOC entries of the page blocks, in page order (func/GetBlockHeading.html),
+     numbered the way blocks/range.html numbers them: the blocks without a type
+     are skipped before counting.
+
+     Params: page
+
+     Returns: slice of dict { id, title }
+*/}}
+{{- $headings := slice -}}
+{{- $index := 0 -}}
+{{- range .Params.blocks -}}
+  {{- if and (reflect.IsMap .) .type -}}
+    {{- $headings = $headings | append (partial "func/GetBlockHeading.html" (merge . (dict "index" $index))) -}}
+    {{- $index = add $index 1 -}}
+  {{- end -}}
+{{- end -}}
+{{- return $headings -}}

@@ -106,6 +106,10 @@ params:
     expand: md
     drawer:
       position: start # start | end | top | bottom
+    # Side of the body headings the block headings take in the TOC: before |
+    # after. A page overrides it with `toc.blocks` in its front matter, a whole
+    # section through a cascade, for a layout rendering its blocks first.
+    blocks: after
   # Grids of items that scroll sideways with snap points instead of wrapping.
   #   breakpoint — the width at which the carousel STOPS and the grid comes
   #     back: sm | md | lg | xl | all | none, so md means mobile and tablet

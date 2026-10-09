@@ -1,5 +1,5 @@
 <div class="content">
-  {{ with .TableOfContents }}
+  {{ with partialCached "func/GetTableOfContents.html" . .RelPermalink }}
     {{ $replace := replace . "id=\"TableOfContents\"" (printf "id='TableOfContents' aria-label='%s'" (i18n "toc")) }}
     {{ $replace | safeHTML }}
   {{ end }}

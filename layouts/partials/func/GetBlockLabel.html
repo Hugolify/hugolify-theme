@@ -1,0 +1,16 @@
+{{/* GetBlockLabel
+     The name of a block type, as the CMS lists it: admin.blocks.<type>.label from
+     hugolify-admin or the site, else "Sélection <collection>" for a
+     selected-<collection> block. Without the admin module, the type humanized.
+
+     Params: string, the block type
+
+     Returns: string
+*/}}
+{{- $label := i18n (printf "admin.blocks.%s.label" .) -}}
+{{- if and (not $label) (strings.HasPrefix . "selected-") -}}
+  {{- $collection := strings.TrimPrefix "selected-" . -}}
+  {{- $section := i18n (printf "admin.collections.%s.label" $collection) 2 | default (humanize $collection) -}}
+  {{- $label = i18n "admin.blocks.selected.label" (dict "section" $section) -}}
+{{- end -}}
+{{- return $label | default (humanize .) -}}
