@@ -1,5 +1,12 @@
 {{- /*
-  Schema.org for list/collection pages (sections, taxonomy terms, home).
+  Schema.org for a listing: a section, a taxonomy, a taxonomy term.
+
+  A CollectionPage naming the entries it lists, in display order and capped
+  (params.schemaItemsLimit, 30 by default). A term standing for a page of a
+  shared section — the expertise behind persons_expertises, the office behind
+  persons_places, the person behind authors — says it is about that page, see
+  func/GetSchemaEntity.html.
+
   Accepts either the page as the context (.) or a dict:
     { "page": <page>, "types": <slice of extra @type to add alongside CollectionPage> }
 */ -}}
@@ -14,43 +21,41 @@
   {{- $types := slice "CollectionPage" -}}
   {{- range $extraTypes -}}{{- $types = $types | append . -}}{{- end -}}
 
-  {{/* A term only carries a key, so the title goes through GetRealContext to
-    reach the page it stands for, where the translated label lives. That partial
-    hands back the page it received when there is nothing to map, so an ordinary
-    list is left untouched. */}}
-  {{- $schema := dict
-    "@context" "https://schema.org"
-    "@type" (cond (eq (len $types) 1) (index $types 0) $types)
-    "@id" (printf "%s#webpage" .Permalink)
-    "url" .Permalink
-    "headline" (partial "func/PrepareData.html" (partial "func/GetRealContext.html" .).Title)
-  -}}
+  {{- /* A term only carries a key: GetRealContext reaches the page it stands
+         for, and hands back the term itself when there is none. */ -}}
+  {{- $about := false -}}
+  {{- if eq .Kind "term" -}}
+    {{- $real := partial "func/GetRealContext.html" . -}}
+    {{- if and (not (reflect.IsMap $real)) (ne $real.Permalink .Permalink) -}}
+      {{- $about = partial "func/GetSchemaEntity.html" (dict "page" $real "compact" true) -}}
+    {{- end -}}
+  {{- end -}}
 
-  {{- with .Params.image -}}{{- $schema = merge $schema (dict "image" (.src | absURL)) -}}{{- end -}}
-  {{- with .Date -}}{{- $schema = merge $schema (dict "datePublished" .) -}}{{- end -}}
-  {{- with .Params.description -}}{{- $schema = merge $schema (dict "abstract" (partial "func/PrepareData.html" .)) -}}{{- end -}}
-  {{- with .Content -}}{{- $schema = merge $schema (dict "description" (partial "func/PrepareData.html" .)) -}}{{- end -}}
-
-  {{- /* List the items of this collection (capped, in display order; override with params.schemaItemsLimit). */ -}}
   {{- $limit := site.Params.schemaItemsLimit | default 30 -}}
   {{- $elements := slice -}}
-  {{- range $i, $p := first $limit $page.Pages -}}
+  {{- range $i, $p := first $limit .Pages -}}
     {{- $elements = $elements | append (dict
       "@type" "ListItem"
       "position" (add $i 1)
       "url" $p.Permalink
-      "name" ((partial "func/GetRealContext.html" $p).Title | plainify)
+      "name" (partial "func/PrepareData.html" (partial "func/GetRealContext.html" $p).Title)
     ) -}}
   {{- end -}}
+  {{- $list := false -}}
   {{- with $elements -}}
-    {{- $schema = merge $schema (dict "mainEntity" (dict
+    {{- $list = dict
       "@type" "ItemList"
       "numberOfItems" (len $page.Pages)
       "itemListElement" .
-    )) -}}
+    -}}
   {{- end -}}
 
-  <script type="application/ld+json">
-  {{ $schema | jsonify (dict "indent" "  ") | safeJS }}
-  </script>
+  {{- $webpage := partial "func/GetSchemaWebPage.html" (dict
+    "page" .
+    "type" (cond (eq (len $types) 1) (index $types 0) $types)
+    "mainEntity" $list
+    "about" $about
+  ) -}}
+
+  {{- partial "commons/jsonld.html" $webpage -}}
 {{- end -}}

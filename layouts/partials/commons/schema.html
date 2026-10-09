@@ -39,7 +39,5 @@
     {{- $website = merge $website (dict "description" (partial "func/PrepareData.html" .)) -}}
   {{- end -}}
 
-  <script type="application/ld+json">
-  {{ dict "@context" "https://schema.org" "@graph" (slice $website $organization) | jsonify (dict "indent" "  ") | safeJS }}
-  </script>
+  {{- partial "commons/jsonld.html" (slice $website $organization) -}}
 {{- end -}}

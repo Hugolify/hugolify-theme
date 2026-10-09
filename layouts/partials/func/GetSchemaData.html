@@ -24,7 +24,7 @@
   {{- $root = $datas -}}
 
   {{- $defaultLanguage := site.Language.Lang -}}
-  {{- with site.Sites.Default -}}
+  {{- with hugo.Sites.Default -}}
     {{- $defaultLanguage = .Language.Lang -}}
   {{- end -}}
 

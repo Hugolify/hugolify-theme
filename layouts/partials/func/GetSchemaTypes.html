@@ -8,7 +8,12 @@
 
      LocalBusiness belongs to both branches in schema.org — Thing > Organization
      > LocalBusiness and Thing > Place > LocalBusiness. It is listed as an
-     organization here, because a business is something one works for.
+     organization here, because a business is something one works for, and
+     so are its subtypes.
+
+     The organization branch covers the trades the Hugolify flavours are built
+     for: a law firm or a notary (Lawyerify), a clinic (Medicalify), a real
+     estate agency (Realestatify).
 
      Returns: map
        organization (slice of string)
@@ -21,7 +26,10 @@
   "LocalBusiness"
   "ProfessionalService"
   "LegalService"
+  "Notary"
   "MedicalOrganization"
+  "MedicalClinic"
+  "RealEstateAgent"
   "EducationalOrganization"
   "NGO"
 -}}

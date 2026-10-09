@@ -4,7 +4,8 @@
 
      Accepts both contact shapes, like commons/contact/socials.html does: a
      `socials` list of {platform, url}, and the legacy flat keys (linkedin:
-     https://…) sitting next to email, phone and fax.
+     https://…) sitting next to email, phone and fax. Only actual URLs make it
+     to sameAs: a legacy key may just as well hold a second phone number.
 
      Publishing email addresses can be turned off site wide in the CMS, with
      data/schema.yml's `email` switch — JSON-LD is a convenient place to
@@ -25,20 +26,28 @@
   {{- end -}}
 
   {{- if $exposeEmail -}}
-    {{- with .email -}}{{- $contact = merge $contact (dict "email" .) -}}{{- end -}}
+    {{- with .email -}}{{- $contact = merge $contact (dict "email" (strings.TrimPrefix "mailto:" .)) -}}{{- end -}}
   {{- end -}}
   {{- with .phone -}}{{- $contact = merge $contact (dict "telephone" (string .)) -}}{{- end -}}
   {{- with .fax -}}{{- $contact = merge $contact (dict "faxNumber" (string .)) -}}{{- end -}}
 
-  {{- $sameAs := slice -}}
+  {{- $urls := slice -}}
   {{- range .socials -}}
-    {{- with .url -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+    {{- with .url -}}{{- $urls = $urls | append . -}}{{- end -}}
   {{- end -}}
   {{- $reserved := slice "email" "phone" "fax" "socials" -}}
   {{- range $key, $value := . -}}
     {{- if in $reserved $key -}}{{- continue -}}{{- end -}}
     {{- if or (reflect.IsMap $value) (reflect.IsSlice $value) -}}{{- continue -}}{{- end -}}
-    {{- with $value -}}{{- $sameAs = $sameAs | append . -}}{{- end -}}
+    {{- with $value -}}{{- $urls = $urls | append . -}}{{- end -}}
+  {{- end -}}
+
+  {{- $sameAs := slice -}}
+  {{- range $urls -}}
+    {{- $url := strings.TrimSpace (string .) -}}
+    {{- if and (findRE `^https?://` $url) (not (in $sameAs $url)) -}}
+      {{- $sameAs = $sameAs | append $url -}}
+    {{- end -}}
   {{- end -}}
   {{- with $sameAs -}}{{- $contact = merge $contact (dict "sameAs" .) -}}{{- end -}}
 {{- end -}}

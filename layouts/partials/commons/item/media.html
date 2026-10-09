@@ -55,7 +55,6 @@
       {{/*  sizes precedence: a per-image front-matter `sizes` always wins; otherwise lazy images
             get "auto" (resolved in image.html) and only non-lazy ones fall back to the config default. */}}
       {{- $args := merge . (dict
-        "itemprop" "image"
         "lazy" $lazy
         "desktop" $desktop
         "mobile" $mobile

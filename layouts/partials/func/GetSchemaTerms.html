@@ -1,0 +1,56 @@
+{{/* GetSchemaTerms
+     The terms a page carries in one taxonomy, shaped for a schema.org
+     property.
+
+     A taxonomy filled from a section (authors, *_persons, *_expertises,
+     *_places, *_awards) only stores keys: each term goes through
+     func/GetRealContext.html to reach the page it stands for, where the
+     translated title and the URL people should land on live.
+
+     The taxonomy is read only once the site declares it. Every taxonomy ships
+     as its own module, and .GetTerms raises on one that was never configured.
+
+     Params: {map}
+       page     (page)   the page carrying the terms.
+       taxonomy (string) the taxonomy, e.g. "persons_expertises".
+       format   (string) optional
+                         "text"  (default) the plain titles, for properties
+                                 that take a Text: articleSection, keywords,
+                                 jobTitle, award…
+                         "thing" a Thing node per term, named and linked to
+                                 the page it stands for, for about or
+                                 knowsAbout.
+                         "page"  the resolved pages themselves, for a caller
+                                 building richer nodes (a Person, a Place).
+                                 A section kept in data hands back a page-like
+                                 map, see func/GetRealContext.html.
+
+     Returns: slice, empty when the page carries no term.
+*/}}
+{{- $page := .page -}}
+{{- $taxonomy := .taxonomy -}}
+{{- $format := .format | default "text" -}}
+
+{{- $values := slice -}}
+{{- if and $page $taxonomy (isset site.Taxonomies $taxonomy) -}}
+  {{- range $page.GetTerms $taxonomy -}}
+    {{- $real := partial "func/GetRealContext.html" . -}}
+    {{- if eq $format "page" -}}
+      {{- $values = $values | append $real -}}
+    {{- else -}}
+      {{- $name := partial "func/PrepareData.html" $real.Title -}}
+      {{- if eq $format "thing" -}}
+        {{- $thing := dict "@type" "Thing" "name" $name -}}
+        {{- /* A data entry has no page to link to. */ -}}
+        {{- if not (reflect.IsMap $real) -}}
+          {{- $thing = merge $thing (dict "url" $real.Permalink) -}}
+        {{- end -}}
+        {{- $values = $values | append $thing -}}
+      {{- else -}}
+        {{- $values = $values | append $name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $values -}}

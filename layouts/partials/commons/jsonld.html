@@ -1,0 +1,33 @@
+{{/* Print schema.org nodes as a JSON-LD script.
+
+     The nodes come from the func/GetSchema*.html partials, which build them as
+     maps: jsonify serializes them, so an absent property simply never reaches
+     the output — a hand-written literal leaves dangling commas behind and the
+     whole block stops parsing. jsonify also escapes <, > and &, so no value
+     can close the script early.
+
+     Several nodes go out as one @graph, where they reference each other by
+     @id. Empty entries are skipped, so a caller can pass a node a partial
+     returned false for, and every node goes through func/PruneSchema.html,
+     so an empty value never reaches the output.
+
+     Params: (map) a node, or (slice) several.
+*/}}
+{{- $nodes := slice -}}
+{{- range (cond (reflect.IsSlice .) . (slice .)) -}}
+  {{- if reflect.IsMap . -}}
+    {{- with partial "func/PruneSchema.html" . -}}{{- $nodes = $nodes | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $nodes -}}
+  {{- $schema := dict "@context" "https://schema.org" -}}
+  {{- if eq (len .) 1 -}}
+    {{- $schema = merge $schema (index . 0) -}}
+  {{- else -}}
+    {{- $schema = merge $schema (dict "@graph" .) -}}
+  {{- end }}
+<script type="application/ld+json">
+{{ $schema | jsonify (dict "indent" "  ") | safeJS }}
+</script>
+{{- end -}}

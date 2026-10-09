@@ -1,0 +1,96 @@
+{{/* GetSchemaWebPage
+     Build the schema.org node for the page itself, the hub every other node
+     of the page hangs on.
+
+     It belongs to the WebSite commons/schema.html describes for the current
+     language, carries the breadcrumb nav/breadcrumb.html prints — see
+     func/GetSchemaBreadcrumb.html — and points at what the page is about:
+     the caller passes the main entity it builds (a Person on a profile, an
+     Event on an event page), or what a listing is about (the expertise
+     behind a taxonomy term).
+
+     The name follows head/seo.html without the site suffix, a taxonomy term
+     going through func/GetRealContext.html for its translated title; the
+     description takes seo.description over the page description, and the
+     site one on the home page.
+
+     Params: {map}
+       page       (page) the page.
+       type       (string or slice) a WebPage subtype — CollectionPage,
+                  ProfilePage, ItemPage, RealEstateListing… Defaults to
+                  WebPage.
+       mainEntity (map) optional, the main entity node, compact or full.
+       about      (map or slice) optional, what the page is about.
+
+     Returns: map, the WebPage node.
+*/}}
+{{- $page := .page -}}
+{{- $type := .type | default "WebPage" -}}
+{{- $mainEntity := .mainEntity | default false -}}
+{{- $about := .about | default false -}}
+
+{{- $language := partial "func/GetLanguage.html" $page.Language -}}
+{{- $real := partial "func/GetRealContext.html" $page -}}
+
+{{- $node := dict
+  "@type" $type
+  "@id" (printf "%s#webpage" $page.Permalink)
+  "url" $page.Permalink
+  "name" (partial "func/PrepareData.html" $real.Title)
+  "inLanguage" $language.locale
+  "isPartOf" (dict "@id" (printf "%s#website" site.Home.Permalink))
+-}}
+
+{{- $description := "" -}}
+{{- if $page.IsHome -}}
+  {{- $description = partial "func/GetSeoData.html" "description" -}}
+{{- end -}}
+{{- with $page.Description -}}{{- $description = . -}}{{- end -}}
+{{- with $page.Params.seo -}}
+  {{- with .description -}}{{- $description = . -}}{{- end -}}
+{{- end -}}
+{{- with $description -}}
+  {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" .)) -}}
+{{- end -}}
+
+{{- /* The featured image first, as func/GetSchemaArticle.html reads it under
+       the same @id: the share image only stands in for a page without one. */ -}}
+{{- $image := false -}}
+{{- with $page.Params.image -}}
+  {{- if .src -}}{{- $image = . -}}{{- end -}}
+{{- end -}}
+{{- if not $image -}}
+  {{- with $page.Params.seo -}}
+    {{- with .image -}}{{- $image = . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with partial "func/GetSchemaImage.html" $image -}}
+  {{- $node = merge $node (dict "primaryImageOfPage" (merge . (dict "@id" (printf "%s#primaryimage" $page.Permalink)))) -}}
+{{- end -}}
+
+{{- /* A listing takes the date of its latest entry: it says when the page last
+       changed, not when it was first published. */ -}}
+{{- if $page.IsPage -}}
+  {{- with partial "func/GetSchemaDate.html" $page.PublishDate -}}
+    {{- $node = merge $node (dict "datePublished" .) -}}
+  {{- end -}}
+{{- end -}}
+{{- with partial "func/GetSchemaDate.html" $page.Lastmod -}}
+  {{- $node = merge $node (dict "dateModified" .) -}}
+{{- end -}}
+
+{{- /* Embedded rather than referenced: a page where the trail is printed twice
+       — the documentation repeats it above the content — still describes it
+       once. */ -}}
+{{- with partial "func/GetSchemaBreadcrumb.html" $page -}}
+  {{- $node = merge $node (dict "breadcrumb" .) -}}
+{{- end -}}
+
+{{- with $mainEntity -}}
+  {{- $node = merge $node (dict "mainEntity" .) -}}
+{{- end -}}
+{{- with $about -}}
+  {{- $node = merge $node (dict "about" .) -}}
+{{- end -}}
+
+{{- return $node -}}

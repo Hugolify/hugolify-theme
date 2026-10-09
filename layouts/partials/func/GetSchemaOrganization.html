@@ -39,12 +39,14 @@
      A place only qualifies as an office when its schema.type names an
      organization subtype — the places section is generic, and a venue or a
      landmark is a location, not an organization. Otherwise it stays a place:
-     see func/GetSchemaPlace.html. The key is nested rather than a top level
-     `type`, which Hugo reserves in front matter to select the content type.
+     see func/GetSchemaPlace.html, and func/GetSchemaEntity.html which picks
+     between the two. The key is nested rather than a top level `type`, which
+     Hugo reserves in front matter to select the content type.
 
      Params: {map} optional
-       compact (bool) return only the fields needed to reference the node from
-                      another schema.
+       compact (bool) return only what another node needs to reference this
+                      one: @type, @id, name, url and the logo — which Google
+                      reads on a publisher or a hiringOrganization.
        place   (page) a /places/ page to build a branch office from.
        name    (string) fallback name when the data file has none. Defaults to
                       the site title.
@@ -71,14 +73,29 @@
 {{- $id := $headId -}}
 {{- $url := site.BaseURL -}}
 
+{{- /* The logo belongs to the firm, wherever the office is. It carries an @id
+       of its own so every copy of it — the full node, each compact reference —
+       merges back into a single image. */ -}}
+{{- $logo := false -}}
+{{- with partial "func/GetSchemaImage.html" $datas.image -}}
+  {{- $logo = merge . (dict "@id" (printf "%s#logo" site.BaseURL)) -}}
+{{- end -}}
+
 {{- /* An office of the firm: its own identity, and its own type when it
-       declares one — a group can run a clinic and a shop. */ -}}
+       declares one — a group can run a clinic and a shop. A type from the
+       place branch is no organization, the firm's one stands then. */ -}}
 {{- with $place -}}
-  {{- $id = printf "%s#organization" .Permalink -}}
+  {{- /* An office kept out of the build (render: never) has neither: its node
+         goes anonymous rather than claim the firm's @id. */ -}}
+  {{- $id = cond (ne .Permalink "") (printf "%s#organization" .Permalink) "" -}}
   {{- $url = .Permalink -}}
   {{- $name = .Title -}}
   {{- with .Params.schema -}}
-    {{- with .type -}}{{- $type = . -}}{{- end -}}
+    {{- with .type -}}
+      {{- if in (partial "func/GetSchemaTypes.html").organization . -}}
+        {{- $type = . -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
@@ -88,37 +105,38 @@
   "name" (partial "func/PrepareData.html" $name)
   "url" $url
 -}}
+{{- with $logo -}}
+  {{- $organization = merge $organization (dict "logo" .) -}}
+{{- end -}}
 
 {{- if not $compact -}}
 
-  {{- /* The logo belongs to the firm, wherever the office is. */ -}}
-  {{- with $datas.image -}}
-    {{- with .src -}}
-      {{- $logo := dict "@type" "ImageObject" "url" (. | absURL) -}}
-      {{- $organization = merge $organization (dict "logo" $logo "image" $logo) -}}
-    {{- end -}}
-  {{- end -}}
-
   {{- /* The description is the site one, which data/seo.yml already holds per
-         language. data/schema.yml carries no prose at all, and that is what
-         keeps it out of the i18n machinery: an organization is a single entity
-         — one address, one phone, one @id — so nothing in it varies from one
-         language to the next. An office overrides it from its own page, which
-         is translatable content. */ -}}
+         language, so data/schema.yml needs no prose of its own. An office
+         overrides it from its own page, which is translatable content. */ -}}
   {{- $description := partial "func/GetSeoData.html" "description" -}}
 
-  {{- /* What an office describes for itself wins; the firm fills in the rest. */ -}}
+  {{- /* What an office describes for itself wins; the firm fills in the rest.
+         The address is taken whole — half an office's address completed with
+         the head office's would point nowhere — where a contact is completed
+         field by field: the switchboard still reaches an office that has no
+         line of its own. */ -}}
   {{- $address := $datas.address -}}
-  {{- $contact := $datas.contact -}}
+  {{- $contact := $datas.contact | default dict -}}
+  {{- $image := $logo -}}
   {{- with $place -}}
     {{- with .Description -}}{{- $description = . -}}{{- end -}}
     {{- with .Params.address -}}{{- $address = . -}}{{- end -}}
-    {{- with .Params.contact -}}{{- $contact = . -}}{{- end -}}
-    {{- with .Params.image -}}
-      {{- with .src -}}
-        {{- $organization = merge $organization (dict "image" (dict "@type" "ImageObject" "url" (. | absURL))) -}}
-      {{- end -}}
+    {{- with .Params.contact -}}
+      {{- $contact = partial "func/MergeDefined.html" (dict "base" $contact "overlay" .) -}}
     {{- end -}}
+    {{- with partial "func/GetSchemaImage.html" .Params.image -}}{{- $image = . -}}{{- end -}}
+  {{- end -}}
+
+  {{- /* Set once: merge recurses into a map already there, and the office
+         photo would inherit the @id of the logo. */ -}}
+  {{- with $image -}}
+    {{- $organization = merge $organization (dict "image" .) -}}
   {{- end -}}
 
   {{- with $description -}}
@@ -133,12 +151,14 @@
   {{- $organization = merge $organization (partial "func/GetSchemaContact.html" $contact) -}}
 
   {{- with $place -}}
-    {{- $organization = merge $organization (dict "parentOrganization" (dict
+    {{- $parent := dict
       "@type" $headType
       "@id" $headId
       "name" (partial "func/PrepareData.html" $headName)
       "url" site.BaseURL
-    )) -}}
+    -}}
+    {{- with $logo -}}{{- $parent = merge $parent (dict "logo" .) -}}{{- end -}}
+    {{- $organization = merge $organization (dict "parentOrganization" $parent) -}}
   {{- end -}}
 
 {{- end -}}
