@@ -30,7 +30,7 @@ Styling and JS are provided by a separate **styling module**, declared in the si
 | Module | CSS | JS |
 | --- | --- | --- |
 | [hugolify-theme-bootstrap](https://github.com/hugolify/hugolify-theme-bootstrap) | Bootstrap 5 + SASS | Bootstrap 5 + Vanilla JS |
-| hugolify-theme-design-system (wip) | Vanilla CSS / Design tokens | Vanilla JS |
+| [hugolify-theme-design-system](https://github.com/hugolify/hugolify-theme-design-system) | Vanilla CSS / Design tokens | Vanilla JS |
 
 ### Custom styling
 
