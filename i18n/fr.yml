@@ -128,6 +128,7 @@ home: Accueil
 image:
   one: Image
   other: Images
+lastmod: Mis à jour le {{ .Date }}
 link:
   blank: lien externe
   blank_aria: « {{ .Title }} » - lien externe

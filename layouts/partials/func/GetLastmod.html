@@ -1,0 +1,27 @@
+{{/* GetLastmod
+     The date a page was last changed, when it is worth telling the reader.
+
+     Hugo always hands out a .Lastmod: the author date of the last Git commit
+     with enableGitInfo, the front matter otherwise, and the publication date
+     when neither says anything. Printed as it is, every page would read as
+     updated the day it went out. So the date is only returned when it falls
+     on a later day than .Date, each read in its own time zone as
+     commons/time.html prints them: an edit made the same day is not news. A
+     page with no date of its own, a documentation page dated by Git alone,
+     gets its last change whatever it is.
+
+     Params: (page) the page.
+
+     Returns: time, or false when there is no change worth showing.
+*/}}
+{{- $lastmod := false -}}
+{{- with .Lastmod -}}
+  {{- $lastmod = . -}}
+  {{- with $.Date -}}
+    {{- if le ($lastmod.Format "2006-01-02") (.Format "2006-01-02") -}}
+      {{- $lastmod = false -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $lastmod -}}

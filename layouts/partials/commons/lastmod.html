@@ -1,0 +1,22 @@
+{{- /*
+  commons/lastmod.html: when a page was last changed, next to its date in the
+  metas
+
+  Prints nothing unless func/GetLastmod.html finds a change worth telling: a
+  page edited the day it went out stays silent. The date carries no Pagefind
+  sort key, that one belongs to the publication date.
+
+  Params: (page) the page, or
+    page   (page, required)    the page
+    format (string, optional)  the time.Format layout, :date_full by default
+*/ -}}
+{{- $page := . -}}
+{{- $format := ":date_full" -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $format = .format | default $format -}}
+{{- end -}}
+{{- with partial "func/GetLastmod.html" $page -}}
+  {{- $time := partial "commons/time.html" (dict "date" . "format" $format "sort" false) -}}
+  <p class="lastmod" {{- partial "func/SetSearchIgnore.html" . }}>{{ i18n "lastmod" (dict "Date" $time) | safeHTML }}</p>
+{{- end -}}

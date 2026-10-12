@@ -1,9 +1,13 @@
 {{- $date := .date | default false -}}
 {{- $format := .format | default "2006" -}}
+{{- /* The Pagefind sort key the date stands for. A page holds a key once, so
+       a second date on it, a last change, passes false. */ -}}
+{{- $sort := "date" -}}
+{{- if isset . "sort" }}{{ $sort = .sort }}{{ end -}}
 {{ with $date }}
-  <time 
-    datetime="{{ (time.Format `2006-01-02T15:04:05Z07:00` .) | safeHTML }}" 
-    {{- if and site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="date"{{ end }}>
+  <time
+    datetime="{{ (time.Format `2006-01-02T15:04:05Z07:00` .) | safeHTML }}"
+    {{- if and $sort site.Params.search.enable site.Params.search.sort }} data-pagefind-sort="{{ $sort }}"{{ end }}>
       {{- . | time.Format $format -}}
   </time>
 {{ end }}
