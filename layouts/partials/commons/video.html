@@ -5,7 +5,9 @@
   {{- $animation := partial "func/SetAnim.html" (dict "element" "video") -}}
   {{- $parallax := partial "func/SetParallax.html" (dict "element" "video") -}}
   {{- $args := slice "playsinline" -}}
-  {{- if .autoplay }}{{ $args = $args | append "autoplay" }}{{ end -}}
+  {{/*  Started by video.js: in Low Power Mode, Safari forces a play button
+        over any video carrying the autoplay attribute, and no CSS hides it  */}}
+  {{- if .autoplay }}{{ $args = $args | append "data-autoplay" }}{{ end -}}
   {{- if .controls }}{{ $args = $args | append "controls" }}{{ end -}}
   {{- if .loop }}{{ $args = $args | append "loop" }}{{ end -}}
   {{- if ne .muted false }}{{ $args = $args | append "muted" }}{{ end -}}
@@ -43,11 +45,13 @@
     {{- end }}
   </video>
 
-  {{/*  Toggle button if autoplay without controls (WCAG)  */}}
+  {{/*  Toggle button if autoplay without controls (WCAG). It starts ready to
+        play, as the video does until video.js starts it: in Low Power Mode,
+        Safari refuses and the button is the user's way to start it.  */}}
   {{- if and .autoplay (not .controls) }}
   <button
-    class="btn btn-toggle-video js-toggle-video is-playing"
-    aria-label="{{ i18n "video.pause" }}"
+    class="btn btn-toggle-video js-toggle-video"
+    aria-label="{{ i18n "video.play" }}"
     data-label-play="{{ i18n "video.play" }}"
     data-label-pause="{{ i18n "video.pause" }}">
     {{- if templates.Exists "partials/icon.html" -}}
