@@ -47,7 +47,7 @@
   <div class="{{ $pushClass }}" {{- if or $ui.background_color $ui.color }}{{ $style | safeHTMLAttr }}{{ end }}>
 
     {{/* Content */}}
-    {{ partial "commons/push/content.html" (merge . (dict "tag" $tag "card" $ui.card)) }}
+    {{ partial "commons/push/content.html" (merge . (dict "tag" $tag)) }}
 
     {{/* Image */}}
     {{- $width := partial "func/GetColumnWidth.html" (dict "column" (div (site.Params.column.desktop) $column)) -}}
