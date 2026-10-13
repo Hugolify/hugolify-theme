@@ -1,0 +1,40 @@
+{{/* GetPaginator
+     The pager of a list, sized by params.<type>.pagerSize when its type sets
+     one, by the site-wide pagination.pagerSize otherwise.
+
+     Hugo builds the pager of a page once, on the first call: every later call,
+     nav/pagination.html among them, gets that same pager back whatever it asks
+     for. So the list asks for it here, before anything else does.
+
+     Params: (page) the list page, paginated on its own pages,
+       or (dict)
+         page:  the list page.
+         pages: the collection to paginate in their place, once sorted,
+                filtered or grouped (page.Pages or page.PagesGroup).
+
+     Returns: page.Pager
+*/}}
+{{- $page := . -}}
+{{- $pages := false -}}
+{{- $hasPages := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $pages = .pages -}}
+  {{- $hasPages = isset . "pages" -}}
+{{- end -}}
+
+{{- /* The site-wide size cannot be read from a template: Hugo applies it
+       itself when no size is passed. */ -}}
+{{- $size := (index site.Params $page.Type).pagerSize -}}
+{{- $pager := false -}}
+{{- if and $hasPages $size -}}
+  {{- $pager = $page.Paginate $pages $size -}}
+{{- else if $hasPages -}}
+  {{- $pager = $page.Paginate $pages -}}
+{{- else if $size -}}
+  {{- $pager = $page.Paginator $size -}}
+{{- else -}}
+  {{- $pager = $page.Paginator -}}
+{{- end -}}
+
+{{- return $pager -}}

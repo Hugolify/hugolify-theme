@@ -59,7 +59,7 @@
 {{/* Render the page collection. */}}
 {{ $pages = $p }}
 {{ if $pagination }}
-  {{ $pages = ($pagination.Paginate $p).Pages }}
+  {{ $pages = (partial "func/GetPaginator.html" (dict "page" $pagination "pages" $p)).Pages }}
 {{ end }}
 
 {{ return $pages }}
