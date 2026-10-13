@@ -10,9 +10,25 @@
     {{ range .hiddens }}
       <input type="hidden" value="{{ .value }}" name="{{ .name }}">
     {{ end }}
-    <div>
+    <div class="row">
       <input type="email" name="EMAIL" placeholder="{{ $placeholder }}" aria-label="{{ $label }}" required autocomplete="email">
       <button class="btn" type="submit">{{ $submit }}</button>
     </div>
+    {{- /* `name` and `value` are the provider's own (Brevo: OPT_IN / 1, Mailchimp: gdpr[ID] / Y),
+           so they go out as written, unlike the form block that anchorizes its names */ -}}
+    {{- range $i, $checkbox := .checkboxes }}
+      {{- $args := dict
+        "id" (printf "newsletter-form-%d-checkbox-%d" $index $i)
+        "type" "checkbox"
+        "name" .name
+        "value" .value
+        "label" .label
+        "required" .required
+      }}
+      <div class="form-check">
+        {{ partial "commons/form/input.html" $args }}
+        {{ partial "commons/form/label.html" $args }}
+      </div>
+    {{- end }}
   </form>
 {{ end -}}
