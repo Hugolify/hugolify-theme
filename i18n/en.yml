@@ -141,8 +141,10 @@ navigation:
   menu: Menu
 newsletter:
   button: Subscribe
+  error: 'Something went wrong, please try again.'
   label: Renseigner votre e-mail pour s’enregistrer à la newsletter
   placeholder: email@domain.com
+  success: Thank you! Your subscription has been registered.
   title: Newsletter
 next: Next
 'no': 'No'

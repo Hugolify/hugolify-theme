@@ -141,8 +141,10 @@ navigation:
   menu: Menu
 newsletter:
   button: S’abonner
+  error: 'Une erreur est survenue, merci de réessayer.'
   label: Renseigner votre e-mail pour s’enregistrer à la newsletter
   placeholder: email@domaine.com
+  success: Merci ! Votre inscription a bien été prise en compte.
   title: Newsletter
 next: Suivant
 'no': Non

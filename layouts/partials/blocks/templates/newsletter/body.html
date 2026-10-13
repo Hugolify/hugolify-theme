@@ -30,5 +30,7 @@
         {{ partial "commons/form/label.html" $args }}
       </div>
     {{- end }}
+    {{- /* Filled by the newsletter script with the provider's answer, which adds alert-success or alert-danger */}}
+    <div class="alert js-newsletter-message" role="status" tabindex="-1" hidden></div>
   </form>
 {{ end -}}
