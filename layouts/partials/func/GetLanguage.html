@@ -3,11 +3,12 @@
      Hugo settled on in v0.158.0 (Name, Locale, Direction, Label) and applying
      defaults for the ones a site may leave unset.
 
-     Params: a language object (site.Language, an item of site.Languages, or
-             .Page.Language). Defaults to site.Language when no context is given.
+     Params: a language object (site.Language, the .Language of an item of
+             hugo.Sites, or .Page.Language). Defaults to site.Language when no
+             context is given.
 
      Do not use partialCached here: its cache key ignores the context, so a
-     cached call inside a range over site.Languages returns the same language
+     cached call inside a range over hugo.Sites returns the same language
      for every item.
 
      Returns: dict

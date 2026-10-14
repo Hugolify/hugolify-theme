@@ -6,7 +6,9 @@
      See nav/language-toggle for the bilingual variant, a single direct link
      without a dropdown.
 
-     Context: the page. Reads .Page.Translations and .Site.Languages.
+     Context: the page. Reads .Page.Translations and hugo.Sites, one site per
+              language, which lists every language even where the page has
+              no translation: such a language links to its home page.
      Requires: the js-dropdown-toggle behaviour and the navigation.dropdown
                i18n key.
      Renders nothing on a monolingual site.
@@ -23,10 +25,10 @@
         <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
       </button>
       <ul class="dropdown-menu">
-        {{- range .Site.Languages -}}
-          {{- if ne . $.Site.Language -}}
-            {{- $language := partial "func/GetLanguage.html" . -}}
-            {{- $url := printf "/%s" $language.name -}}
+        {{- range hugo.Sites -}}
+          {{- $language := partial "func/GetLanguage.html" .Language -}}
+          {{- if ne $language.name $current.name -}}
+            {{- $url := .Home.Permalink -}}
             {{- range $pageTrans -}}
               {{- if eq (partial "func/GetLanguage.html" .Language).name $language.name -}}
                 {{- $url = .Permalink -}}

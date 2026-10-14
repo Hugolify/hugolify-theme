@@ -1,10 +1,10 @@
+{{/* A hero left empty by a CMS comes as `hero: null`: `with` skips it, where
+     `isset` on it warns. */}}
 {{ $hasImageHero := false }}
-{{ if isset .Params "hero" }}
-    {{ if isset .Params.hero "image" }}
-        {{ if isset .Params.hero.image "src" }}
-            {{ if ne .Params.hero.image.src "" }}
-                {{ $hasImageHero = true }}
-            {{ end }}
+{{ with .Params.hero }}
+    {{ with .image }}
+        {{ with .src }}
+            {{ $hasImageHero = true }}
         {{ end }}
     {{ end }}
 {{ end }}

@@ -6,19 +6,22 @@
      Not called by the theme: to use it, override a layout (header/panel/content.html
      for instance) and call this partial in place of nav/language.
 
-     Context: the page. Reads .Page.Translations and .Site.Languages.
+     Context: the page. Reads .Page.Translations and hugo.Sites, one site per
+              language; a language the page has no translation in links to
+              its home page.
      Caveat: with three languages or more, only the first alternative language
              is rendered, as the range stops at the first match.
      Renders nothing on a monolingual site.
 */}}
 {{- if hugo.IsMultilingual }}
 {{- $pageTrans := .Page.Translations -}}
+{{- $current := partial "func/GetLanguage.html" -}}
 <ul class="nav nav-language">
   <li>
-    {{- range .Site.Languages -}}
-      {{- if ne . $.Site.Language -}}
-        {{- $language := partial "func/GetLanguage.html" . -}}
-        {{- $url := printf "/%s" $language.name -}}
+    {{- range hugo.Sites -}}
+      {{- $language := partial "func/GetLanguage.html" .Language -}}
+      {{- if ne $language.name $current.name -}}
+        {{- $url := .Home.Permalink -}}
         {{- range $pageTrans -}}
           {{- if eq (partial "func/GetLanguage.html" .Language).name $language.name -}}
             {{- $url = .Permalink -}}
