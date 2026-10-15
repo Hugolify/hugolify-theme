@@ -1,6 +1,23 @@
-{{- $id_ga := site.Config.Services.GoogleAnalytics.ID | default false -}}
-{{- with $id_ga }}
-<script 
+{{/*
+Analytics: Google Analytics with Consent Mode v2, run by CookieConsent once the "analytics" category is accepted.
+The simple banner loads Google Analytics itself, see footer/cookie-banner/javascript.html.
+
+Configuration:
+  /config/production/services.yaml (Hugo native service, keeps local and staging builds out)
+    googleAnalytics:
+      id: "G-XXXXXXXXXX"
+  /config/_default/params.yaml
+    cookie_banner:
+      enable: true
+      cookieconsent:
+        enable: true
+        analytics: true # required
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#google-analytics
+*/}}
+{{- with site.Config.Services.GoogleAnalytics.ID }}
+  {{- if site.Params.cookie_banner.cookieconsent.analytics }}
+<script
     type="text/plain"
     data-category="necessary">
 
@@ -54,4 +71,7 @@
     async
     data-src="https://www.googletagmanager.com/gtag/js?id={{ . }}">
 </script>
-{{ end -}}
+  {{- else }}
+    {{- warnf "Google Analytics is not loaded: it requires the CookieConsent analytics category (cookie_banner.cookieconsent.analytics: true). See https://www.hugolify.io/docs/getting-started/analytics/#google-analytics" }}
+  {{- end }}
+{{- end -}}

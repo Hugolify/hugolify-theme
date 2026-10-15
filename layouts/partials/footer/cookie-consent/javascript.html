@@ -83,6 +83,5 @@
   });  
 </script>
 
-{{ partial "footer/cookie-consent/javascript-analytics.html" . }}
-{{ partial "footer/cookie-consent/javascript-functionality.html" . }}
-{{ partial "footer/cookie-consent/javascript-marketing.html" . }}
+{{ partialCached "footer/analytics/google-analytics.html" . }}
+{{ partialCached "footer/analytics/meta-pixel.html" . }}

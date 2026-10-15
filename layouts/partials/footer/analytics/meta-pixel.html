@@ -1,0 +1,41 @@
+{{/*
+Analytics: Meta Pixel, run by CookieConsent once the "marketing" category is accepted
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    meta:
+      pixel_id: "000000000000000" # required
+  cookie_banner:
+    enable: true
+    cookieconsent:
+      enable: true
+      marketing: true # required, the pixel is an advertising tracker
+
+No <noscript> pixel: it would fire before any consent.
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel
+*/}}
+{{- with site.Params.analytics.meta }}
+  {{- $id := (cond (reflect.IsMap .) . dict).pixel_id }}
+  {{- if not $id }}
+    {{- errorf "Missing Meta Pixel 'pixel_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
+  {{- else if site.Params.cookie_banner.cookieconsent.marketing }}
+<script
+    type="text/plain"
+    data-category="marketing"
+    data-service="Meta Pixel">
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '{{ $id }}');
+  fbq('track', 'PageView');
+</script>
+  {{- else }}
+    {{- warnf "Meta Pixel is not loaded: it requires the CookieConsent marketing category (cookie_banner.cookieconsent.marketing: true). See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
+  {{- end }}
+{{- end -}}
