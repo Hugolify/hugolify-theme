@@ -1,2 +1,13 @@
+{{/*
+Analytics — Plausible (SaaS or self-hosted)
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    plausible:
+      domain: "" # optional — defaults to the baseURL hostname; at least `domain` or `url` must be set
+      url: ""   # optional — self-hosted script URL, defaults to https://plausible.io/js/script.js
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#plausible
+*/}}
 {{- $domain := .domain | default (urls.Parse site.BaseURL).Hostname -}}
 <script defer data-domain="{{ $domain }}" src="{{ .url | default "https://plausible.io/js/script.js" }}"></script>

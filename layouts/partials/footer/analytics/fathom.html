@@ -1,3 +1,14 @@
+{{/*
+Analytics — Fathom (SaaS)
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    fathom:
+      site_id: "ABCDEFG" # required
+      url: ""           # optional — self-hosted script URL, defaults to https://cdn.usefathom.com/script.js
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#fathom
+*/}}
 {{- if not .site_id }}
   {{- errorf "Missing Fathom 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#fathom" }}
 {{- end }}

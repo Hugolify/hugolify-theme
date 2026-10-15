@@ -1,10 +1,22 @@
+{{/*
+Analytics dispatcher — loads every configured alternative analytics service.
+
+Called from layouts/_default/baseof.html, right before footer/scripts.html
+(which remains the user extension point). Rendered in production builds only.
+
+Configuration (/config/_default/params.yaml), under `analytics`:
+a service is activated by the presence of its block — or boolean, for
+Simple Analytics and Cabin. Each partial documents its own parameters.
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/
+*/}}
 {{- if hugo.IsProduction -}}
-  {{- with site.Params.services.umami }}{{ partial "footer/analytics/umami.html" . }}{{ end -}}
-  {{- with site.Params.services.plausible }}{{ partial "footer/analytics/plausible.html" . }}{{ end -}}
-  {{- with site.Params.services.matomo }}{{ partial "footer/analytics/matomo.html" . }}{{ end -}}
-  {{- with site.Params.services.seline }}{{ partial "footer/analytics/seline.html" . }}{{ end -}}
-  {{- with site.Params.services.fathom }}{{ partial "footer/analytics/fathom.html" . }}{{ end -}}
-  {{- with site.Params.services.goatcounter }}{{ partial "footer/analytics/goatcounter.html" . }}{{ end -}}
-  {{- if site.Params.services.simpleanalytics }}{{ partial "footer/analytics/simpleanalytics.html" $ }}{{ end -}}
-  {{- if site.Params.services.cabin }}{{ partial "footer/analytics/cabin.html" $ }}{{ end -}}
+  {{- with site.Params.analytics.umami }}{{ partial "footer/analytics/umami.html" . }}{{ end -}}
+  {{- with site.Params.analytics.plausible }}{{ partial "footer/analytics/plausible.html" . }}{{ end -}}
+  {{- with site.Params.analytics.matomo }}{{ partial "footer/analytics/matomo.html" . }}{{ end -}}
+  {{- with site.Params.analytics.seline }}{{ partial "footer/analytics/seline.html" . }}{{ end -}}
+  {{- with site.Params.analytics.fathom }}{{ partial "footer/analytics/fathom.html" . }}{{ end -}}
+  {{- with site.Params.analytics.goatcounter }}{{ partial "footer/analytics/goatcounter.html" . }}{{ end -}}
+  {{- if site.Params.analytics.simpleanalytics }}{{ partial "footer/analytics/simpleanalytics.html" $ }}{{ end -}}
+  {{- if site.Params.analytics.cabin }}{{ partial "footer/analytics/cabin.html" $ }}{{ end -}}
 {{- end -}}

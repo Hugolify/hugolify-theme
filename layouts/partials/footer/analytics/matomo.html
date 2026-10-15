@@ -1,3 +1,15 @@
+{{/*
+Analytics — Matomo (SaaS or self-hosted), the only service with a consent-banner mode
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    matomo:
+      url: "https://matomo.example.com" # required
+      site_id: "1"                      # required
+      cookies: false                    # optional — false (default): cookieless (disableCookies); true: loads after CookieConsent "analytics" consent (requires cookie_banner.cookieconsent.enable + analytics)
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
+*/}}
 {{- if not .url }}
   {{- errorf "Missing Matomo 'url' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#matomo" }}
 {{- end }}
