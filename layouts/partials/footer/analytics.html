@@ -5,18 +5,20 @@ Called from layouts/_default/baseof.html, right before footer/scripts.html
 (which remains the user extension point). Rendered in production builds only.
 
 Configuration (/config/_default/params.yaml), under `analytics`:
-a service is activated by the presence of its block — or boolean, for
-Simple Analytics and Cabin. Each partial documents its own parameters.
+a service is activated by the presence of its block — `true` and `{}` are
+accepted too, and normalized to an empty map so that each partial can fail
+the build with an explicit `errorf` instead of an opaque template error.
+Each partial documents its own parameters.
 
 Docs: https://www.hugolify.io/docs/getting-started/analytics/
 */}}
-{{- if hugo.IsProduction -}}
-  {{- with site.Params.analytics.umami }}{{ partial "footer/analytics/umami.html" . }}{{ end -}}
-  {{- with site.Params.analytics.plausible }}{{ partial "footer/analytics/plausible.html" . }}{{ end -}}
-  {{- with site.Params.analytics.matomo }}{{ partial "footer/analytics/matomo.html" . }}{{ end -}}
-  {{- with site.Params.analytics.seline }}{{ partial "footer/analytics/seline.html" . }}{{ end -}}
-  {{- with site.Params.analytics.fathom }}{{ partial "footer/analytics/fathom.html" . }}{{ end -}}
-  {{- with site.Params.analytics.goatcounter }}{{ partial "footer/analytics/goatcounter.html" . }}{{ end -}}
-  {{- if site.Params.analytics.simpleanalytics }}{{ partial "footer/analytics/simpleanalytics.html" $ }}{{ end -}}
-  {{- if site.Params.analytics.cabin }}{{ partial "footer/analytics/cabin.html" $ }}{{ end -}}
-{{- end -}}
+{{- if hugo.IsProduction }}
+  {{- with site.Params.analytics }}
+    {{- $config := . }}
+    {{- range $service := slice "umami" "plausible" "matomo" "seline" "fathom" "goatcounter" "simpleanalytics" "cabin" }}
+      {{- with index $config $service }}
+        {{- partial (printf "footer/analytics/%s.html" $service) (cond (reflect.IsMap .) . dict) }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}

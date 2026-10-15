@@ -6,7 +6,7 @@ Configuration (/config/_default/params.yaml):
     matomo:
       url: "https://matomo.example.com" # required
       site_id: "1"                      # required
-      cookies: false                    # optional — false (default): cookieless (disableCookies); true: loads after CookieConsent "analytics" consent (requires cookie_banner.cookieconsent.enable + analytics)
+      cookies: false                    # optional — false (default): cookieless (disableCookies); true: loads after CookieConsent "analytics" consent (requires cookie_banner.enable + cookieconsent.enable + analytics)
 
 Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
 */}}
@@ -16,6 +16,7 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
 {{- if not .site_id }}
   {{- errorf "Missing Matomo 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#matomo" }}
 {{- end }}
+{{- $u := printf "%s/" (strings.TrimSuffix .url "/") }}
 {{- if not .cookies }}
 <script>
   var _paq = window._paq = window._paq || [];
@@ -23,7 +24,7 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="{{ .url }}/";
+    var u="{{ $u }}";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '{{ .site_id }}']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
@@ -31,14 +32,14 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
     s.parentNode.insertBefore(g,s);
   })();
 </script>
-{{- else if and site.Params.cookie_banner.cookieconsent.enable site.Params.cookie_banner.cookieconsent.analytics }}
-  {{- /* Mode cookies : bloc activé par CookieConsent après consentement catégorie analytics */}}
+{{- else if and site.Params.cookie_banner.enable site.Params.cookie_banner.cookieconsent.enable site.Params.cookie_banner.cookieconsent.analytics }}
+  {{- /* Cookie mode: block enabled by CookieConsent after consent in the "analytics" category */}}
 <script type="text/plain" data-category="analytics" data-service="Matomo">
   var _paq = window._paq = window._paq || [];
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
-    var u="{{ .url }}/";
+    var u="{{ $u }}";
     _paq.push(['setTrackerUrl', u+'matomo.php']);
     _paq.push(['setSiteId', '{{ .site_id }}']);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
@@ -46,7 +47,14 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
     s.parentNode.insertBefore(g,s);
   })();
 </script>
+<script
+    type="text/plain"
+    data-category="analytics"
+    data-service="!Matomo">
+
+  CookieConsent.eraseCookies(/^_pk_/);
+</script>
 {{- else }}
-  {{- /* cookies: true mais mode CookieConsent non actif -> non supporté, cf. doc */}}
-  {{- warnf "Matomo 'cookies: true' requires CookieConsent mode (cookie_banner.cookieconsent.enable + analytics). See https://www.hugolify.io/docs/getting-started/cookie-consent/" }}
+  {{- /* cookies: true but CookieConsent mode not active -> not supported, see docs */}}
+  {{- warnf "Matomo 'cookies: true' requires CookieConsent mode (cookie_banner.enable + cookieconsent.enable + analytics). See https://www.hugolify.io/docs/getting-started/cookie-consent/" }}
 {{- end }}

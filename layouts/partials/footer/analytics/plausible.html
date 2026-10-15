@@ -4,10 +4,24 @@ Analytics — Plausible (SaaS or self-hosted)
 Configuration (/config/_default/params.yaml):
   analytics:
     plausible:
-      domain: "" # optional — defaults to the baseURL hostname; at least `domain` or `url` must be set
-      url: ""   # optional — self-hosted script URL, defaults to https://plausible.io/js/script.js
+      script_id: "pa-XXXXXXXXX" # optional — per-site script (current format, find it in Site settings → Site installation); takes precedence over the legacy options
+      domain: ""               # optional — legacy script; defaults to the baseURL hostname; fails the build if it resolves to an empty value
+      url: ""                  # optional — Plausible instance URL with `script_id`, or full script URL for the legacy script; defaults to https://plausible.io
 
 Docs: https://www.hugolify.io/docs/getting-started/analytics/#plausible
 */}}
-{{- $domain := .domain | default (urls.Parse site.BaseURL).Hostname -}}
+{{- if .script_id }}
+  {{- $src := printf "%s/js/%s.js" (.url | default "https://plausible.io") (strings.TrimSuffix .script_id ".js") }}
+<script async src="{{ $src }}"></script>
+<script>
+  window.plausible = window.plausible || function() { (plausible.q = plausible.q || []).push(arguments) };
+  plausible.init = plausible.init || function(i) { plausible.o = i || {} };
+  plausible.init();
+</script>
+{{- else }}
+  {{- $domain := .domain | default (urls.Parse site.BaseURL).Hostname -}}
+  {{- if not $domain }}
+    {{- errorf "Missing Plausible 'script_id' or 'domain' configuration: the domain resolved to an empty value, check your baseURL. See https://www.hugolify.io/docs/getting-started/analytics/#plausible" }}
+  {{- end }}
 <script defer data-domain="{{ $domain }}" src="{{ .url | default "https://plausible.io/js/script.js" }}"></script>
+{{- end }}
