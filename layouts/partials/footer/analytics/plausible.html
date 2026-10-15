@@ -1,0 +1,2 @@
+{{- $domain := .domain | default (urls.Parse site.BaseURL).Hostname -}}
+<script defer data-domain="{{ $domain }}" src="{{ .url | default "https://plausible.io/js/script.js" }}"></script>

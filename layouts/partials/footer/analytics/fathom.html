@@ -1,0 +1,4 @@
+{{- if not .site_id }}
+  {{- errorf "Missing Fathom 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#fathom" }}
+{{- end }}
+<script src="{{ .url | default "https://cdn.usefathom.com/script.js" }}" data-site="{{ .site_id }}" defer></script>

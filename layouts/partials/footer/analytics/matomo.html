@@ -1,0 +1,40 @@
+{{- if not .url }}
+  {{- errorf "Missing Matomo 'url' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#matomo" }}
+{{- end }}
+{{- if not .site_id }}
+  {{- errorf "Missing Matomo 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#matomo" }}
+{{- end }}
+{{- if not .cookies }}
+<script>
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['disableCookies']);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="{{ .url }}/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '{{ .site_id }}']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js';
+    s.parentNode.insertBefore(g,s);
+  })();
+</script>
+{{- else if and site.Params.cookie_banner.cookieconsent.enable site.Params.cookie_banner.cookieconsent.analytics }}
+  {{- /* Mode cookies : bloc activé par CookieConsent après consentement catégorie analytics */}}
+<script type="text/plain" data-category="analytics" data-service="Matomo">
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="{{ .url }}/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '{{ .site_id }}']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js';
+    s.parentNode.insertBefore(g,s);
+  })();
+</script>
+{{- else }}
+  {{- /* cookies: true mais mode CookieConsent non actif -> non supporté, cf. doc */}}
+  {{- warnf "Matomo 'cookies: true' requires CookieConsent mode (cookie_banner.cookieconsent.enable + analytics). See https://www.hugolify.io/docs/getting-started/cookie-consent/" }}
+{{- end }}

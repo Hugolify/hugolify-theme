@@ -1,0 +1,4 @@
+{{- if not .token }}
+  {{- errorf "Missing Seline 'token' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#seline" }}
+{{- end }}
+<script data-token="{{ .token }}" src="https://cdn.seline.com/seline.js" async></script>

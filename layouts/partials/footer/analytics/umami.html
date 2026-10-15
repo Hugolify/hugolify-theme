@@ -1,0 +1,4 @@
+{{- if not .website_id }}
+  {{- errorf "Missing Umami 'website_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#umami" }}
+{{- end }}
+<script defer src="{{ .url | default "https://cloud.umami.is/script.js" }}" data-website-id="{{ .website_id }}"{{ with .domains }} data-domains="{{ . }}"{{ end }}></script>
