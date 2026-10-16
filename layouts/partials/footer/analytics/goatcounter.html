@@ -1,0 +1,18 @@
+{{/*
+Analytics — GoatCounter (SaaS or self-hosted)
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    goatcounter:
+      code: "yoursite" # optional — SaaS subdomain, https://yoursite.goatcounter.com/count
+      endpoint: ""      # optional — self-hosted count endpoint, takes precedence over `code`
+      src: ""          # optional — self-hosted script URL, defaults to https://gc.zgo.at/count.js
+      # `code` or `endpoint` is required
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#goatcounter
+*/}}
+{{- if and (not .code) (not .endpoint) }}
+  {{- errorf "Missing GoatCounter 'code' or 'endpoint' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#goatcounter" }}
+{{- end }}
+{{- $endpoint := .endpoint | default (printf "https://%s.goatcounter.com/count" .code) }}
+<script data-goatcounter="{{ $endpoint }}" src="{{ .src | default "https://gc.zgo.at/count.js" }}" async></script>

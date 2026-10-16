@@ -1,0 +1,82 @@
+{{/*
+Analytics: Google Analytics with Consent Mode v2, run by CookieConsent once the "analytics" category is accepted.
+With the simple banner, nothing is rendered here: footer/cookie-banner/javascript.html loads Google Analytics itself.
+
+Configuration:
+  /config/_default/services.yaml (native Hugo service)
+    googleAnalytics:
+      id: "G-XXXXXXXXXX"
+  /config/_default/params.yaml
+    cookie_banner:
+      enable: true
+      cookieconsent:
+        enable: true
+        analytics: true # required
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#google-analytics
+*/}}
+{{- with site.Config.Services.GoogleAnalytics.ID }}
+  {{- $banner := site.Params.cookie_banner }}
+  {{- if not $banner.enable }}
+    {{- warnf "Google Analytics is not loaded: it requires the cookie banner (cookie_banner.enable). See https://www.hugolify.io/docs/getting-started/analytics/#google-analytics" }}
+  {{- else if not $banner.cookieconsent.enable }}
+    {{- /* Simple banner: loaded by footer/cookie-banner/javascript.html */}}
+  {{- else if $banner.cookieconsent.analytics }}
+<script
+    type="text/plain"
+    data-category="necessary">
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      personalization_storage: 'denied',
+      wait_for_update: 500
+  });
+
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);
+</script>
+
+<script
+    type="text/plain"
+    data-category="analytics"
+    data-service="Google Analytics">
+
+  gtag('js', new Date());
+  gtag('config', '{{ . }}');
+
+  gtag('consent', 'update', {
+      personalization_storage: 'granted',
+      functionality_storage: 'granted',
+      analytics_storage: 'granted'
+  });
+  console.log("gtag: analytics_storage=granted");
+</script>
+
+<script
+    type="text/plain"
+    data-category="analytics"
+    data-service="!Google Analytics">
+
+  window['ga-disable-{{ . }}'] = true;
+  CookieConsent.eraseCookies(/^(_ga|gid|__utm)/);
+  console.log("gtag: disable tracking");
+</script>
+
+<script
+    type="text/plain"
+    data-category="analytics"
+    data-service="Google Analytics"
+    async
+    data-src="https://www.googletagmanager.com/gtag/js?id={{ . }}">
+</script>
+  {{- else }}
+    {{- warnf "Google Analytics is not loaded: it requires the CookieConsent analytics category (cookie_banner.cookieconsent.analytics: true). See https://www.hugolify.io/docs/getting-started/analytics/#google-analytics" }}
+  {{- end }}
+{{- end -}}

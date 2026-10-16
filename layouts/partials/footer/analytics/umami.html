@@ -1,0 +1,16 @@
+{{/*
+Analytics — Umami (SaaS or self-hosted)
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    umami:
+      website_id: "94db1cb1-…" # required
+      url: ""    # optional — self-hosted script URL, defaults to https://cloud.umami.is/script.js
+      domains: "" # optional — data-domains, comma-separated hostnames allowed to send pageviews (protects against deploy previews)
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#umami
+*/}}
+{{- if not .website_id }}
+  {{- errorf "Missing Umami 'website_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#umami" }}
+{{- end }}
+<script defer src="{{ .url | default "https://cloud.umami.is/script.js" }}" data-website-id="{{ .website_id }}"{{ with .domains }} data-domains="{{ . }}"{{ end }}></script>
