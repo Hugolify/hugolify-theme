@@ -15,11 +15,10 @@ No <noscript> pixel: it would fire before any consent.
 
 Docs: https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel
 */}}
-{{- with site.Params.analytics.meta }}
-  {{- $id := (cond (reflect.IsMap .) . dict).pixel_id }}
-  {{- if not $id }}
-    {{- errorf "Missing Meta Pixel 'pixel_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
-  {{- else if site.Params.cookie_banner.cookieconsent.marketing }}
+{{- $consent := site.Params.cookie_banner.cookieconsent }}
+{{- if not .pixel_id }}
+  {{- errorf "Missing Meta Pixel 'pixel_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
+{{- else if and site.Params.cookie_banner.enable $consent.enable $consent.marketing }}
 <script
     type="text/plain"
     data-category="marketing"
@@ -32,10 +31,9 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '{{ $id }}');
+  fbq('init', '{{ .pixel_id }}');
   fbq('track', 'PageView');
 </script>
-  {{- else }}
-    {{- warnf "Meta Pixel is not loaded: it requires the CookieConsent marketing category (cookie_banner.cookieconsent.marketing: true). See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
-  {{- end }}
+{{- else }}
+  {{- warnf "Meta Pixel is not loaded: it requires CookieConsent and its marketing category (cookie_banner.enable + cookieconsent.enable + marketing). See https://www.hugolify.io/docs/getting-started/analytics/#meta-pixel" }}
 {{- end -}}

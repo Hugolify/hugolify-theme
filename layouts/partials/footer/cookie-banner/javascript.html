@@ -1,7 +1,7 @@
-{{- $id_ga := site.Config.Services.GoogleAnalytics.ID | default false -}}
+{{- $id_ga := (and hugo.IsProduction site.Config.Services.GoogleAnalytics.ID) | default false -}}
 <script>
   const cookie_banner = document.querySelector('.js-cookie-consent');
-  
+
   class CookieBanner {
     constructor(elm) {
       this.elm = elm;
@@ -52,7 +52,7 @@
       script.src = scriptSrc;
       document.body.appendChild(script);
     }
-  
+
     init() {
       if(this.readCookie('cookie-consent')=='true') {
         this.initCookies();
@@ -80,7 +80,7 @@
         this.createCookie('cookie-consent','true',31);
         this.initCookies();
       });
-  
+
       this.elm.querySelector('.js-cookie-consent-refuse').addEventListener("click", () => {
         this.createCookie('cookie-consent','false',31);
         this.elm.classList.remove('show');
