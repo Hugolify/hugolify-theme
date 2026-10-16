@@ -11,7 +11,7 @@ Configuration (/config/_default/params.yaml):
 Docs: https://www.hugolify.io/docs/getting-started/analytics/#plausible
 */}}
 {{- if .script_id }}
-  {{- $src := printf "%s/js/%s.js" (.url | default "https://plausible.io") (strings.TrimSuffix .script_id ".js") }}
+  {{- $src := printf "%s/js/%s.js" (.url | default "https://plausible.io") (strings.TrimSuffix ".js" .script_id) }}
 <script async src="{{ $src }}"></script>
 <script>
   window.plausible = window.plausible || function() { (plausible.q = plausible.q || []).push(arguments) };

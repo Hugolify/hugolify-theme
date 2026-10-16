@@ -16,7 +16,7 @@ Docs: https://www.hugolify.io/docs/getting-started/analytics/#matomo
 {{- if not .site_id }}
   {{- errorf "Missing Matomo 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#matomo" }}
 {{- end }}
-{{- $u := printf "%s/" (strings.TrimSuffix .url "/") }}
+{{- $u := printf "%s/" (strings.TrimSuffix "/" .url) }}
 {{- if not .cookies }}
 <script>
   var _paq = window._paq = window._paq || [];
