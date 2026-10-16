@@ -25,6 +25,7 @@
 
 {{/*  CSS pipeline  */}}
 {{- $css := "" -}}
+{{- $native := false -}}
 {{- if resources.Get "sass/main.sass" -}}
   {{- $css = resources.Get "sass/main.sass" | toCSS $cssOpts -}}
 {{- else if resources.Get "sass/main.scss" -}}
@@ -36,9 +37,18 @@
         Only main.css is templated — its @imports are inlined afterwards by
         PostCSS and are never executed.  */}}
   {{- $css = resources.Get "css/main.css" | resources.ExecuteAsTemplate "css/main.css" . -}}
+  {{- $native = true -}}
 {{- end -}}
 {{- if $css -}}
   {{- $css = $css | css.PostCSS (dict "config" $postCSSDirectoryConfig "inlineImports" true "skipInlineImportsNotFound" true) -}}
+{{- end -}}
+{{/*  inlineImports resolves @import from the target path, so native CSS must
+      stay css/main.css through PostCSS. css.PostCSS has no targetPath option,
+      and resources.Copy only renames the source (the chain above re-applies
+      css/main.css): a one-item Concat moves the result to the Sass targetPath
+      while still tracking changes to the imported files.  */}}
+{{- if $native -}}
+  {{- $css = slice $css | resources.Concat $cssOpts.targetPath -}}
 {{- end -}}
 {{- /* NOTE: do NOT pipe through resources.PostProcess here. PurgeCSS reads
        hugo_stats.json (not the rendered HTML) and fingerprint already provides
@@ -74,7 +84,7 @@
   {{- else if resources.Get "sass/print.scss" -}}
     {{- $print = resources.Get "sass/print.scss" | toCSS $printOpts -}}
   {{- else if resources.Get "css/print.css" -}}
-    {{- $print = resources.Get "css/print.css" -}}
+    {{- $print = resources.Get "css/print.css" | resources.Copy "assets/css/print.css" -}}
   {{- end -}}
   {{- if and hugo.IsProduction $print -}}
     {{- $print = $print | minify | fingerprint -}}
