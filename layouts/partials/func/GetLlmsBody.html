@@ -1,0 +1,30 @@
+{{/* GetLlmsBody
+     Read the body of data/llms.yml or data/llms-full.yml, which the llms
+     layouts write as /llms.txt and /llms-full.txt.
+
+     The files are not translated: flat, or keyed by language when Decap CMS
+     writes them, see func/GetUntranslatedData.html for the branch read. One
+     file serves every language, so a body found in several languages, written
+     by hand or by a CMS showing the field in every language, is reported:
+     only one of them is published.
+
+     Params: (string) the data file, "llms" or "llms-full".
+
+     Returns: string, trimmed, empty when there is no body.
+*/}}
+{{- $file := . -}}
+
+{{- $bodies := 0 -}}
+{{- with index hugo.Data $file -}}
+  {{- range $key, $value := . -}}
+    {{- if reflect.IsMap $value -}}
+      {{- with $value.body -}}{{- $bodies = add $bodies 1 -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt $bodies 1 -}}
+  {{- warnidf "llms-language" "data/%s.yml holds a body in %d languages: only one is published. Write every language in the body of the default locale of the admin." $file $bodies -}}
+{{- end -}}
+
+{{- $body := (partialCached "func/GetUntranslatedData.html" $file $file).body | default "" -}}
+{{- return strings.TrimSpace $body -}}

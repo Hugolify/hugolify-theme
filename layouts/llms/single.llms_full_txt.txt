@@ -1,0 +1,2 @@
+{{- /* Body of data/llms-full.yml as is, for the site's content/llms.md. Empty, Hugo writes no file. */ -}}
+{{- with partial "func/GetLlmsBody.html" "llms-full" }}{{ printf "%s\n" . }}{{ end -}}

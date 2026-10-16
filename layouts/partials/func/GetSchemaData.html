@@ -5,10 +5,11 @@
      translated: it only holds what the site does not know already about the
      organization behind it — its type, its legal name, its head office — and
      the switch on email addresses, none of which varies from one language to
-     the next. See func/GetSchemaOrganization.html.
+     the next. See func/GetSchemaOrganization.html. It comes flat, or keyed by
+     language when Decap CMS writes it: see func/GetUntranslatedData.html.
 
      Params: (string) the key to read, e.g. "organization".
 
      Returns: the value, or nil when the file or the key is missing.
 */}}
-{{- return index (hugo.Data.schema | default dict) . -}}
+{{- return index (partialCached "func/GetUntranslatedData.html" "schema" "schema") . -}}
