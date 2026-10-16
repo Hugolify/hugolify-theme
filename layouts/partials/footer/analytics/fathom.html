@@ -1,0 +1,14 @@
+{{/*
+Analytics — Fathom (SaaS)
+
+Configuration (/config/_default/params.yaml):
+  analytics:
+    fathom:
+      site_id: "ABCDEFG" # required — no custom script URL: custom domains were discontinued in March 2023
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/#fathom
+*/}}
+{{- if not .site_id }}
+  {{- errorf "Missing Fathom 'site_id' configuration. See https://www.hugolify.io/docs/getting-started/analytics/#fathom" }}
+{{- end }}
+<script src="https://cdn.usefathom.com/script.js" data-site="{{ .site_id }}" defer></script>

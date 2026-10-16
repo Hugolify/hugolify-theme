@@ -1,0 +1,24 @@
+{{/*
+Analytics dispatcher — loads every configured alternative analytics service.
+
+Called from layouts/_default/baseof.html, right before footer/scripts.html
+(which remains the user extension point). Rendered in production builds only.
+
+Configuration (/config/_default/params.yaml), under `analytics`:
+a service is activated by the presence of its block — `true` is accepted too
+and normalized to an empty map so that each partial can fail the build with
+an explicit `errorf` instead of an opaque template error. An empty block
+(`{}`) is ignored: an empty map is falsy in Go templates.
+
+Docs: https://www.hugolify.io/docs/getting-started/analytics/
+*/}}
+{{- if hugo.IsProduction }}
+  {{- with site.Params.analytics }}
+    {{- $config := . }}
+    {{- range $service := slice "umami" "plausible" "matomo" "seline" "fathom" "goatcounter" "simpleanalytics" "cabin" }}
+      {{- with index $config $service }}
+        {{- partial (printf "footer/analytics/%s.html" $service) (cond (reflect.IsMap .) . dict) }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
