@@ -38,6 +38,10 @@
       {{- $partial = "pages/item.html" -}}
     {{- end -}}
     <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }} {{- $scrollsnapclass }}" {{- partial "func/SetSearchIgnore.html" . }}>
+      {{- /* The flags of each item are kept on the page being rendered, see
+             func/GetItemFlags.html. A list nested in an item puts back the
+             flags of that item once done. */ -}}
+      {{- $outer := page.Store.Get "item" -}}
       {{- range $index, $items := . }}
         {{- .Scratch.Set "index" $index -}}
         {{- .Scratch.Set "block" $block -}}
@@ -49,23 +53,31 @@
             {{- $currentyear = $year -}}
           {{- end }}
         {{- end -}}
-        {{- if and ($abovethefold) (lt $index $abovethefoldLimit) -}}
-          {{- .Scratch.Set "lazy" false -}}
-        {{- end -}}
-        {{- if $scrollsnapclass -}}
-          {{- .Scratch.Set "scrollsnap" true -}}
-        {{- end }}
-        {{- if $large -}}
-          {{- .Scratch.Set "large" true -}}
-        {{- end -}}
+        {{- $flags := dict
+          "page" .
+          "lazy" (not (and $abovethefold (lt $index $abovethefoldLimit)))
+          "large" (cond $large true false)
+          "scrollsnap" (cond $scrollsnapclass true false)
+        -}}
+        {{- page.Store.Set "item" $flags -}}
+        {{- /* Still written on the listed page for the modules reading the flags
+               there, and cleared once the item is rendered. Goes away in the
+               next major. */ -}}
+        {{- .Scratch.Set "lazy" $flags.lazy -}}
+        {{- .Scratch.Set "large" $flags.large -}}
+        {{- .Scratch.Set "scrollsnap" $flags.scrollsnap -}}
         <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
           {{- $cacheKey := .RelPermalink -}}
           {{- with .File -}}
             {{- $cacheKey = .UniqueID -}}
           {{- end -}}
-          {{ partialCached $partial . $cacheKey (.Scratch.Get "large") (.Scratch.Get "lazy") (.Scratch.Get "scrollsnap") }}
+          {{ partialCached $partial . $cacheKey $flags.large $flags.lazy $flags.scrollsnap }}
         </div>
+        {{- .Scratch.Delete "lazy" -}}
+        {{- .Scratch.Delete "large" -}}
+        {{- .Scratch.Delete "scrollsnap" -}}
       {{ end -}}
+      {{- page.Store.Set "item" $outer -}}
     </div>
   {{ end -}}
 {{ end -}}

@@ -3,10 +3,9 @@
 
 {{ with .section }}
   {{ range where site.Pages "Section" . }}
-    {{ if isset .Params $taxonomy }}
-      {{ if gt (len (index .Params $taxonomy)) 0 }}
-        {{ $isAvailable = true }}
-      {{ end }}
+    {{/* A CMS clearing the field writes `taxonomy: null`: set, but nothing to count */}}
+    {{ with index .Params $taxonomy }}
+      {{ $isAvailable = true }}
     {{ end }}
   {{ end }}
 {{ end }}

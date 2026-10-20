@@ -1,5 +1,9 @@
 {{- if site.Params.search.enable }}
-  {{- $uniqueID := now.UnixNano | hash.FNV32a }}
+  {{/* Numbered per page: unique when a page holds several search forms, and
+       the same from one build to the next, where a random id changed every
+       page at each build and had them all uploaded again on deploy. */}}
+  {{- $uniqueID := add (page.Store.Get "pagefind" | default 0) 1 }}
+  {{- page.Store.Set "pagefind" $uniqueID }}
 
   <script src="/pagefind/pagefind-ui.js"></script>
   <div id="search-{{ $uniqueID }}" class="search"></div>
