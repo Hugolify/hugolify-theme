@@ -7,7 +7,8 @@
      writes out every key of a locale nobody has filled in yet. Here an empty
      string, an empty map or a missing key leaves the base untouched, and the
      overlay recurses so a partially filled nested object behaves the same.
-     Booleans are the exception: false is a deliberate value, not an absence.
+     Booleans and numbers are the exception: false and 0 are deliberate values,
+     not an absence (a carousel's `focus: false`, `gap: 0`).
 
      Params: {map}
        base    (map) the values to fall back on
@@ -22,7 +23,7 @@
   {{- if and (reflect.IsMap $value) (reflect.IsMap $current) -}}
     {{- $value = partial "func/MergeDefined.html" (dict "base" $current "overlay" $value) -}}
   {{- end -}}
-  {{- if or $value (eq (printf "%T" $value) "bool") -}}
+  {{- if or $value (findRE `^(bool|u?int|float)` (printf "%T" $value)) -}}
     {{- $result = merge $result (dict $key $value) -}}
   {{- end -}}
 {{- end -}}

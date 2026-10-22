@@ -2,12 +2,21 @@
   Renders the social links of a contact object as a nav-social list, one
   <li class="{platform}"> per link.
 
-  @context {map} . The contact object, whose `socials` lists `platform` and `url`.
+  A contact may be a third party, so rel is opt-in per entry: an optional
+  `rel` key (e.g. "me") is passed through to the link (Mastodon profile
+  verification, IndieWeb identity).
+
+  @context {map} . The contact object, whose `socials` lists `platform`, `url`
+  and an optional `rel`.
 */ -}}
 {{- $links := slice }}
 {{- range .socials }}
   {{- if and .platform .url }}
-    {{- $links = $links | append (dict "title" .platform "url" .url "blank" true) }}
+    {{- $link := dict "title" .platform "url" .url "blank" true }}
+    {{- with .rel }}
+      {{- $link = merge $link (dict "rel" .) }}
+    {{- end }}
+    {{- $links = $links | append $link }}
   {{- end }}
 {{- end }}
 
