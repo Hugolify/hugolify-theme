@@ -1,3 +1,11 @@
+{{- /*
+  Social menu: the site owner's own profiles. Every link carries rel="me"
+  (Mastodon profile verification, IndieWeb identity) in addition to the
+  theme's noopener: <a ... rel="me noopener">.
+
+  A per-link `rel` key in data/menu/social.yml still wins, thanks to the
+  merge order below (link data over the "me" default).
+*/ -}}
 {{- $menu := hugo.Data.menu.social -}}
 {{- with index $menu (partial "func/GetLanguage.html").name -}}
   {{- $menu = . -}}
@@ -6,7 +14,7 @@
   <ul class="nav nav-social">
     {{- range .links }}
       <li class="{{ lower (safeHTML .title) }}">
-        {{- partial "nav/link-with-icon.html" . -}}
+        {{- partial "nav/link-with-icon.html" (merge (dict "rel" "me") .) -}}
       </li>
     {{- end }}
   </ul>
