@@ -1,0 +1,40 @@
+{{- /* Markdown headings — render hook (site-wide, opt-in).
+
+  Every Markdown heading gets an anchor link (#id), and optionally an icon
+  placed before the text. Attributes on the info string:
+
+    {icon="rocket"}   icon before the text — a Lucide name, resolved by
+                       hugolify-theme-icons; silently skipped without it
+    {#custom-id}       Hugo native — the anchor and TOC follow
+
+  Site params (config/_default/params.yaml):
+
+    headings:
+      anchor: true    wrap the heading text in an anchor link (default:
+                      false — the heading renders like Hugo's default)
+
+  The anchor link stays visually neutral (CSS lives in the design system,
+  .anchor-heading*); the marker appears on hover. The prefix anchor-heading
+  avoids any collision with the .heading component.
+
+  @see i18n key heading.anchor for the aria-label.
+*/ -}}
+{{- $id := or .Attributes.id .Anchor -}}
+{{- $classes := slice "anchor-heading" (printf "anchor-heading-%d" .Level) -}}
+{{- with .Attributes.class }}{{ $classes = $classes | append . }}{{ end -}}
+{{- $anchor := false -}}
+{{- with site.Params.headings }}{{ with .anchor }}{{ $anchor = true }}{{ end }}{{ end -}}
+<h{{ .Level }} id="{{ $id | safeURL }}" class="{{ delimit $classes " " }}">
+  {{- with .Attributes.icon }}
+    {{- if templates.Exists "partials/icon.html" }}
+      <span class="anchor-heading-icon" aria-hidden="true">{{ partial "icon" . }}</span>
+    {{- end }}
+  {{- end -}}
+  {{- if $anchor }}
+    <a href="#{{ $id | safeURL }}" class="anchor-heading-link" aria-label="{{ i18n "heading.anchor" (dict "Title" .PlainText) }}">
+      {{- .Text | safeHTML -}}
+    </a>
+  {{- else }}
+    {{- .Text | safeHTML -}}
+  {{- end }}
+</h{{ .Level }}>
