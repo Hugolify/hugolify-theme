@@ -1,6 +1,25 @@
+{{- /*
+  Link with an icon: renders an <a> with the icon of the link title
+  (Simple Icons slug) and a visually-hidden label.
+
+  @context
+    title    (string) link label, falls back to .platform
+    platform (string) alias of .title (contact socials)
+    url      (string)
+    blank    (bool)   open in a new tab
+    rel      (string) optional rel value, e.g. "me" (Mastodon profile
+                     verification, IndieWeb identity). Prepended to the
+                     theme's own "noopener"; the rel attribute is rendered
+                     when the link is blank or a rel value is given.
+                     Without `rel`, the output is unchanged.
+*/ -}}
 {{- if templates.Exists "partials/icon.html" -}}
   {{- $title := cond .title .title .platform }}
-  <a href="{{ .url | safeURL }}" {{- if .blank }} target="_blank" rel="noopener"{{ end }} title="{{ safeHTML $title }}">
+  {{- $rel := "noopener" -}}
+  {{- with .rel -}}
+    {{- $rel = printf "%s %s" . $rel -}}
+  {{- end -}}
+  <a href="{{ .url | safeURL }}" {{- if .blank }} target="_blank"{{ end }}{{ if or .blank .rel }} rel="{{ $rel }}"{{ end }} title="{{ safeHTML $title }}">
     {{- partial "icon" (printf "brand:%s" (lower $title)) -}}
     <span class="visually-hidden">{{ partial "func/PrepareHTML.html" $title }}</span>
   </a>

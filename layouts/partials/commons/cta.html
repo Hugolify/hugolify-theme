@@ -14,6 +14,13 @@
   {{- $title := (partial "func/PrepareHTML.html" .title) | default $text -}}
   {{/* The admin field is named `lang`; `hreflang` is the attribute and wins when both are set. */}}
   {{- $hreflang := .hreflang | default .lang | default false -}}
+  {{- /* Optional `rel` key (e.g. "me", Mastodon profile verification /
+       IndieWeb identity): prepended to the theme's "noreferrer noopener".
+       Without it, the output is unchanged. */ -}}
+  {{- $rel := "noreferrer noopener" -}}
+  {{- with .rel -}}
+    {{- $rel = printf "%s %s" . $rel -}}
+  {{- end -}}
   {{- if and .url .text -}}
     {{- if $blank }}
       {{- $title = i18n "link.blank_aria" (dict "Title" $title) -}}
@@ -24,7 +31,8 @@
       class="{{ . }}" 
       {{- end }}
       title="{{ $title }}" 
-      {{- with $blank }} target="_blank" rel="noreferrer noopener"{{ end -}} 
+      {{- with $blank }} target="_blank"{{ end -}} 
+      {{- if or $blank .rel }} rel="{{ $rel }}"{{ end -}}
       {{- with $hreflang }} hreflang="{{ . }}"{{ end -}}
       >
       {{- $text -}}
