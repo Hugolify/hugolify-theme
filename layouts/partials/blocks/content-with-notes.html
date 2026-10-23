@@ -21,7 +21,7 @@
 {{- end }}
 
 {{- with $title }}
-  {{ printf `<%s id="%s">` $tag (. | anchorize) | safeHTML }}{{ partial "func/PrepareHTML.html" . }}{{ printf `</%s>` $tag | safeHTML }}
+  {{ partial "commons/heading-title.html" (dict "tag" $tag "title" .) }}
 {{- end }}
 </header>
 {{- end }}

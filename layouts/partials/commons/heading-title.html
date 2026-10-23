@@ -1,0 +1,11 @@
+{{/* heading-title
+     The title of a heading, with an id made from it (anchorize). The blocks
+     call it with their title (blocks/heading.html, blocks/content-with-notes.html),
+     so the markup of a title lives in one place.
+
+     Params (dict):
+       tag   (string) heading level, default "h2"
+       title (string) the title, prepared here (func/PrepareHTML.html)
+*/}}
+{{- $tag := .tag | default "h2" -}}
+{{- printf `<%s id="%s">` $tag (.title | anchorize) | safeHTML }}{{ partial "func/PrepareHTML.html" .title }}{{ printf `</%s>` $tag | safeHTML -}}
