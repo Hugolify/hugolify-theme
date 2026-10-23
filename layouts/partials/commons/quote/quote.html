@@ -1,10 +1,5 @@
 {{- with .quote}}
   <blockquote>
-    {{- $text := partial "func/PrepareHTML.html" . | markdownify -}}
-    {{- if in (string .) "\n" }}
-      {{- $text -}}
-    {{- else -}}
-      <p>{{ $text }}</p>
-    {{- end }}
+    {{- partial "func/WrapParagraph.html" (partial "func/PrepareHTML.html" . | markdownify) -}}
   </blockquote>
 {{ end -}}
