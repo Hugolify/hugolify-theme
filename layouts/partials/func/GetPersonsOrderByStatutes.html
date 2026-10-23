@@ -14,7 +14,7 @@
 
 {{ $pages := slice }}
 
-{{/* Sort by status, then by lastname */}}
+{{/* Sort by status, then by weight, then by lastname */}}
 {{ $taxonomy := "persons_statutes" }}
 {{ $hasStatutes := site.GetPage "section" $taxonomy }}
 {{ $hasLastname := false }}
@@ -34,8 +34,13 @@
     {{ $hasLastname = true }}
     {{ $lastname = . }}
   {{ end }}
-  {{/* Composite key: zero padded weight to keep the numeric order, then the lastname */}}
-  {{ $sortKey := printf "%010d-%s" $termWeight (lower $lastname) }}
+  {{/* Pinned persons first within their status, those without a weight after */}}
+  {{ $weight := 99999999 }}
+  {{ if gt .Weight 0 }}
+    {{ $weight = .Weight }}
+  {{ end }}
+  {{/* Composite key: zero padded weights to keep the numeric order, then the lastname */}}
+  {{ $sortKey := printf "%010d-%010d-%s" $termWeight $weight (lower $lastname) }}
   {{ $s = $s | append (dict
       "page" .
       "termWeight" $termWeight
