@@ -1,0 +1,60 @@
+{{/*
+
+  @context
+    text  (string)
+    title (string) optional — overrides the data file value
+    lang  (string) optional — language of the abbreviation (e.g. de)
+
+  @example - Shortcode
+    {{< abbr text="CSS" >}}
+    {{< abbr text="CSS" title="Cascading Style Sheets" >}}
+    {{< abbr text="z. B." title="zum Beispiel" lang="de" >}}
+
+  @data
+    data/abbr/{lang}.yaml — e.g. data/abbr/fr.yaml
+      abbreviations:
+        - abbr: CSS
+          title: Cascading Style Sheets
+      Lookup is case-insensitive; when an entry matches, its "abbr"
+      value is rendered (canonical form), e.g. {{< abbr text="css" >}}
+      displays "CSS".
+
+  @reference - MDN
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/abbr
+
+*/}}
+
+{{- /* Get arguments. */}}
+{{- $text := or (.Get "text") "" -}}
+{{- $title := or (.Get "title") false -}}
+{{- $lang := or (.Get "lang") false -}}
+
+{{- /* Fallback: look up the abbreviation in the data file of the current language.
+     Case-insensitive match; when found, the entry's "abbr" value is the
+     canonical displayed text. */}}
+{{- if not $title -}}
+  {{- with hugo.Data.abbr -}}
+    {{- with index . site.Language.Lang -}}
+      {{- with .abbreviations -}}
+        {{- range . -}}
+          {{- if and (not $title) (eq (strings.ToLower .abbr) (strings.ToLower $text)) -}}
+            {{- $title = .title -}}
+            {{- $text = .abbr -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Warn when no definition was found. */}}
+{{- if not $title -}}
+  {{- warnf "shortcode abbr: no title found for %q" $text -}}
+{{- end -}}
+
+{{- /* Render. */}}
+{{- if $title -}}
+<abbr{{ with $lang }} lang="{{ . }}"{{ end }} title="{{ $title }}">{{ $text }}</abbr>
+{{- else -}}
+<abbr{{ with $lang }} lang="{{ . }}"{{ end }}>{{ $text }}</abbr>
+{{- end -}}
