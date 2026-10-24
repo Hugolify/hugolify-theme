@@ -9,7 +9,9 @@
      Context: the page. Reads .Page.Translations and hugo.Sites, one site per
               language, which lists every language even where the page has
               no translation: such a language links to its home page.
-     Requires: the js-dropdown-toggle behaviour and the navigation.dropdown
+     Each link carries lang and hreflang: its label is written in the language
+     it leads to.
+     Requires: the js-dropdown-toggle behaviour and the navigation.language
                i18n key.
      Renders nothing on a monolingual site.
 */}}
@@ -21,8 +23,8 @@
       <a href="{{ .Page.Permalink }}">
         {{- upper $current.name -}}
       </a>
-      <button class="dropdown-toggle js-dropdown-toggle" role="button" aria-expanded="false">
-        <span class="visually-hidden">{{ i18n "navigation.dropdown" }}</span>
+      <button class="dropdown-toggle js-dropdown-toggle" type="button" aria-expanded="false">
+        <span class="visually-hidden">{{ i18n "navigation.language" }}</span>
       </button>
       <ul class="dropdown-menu">
         {{- range hugo.Sites -}}
@@ -35,7 +37,7 @@
               {{- end -}}
             {{- end -}}
             <li>
-              <a href="{{ $url }}">{{ $language.label }}</a>
+              <a href="{{ $url }}" lang="{{ $language.locale }}" hreflang="{{ $language.locale }}">{{ $language.label }}</a>
             </li>
           {{ end -}}
         {{- end -}}

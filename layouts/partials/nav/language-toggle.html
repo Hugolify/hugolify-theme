@@ -28,7 +28,7 @@
           {{- end -}}
         {{- end -}}
         {{- with $language -}}
-          <a href="{{ $url }}" title="{{ .label }}">{{ upper .name }}</a>
+          <a href="{{ $url }}" lang="{{ .locale }}" hreflang="{{ .locale }}" title="{{ .label }}">{{ upper .name }}</a>
         {{- end -}}
         {{- break -}}
       {{ end -}}

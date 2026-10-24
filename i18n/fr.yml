@@ -135,8 +135,9 @@ link:
 more: En savoir plus
 navigation:
   close: Fermer
-  dropdown: Ouvrir le sous-menu
+  dropdown: 'Ouvrir le sous-menu{{ with .Title }} {{ . }}{{ end }}'
   home: '{{ .Title }}, aller à l’accueil'
+  language: Choisir une autre langue
   main: Navigation principale
   menu: Menu
 newsletter:

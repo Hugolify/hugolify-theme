@@ -1,4 +1,4 @@
 <div class="header">
   <p class="title" id="tocLabel">{{ i18n "toc" }}</p>
-  <button type="button" autofocus class="btn-close js-dialog-close" aria-label="{{ i18n `navigation.close` }}"></button>
+  {{ partial "commons/dialog/close.html" (dict "id" "toc" "params" site.Params.toc) }}
 </div>

@@ -1,2 +1,1 @@
-{{/*  autofocus keeps the initial focus predictable when the panel opens  */}}
-<button type="button" autofocus class="btn-close js-dialog-close" aria-label="{{ i18n `navigation.close` }}"></button>
+{{ partial "commons/dialog/close.html" (dict "id" "navigation" "params" site.Params.header) }}
