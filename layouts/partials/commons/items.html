@@ -58,6 +58,7 @@
           "lazy" (not (and $abovethefold (lt $index $abovethefoldLimit)))
           "large" (cond $large true false)
           "scrollsnap" (cond $scrollsnapclass true false)
+          "block" $block
         -}}
         {{- page.Store.Set "item" $flags -}}
         {{- /* Still written on the listed page for the modules reading the flags
@@ -71,7 +72,7 @@
           {{- with .File -}}
             {{- $cacheKey = .UniqueID -}}
           {{- end -}}
-          {{ partialCached $partial . $cacheKey $flags.large $flags.lazy $flags.scrollsnap }}
+          {{ partialCached $partial . $cacheKey $flags.large $flags.lazy $flags.scrollsnap $flags.block }}
         </div>
         {{- .Scratch.Delete "lazy" -}}
         {{- .Scratch.Delete "large" -}}

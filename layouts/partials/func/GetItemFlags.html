@@ -15,12 +15,14 @@
        - lazy (boolean) false for the first items of a list above the fold
        - large (boolean) the list shows large media
        - scrollsnap (boolean) the list scrolls horizontally below a breakpoint
-     Outside a list, the defaults: lazy, neither large nor scrollsnap.
+       - block (string|false) the type of the block showing the list, false
+         outside a block (an item under the h2 of a block may take an h3)
+     Outside a list, the defaults: lazy, neither large nor scrollsnap, no block.
 */}}
-{{- $flags := dict "lazy" true "large" false "scrollsnap" false -}}
+{{- $flags := dict "lazy" true "large" false "scrollsnap" false "block" false -}}
 {{- with page.Store.Get "item" -}}
   {{- if eq .page $ -}}
-    {{- $flags = dict "lazy" .lazy "large" .large "scrollsnap" .scrollsnap -}}
+    {{- $flags = dict "lazy" .lazy "large" .large "scrollsnap" .scrollsnap "block" .block -}}
   {{- end -}}
 {{- end -}}
 
