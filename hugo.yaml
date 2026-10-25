@@ -87,6 +87,22 @@ params:
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
+  # Markdown links — see layouts/_markup/render-link.html
+  links:
+    external:
+      # Open absolute http(s) links written in Markdown in a new tab, with
+      # the translated title of the blank_link shortcode. Default: false
+      # (native output, identical to Hugo's embedded render hook).
+      enable: false
+      # Extra hostnames treated as internal, in addition to the site hosts:
+      # domains: ['www.example.com']
+    # Lucide icon appended after mailto: link texts — any Lucide slug works,
+    # false to disable. Requires hugolify-theme-icons. Default: false.
+    mailto:
+      icon: false
+    # Lucide icon appended after tel: link texts. Default: false.
+    tel:
+      icon: false
   # Breakpoint at which these panels stop being overlays and become regions of
   # the page. Same contract as header.expand — sm | md | lg | xl | none.
   filters:
