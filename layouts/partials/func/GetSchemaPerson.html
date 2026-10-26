@@ -12,6 +12,9 @@
                             every one of them — see func/GetSchemaEntity.html
                             for what makes a place an office
 
+     and the languages they work in, the codes the CMS stores under
+     `languages`, as knowsLanguage.
+
      A member of the team attached to no office works for the organization
      behind the site, referenced by @id: commons/schema.html puts it on every
      page, func/GetSchemaOrganization.html builds it. A place kept in data
@@ -95,6 +98,9 @@
     {{- end -}}
     {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_awards") -}}
       {{- $node = merge $node (dict "award" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaValues.html" $person.Params.languages -}}
+      {{- $node = merge $node (dict "knowsLanguage" .) -}}
     {{- end -}}
 
     {{- $worksFor := slice -}}

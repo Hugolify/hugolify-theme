@@ -8,11 +8,13 @@
      A postal address is not translated: it is a physical fact, written the way
      the local post office expects it. The country is the exception, and
      schema.org settles it with a code rather than a name — addressCountry
-     wants the ISO 3166-1 alpha-2 form ("ES"), which belongs to no language,
-     where `country` holds whatever the visible <address> should read ("Spain",
-     "España", "Espagne"). Hence country_code, which wins when set. Without
-     one, a two letter country is taken for a code and anything longer for a
-     display name, still accepted by schema.org and emitted as is.
+     wants the ISO 3166-1 alpha-2 form ("ES"), which belongs to no language.
+     The CMS stores that code, country_code, and the visible <address> shows
+     its name in the language of the page, see func/GetAddressCountry.html.
+     An address may still hold the free `country` it had before the select:
+     country_code wins when set; without one, a two letter country is taken
+     for a code and anything longer for a display name, still accepted by
+     schema.org and emitted as is.
 
      Params: {map} an address object
        street, zipcode, city, country, country_code, region

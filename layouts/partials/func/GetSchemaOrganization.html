@@ -11,17 +11,19 @@
        sameAs        the links of the social menu, data/menu/social.yml
        description   the site description, data/seo.yml, per language
        slogan        the site slogan, data/seo.yml, per language
-       knowsLanguage the languages of the site
+       knowsLanguage the languages of the site, unless data/organization.yml
+                     lists the ones it works in
        knowsAbout    the expertises at the top of their section: the practice
                      areas of a firm, the specialties of a clinic
 
      data/organization.yml (Config → Organization in the CMS) holds its
      identity, which the rest of the site can show too — legal name, other
-     names, founding date, headcount, head office and other places, address
-     and contact for a site without places, distinctions, identifiers — read
-     through func/GetOrganizationData.html, where each key is described. The
-     distinctions are keys of the awards section, published under their title
-     in each language, or names typed in.
+     names, founding date, headcount, working languages, areas served, head
+     office and other places, address and contact for a site without places,
+     distinctions, identifiers — read through func/GetOrganizationData.html,
+     where each key is described. The distinctions are keys of the awards
+     section, published under their title in each language, or names typed
+     in.
 
      data/schema.yml (Config → Structured data) holds what only the structured
      data reads, read through func/GetSchemaData.html:
@@ -277,17 +279,26 @@
       {{- $organization = merge $organization (dict "taxID" (partial "func/PrepareData.html" (string .))) -}}
     {{- end -}}
 
-    {{- /* The languages it works in, as far as the site tells: the ones it is
-           published in. */ -}}
-    {{- $languages := slice -}}
-    {{- range hugo.Sites -}}
-      {{- $locale := (partial "func/GetLanguage.html" .Language).locale -}}
-      {{- if not (in $languages $locale) -}}
-        {{- $languages = $languages | append $locale -}}
+    {{- /* The languages it works in: the codes data/organization.yml lists,
+           or else the ones the site is published in — a firm may well work
+           in more languages than its site is translated in. */ -}}
+    {{- $languages := partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "languages") -}}
+    {{- if not $languages -}}
+      {{- range hugo.Sites -}}
+        {{- $locale := (partial "func/GetLanguage.html" .Language).locale -}}
+        {{- if not (in $languages $locale) -}}
+          {{- $languages = $languages | append $locale -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
     {{- with $languages -}}
       {{- $organization = merge $organization (dict "knowsLanguage" .) -}}
+    {{- end -}}
+
+    {{- /* The areas it serves, published as typed: schema.org takes plain
+           text — a country code, a region, "Worldwide". */ -}}
+    {{- with partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "area_served") -}}
+      {{- $organization = merge $organization (dict "areaServed" .) -}}
     {{- end -}}
 
     {{- /* What it knows about: the expertises at the top of their section,
