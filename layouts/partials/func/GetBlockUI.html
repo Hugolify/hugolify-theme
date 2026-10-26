@@ -66,8 +66,9 @@
       {{- end -}}
     {{- end -}}
   {{- end -}}
-  {{/* data/blocks.yml, the CMS layer, key by key so an empty field keeps the param */}}
-  {{- with hugo.Data.blocks -}}
+  {{/* data/blocks.yml, the CMS layer, key by key so an empty field keeps the param.
+       Read through func/GetUntranslatedData.html: Decap keys it by language. */}}
+  {{- with partialCached "func/GetUntranslatedData.html" "blocks" "blocks" -}}
     {{- with index . $name -}}
       {{- if reflect.IsMap . -}}
         {{- with .ui -}}

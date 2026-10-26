@@ -88,6 +88,9 @@
 {{- end -}}
 {{- with $context -}}
   {{- $keys := split . "." -}}
+  {{- /* The data side reads data/blocks.yml through
+         func/GetUntranslatedData.html, Decap keying it by language. */ -}}
+  {{- $data := merge hugo.Data (dict "blocks" (partialCached "func/GetUntranslatedData.html" "blocks" "blocks")) -}}
   {{- /* Walk the path from the most specific key back to the shortest one:
          blocks.datas, then blocks. */ -}}
   {{- range $depth := seq (len $keys) 1 -}}
@@ -97,7 +100,7 @@
            func/GetBlockUI.html gives the rest of the look. The same keys walk
            both roots: a context of "blocks.datas" lands on hugo.Data.blocks.datas
            on one side and site.Params.blocks.datas on the other. */ -}}
-    {{- range $root := slice hugo.Data site.Params -}}
+    {{- range $root := slice $data site.Params -}}
       {{- $level := $root -}}
       {{- range $name := $path -}}
         {{- if reflect.IsMap $level -}}

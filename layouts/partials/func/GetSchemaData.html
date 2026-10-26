@@ -9,9 +9,11 @@
      (email) — none of which varies from one language to the next. The
      identity of the organization is in data/organization.yml, see
      func/GetOrganizationData.html; see func/GetSchemaOrganization.html.
+     Flat or keyed by language, as Decap saves it: see
+     func/GetUntranslatedData.html.
 
      Params: (string) the key to read, e.g. "organization".
 
      Returns: the value, or nil when the file or the key is missing.
 */}}
-{{- return index (hugo.Data.schema | default dict) . -}}
+{{- return index (partialCached "func/GetUntranslatedData.html" "schema" "schema") . -}}

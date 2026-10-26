@@ -28,14 +28,15 @@
 
      Those values lived under `organization` in data/schema.yml before, next
      to what only the structured data reads: a key is still read from there
-     while a site has not moved it.
+     while a site has not moved it. Either file is read flat or keyed by
+     language, as Decap saves it: see func/GetUntranslatedData.html.
 
      Params: (string) the key to read, e.g. "legal_name".
 
      Returns: the value, or nil when it is set nowhere.
 */}}
 {{- $key := . -}}
-{{- $value := index (hugo.Data.organization | default dict) $key -}}
+{{- $value := index (partialCached "func/GetUntranslatedData.html" "organization" "organization") $key -}}
 {{- if not $value -}}
   {{- with partial "func/GetSchemaData.html" "organization" -}}
     {{- $value = index . $key -}}
