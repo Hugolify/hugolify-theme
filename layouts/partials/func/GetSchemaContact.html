@@ -9,7 +9,8 @@
 
      Publishing email addresses can be turned off site wide in the CMS, with
      data/schema.yml's `email` switch — JSON-LD is a convenient place to
-     harvest them from.
+     harvest them from. Phone and fax numbers go through
+     func/GetSchemaTelephone.html.
 
      Params: {map} a contact object.
 
@@ -28,8 +29,8 @@
   {{- if $exposeEmail -}}
     {{- with .email -}}{{- $contact = merge $contact (dict "email" (strings.TrimPrefix "mailto:" .)) -}}{{- end -}}
   {{- end -}}
-  {{- with .phone -}}{{- $contact = merge $contact (dict "telephone" (string .)) -}}{{- end -}}
-  {{- with .fax -}}{{- $contact = merge $contact (dict "faxNumber" (string .)) -}}{{- end -}}
+  {{- with partial "func/GetSchemaTelephone.html" .phone -}}{{- $contact = merge $contact (dict "telephone" .) -}}{{- end -}}
+  {{- with partial "func/GetSchemaTelephone.html" .fax -}}{{- $contact = merge $contact (dict "faxNumber" .) -}}{{- end -}}
 
   {{- $urls := slice -}}
   {{- range .socials -}}

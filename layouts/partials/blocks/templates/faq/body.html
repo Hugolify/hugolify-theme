@@ -5,3 +5,5 @@
     {{ end }}
   </div>
 {{- end }}
+{{- /* The FAQPage of the page, see func/GetSchemaFAQ.html. */ -}}
+{{- partial "commons/jsonld.html" (partial "func/GetSchemaFAQ.html" .) -}}

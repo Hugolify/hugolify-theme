@@ -5,46 +5,56 @@
      Most of what describes the organization, the site knows already, and it
      is taken from there rather than typed twice:
 
-       name         the site title
-       logo         the header logo, params.logo.header, when the header shows
-                    it (see commons/logo.html)
-       sameAs       the links of the social menu, data/menu/social.yml
-       description  the site description, data/seo.yml, per language
+       name          the site title
+       logo          the header logo, params.logo.header, when the header shows
+                     it (see commons/logo.html)
+       sameAs        the links of the social menu, data/menu/social.yml
+       description   the site description, data/seo.yml, per language
+       slogan        the site slogan, data/seo.yml, per language
+       knowsLanguage the languages of the site
+       knowsAbout    the expertises at the top of their section: the practice
+                     areas of a firm, the specialties of a clinic
 
-     data/schema.yml (Config → Structured data in the CMS) holds the rest, read
-     through func/GetSchemaData.html:
+     data/organization.yml (Config → Organization in the CMS) holds its
+     identity, which the rest of the site can show too — legal name, other
+     names, founding date, headcount, head office and other places, address
+     and contact for a site without places, distinctions, identifiers — read
+     through func/GetOrganizationData.html, where each key is described. The
+     distinctions are keys of the awards section, published under their title
+     in each language, or names typed in.
+
+     data/schema.yml (Config → Structured data) holds what only the structured
+     data reads, read through func/GetSchemaData.html:
 
        organization:
          type: LegalService     # any Organization subtype, see
                                 # func/GetSchemaTypes.html
-         legal_name: Acme SAS   # when it differs from the site title
-         place: paris           # the head office, among the places
-         address:               # for a site without a head office place
-           street: 1 rue de l'Exemple
-           zipcode: '75001'
-           city: Paris
-           country_code: FR
-           coordinates:
-             lat: 48.8566
-             lng: 2.3522
-         contact:
-           email: …
-           phone: …
-           fax: …
+         logo: /assets/images/logo.png
+                                # a raster logo, when the header one is an
+                                # SVG or under the 112px Google asks for
+         same_as:               # its pages elsewhere — a directory, a ranking,
+           - url: https://…     # an encyclopedia — the social profiles being
+                                # those of the social menu
 
      The head office lends its address, coordinates and contact — a page of the
      places section or an entry of data/places alike, resolved the way a
      persons_places term is, through func/GetRealContext.html — and the fields
-     above fill in what its contact lacks. That place is the organization
-     itself: passed here as an office, it comes back as the organization, not
-     as an office of itself.
+     above fill in what its contact lacks. The other places only lend their
+     address, listed after the head office one: Google reads several on an
+     organization present in more than one location. A single one stays a
+     single object. The coordinates are the head office ones, and only an
+     organization that is a place too — a LocalBusiness, see
+     func/GetSchemaTypes.html — takes them. The head office is the
+     organization itself: passed here as an office, it comes back as the
+     organization, not as an office of itself.
 
      Passing a place turns the node into that office: it keeps the logo of the
      whole firm, overrides whatever the place describes for itself, takes its
      own @id and points back at the organization through parentOrganization.
      That is how a person attached to a place ends up working for their office
-     rather than for the firm as a whole. The social profiles stay the firm's:
-     an office only lists its own.
+     rather than for the firm as a whole. The social profiles, the names, the
+     distinctions and the identifiers stay the firm's: an office only lists
+     its own.
 
      A place only qualifies as an office when its schema.type names an
      organization subtype — the places section is generic, and a venue or a
@@ -53,22 +63,34 @@
      between the two. The key is nested rather than a top level `type`, which
      Hugo reserves in front matter to select the content type.
 
+     The page listing the offices, the contact page, makes an office of every
+     place of the organization, its head office included, see
+     func/GetSchemaOffices.html. A place kept in data has no page of its own:
+     it takes the url of that page and an anchor of it as its @id. An office
+     is named after the firm, unless its title names it already.
+
      Params: {map} optional
        compact (bool) return only what another node needs to reference this
                       one: @type, @id, name, url and the logo — which Google
-                      reads on a publisher or a hiringOrganization.
-       place   (page) a /places/ page to build a branch office from.
+                      reads on a publisher or a hiringOrganization. A
+                      LocalBusiness is referenced as an Organization.
+       place   (page) a /places/ page to build a branch office from, or an
+                      entry of data/places resolved by func/GetRealContext.html.
+       page    (page) the page the office is listed on.
 
      Returns: map, the schema.org node.
 */}}
 {{- $compact := false -}}
 {{- $place := false -}}
+{{- $listedOn := false -}}
 {{- with . -}}
   {{- $compact = .compact | default false -}}
   {{- $place = .place | default false -}}
+  {{- $listedOn = .page | default false -}}
 {{- end -}}
 
 {{- $datas := partial "func/GetSchemaData.html" "organization" | default dict -}}
+{{- $types := partial "func/GetSchemaTypes.html" -}}
 {{- $type := $datas.type | default "Organization" -}}
 {{- $headType := $type -}}
 {{- $headId := printf "%s#organization" site.BaseURL -}}
@@ -76,11 +98,11 @@
 {{- /* The head office, given by the key of a place. GetRealContext hands back
        what it received when nothing matches, which carries no File. */ -}}
 {{- $headOffice := false -}}
-{{- with $datas.place -}}
+{{- with partial "func/GetOrganizationData.html" "place" -}}
   {{- $real := partial "func/GetRealContext.html" (dict "page" (dict "Title" .) "section" "places") -}}
   {{- if $real.File -}}{{- $headOffice = $real -}}{{- end -}}
 {{- end -}}
-{{- if and $place $headOffice (not (reflect.IsMap $headOffice)) -}}
+{{- if and $place $headOffice (not (reflect.IsMap $headOffice)) (not $listedOn) -}}
   {{- if eq $place $headOffice -}}{{- $place = false -}}{{- end -}}
 {{- end -}}
 
@@ -88,40 +110,66 @@
 {{- $url := site.BaseURL -}}
 {{- $name := site.Title -}}
 
-{{- /* The logo belongs to the firm, wherever the office is. It carries an @id
-       of its own so every copy of it — the full node, each compact reference —
-       merges back into a single image. */ -}}
+{{- /* The logo belongs to the firm, wherever the office is. A raster one from
+       data/schema.yml wins over the header one, often an SVG drawn for the
+       page rather than the 112px Google asks for. It carries an @id of its own
+       so every copy of it — the full node, each compact reference — merges
+       back into a single image. */ -}}
 {{- $logo := false -}}
-{{- with site.Params.logo -}}
-  {{- with .header -}}
-    {{- if os.FileExists (printf "static%s" .) -}}
-      {{- with partial "func/GetSchemaImage.html" . -}}
-        {{- $logo = merge . (dict "@id" (printf "%s#logo" site.BaseURL)) -}}
+{{- with $datas.logo -}}
+  {{- $logo = partial "func/GetSchemaImage.html" . -}}
+{{- end -}}
+{{- if not $logo -}}
+  {{- with site.Params.logo -}}
+    {{- with .header -}}
+      {{- if os.FileExists (printf "static%s" .) -}}
+        {{- $logo = partial "func/GetSchemaImage.html" . -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
+{{- end -}}
+{{- with $logo -}}
+  {{- $logo = merge . (dict "@id" (printf "%s#logo" site.BaseURL)) -}}
 {{- end -}}
 
 {{- /* An office of the firm: its own identity, and its own type when it
        declares one — a group can run a clinic and a shop. A type from the
        place branch is no organization, the firm's one stands then. */ -}}
 {{- with $place -}}
-  {{- /* An office kept out of the build (render: never) has neither: its node
-         goes anonymous rather than claim the firm's @id. */ -}}
-  {{- $id = cond (ne .Permalink "") (printf "%s#organization" .Permalink) "" -}}
-  {{- $url = .Permalink -}}
+  {{- /* An office kept out of the build (render: never), or kept in data and
+         listed nowhere, has neither: its node goes anonymous rather than
+         claim the firm's @id. */ -}}
+  {{- $id = "" -}}
+  {{- $url = "" -}}
+  {{- if reflect.IsMap . -}}
+    {{- with $listedOn -}}
+      {{- $url = .Permalink -}}
+      {{- $id = printf "%s#%s" .Permalink (anchorize $place.Title) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $url = .Permalink -}}
+    {{- with .Permalink -}}{{- $id = printf "%s#organization" . -}}{{- end -}}
+  {{- end -}}
   {{- $name = .Title -}}
+  {{- if not (strings.Contains (lower .Title) (lower site.Title)) -}}
+    {{- $name = printf "%s – %s" site.Title .Title -}}
+  {{- end -}}
   {{- with .Params.schema -}}
     {{- with .type -}}
-      {{- if in (partial "func/GetSchemaTypes.html").organization . -}}
+      {{- if in $types.organization . -}}
         {{- $type = . -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
 
+{{- /* A reference names the company, not one of its locations: Google rejects
+       a LocalBusiness as the hiringOrganization of a job offer, and the
+       publisher of an article or the employer of a person is the company just
+       as much. The compact form of a LocalBusiness is an Organization, the
+       full node keeps the precise type, and the @id merges both back. */ -}}
 {{- $organization := dict
-  "@type" $type
+  "@type" (cond (and $compact (in $types.local_business $type)) "Organization" $type)
   "@id" $id
   "name" (partial "func/PrepareData.html" $name)
   "url" $url
@@ -137,10 +185,10 @@
          translatable content. */ -}}
   {{- $description := partial "func/GetSeoData.html" "description" -}}
 
-  {{- /* The firm: its head office describes it, data/schema.yml fills in what
-         the head office contact lacks. */ -}}
-  {{- $address := $datas.address -}}
-  {{- $contact := $datas.contact | default dict -}}
+  {{- /* The firm: its head office describes it, data/organization.yml fills in
+         what the head office contact lacks. */ -}}
+  {{- $address := partial "func/GetOrganizationData.html" "address" -}}
+  {{- $contact := partial "func/GetOrganizationData.html" "contact" | default dict -}}
   {{- with $headOffice -}}
     {{- with .Params.address -}}{{- $address = . -}}{{- end -}}
     {{- with .Params.contact -}}
@@ -149,6 +197,7 @@
   {{- end -}}
 
   {{- $image := $logo -}}
+  {{- $addresses := slice -}}
   {{- with $place -}}
     {{- /* What an office describes for itself wins; the firm fills in the
            rest. The address is taken whole — half an office's address
@@ -162,15 +211,117 @@
     {{- $contact = partial "func/MergeDefined.html" (dict "base" $base "overlay" (.Params.contact | default dict)) -}}
     {{- with partial "func/GetSchemaImage.html" .Params.image -}}{{- $image = . -}}{{- end -}}
   {{- else -}}
-    {{- /* The social menu lists the firm's own profiles. */ -}}
+    {{- /* The social menu lists the firm's own profiles, same_as its other
+           pages on the web. */ -}}
     {{- $menu := dict -}}
     {{- with hugo.Data.menu -}}{{- with .social -}}{{- $menu = . -}}{{- end -}}{{- end -}}
     {{- with index $menu (partial "func/GetLanguage.html").name -}}{{- $menu = . -}}{{- end -}}
     {{- $socials := $menu.links | default slice -}}
     {{- with $contact.socials -}}{{- $socials = $socials | append . -}}{{- end -}}
+    {{- range partial "func/GetSchemaValues.html" $datas.same_as -}}
+      {{- $socials = $socials | append (dict "url" .) -}}
+    {{- end -}}
     {{- $contact = merge $contact (dict "socials" $socials) -}}
-    {{- with $datas.legal_name -}}
+
+    {{- with partial "func/GetOrganizationData.html" "legal_name" -}}
       {{- $organization = merge $organization (dict "legalName" (partial "func/PrepareData.html" .)) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "alternate_name") -}}
+      {{- $organization = merge $organization (dict "alternateName" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetSeoData.html" "slogan" -}}
+      {{- $organization = merge $organization (dict "slogan" (partial "func/PrepareData.html" .)) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaDate.html" (partial "func/GetOrganizationData.html" "date_founded") -}}
+      {{- $organization = merge $organization (dict "foundingDate" .) -}}
+    {{- end -}}
+    {{- /* The headcount, a number or a range when it moves: 150-250 gives a
+           minValue and a maxValue, which Google reads as well. Leading zeros
+           are refused, int would read them as octal. */ -}}
+    {{- with partial "func/GetOrganizationData.html" "number_of_employees" -}}
+      {{- $employees := printf "%v" . -}}
+      {{- if findRE `^[1-9][0-9]*(-[1-9][0-9]*)?$` $employees -}}
+        {{- $bounds := split $employees "-" -}}
+        {{- $count := dict "@type" "QuantitativeValue" -}}
+        {{- if eq (len $bounds) 1 -}}
+          {{- $count = merge $count (dict "value" (int $employees)) -}}
+        {{- else -}}
+          {{- $count = merge $count (dict "minValue" (int (index $bounds 0)) "maxValue" (int (index $bounds 1))) -}}
+        {{- end -}}
+        {{- $organization = merge $organization (dict "numberOfEmployees" $count) -}}
+      {{- end -}}
+    {{- end -}}
+    {{- /* An award of the section gives its title in the current language; a
+           key with nothing behind it — an award still a draft in this
+           language — is left out, where a name typed in stays as it is. */ -}}
+    {{- $awards := slice -}}
+    {{- range partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "awards") -}}
+      {{- $award := . -}}
+      {{- $real := partial "func/GetRealContext.html" (dict "page" (dict "Title" .) "section" "awards") -}}
+      {{- if $real.File -}}
+        {{- $award = partial "func/PrepareData.html" $real.Title -}}
+      {{- else if eq . (anchorize .) -}}
+        {{- $award = "" -}}
+      {{- end -}}
+      {{- if and $award (not (in $awards $award)) -}}
+        {{- $awards = $awards | append $award -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $awards -}}
+      {{- $organization = merge $organization (dict "award" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetOrganizationData.html" "vat_id" -}}
+      {{- $organization = merge $organization (dict "vatID" (partial "func/PrepareData.html" (string .))) -}}
+    {{- end -}}
+    {{- with partial "func/GetOrganizationData.html" "tax_id" -}}
+      {{- $organization = merge $organization (dict "taxID" (partial "func/PrepareData.html" (string .))) -}}
+    {{- end -}}
+
+    {{- /* The languages it works in, as far as the site tells: the ones it is
+           published in. */ -}}
+    {{- $languages := slice -}}
+    {{- range hugo.Sites -}}
+      {{- $locale := (partial "func/GetLanguage.html" .Language).locale -}}
+      {{- if not (in $languages $locale) -}}
+        {{- $languages = $languages | append $locale -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $languages -}}
+      {{- $organization = merge $organization (dict "knowsLanguage" .) -}}
+    {{- end -}}
+
+    {{- /* What it knows about: the expertises at the top of their section,
+           linked like the knowsAbout of a person, capped like the entries of
+           a listing, see pages/schema.html. */ -}}
+    {{- with site.GetPage "/expertises" -}}
+      {{- $topics := slice -}}
+      {{- range first (site.Params.schemaItemsLimit | default 30) .Pages -}}
+        {{- $topics = $topics | append (dict
+          "@type" "Thing"
+          "name" (partial "func/PrepareData.html" .Title)
+          "url" .Permalink
+        ) -}}
+      {{- end -}}
+      {{- with $topics -}}
+        {{- $organization = merge $organization (dict "knowsAbout" .) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* The other places, after the head office: their address only, the
+           contact being the firm's. Given by key like the head office, once
+           each. */ -}}
+    {{- $keys := slice (anchorize (string (partial "func/GetOrganizationData.html" "place" | default ""))) -}}
+    {{- range partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "places") -}}
+      {{- $key := anchorize . -}}
+      {{- if not (in $keys $key) -}}
+        {{- $keys = $keys | append $key -}}
+        {{- $real := partial "func/GetRealContext.html" (dict "page" (dict "Title" .) "section" "places") -}}
+        {{- if $real.File -}}
+          {{- with partial "func/GetSchemaAddress.html" $real.Params.address -}}
+            {{- $addresses = $addresses | append . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 
@@ -184,16 +335,23 @@
     {{- $organization = merge $organization (dict "description" (partial "func/PrepareData.html" .)) -}}
   {{- end -}}
   {{- with partial "func/GetSchemaAddress.html" $address -}}
-    {{- $organization = merge $organization (dict "address" .) -}}
+    {{- $others := $addresses -}}
+    {{- $addresses = slice . -}}
+    {{- range $others -}}{{- $addresses = $addresses | append . -}}{{- end -}}
   {{- end -}}
-  {{- with partial "func/GetSchemaGeo.html" $address -}}
-    {{- $organization = merge $organization (dict "geo" .) -}}
+  {{- with $addresses -}}
+    {{- $organization = merge $organization (dict "address" (cond (eq (len .) 1) (index . 0) .)) -}}
+  {{- end -}}
+  {{- if in $types.local_business $type -}}
+    {{- with partial "func/GetSchemaGeo.html" $address -}}
+      {{- $organization = merge $organization (dict "geo" .) -}}
+    {{- end -}}
   {{- end -}}
   {{- $organization = merge $organization (partial "func/GetSchemaContact.html" $contact) -}}
 
   {{- with $place -}}
     {{- $parent := dict
-      "@type" $headType
+      "@type" (cond (in $types.local_business $headType) "Organization" $headType)
       "@id" $headId
       "name" (partial "func/PrepareData.html" site.Title)
       "url" site.BaseURL

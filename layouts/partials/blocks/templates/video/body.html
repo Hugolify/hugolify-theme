@@ -2,3 +2,11 @@
   {{ partial "commons/figure-video.html" . }}
   {{ partial "commons/transcription" .transcription }}
 {{- end }}
+{{- /* Its VideoObject, named after the heading of the block, see
+       func/GetSchemaVideo.html. */ -}}
+{{- $heading := .heading | default dict -}}
+{{- partial "commons/jsonld.html" (partial "func/GetSchemaVideo.html" (dict
+  "video" .video
+  "name" $heading.title
+  "description" $heading.text
+)) -}}

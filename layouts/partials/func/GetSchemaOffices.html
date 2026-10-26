@@ -1,0 +1,46 @@
+{{/* GetSchemaOffices
+     Build the schema.org nodes of the offices of the organization, for the
+     page that lists them: its contact page.
+
+     Google reads a LocalBusiness per location, on a page listing them when
+     they have no page of their own. Every place of the organization in
+     data/organization.yml, the head office then the other places, becomes
+     an office there — a LegalService for a law firm — pointing back at the
+     organization, see func/GetSchemaOrganization.html.
+
+     The contact page is the one data/schema.yml names, contact_page next to
+     organization, or the /contact page when it names none.
+
+     Params: (page) the page.
+
+     Returns: slice, the office nodes, empty when the organization has no
+              place — or false on any page but the contact page.
+*/}}
+{{- $page := . -}}
+{{- $offices := false -}}
+
+{{- /* A relation to a branch bundle may keep its /_index. */ -}}
+{{- $path := replaceRE `/?_index$` "" (strings.TrimPrefix "/" (string (partial "func/GetSchemaData.html" "contact_page" | default "contact"))) -}}
+{{- with site.GetPage (printf "/%s" $path) -}}
+  {{- if eq . $page -}}
+    {{- $offices = slice -}}
+    {{- $keys := slice -}}
+    {{- with partial "func/GetOrganizationData.html" "place" -}}{{- $keys = $keys | append (string .) -}}{{- end -}}
+    {{- range partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "places") -}}
+      {{- $keys = $keys | append . -}}
+    {{- end -}}
+    {{- $seen := slice -}}
+    {{- range $keys -}}
+      {{- $key := anchorize . -}}
+      {{- if not (in $seen $key) -}}
+        {{- $seen = $seen | append $key -}}
+        {{- $real := partial "func/GetRealContext.html" (dict "page" (dict "Title" .) "section" "places") -}}
+        {{- if $real.File -}}
+          {{- $offices = $offices | append (partial "func/GetSchemaOrganization.html" (dict "place" $real "page" $page)) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $offices -}}

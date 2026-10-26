@@ -7,11 +7,20 @@
      organization they work for.
 
      The organization is built by func/GetSchemaOrganization.html, from what
-     the site knows of it and data/schema.yml; the WebSite name follows the
-     same resolution order as head/seo.html, so data/seo.yml wins over the
-     site title, in its flat form as well as its language-keyed one.
+     the site knows of it, data/organization.yml and data/schema.yml. It is
+     described in full on the home page of each language, where Google looks
+     for it, and nowhere else: every other page carries its compact form —
+     the @id, the name, the url and the logo the nodes of the page need —
+     rather than the same addresses, profiles and expertises over again.
 
-     Called once per page (partialCached) from _default/baseof.html.
+     The WebSite name follows the same resolution order as head/seo.html, so
+     data/seo.yml wins over the site title, in its flat form as well as its
+     language-keyed one. Its alternate names are the organization ones, which
+     Google reads to name the site in its results — on the home page, where
+     the WebSite is described in full as well.
+
+     Called once per language and kind of page, home or not (partialCached
+     on .IsHome), from _default/baseof.html.
 */}}
 {{- $language := partial "func/GetLanguage.html" -}}
 {{- /* The home permalink, not the baseURL: on a multilingual site each language
@@ -24,7 +33,7 @@
 {{- with partial "func/GetSeoData.html" "title" -}}{{- $name = . -}}{{- end -}}
 
 {{- with $name -}}
-  {{- $organization := partial "func/GetSchemaOrganization.html" -}}
+  {{- $organization := partial "func/GetSchemaOrganization.html" (dict "compact" (not $.IsHome)) -}}
 
   {{- $website := dict
     "@type" "WebSite"
@@ -35,8 +44,14 @@
     "publisher" (dict "@id" (index $organization "@id"))
   -}}
 
-  {{- with partial "func/GetSeoData.html" "description" -}}
-    {{- $website = merge $website (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- /* Described on the home page only, like the organization. */ -}}
+  {{- if $.IsHome -}}
+    {{- with partial "func/GetSeoData.html" "description" -}}
+      {{- $website = merge $website (dict "description" (partial "func/PrepareData.html" .)) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaValues.html" (partial "func/GetOrganizationData.html" "alternate_name") -}}
+      {{- $website = merge $website (dict "alternateName" .) -}}
+    {{- end -}}
   {{- end -}}
 
   {{- partial "commons/jsonld.html" (slice $website $organization) -}}

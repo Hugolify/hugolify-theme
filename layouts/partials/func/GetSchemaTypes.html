@@ -15,10 +15,21 @@
      for: a law firm or a notary (Lawyerify), a clinic (Medicalify), a real
      estate agency (Realestatify).
 
+     The organizations descending from LocalBusiness are places as well, and
+     only they take the properties of a place — geo above all: an Organization
+     or a Corporation has an address, not coordinates.
+
+     A page of any section can also be an article, by its schema.type — set
+     for a whole section by a cascade — see pages/schema-single.html. Those
+     types are no choice for a place, and stay out of `all`.
+
      Returns: map
-       organization (slice of string)
-       place        (slice of string)
-       all          (slice of string) both, in select order
+       organization   (slice of string)
+       place          (slice of string)
+       local_business (slice of string) the organizations that are places too
+       article        (slice of string) the types of an article
+       all            (slice of string) organization and place, in select
+                                        order
 */}}
 {{- $organization := slice
   "Organization"
@@ -43,8 +54,27 @@
   "Residence"
 -}}
 
+{{- $localBusiness := slice
+  "LocalBusiness"
+  "ProfessionalService"
+  "LegalService"
+  "Notary"
+  "MedicalClinic"
+  "RealEstateAgent"
+-}}
+
+{{- $article := slice
+  "Article"
+  "BlogPosting"
+  "NewsArticle"
+  "TechArticle"
+  "ScholarlyArticle"
+-}}
+
 {{- return (dict
   "organization" $organization
   "place" $place
+  "local_business" $localBusiness
+  "article" $article
   "all" ($organization | append $place)
 ) -}}

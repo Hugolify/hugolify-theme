@@ -7,6 +7,9 @@
   persons_places, the person behind authors — says it is about that page, see
   func/GetSchemaEntity.html.
 
+  A section standing for a page (isPage: the contact page, the about page…)
+  lists nothing: it is a WebPage, see pages/schema-single.html.
+
   Accepts either the page as the context (.) or a dict:
     { "page": <page>, "types": <slice of extra @type to add alongside CollectionPage> }
 */ -}}
@@ -15,6 +18,11 @@
 {{- if reflect.IsMap . -}}
   {{- $page = .page -}}
   {{- with .types -}}{{- $extraTypes = . -}}{{- end -}}
+{{- end -}}
+
+{{- if and $page $page.Params.isPage -}}
+  {{- partial "pages/schema-single.html" $page -}}
+  {{- $page = false -}}
 {{- end -}}
 
 {{- with $page -}}

@@ -9,10 +9,12 @@
     legend (string) optional
     credit (markdown) optional
     screenshot (bool) optional
+    poster (string) optional, also the thumbnail of its structured data
 
   @example - Shortcode
-    {{< video autoplay="true" controls="true" loop="true" mp4="some-video.mp4" webm="some-video.webm" legend="Some legend" credit="Some credit" screenshot="true" >}}
+    {{< video autoplay="true" controls="true" loop="true" mp4="some-video.mp4" webm="some-video.webm" legend="Some legend" credit="Some credit" screenshot="true" poster="some-poster.jpg" >}}
 
+  A video with controls gets its VideoObject, see func/GetSchemaVideo.html.
 */}}
 
 {{- /* Get arguments. */}}
@@ -24,9 +26,10 @@
 {{- $legend := .Get "legend" | default false -}}
 {{- $credit := .Get "credit" | default false -}}
 {{- $screenshot := .Get "screenshot" | default false -}}
+{{- $poster := .Get "poster" | default false -}}
 
 {{- /* Render. */}}
-{{- partial "commons/figure-video.html" (dict
+{{- $video := dict
   "autoplay" $autoplay 
   "controls" $controls 
   "loop" $loop 
@@ -35,4 +38,7 @@
   "legend" $legend 
   "credit" $credit
   "screenshot" $screenshot
-  ) -}}
+  "poster" $poster
+-}}
+{{- partial "commons/figure-video.html" $video -}}
+{{- partial "commons/jsonld.html" (partial "func/GetSchemaVideo.html" (dict "video" $video "page" .Page)) -}}

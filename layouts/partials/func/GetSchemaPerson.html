@@ -6,14 +6,16 @@
 
        persons_statutes   → jobTitle
        persons_expertises → knowsAbout, a Thing linked to the expertise page
+       persons_sectors    → knowsAbout as well, linked to the sector page
        persons_awards     → award
        persons_places     → worksFor the offices among them, workLocation for
                             every one of them — see func/GetSchemaEntity.html
                             for what makes a place an office
 
      A member of the team attached to no office works for the organization
-     behind the site, referenced by @id: func/GetSchemaOrganization.html
-     builds it once for the whole page in commons/schema.html.
+     behind the site, referenced by @id: commons/schema.html puts it on every
+     page, func/GetSchemaOrganization.html builds it. A place kept in data
+     still locates them, at its address.
 
      The same person shows up as the author of a post, the speaker of an
      event, the agent of a listing: they all take the compact form, whose @id
@@ -86,7 +88,9 @@
     {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_statutes") -}}
       {{- $node = merge $node (dict "jobTitle" .) -}}
     {{- end -}}
-    {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_expertises" "format" "thing") -}}
+    {{- $topics := partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_expertises" "format" "thing") -}}
+    {{- $topics = $topics | append (partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_sectors" "format" "thing")) -}}
+    {{- with $topics -}}
       {{- $node = merge $node (dict "knowsAbout" .) -}}
     {{- end -}}
     {{- with partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_awards") -}}
@@ -97,8 +101,12 @@
     {{- $workLocation := slice -}}
     {{- $organizationTypes := (partial "func/GetSchemaTypes.html").organization -}}
     {{- range partial "func/GetSchemaTerms.html" (dict "page" $person "taxonomy" "persons_places" "format" "page") -}}
-      {{- /* A term with no place page behind it has nothing to locate. */ -}}
-      {{- if and (not (reflect.IsMap .)) (eq .Section "places") -}}
+      {{- /* A place kept in data has no page, hence no office to work for,
+             but still an address to work at. A term with no place behind it
+             has nothing to locate. */ -}}
+      {{- if reflect.IsMap . -}}
+        {{- $workLocation = $workLocation | append (partial "func/GetSchemaPlace.html" .) -}}
+      {{- else if eq .Section "places" -}}
         {{- $entity := partial "func/GetSchemaEntity.html" (dict "page" . "compact" true) -}}
         {{- if in $organizationTypes (index $entity "@type") -}}
           {{- $worksFor = $worksFor | append $entity -}}

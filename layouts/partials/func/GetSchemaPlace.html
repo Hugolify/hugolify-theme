@@ -67,8 +67,8 @@
   {{- end -}}
 
   {{- with $place.Params.contact -}}
-    {{- with .phone -}}{{- $node = merge $node (dict "telephone" (string .)) -}}{{- end -}}
-    {{- with .fax -}}{{- $node = merge $node (dict "faxNumber" (string .)) -}}{{- end -}}
+    {{- with partial "func/GetSchemaTelephone.html" .phone -}}{{- $node = merge $node (dict "telephone" .) -}}{{- end -}}
+    {{- with partial "func/GetSchemaTelephone.html" .fax -}}{{- $node = merge $node (dict "faxNumber" .) -}}{{- end -}}
   {{- end -}}
 {{- end -}}
 

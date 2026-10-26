@@ -1,0 +1,31 @@
+{{/* GetSchemaTelephone
+     Format a phone or fax number for schema.org.
+
+     Google asks for the country and area codes, and the CMS hint asks for the
+     international form — which people type with spaces, dots or dashes and,
+     across Europe, the "(0)" only a caller inside the country dials. An
+     international number is reduced to its digits, that zero dropped:
+     "+33 (0)1 45 05 80 08" becomes "+33145058008", the E.164 form every
+     consumer reads. The 00 most of the world dials instead of the + reads as
+     one: no national number starts with it where it is the international
+     prefix. A bare 0 after the country code is left alone, an Italian number
+     keeps it. A national number carries no country to rebuild it from, and
+     is only trimmed.
+
+     Params: (string or number) the number as typed.
+
+     Returns: string, empty when there is no number.
+*/}}
+{{- $telephone := "" -}}
+{{- with . -}}
+  {{- $telephone = strings.TrimSpace (string .) -}}
+  {{- if hasPrefix $telephone "00" -}}
+    {{- $telephone = printf "+%s" (strings.TrimPrefix "00" $telephone) -}}
+  {{- end -}}
+  {{- if hasPrefix $telephone "+" -}}
+    {{- $digits := replaceRE `\D` "" (replaceRE `\(\s*0\s*\)` "" $telephone) -}}
+    {{- $telephone = cond (ne $digits "") (printf "+%s" $digits) "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $telephone -}}

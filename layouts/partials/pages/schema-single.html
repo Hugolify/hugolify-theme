@@ -1,2 +1,34 @@
-{{- /* Schema.org for a page: a WebPage, see func/GetSchemaWebPage.html. */ -}}
-{{- partial "commons/jsonld.html" (partial "func/GetSchemaWebPage.html" (dict "page" .)) -}}
+{{- /* Schema.org for a page: a WebPage, see func/GetSchemaWebPage.html.
+
+       A page whose schema.type names an article — Article, TechArticle…, set
+       for a whole section by a cascade, see func/GetSchemaTypes.html — is the
+       WebPage of that article, see func/GetSchemaArticle.html. The contact
+       page of the organization is a ContactPage about it, describing each of
+       its offices, see func/GetSchemaOffices.html. */ -}}
+{{- $article := false -}}
+{{- with .Params.schema -}}
+  {{- with .type -}}
+    {{- if in (partial "func/GetSchemaTypes.html").article . -}}
+      {{- $article = partial "func/GetSchemaArticle.html" (dict "page" $ "type" .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $offices := partial "func/GetSchemaOffices.html" . -}}
+
+{{- $args := dict "page" . -}}
+{{- with $article -}}
+  {{- $args = merge $args (dict "mainEntity" (dict "@id" (index . "@id"))) -}}
+{{- end -}}
+{{- if reflect.IsSlice $offices -}}
+  {{- $args = merge $args (dict
+    "type" "ContactPage"
+    "about" (partial "func/GetSchemaOrganization.html" (dict "compact" true))
+  ) -}}
+{{- end -}}
+
+{{- $nodes := slice (partial "func/GetSchemaWebPage.html" $args) -}}
+{{- with $article -}}{{- $nodes = $nodes | append . -}}{{- end -}}
+{{- if reflect.IsSlice $offices -}}
+  {{- range $offices -}}{{- $nodes = $nodes | append . -}}{{- end -}}
+{{- end -}}
+{{- partial "commons/jsonld.html" $nodes -}}

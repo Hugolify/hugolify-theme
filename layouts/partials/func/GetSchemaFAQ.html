@@ -1,0 +1,68 @@
+{{/* GetSchemaFAQ
+     Build the schema.org FAQPage of the page a FAQ block sits on.
+
+     Google reads a single FAQPage per page: the questions of every FAQ block
+     of the page, in order and once each — see func/GetSchemaQuestions.html
+     for what a question is — go into one node, printed by the first block
+     that holds some. A block from outside the blocks of the page, the footer
+     ones, only describes its own questions, and only on a page with none.
+
+     Google shows the FAQ rich result for government and health sites only:
+     for any other site, other search engines and assistants still read it.
+
+     Params: (map) the FAQ block, as blocks/range.html hands it: its items
+             and its index.
+
+     Returns: map, the FAQPage node — or false.
+*/}}
+{{- $block := . -}}
+{{- $page := page -}}
+{{- $node := false -}}
+
+{{- with partial "func/GetSchemaQuestions.html" ($block.items | default slice) -}}
+  {{- $own := . -}}
+
+  {{- /* The blocks of the page, numbered the way blocks/range.html numbers
+         them: an entry without a type is skipped. */ -}}
+  {{- $blocks := slice -}}
+  {{- range $page.Params.blocks -}}
+    {{- if and (reflect.IsMap .) .type -}}{{- $blocks = $blocks | append . -}}{{- end -}}
+  {{- end -}}
+
+  {{- $questions := slice -}}
+  {{- $names := slice -}}
+  {{- $first := -1 -}}
+  {{- range $index, $item := $blocks -}}
+    {{- if eq $item.type "faq" -}}
+      {{- with partial "func/GetSchemaQuestions.html" ($item.items | default slice) -}}
+        {{- if lt $first 0 -}}{{- $first = $index -}}{{- end -}}
+        {{- range . -}}
+          {{- if not (in $names .name) -}}
+            {{- $names = $names | append .name -}}
+            {{- $questions = $questions | append . -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $print := false -}}
+  {{- if ge $first 0 -}}
+    {{- $mine := and (eq $block.index $first) (eq (jsonify $block.items) (jsonify (index $blocks $first).items)) -}}
+    {{- if $mine -}}{{- $print = true -}}{{- end -}}
+  {{- else -}}
+    {{- $questions = $own -}}
+    {{- $print = true -}}
+  {{- end -}}
+
+  {{- if $print -}}
+    {{- $node = dict
+      "@type" "FAQPage"
+      "@id" (printf "%s#faq" $page.Permalink)
+      "inLanguage" (partial "func/GetLanguage.html" $page.Language).locale
+      "mainEntity" $questions
+    -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $node -}}
