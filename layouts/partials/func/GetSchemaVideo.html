@@ -1,6 +1,7 @@
 {{/* GetSchemaVideo
-     Build the schema.org VideoObject of a video the page plays: the video
-     block, the video shortcode.
+     Build the schema.org VideoObject of a video the page plays. Called by
+     commons/video.html, which every video goes through: the video block and
+     shortcode, a hero, a push.
 
      Only a video someone watches gets one, a video with controls: an
      autoplaying loop without them is a moving background. Google shows its
@@ -10,25 +11,32 @@
      Google requires a name, a thumbnail and an upload date: without one of
      them the node is dropped rather than published invalid.
 
-       name         the title the caller gives (the heading of the block), the
-                    legend of the video, the title of the page
-       description  the text the caller gives, the description of the page,
-                    its seo.description first
-       thumbnailUrl the poster, or the frame Cloudinary draws from a video it
-                    hosts, its extension turned into .jpg — Uploadcare and a
-                    local file have none to give
+       name         the title of the video, the one the caller gives (the
+                    heading of the block), the legend of the video, the title
+                    of the page
+       description  the description of the video, the one the caller gives
+                    (the text of the block) — not the description of the
+                    page, which tells about the page rather than the video
+       thumbnailUrl the poster, or a frame the CDN draws from a video it
+                    hosts, with no poster on the page: Cloudinary from its URL
+                    turned into .jpg, Uploadcare through videoframe — a local
+                    file has none to give
        uploadDate   the publication date of the page, its last change otherwise
        contentUrl   the file, the MP4 first
        duration     read from the MP4 itself, see func/GetVideoDuration.html
        transcript   the transcription
 
+     No inLanguage: a video may speak another language than the page it plays
+     on, subtitled, and nothing in the video object tells which.
+
      Params: {map}
-       video       (map) the video object: mp4, webm, poster, legend,
-                   transcription, controls…
+       video       (map) the video object: mp4, webm, poster, title,
+                   description, legend, transcription, controls…
        page        (page) optional, the page it plays on. Defaults to the
                    page being rendered.
-       name        (string) optional, the title of the video.
-       description (string) optional, its description, Markdown allowed.
+       name        (string) optional, a title for a video without one.
+       description (string) optional, a description for a video without
+                   one, Markdown allowed.
 
      Returns: map, the VideoObject node — or false.
 */}}
@@ -46,7 +54,13 @@
       {{- $url = absURL $url -}}
     {{- end -}}
 
-    {{- $name := partial "func/PrepareData.html" (or $.name $video.legend (partial "func/GetRealContext.html" $page).Title) -}}
+    {{- $name := partial "func/PrepareData.html" (or $video.title $.name $video.legend (partial "func/GetRealContext.html" $page).Title) -}}
+
+    {{- /* The duration the MP4 holds, in seconds: 0 when it cannot be read. */ -}}
+    {{- $seconds := 0 -}}
+    {{- with $video.mp4 -}}
+      {{- $seconds = partial "func/GetVideoDuration.html" . -}}
+    {{- end -}}
 
     {{- $thumbnail := "" -}}
     {{- with partial "func/GetSchemaImage.html" $video.poster -}}
@@ -54,6 +68,14 @@
     {{- else -}}
       {{- if findRE `^https://res\.cloudinary\.com/[^/]+/video/upload/` $url -}}
         {{- $thumbnail = printf "%s.jpg" (replaceRE `\.[A-Za-z0-9]+$` "" $url) -}}
+      {{- else -}}
+        {{- /* Uploadcare draws the frame on the fly: the middle one, as
+               Cloudinary picks it, or the one at 1s when the duration is
+               unknown — a time past the end is an error. preview scales a
+               large video down and never a small one up. */ -}}
+        {{- with findRE `^https://[^/]*(ucarecdn\.com|ucarecd\.net)/[0-9a-f-]{36}/` $url 1 -}}
+          {{- $thumbnail = printf "%svideoframe/%ds/-/preview/1280x1280/-/format/jpeg/" (index . 0) (cond (gt $seconds 0) (div $seconds 2) 1) -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
 
@@ -68,29 +90,19 @@
         "uploadDate" $date
         "contentUrl" $url
         "encodingFormat" (cond (eq $src $video.mp4) "video/mp4" "video/webm")
-        "inLanguage" (partial "func/GetLanguage.html" $page.Language).locale
       -}}
 
-      {{- /* The page ones the way func/GetSchemaWebPage.html reads them,
-             seo.description first. */ -}}
-      {{- $description := $.description -}}
-      {{- if not $description -}}
-        {{- $description = $page.Description -}}
-        {{- with $page.Params.seo -}}{{- with .description -}}{{- $description = . -}}{{- end -}}{{- end -}}
-      {{- end -}}
-      {{- with $description -}}
+      {{- with or $video.description $.description -}}
         {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" (markdownify .))) -}}
       {{- end -}}
 
-      {{- /* The duration the MP4 holds, in ISO 8601: PT1M30S. */ -}}
-      {{- with $video.mp4 -}}
-        {{- with partial "func/GetVideoDuration.html" . -}}
-          {{- $iso := "PT" -}}
-          {{- with div . 3600 -}}{{- $iso = printf "%s%dH" $iso . -}}{{- end -}}
-          {{- with div (mod . 3600) 60 -}}{{- $iso = printf "%s%dM" $iso . -}}{{- end -}}
-          {{- if or (mod . 60) (eq $iso "PT") -}}{{- $iso = printf "%s%dS" $iso (mod . 60) -}}{{- end -}}
-          {{- $node = merge $node (dict "duration" $iso) -}}
-        {{- end -}}
+      {{- /* The duration, in ISO 8601: PT1M30S. */ -}}
+      {{- with $seconds -}}
+        {{- $iso := "PT" -}}
+        {{- with div . 3600 -}}{{- $iso = printf "%s%dH" $iso . -}}{{- end -}}
+        {{- with div (mod . 3600) 60 -}}{{- $iso = printf "%s%dM" $iso . -}}{{- end -}}
+        {{- if or (mod . 60) (eq $iso "PT") -}}{{- $iso = printf "%s%dS" $iso (mod . 60) -}}{{- end -}}
+        {{- $node = merge $node (dict "duration" $iso) -}}
       {{- end -}}
 
       {{- with $video.transcription -}}

@@ -13,6 +13,7 @@
   {{- if ne .muted false }}{{ $args = $args | append "muted" }}{{ end -}}
 
   {{/*  Poster  */}}
+  {{- $poster := "" -}}
   {{- with .poster }}
     {{- $desktop_size := site.Params.image.xlarge -}}
     {{- if and $desktop_size site.Params.image.retina.desktop -}}
@@ -22,15 +23,21 @@
       "file" .
       "desktop_size" $desktop_size) -}}
     {{- with $imageParams }}
-      {{ $args = $args | append (print ` poster="` .image_desktop_webp `"`) }}
+      {{- $poster = .image_desktop_webp }}
     {{- end }}
   {{ end -}}
 
   {{/*  Video wrapper */}}
   <div class="video">
 
-  {{/*  Video  */}}
-  <video class="js-video is-lazy" {{- if not $lazy }} preload="metadata"{{ end }} {{ (delimit $args ` `) | safeHTMLAttr }} {{ $animation }} {{ $parallax }}>
+  {{/*  Video, named by its title  */}}
+  <video
+    class="js-video is-lazy"
+    {{- with .title }} aria-label="{{ . }}"{{ end }}
+    {{- with $poster }} poster="{{ . }}"{{ end }}
+    {{- if not $lazy }} preload="metadata"{{ end }}
+    {{- range $args }} {{ . | safeHTMLAttr }}{{ end }}
+    {{- $animation }}{{ $parallax }}>
     {{- with .webm_mobile }}
       <source data-src_mobile="{{ . }}" type="video/webm" />
     {{- end }}
@@ -62,5 +69,17 @@
   {{- end -}}
 
   </div>
+
+  {{/*  Its VideoObject, wherever the video plays, see func/GetSchemaVideo.html.
+        The heading of the block around it, when the caller passes one, names
+        and describes a video without a title of its own; page is the one the
+        shortcode plays on.  */}}
+  {{- $heading := .heading | default dict -}}
+  {{- partial "commons/jsonld.html" (partial "func/GetSchemaVideo.html" (dict
+    "video" .
+    "page" .page
+    "name" $heading.title
+    "description" $heading.text
+  )) -}}
 
 {{- end -}}

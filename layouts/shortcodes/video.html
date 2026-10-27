@@ -6,15 +6,17 @@
     loop (bool) optional
     mp4 (string)
     webm (string)
+    title (string) optional, its aria-label and the name of its structured data
+    description (string) optional, the description of its structured data
     legend (string) optional
     credit (markdown) optional
     screenshot (bool) optional
     poster (string) optional, also the thumbnail of its structured data
 
   @example - Shortcode
-    {{< video autoplay="true" controls="true" loop="true" mp4="some-video.mp4" webm="some-video.webm" legend="Some legend" credit="Some credit" screenshot="true" poster="some-poster.jpg" >}}
+    {{< video autoplay="true" controls="true" loop="true" mp4="some-video.mp4" webm="some-video.webm" title="Some title" description="Some description" legend="Some legend" credit="Some credit" screenshot="true" poster="some-poster.jpg" >}}
 
-  A video with controls gets its VideoObject, see func/GetSchemaVideo.html.
+  A video with controls gets its VideoObject, see commons/video.html.
 */}}
 
 {{- /* Get arguments. */}}
@@ -23,6 +25,8 @@
 {{- $loop := .Get "loop" | default false -}}
 {{- $mp4 := .Get "mp4" | default false -}}
 {{- $webm := .Get "webm" | default false -}}
+{{- $title := .Get "title" | default false -}}
+{{- $description := .Get "description" | default false -}}
 {{- $legend := .Get "legend" | default false -}}
 {{- $credit := .Get "credit" | default false -}}
 {{- $screenshot := .Get "screenshot" | default false -}}
@@ -35,10 +39,12 @@
   "loop" $loop 
   "mp4" $mp4
   "webm" $webm
-  "legend" $legend 
+  "title" $title
+  "description" $description
+  "legend" $legend
   "credit" $credit
   "screenshot" $screenshot
   "poster" $poster
+  "page" .Page
 -}}
 {{- partial "commons/figure-video.html" $video -}}
-{{- partial "commons/jsonld.html" (partial "func/GetSchemaVideo.html" (dict "video" $video "page" .Page)) -}}
