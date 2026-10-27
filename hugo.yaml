@@ -52,21 +52,6 @@ mediaTypes:
     suffixes:
       - vcf
 
-# /llms.txt and /llms-full.txt (https://llmstxt.org/), from data/llms.yml and
-# data/llms-full.yml. A module cannot add formats to `outputs.home`: the site's
-# content/llms.md turns them on, see hugolify-template.
-outputFormats:
-  llms_txt:
-    baseName: llms
-    isPlainText: true
-    mediaType: text/plain
-    notAlternative: true
-  llms_full_txt:
-    baseName: llms-full
-    isPlainText: true
-    mediaType: text/plain
-    notAlternative: true
-
 # Params
 params:
 

@@ -1,0 +1,19 @@
+{{/* /llms.txt and /llms-full.txt (https://llmstxt.org/).
+
+     Each file is the body of its data file, data/llms.yml and
+     data/llms-full.yml, written as is at the root of the site, where agents
+     look for it whatever the language. A resource rather than an output
+     format: the text is edited in the CMS and stands for no page of the site,
+     so the site has nothing to turn on. Not translated, see
+     func/GetUntranslatedData.html. No data file, or a body left empty,
+     publishes no file.
+
+     Called on the home page of each language, from _default/baseof.html: the
+     same body gives the same resource, published once.
+*/}}
+{{- range slice "llms" "llms-full" -}}
+  {{- $file := . -}}
+  {{- with (partialCached "func/GetUntranslatedData.html" $file $file).body | strings.TrimSpace -}}
+    {{- (resources.FromString (printf "%s.txt" $file) (printf "%s\n" .)).Publish -}}
+  {{- end -}}
+{{- end -}}

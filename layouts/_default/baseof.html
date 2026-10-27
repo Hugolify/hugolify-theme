@@ -14,6 +14,7 @@
   {{- end }}
   <body class="preload {{ $body_class }}">
     {{- partialCached "commons/schema.html" . .IsHome -}}
+    {{- if .IsHome }}{{ partial "commons/llms.html" . }}{{ end -}}
     {{- partialCached "nav/accessibility.html" . -}}
     {{- partialCached "header/banner.html" . -}}
     {{- partial "header/header.html" . -}}

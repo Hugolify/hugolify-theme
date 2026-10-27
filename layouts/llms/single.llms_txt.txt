@@ -1,2 +1,0 @@
-{{- /* Body of data/llms.yml as is, for the site's content/llms.md. Not translated, see func/GetUntranslatedData.html. Empty, Hugo writes no file. */ -}}
-{{- with (partialCached "func/GetUntranslatedData.html" "llms" "llms").body | strings.TrimSpace }}{{ printf "%s\n" . }}{{ end -}}
