@@ -72,17 +72,18 @@
     {{- $seoImageSrc = . -}}
   {{- end -}}
 {{- end -}}
+{{/*  The featured image stands in for data/seo except on the home page, and seo.image wins
+      over both: a seo map holding only a title must not drop the featured image.  */}}
 {{- if not .IsHome -}}
-  {{- with .Params.seo -}}
-    {{- with .image -}}
+  {{- with .Params.image -}}
+    {{- with .src -}}
       {{- $seoImageSrc = . -}}
     {{- end -}}
-  {{- else -}}
-    {{- with .Params.image -}}
-      {{- with .src -}}
-        {{- $seoImageSrc = . -}}
-      {{- end -}}
-    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with .Params.seo -}}
+  {{- with .image -}}
+    {{- $seoImageSrc = . -}}
   {{- end -}}
 {{- end -}}
 
