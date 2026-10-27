@@ -1,0 +1,37 @@
+{{/* GetVideoThumbnail
+     The thumbnail of a video, for its VideoObject: its poster, or else a
+     frame the CDN that hosts it draws on the fly.
+
+     One partial per CDN in commons/video/thumbnail/, named after it: it
+     recognises the URLs of the videos it hosts and returns their frame, ""
+     for any other. Adding a CDN is adding its partial and its name below;
+     the first to answer wins.
+
+     A video no CDN hosts — a file served from static/, or by a plain server
+     — has no frame to give: Hugo reads nothing of a video but what
+     func/GetVideoDuration.html digs out of an MP4. Without a poster, it has
+     no thumbnail.
+
+     Params: {map}
+       poster   (map|string) optional, the poster of the video, in the shape
+                func/GetSchemaImage.html reads
+       url      (string) the absolute URL of the video
+       seconds  (int) optional, its duration, 0 when unknown: for a CDN
+                that needs a time to pick its frame, as Uploadcare does
+
+     Returns: string, the URL of the thumbnail — "" when there is none.
+*/}}
+{{- $thumbnail := "" -}}
+
+{{- with partial "func/GetSchemaImage.html" .poster -}}
+  {{- $thumbnail = .url -}}
+{{- else -}}
+  {{- range slice "cloudinary" "uploadcare" -}}
+    {{- with partial (printf "commons/video/thumbnail/%s.html" .) $ -}}
+      {{- $thumbnail = . -}}
+      {{- break -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $thumbnail -}}

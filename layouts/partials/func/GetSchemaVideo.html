@@ -17,10 +17,9 @@
        description  the description of the video, the one the caller gives
                     (the text of the block) — not the description of the
                     page, which tells about the page rather than the video
-       thumbnailUrl the poster, or a frame the CDN draws from a video it
-                    hosts, with no poster on the page: Cloudinary from its URL
-                    turned into .jpg, Uploadcare through videoframe — a local
-                    file has none to give
+       thumbnailUrl the poster, or a frame the CDN that hosts the video
+                    draws, see func/GetVideoThumbnail.html — a file no CDN
+                    hosts has none to give
        uploadDate   the publication date of the page, its last change otherwise
        contentUrl   the file, the MP4 first
        duration     read from the MP4 itself, see func/GetVideoDuration.html
@@ -62,22 +61,11 @@
       {{- $seconds = partial "func/GetVideoDuration.html" . -}}
     {{- end -}}
 
-    {{- $thumbnail := "" -}}
-    {{- with partial "func/GetSchemaImage.html" $video.poster -}}
-      {{- $thumbnail = .url -}}
-    {{- else -}}
-      {{- if findRE `^https://res\.cloudinary\.com/[^/]+/video/upload/` $url -}}
-        {{- $thumbnail = printf "%s.jpg" (replaceRE `\.[A-Za-z0-9]+$` "" $url) -}}
-      {{- else -}}
-        {{- /* Uploadcare draws the frame on the fly: the middle one, as
-               Cloudinary picks it, or the one at 1s when the duration is
-               unknown — a time past the end is an error. preview scales a
-               large video down and never a small one up. */ -}}
-        {{- with findRE `^https://[^/]*(ucarecdn\.com|ucarecd\.net)/[0-9a-f-]{36}/` $url 1 -}}
-          {{- $thumbnail = printf "%svideoframe/%ds/-/preview/1280x1280/-/format/jpeg/" (index . 0) (cond (gt $seconds 0) (div $seconds 2) 1) -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
+    {{- $thumbnail := partial "func/GetVideoThumbnail.html" (dict
+      "poster" $video.poster
+      "url" $url
+      "seconds" $seconds
+    ) -}}
 
     {{- $date := or (partial "func/GetSchemaDate.html" $page.PublishDate) (partial "func/GetSchemaDate.html" $page.Lastmod) -}}
 
