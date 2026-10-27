@@ -1,7 +1,8 @@
 {{ $card := .card | default false }}
 {{ $direction := .direction | default false }}
 {{ with .address }}
-  {{ if or .street .zipcode .city .country }}
+  {{ $country := partial "func/GetAddressCountry.html" . }}
+  {{ if or .street .zipcode .city $country }}
     <address {{- if $card }} class="address"{{ end }}>
       {{ if $card }}<div>{{ end }}
       {{ with .street }}
@@ -10,13 +11,13 @@
       {{ if or .zipcode .city }}
         <p>{{ partial "func/PrepareHTML.html" .zipcode }} {{ partial "func/PrepareHTML.html" .city }}</p>
       {{ end }}
-      {{ with .country }}
+      {{ with $country }}
         <p>{{ partial "func/PrepareHTML.html" . }}</p>
       {{ end }}
       {{ if $direction }}
         {{- $i18n_direction := i18n "address.direction" -}}
         {{- $i18n_title := i18n "link.blank_aria" (dict "Title" $i18n_direction) -}}
-        <p><a class="direction" href="https://www.google.fr/maps/dir//{{ .street }} {{ .zipcode }} {{ .city }} {{ .country }}" target="_blank" title="{{ $i18n_title }}">{{ $i18n_direction }}</a></p>
+        <p><a class="direction" href="https://www.google.fr/maps/dir//{{ .street }} {{ .zipcode }} {{ .city }} {{ $country }}" target="_blank" title="{{ $i18n_title }}">{{ $i18n_direction }}</a></p>
       {{ end }}
       {{ if $card }}</div>{{ end }}
     </address>

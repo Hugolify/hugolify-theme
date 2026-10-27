@@ -13,7 +13,7 @@
     {{- $body_class = printf "%s %s" $body_class . -}}
   {{- end }}
   <body class="preload {{ $body_class }}">
-    {{- partialCached "commons/schema.html" . -}}
+    {{- partialCached "commons/schema.html" . .IsHome -}}
     {{- partialCached "nav/accessibility.html" . -}}
     {{- partialCached "header/banner.html" . -}}
     {{- partial "header/header.html" . -}}

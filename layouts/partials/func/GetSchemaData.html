@@ -2,11 +2,15 @@
      Read one value from data/schema.yml.
 
      The file is edited in the CMS (Config → Structured data) and is not
-     translated: it only holds what the site does not know already about the
-     organization behind it — its type, its legal name, its head office — and
-     the switch on email addresses, none of which varies from one language to
-     the next. See func/GetSchemaOrganization.html. It comes flat, or keyed by
-     language when Decap CMS writes it: see func/GetUntranslatedData.html.
+     translated: it only holds what nothing but the structured data reads —
+     how the organization is described in schema.org terms, its type, a logo
+     search engines can read, its profiles on other sites (organization), the
+     page listing its offices (contact_page), the switch on email addresses
+     (email) — none of which varies from one language to the next. The
+     identity of the organization is in data/organization.yml, see
+     func/GetOrganizationData.html; see func/GetSchemaOrganization.html.
+     Flat or keyed by language, as Decap saves it: see
+     func/GetUntranslatedData.html.
 
      Params: (string) the key to read, e.g. "organization".
 

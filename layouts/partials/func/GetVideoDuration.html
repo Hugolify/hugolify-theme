@@ -1,0 +1,77 @@
+{{/* GetVideoDuration
+     Read the duration of an MP4 video from the file itself.
+
+     Hugo reads the dimensions of an image, nothing of a video. The duration
+     sits in the mvhd box of an MP4, a timescale and a number of units of
+     it. A file prepared for the web keeps that box at its start, where a
+     Range request on the first 64 KB finds it; a file left as it was
+     recorded keeps it at its end, and is then downloaded whole, up to 32 MB:
+     Hugo types a remote resource from its first bytes, and refuses a chunk
+     taken from the middle of a file. Hugo caches both requests, so a video is
+     fetched once. A local file, served from static/, is read from the disk.
+
+     Params: (string) the source of the MP4: an absolute URL, or a path
+             served from static/.
+
+     Returns: int, the duration in seconds, rounded — 0 when it cannot be read.
+*/}}
+{{- $src := . -}}
+{{- if hasPrefix $src "//" -}}{{- $src = printf "https:%s" $src -}}{{- end -}}
+{{- $remote := hasPrefix $src "http" -}}
+{{- $head := 65536 -}}
+{{- $max := 33554432 -}}
+{{- $size := 0 -}}
+{{- $seconds := 0 -}}
+
+{{- range slice "head" "whole" -}}
+  {{- if not $seconds -}}
+    {{- $content := "" -}}
+    {{- if not $remote -}}
+      {{- $path := printf "static/%s" (strings.TrimPrefix "/" $src) -}}
+      {{- if and (eq . "whole") (os.FileExists $path) -}}
+        {{- $content = os.ReadFile $path -}}
+      {{- end -}}
+    {{- else if eq . "head" -}}
+      {{- with try (resources.GetRemote $src (dict
+        "headers" (dict "Range" (printf "bytes=0-%d" (sub $head 1)))
+        "responseHeaders" (slice "Content-Range")
+      )) -}}
+        {{- with .Value -}}
+          {{- $content = .Content -}}
+          {{- /* The size of the whole file, after the slash. A server that
+                 ignores the Range sends all of it, without the header. */ -}}
+          {{- with .Data.Headers -}}
+            {{- with index . "Content-Range" -}}
+              {{- with findRESubmatch `/(\d+)$` (index . 0) -}}
+                {{- $size = int (index (index . 0) 1) -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else if and (gt $size $head) (le $size $max) -}}
+      {{- with try (resources.GetRemote $src) -}}
+        {{- with .Value -}}{{- $content = .Content -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* What follows "mvhd": version and flags, two dates, the timescale and
+           the duration, the dates and the duration on 64 bits in version 1.
+           Only the 32 bytes after each occurrence are turned into hex, and
+           the first one that reads as a box wins. */ -}}
+    {{- range after 1 (split $content "mvhd") -}}
+      {{- if not $seconds -}}
+        {{- with findRESubmatch `^(?:00[0-9a-f]{22}([0-9a-f]{8})([0-9a-f]{8})|01[0-9a-f]{38}([0-9a-f]{8})([0-9a-f]{16}))` (printf "%.32x" .) -}}
+          {{- $match := index . 0 -}}
+          {{- $timescale := int (printf "0x%s" (or (index $match 1) (index $match 3))) -}}
+          {{- $units := int (printf "0x%s" (or (index $match 2) (index $match 4))) -}}
+          {{- if gt $timescale 0 -}}
+            {{- $seconds = math.Round (div (float $units) $timescale) | int -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $seconds -}}

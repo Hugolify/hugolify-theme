@@ -12,6 +12,11 @@
      value through — the CMS writes empty strings for fields nobody filled in, and they
      must not erase a default. To drop a default, a block writes the key under its own `ui`.
 
+     The carousel is laid over the one it inherits key by key (func/MergeDefined), so an
+     entry only states what it changes: `params.focus` alone keeps the default perPage, gap
+     and breakpoints. A list such as `responsive` still replaces the inherited one whole,
+     and writing `carousel` empty under `ui` still drops it.
+
      Precedence, lowest first:
        params.blocks.<type>.ui  <  data/blocks.yml  <  entry root  <  entry `ui`
 
@@ -62,7 +67,7 @@
     {{- end -}}
   {{- end -}}
   {{/* data/blocks.yml, the CMS layer, key by key so an empty field keeps the param.
-       Not translated, flat or keyed by language: see func/GetUntranslatedData.html */}}
+       Read through func/GetUntranslatedData.html: Decap keys it by language. */}}
   {{- with partialCached "func/GetUntranslatedData.html" "blocks" "blocks" -}}
     {{- with index . $name -}}
       {{- if reflect.IsMap . -}}
@@ -93,7 +98,13 @@
 {{/* Values of the entry, at its root */}}
 {{- $entryTheme := false -}}
 {{- with .align }}{{ $align = . }}{{ end -}}
-{{- with .carousel }}{{ $carousel = . }}{{ end -}}
+{{- with .carousel }}
+  {{- if and (reflect.IsMap .) (reflect.IsMap $carousel) }}
+    {{- $carousel = partial "func/MergeDefined.html" (dict "base" $carousel "overlay" .) -}}
+  {{- else }}
+    {{- $carousel = . -}}
+  {{- end }}
+{{- end -}}
 {{- with .column }}{{ $column = . }}{{ end -}}
 {{- with .direction }}{{ $direction = . }}{{ end -}}
 {{- with .grid }}{{ $grid = . }}{{ end -}}
@@ -108,7 +119,11 @@
   {{- $align = .align -}}
   {{ end -}}
   {{- if isset . "carousel" }}
-  {{- $carousel = .carousel -}}
+  {{- if and (reflect.IsMap .carousel) (reflect.IsMap $carousel) }}
+    {{- $carousel = partial "func/MergeDefined.html" (dict "base" $carousel "overlay" .carousel) -}}
+  {{- else }}
+    {{- $carousel = .carousel -}}
+  {{- end }}
   {{ end -}}
   {{- if isset . "column" }}
   {{- $column = .column -}}

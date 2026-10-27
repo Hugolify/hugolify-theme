@@ -1,4 +1,4 @@
 <div class="header">
   <p class="title" id="sidebarmenuLabel">{{ i18n "sidebar.menu" }}</p>
-  <button type="button" autofocus class="btn-close js-dialog-close" aria-label="{{ i18n `navigation.close` }}"></button>
+  {{ partial "commons/dialog/close.html" (dict "id" "sidebarmenu" "params" site.Params.sidebarmenu) }}
 </div>

@@ -1,0 +1,16 @@
+{{/* A frame of a video Cloudinary hosts, see func/GetVideoThumbnail.html:
+     the URL of the video with .jpg for an extension, the middle frame.
+
+     Params: {map}
+       url  (string) the absolute URL of the video
+
+     Returns: string, the URL of the frame — "" for a video Cloudinary does
+     not host.
+*/}}
+{{- $frame := "" -}}
+
+{{- if findRE `^https://res\.cloudinary\.com/[^/]+/video/upload/` .url -}}
+  {{- $frame = printf "%s.jpg" (replaceRE `\.[A-Za-z0-9]+$` "" .url) -}}
+{{- end -}}
+
+{{- return $frame -}}

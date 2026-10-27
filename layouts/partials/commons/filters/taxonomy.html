@@ -11,6 +11,11 @@
 */}}
 
 {{- $current := .current | default false }}
+{{/* Compared by URL: a term stands for another page when it has one (see
+     func/GetRealContext), and a term key ending with a stray space comes
+     back as another page object with the same URL. */}}
+{{- $currentURL := "" }}
+{{- with $current }}{{ $currentURL = .RelPermalink | default "" }}{{ end }}
 {{- $tax := .tax | default false }}
 {{- $isMiniCard := .mini_card | default false }}
 {{- $isTags := strings.Contains $tax "_tags" }}
@@ -31,7 +36,7 @@
       {{- $terms = $terms | append (dict
         "page" $page
         "url" .Page.Permalink
-        "active" (eq $current $page)
+        "active" (and (ne $currentURL "") (or (eq $currentURL .Page.RelPermalink) (eq $currentURL $page.RelPermalink)))
         "mini_card" $isMiniCard
       ) }}
     {{- end }}

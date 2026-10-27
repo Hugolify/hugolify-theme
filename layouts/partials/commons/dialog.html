@@ -7,7 +7,14 @@
       native <dialog>, and lets the browser own Escape, the focus trap and the
       inert background.
 
-      id          (required) targeted by .js-dialog-toggle[data-target="#id"]
+      Opened and closed by the browser through the native invokers of
+      commons/dialog/button.html and commons/dialog/close.html, so the panel
+      works without JavaScript; closedby="any" lets a <dialog> close on a click
+      on its backdrop too.
+
+      id          (required) targeted by the trigger: its native invoker, and
+                             .js-dialog-toggle[data-target="#id"] for the
+                             styling modules whose script drives the panel
       button                 the trigger, already rendered. Emitted immediately
                              before the panel, which is what lets css-components
                              hide it once the panel goes inline — the rule there
@@ -42,5 +49,5 @@
 {{- if $inline -}}
 <div class="{{ delimit $classes ` ` }}" id="{{ .id }}" popover="auto" aria-labelledby="{{ .labelledby }}"{{ $attrs | safeHTMLAttr }}>{{ .content }}</div>
 {{- else -}}
-<dialog class="{{ delimit $classes ` ` }}" id="{{ .id }}" aria-labelledby="{{ .labelledby }}"{{ $attrs | safeHTMLAttr }}>{{ .content }}</dialog>
+<dialog class="{{ delimit $classes ` ` }}" id="{{ .id }}" aria-labelledby="{{ .labelledby }}" closedby="any"{{ $attrs | safeHTMLAttr }}>{{ .content }}</dialog>
 {{- end -}}

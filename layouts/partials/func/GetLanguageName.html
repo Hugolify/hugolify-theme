@@ -1,0 +1,22 @@
+{{/* GetLanguageName
+     The name of a language in the language of the page: "de" gives
+     "Allemand" on a French page, "German" on an English one, capitalized
+     the way a list or a menu writes it. The names come from the CLDR, see
+     func/GetDisplayNames.html.
+
+     A locale the CLDR has no name for falls back on its language, and a
+     code with no name at all on the code itself.
+
+     Params: (string) the code, e.g. "de", or a site locale like "zh-Hans".
+
+     Returns: string, the name.
+*/}}
+{{- $code := printf "%v" . -}}
+{{- $locale := (partial "func/GetLanguage.html").locale -}}
+{{- $names := partialCached "func/GetDisplayNames.html" (dict "type" "languages" "locale" $locale) "languages" $locale -}}
+{{- $name := or (index $names $code) (index $names (index (split $code "-") 0)) -}}
+{{- with $name -}}
+  {{- $name = strings.FirstUpper . -}}
+{{- end -}}
+
+{{- return ($name | default $code) -}}

@@ -1,0 +1,26 @@
+{{/* GetSchemaQuestions
+     The schema.org Questions of the items of a FAQ block.
+
+     Only an actual question counts: an item whose summary ends with a
+     question mark. The FAQ block also serves as a plain accordion — a list
+     of commitments, of services — which is no list of questions. An item
+     without an answer is left out too: a Question node needs one.
+
+     Params: (slice) the items of the block, each a summary and a text.
+
+     Returns: slice, the Question nodes, empty when there is none.
+*/}}
+{{- $questions := slice -}}
+{{- range . -}}
+  {{- $name := strings.TrimSpace (partial "func/PrepareData.html" (.summary | default "")) -}}
+  {{- $answer := chomp (string (markdownify (.text | default ""))) -}}
+  {{- if and (findRE `[?？؟]$` $name) $answer -}}
+    {{- $questions = $questions | append (dict
+      "@type" "Question"
+      "name" $name
+      "acceptedAnswer" (dict "@type" "Answer" "text" $answer)
+    ) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $questions -}}

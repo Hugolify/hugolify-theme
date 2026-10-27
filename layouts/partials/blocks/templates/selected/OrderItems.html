@@ -12,7 +12,7 @@
 {{- $section := .section -}}
 {{- $pages := .pages -}}
 
-{{/* Persons keep their own order, by status then by lastname */}}
+{{/* Persons keep their own order, by status, then by weight, then by lastname */}}
 {{- if eq $section "persons" -}}
   {{- $pages = partial "func/GetPersonsOrderByStatutes" $pages -}}
 

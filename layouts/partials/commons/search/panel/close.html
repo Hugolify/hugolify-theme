@@ -1,3 +1,3 @@
-{{/*  autofocus keeps the initial focus predictable — the Pagefind input is
-      injected at runtime, so features/search.js focuses it once shown  */}}
-<button type="button" autofocus class="btn-close js-dialog-close" aria-label="{{ i18n `navigation.close` }}"></button>
+{{/*  The Pagefind input is injected at runtime, so features/search.js focuses
+      it once shown. Always a <dialog>, hence expand "none".  */}}
+{{ partial "commons/dialog/close.html" (dict "id" "mainSearch" "params" (dict "expand" "none")) }}

@@ -15,10 +15,6 @@
     {{- $text = partial "func/PrepareHTML.html" . | markdownify -}}
   {{- end -}}
   <div class="{{ $class }}">
-    {{- if in (string .) "\n" }}
-      {{ $text }}
-    {{- else -}}
-      <p>{{ $text }}</p>
-    {{- end }}
+    {{- partial "func/WrapParagraph.html" $text -}}
   </div>
 {{ end }}

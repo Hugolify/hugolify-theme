@@ -1,0 +1,16 @@
+{{/*
+  Wraps rendered markdown in a paragraph unless it already comes out as blocks.
+  markdownify drops the <p> of a lone paragraph, even one spread over several
+  lines with hardWraps: a line break in the source tells nothing.
+
+  - (string or HTML) the rendered markdown
+
+  Returns HTML
+*/}}
+
+{{- $html := string . -}}
+{{- if not (findRE `^\s*<(p|div|ul|ol|dl|h[1-6]|blockquote|pre|table|figure|hr|details|section)[\s/>]` $html 1) -}}
+  {{- $html = printf "<p>%s</p>" $html -}}
+{{- end -}}
+
+{{- return safeHTML $html -}}

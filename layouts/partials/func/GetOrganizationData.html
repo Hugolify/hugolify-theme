@@ -1,0 +1,46 @@
+{{/* GetOrganizationData
+     Read one value from data/organization.yml.
+
+     The file is edited in the CMS (Config → Organization) and is not
+     translated: the identity of the organization behind the site, which any
+     part of it can show — a block listing its awards, the footer listing its
+     places — and its structured data publishes, see
+     func/GetSchemaOrganization.html:
+
+       legal_name: Acme SAS     # when it differs from the site title
+       alternate_name:          # the other names it goes by
+         - name: Acme
+       date_founded: '1924'     # a year, or a full date
+       number_of_employees: 200 # or a range, 150-250
+       languages:               # the ones it works in, as codes — the
+         - fr                   # languages of the site when left empty
+       area_served:             # published as typed: FR, Worldwide…
+         - name: FR
+       place: paris             # the head office, among the places
+       address: …               # for a site without a head office place
+       contact: …
+       places:                  # the other places it works from
+         - lyon
+       awards:                  # keys of the awards section, or names
+         - an-award
+       vat_id: FR…
+       tax_id: '123456789'      # the SIREN in France
+
+     Those values lived under `organization` in data/schema.yml before, next
+     to what only the structured data reads: a key is still read from there
+     while a site has not moved it. Either file is read flat or keyed by
+     language, as Decap saves it: see func/GetUntranslatedData.html.
+
+     Params: (string) the key to read, e.g. "legal_name".
+
+     Returns: the value, or nil when it is set nowhere.
+*/}}
+{{- $key := . -}}
+{{- $value := index (partialCached "func/GetUntranslatedData.html" "organization" "organization") $key -}}
+{{- if not $value -}}
+  {{- with partial "func/GetSchemaData.html" "organization" -}}
+    {{- $value = index . $key -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $value -}}

@@ -1,0 +1,13 @@
+{{/*  Close — renders the button that closes a panel, for its header.
+
+      Carries the native invoker of commons/dialog/button.html in its closing
+      form, so the panel closes without JavaScript too. autofocus keeps the
+      initial focus predictable when the panel opens. hugolify-theme-bootstrap,
+      whose script closes the panels, overrides this partial without it.
+
+      id          (required) the panel's id
+      params                 the component's site params: .expand  */}}
+{{- $expand := "md" }}
+{{- with .params }}{{ with .expand }}{{ $expand = . }}{{ end }}{{ end }}
+<button type="button" autofocus class="btn-close js-dialog-close" aria-label="{{ i18n `navigation.close` }}"
+    {{- if ne $expand "none" }} popovertarget="{{ .id }}" popovertargetaction="hide"{{ else }} commandfor="{{ .id }}" command="close"{{ end }}></button>

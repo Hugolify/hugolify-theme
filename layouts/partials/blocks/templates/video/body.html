@@ -1,4 +1,6 @@
+{{- /* The heading of the block names and describes a video without a title
+       of its own in its VideoObject, see commons/video.html. */ -}}
 {{- with .video }}
-  {{ partial "commons/figure-video.html" . }}
+  {{ partial "commons/figure-video.html" (merge . (dict "heading" ($.heading | default dict))) }}
   {{ partial "commons/transcription" .transcription }}
 {{- end }}

@@ -1,51 +1,21 @@
 {{/* GetUntranslatedData
-     Read a data file the admin marks as not translated: data/schema.yml,
-     data/blocks.yml, data/llms.yml, data/llms-full.yml.
+     A data file the site does not translate — data/organization.yml,
+     data/schema.yml, data/blocks.yml, data/llms.yml, data/llms-full.yml —
+     whichever shape the CMS saved it in.
 
-     Decap CMS ignores `i18n: false` in the translated config collection and
-     nests the values under a language: the default locale of the admin, which
-     may differ from the default language of the site. So the file comes flat
-     or keyed by language. The first language branch found wins, looked up in
-     this order: params.admin.i18n.default_locale, then the languages of the
-     site by weight. Flat keys fill in what that branch lacks.
+     Sveltia CMS writes it flat. Decap CMS keys it by language all the same:
+     it only reads the i18n of the collection, never the one of the file, so
+     every file of the config collection, translated as a whole, comes out as
+     `fr: {…}`, the values under the default language. A file keyed by the
+     default language is read from there, a flat one as it is.
 
-     Call it through partialCached with the file as variant: the context is
-     not part of the cache key.
-
-     Params: (string) the data file, e.g. "schema".
+     Params: (string) the name of the data file, e.g. "schema".
 
      Returns: map, empty when the file is missing.
-
-     @example
-       {{ partialCached "func/GetUntranslatedData.html" "schema" "schema" }}
 */}}
-{{- $data := index hugo.Data . -}}
-{{- $out := dict -}}
-
-{{- if reflect.IsMap $data -}}
-  {{- $languages := slice -}}
-  {{- with site.Params.admin.i18n.default_locale -}}
-    {{- $languages = $languages | append . -}}
-  {{- end -}}
-  {{- range hugo.Sites -}}
-    {{- $languages = $languages | append (partial "func/GetLanguage.html" .Language).name -}}
-  {{- end -}}
-
-  {{/* Flat keys, the language branches left out */}}
-  {{- range $key, $value := $data -}}
-    {{- if not (in $languages $key) -}}
-      {{- $out = merge $out (dict $key $value) -}}
-    {{- end -}}
-  {{- end -}}
-
-  {{- range $languages -}}
-    {{- with index $data . -}}
-      {{- if reflect.IsMap . -}}
-        {{- $out = merge $out . -}}
-        {{- break -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
+{{- $data := index hugo.Data . | default dict -}}
+{{- with index $data (partial "func/GetLanguage.html" (index hugo.Sites 0).Language).name -}}
+  {{- if reflect.IsMap . -}}{{- $data = . -}}{{- end -}}
 {{- end -}}
 
-{{- return $out -}}
+{{- return $data -}}

@@ -1,5 +1,6 @@
 {{/*  Search panel — always an overlay, so a native <dialog>: the browser
       handles Escape, the focus trap and making the rest of the page inert.
+      closedby="any" adds the click on its backdrop.
 
       site.Params.search.layout          — drawer (default) or modal, CSS variant only
       site.Params.search.drawer.position — start | end | top | bottom
@@ -18,6 +19,7 @@
 <dialog class="{{ delimit $classes ` ` }}"
     id="mainSearch"
     aria-labelledby="searchLabel"
+    closedby="any"
     {{- with $width }} style="--modal-max-width: {{ . }};"{{ end }}>
   {{ partialCached "commons/search/panel/header.html" . }}
   {{ partial "commons/search/panel/content.html" . }}

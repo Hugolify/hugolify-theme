@@ -1,0 +1,16 @@
+{{/* GetAddressCountry
+     The country an address shows: the name of its country_code in the
+     language of the page, see func/GetCountryName.html — or, for an address
+     without one, the country typed in by hand, as addresses held it before
+     the CMS offered a select.
+
+     Params: (map) the address.
+
+     Returns: string, empty when the address says nothing of its country.
+*/}}
+{{- $country := .country | default "" -}}
+{{- with .country_code -}}
+  {{- $country = partial "func/GetCountryName.html" . -}}
+{{- end -}}
+
+{{- return $country -}}

@@ -1,0 +1,54 @@
+{{/* GetDisplayNames
+     The names of the languages or of the countries, written in one
+     language: the CLDR ones — the Unicode reference browsers and systems
+     rely on — from the JSON release of the CLDR on npm, at a pinned version
+     npm will never let change. Fetched from jsDelivr, or from unpkg when
+     jsDelivr does not answer; Hugo keeps the file in its cache, so a build
+     downloads each one once, then never again.
+
+     A locale the CLDR has no file for falls back on its language (zh-Hans
+     on zh), then on English. Without network, no names: the callers show
+     the code instead and the build goes on, with a warning — the structured
+     data only ever publishes codes.
+
+     Params: {map}
+       type   (string) "languages", or "territories": the countries, and a
+                       few regions, 001 the World, 150 Europe…
+       locale (string) the locale the names are written in, e.g. "fr".
+
+     Returns: map, the names by code; empty when no file could be read.
+*/}}
+{{- /* Bumping it updates the names. Check then that func/GetCountryCodes.html
+       and func/GetLanguageCodes.html still match the codes of the release,
+       minus those outside ISO — the CLDR names the European Union, Kosovo
+       or the Canary Islands too. */ -}}
+{{- $version := "49.0.0" -}}
+{{- $mirrors := slice "https://cdn.jsdelivr.net/npm" "https://unpkg.com" -}}
+{{- $type := .type -}}
+{{- $locale := printf "%v" .locale -}}
+{{- $names := dict -}}
+{{- $error := false -}}
+{{- range $candidate := uniq (slice $locale (index (split $locale "-") 0) "en") -}}
+  {{- range $mirrors -}}
+    {{- if not $names -}}
+      {{- $url := printf "%s/cldr-localenames-full@%s/main/%s/%s.json" . $version $candidate $type -}}
+      {{- $remote := try (resources.GetRemote $url) -}}
+      {{- with $remote.Err -}}
+        {{- $error = . -}}
+      {{- else -}}
+        {{- with $remote.Value -}}
+          {{- with (try (transform.Unmarshal .)).Value -}}
+            {{- range .main -}}
+              {{- with .localeDisplayNames -}}{{- $names = index . $type | default dict -}}{{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and (not $names) $error -}}
+  {{- warnidf "hugolify-display-names" "The %s names in %q could not be read from the CLDR: %s" $type $locale $error -}}
+{{- end -}}
+
+{{- return $names -}}

@@ -1,6 +1,7 @@
 
 {{- with . -}}
   {{- $noop := .Content -}}{{/* https://gohugo.io/troubleshooting/faq/#why-is-my-page-scratch-or-store-missing-a-value */}}
+  {{- $flags := partial "func/GetItemFlags.html" . -}}
 
   {{/*  Get default thumbnail  */}}
   {{- $desktop := site.Params.thumbnail.desktop | default false -}}
@@ -11,10 +12,10 @@
   {{- if .Type -}}
     {{- $desktop = (index site.Params .Type).thumbnail.desktop | default $desktop -}}
     {{- $mobile = (index site.Params .Type).thumbnail.mobile | default $mobile -}}
-    {{- if .Scratch.Get "scrollsnap" -}}
+    {{- if $flags.scrollsnap -}}
       {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
     {{- end -}}
-    {{- if .Scratch.Get "large" -}}
+    {{- if $flags.large -}}
       {{- $desktop = (index site.Params .Type).thumbnail.desktop_large | default site.Params.thumbnail.desktop_large -}}
     {{- end -}}
     {{- $sizes = (index site.Params .Type).thumbnail.sizes | default $sizes -}}
@@ -47,7 +48,7 @@
   {{- end -}}
 
   {{/*  Lazy  */}}
-  {{- $lazy := .Scratch.Get "lazy" | default true -}}
+  {{- $lazy := $flags.lazy -}}
 
   {{/*  Image  */}}
   <div class="{{ $class }}" {{ safeHTMLAttr $style }}>

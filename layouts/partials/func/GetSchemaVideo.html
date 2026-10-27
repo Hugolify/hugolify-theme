@@ -1,0 +1,103 @@
+{{/* GetSchemaVideo
+     Build the schema.org VideoObject of a video the page plays. Called by
+     commons/video.html, which every video goes through: the video block and
+     shortcode, a hero, a push.
+
+     Only a video someone watches gets one, a video with controls: an
+     autoplaying loop without them is a moving background. Google shows its
+     video features for a page whose main purpose is the video, a watch page;
+     elsewhere the node still describes the video to search engines.
+
+     Google requires a name, a thumbnail and an upload date: without one of
+     them the node is dropped rather than published invalid.
+
+       name         the title of the video, the one the caller gives (the
+                    heading of the block), the legend of the video, the title
+                    of the page
+       description  the description of the video, the one the caller gives
+                    (the text of the block) — not the description of the
+                    page, which tells about the page rather than the video
+       thumbnailUrl the poster, or a frame the CDN that hosts the video
+                    draws, see func/GetVideoThumbnail.html — a file no CDN
+                    hosts has none to give
+       uploadDate   the publication date of the page, its last change otherwise
+       contentUrl   the file, the MP4 first
+       duration     read from the MP4 itself, see func/GetVideoDuration.html
+       transcript   the transcription
+
+     No inLanguage: a video may speak another language than the page it plays
+     on, subtitled, and nothing in the video object tells which.
+
+     Params: {map}
+       video       (map) the video object: mp4, webm, poster, title,
+                   description, legend, transcription, controls…
+       page        (page) optional, the page it plays on. Defaults to the
+                   page being rendered.
+       name        (string) optional, a title for a video without one.
+       description (string) optional, a description for a video without
+                   one, Markdown allowed.
+
+     Returns: map, the VideoObject node — or false.
+*/}}
+{{- $video := .video | default dict -}}
+{{- $page := .page | default page -}}
+{{- $node := false -}}
+
+{{- if $video.controls -}}
+  {{- with or $video.mp4 $video.webm -}}
+    {{- $src := . -}}
+    {{- $url := . -}}
+    {{- if hasPrefix $url "//" -}}
+      {{- $url = printf "https:%s" $url -}}
+    {{- else if not (hasPrefix $url "http") -}}
+      {{- $url = absURL $url -}}
+    {{- end -}}
+
+    {{- $name := partial "func/PrepareData.html" (or $video.title $.name $video.legend (partial "func/GetRealContext.html" $page).Title) -}}
+
+    {{- /* The duration the MP4 holds, in seconds: 0 when it cannot be read. */ -}}
+    {{- $seconds := 0 -}}
+    {{- with $video.mp4 -}}
+      {{- $seconds = partial "func/GetVideoDuration.html" . -}}
+    {{- end -}}
+
+    {{- $thumbnail := partial "func/GetVideoThumbnail.html" (dict
+      "poster" $video.poster
+      "url" $url
+      "seconds" $seconds
+    ) -}}
+
+    {{- $date := or (partial "func/GetSchemaDate.html" $page.PublishDate) (partial "func/GetSchemaDate.html" $page.Lastmod) -}}
+
+    {{- if and $name $thumbnail $date -}}
+      {{- $node = dict
+        "@type" "VideoObject"
+        "@id" (printf "%s#video-%s" $page.Permalink (substr (md5 $url) 0 8))
+        "name" $name
+        "thumbnailUrl" $thumbnail
+        "uploadDate" $date
+        "contentUrl" $url
+        "encodingFormat" (cond (eq $src $video.mp4) "video/mp4" "video/webm")
+      -}}
+
+      {{- with or $video.description $.description -}}
+        {{- $node = merge $node (dict "description" (partial "func/PrepareData.html" (markdownify .))) -}}
+      {{- end -}}
+
+      {{- /* The duration, in ISO 8601: PT1M30S. */ -}}
+      {{- with $seconds -}}
+        {{- $iso := "PT" -}}
+        {{- with div . 3600 -}}{{- $iso = printf "%s%dH" $iso . -}}{{- end -}}
+        {{- with div (mod . 3600) 60 -}}{{- $iso = printf "%s%dM" $iso . -}}{{- end -}}
+        {{- if or (mod . 60) (eq $iso "PT") -}}{{- $iso = printf "%s%dS" $iso (mod . 60) -}}{{- end -}}
+        {{- $node = merge $node (dict "duration" $iso) -}}
+      {{- end -}}
+
+      {{- with $video.transcription -}}
+        {{- $node = merge $node (dict "transcript" (partial "func/PrepareData.html" .)) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $node -}}

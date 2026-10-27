@@ -1,0 +1,31 @@
+{{/* GetSchemaValues
+     Flatten a list kept in data into the plain strings a schema.org property
+     takes: alternateName, award, sameAs…
+
+     The CMS writes a list as a list of objects, a single subfield each, where
+     a hand written file may just as well hold a bare string or a list of
+     strings. The three shapes read the same: an object gives the first of
+     its name, title, url and value that is set. Empty and repeated values are
+     dropped.
+
+     Params: (string, slice of string or slice of map) the value.
+
+     Returns: slice of string, empty when there is nothing to say.
+*/}}
+{{- $values := slice -}}
+
+{{- range cond (reflect.IsSlice .) . (slice .) -}}
+  {{- $value := . -}}
+  {{- if reflect.IsMap . -}}
+    {{- $value = or .name .title .url .value -}}
+  {{- end -}}
+  {{- with $value -}}
+    {{- with partial "func/PrepareData.html" (string .) -}}
+      {{- if not (in $values .) -}}
+        {{- $values = $values | append . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $values -}}

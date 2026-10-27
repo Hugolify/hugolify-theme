@@ -4,17 +4,20 @@
      Takes what Hugo hands out — a time for .Date, .Lastmod and the like, a
      string for a date nested in front matter such as event.date_from — and
      returns RFC 3339. A bare day stays a bare day rather than gaining a
-     midnight nobody set. A value that does not parse is dropped rather than
-     failing the build: structured data is no reason to stop a site.
+     midnight nobody set, and so does a bare month or year, all a founding
+     date often comes down to — typed as a number too, the way YAML reads
+     1924. A value that does not parse is dropped rather than failing the
+     build: structured data is no reason to stop a site.
 
-     Params: (time or string) the date.
+     Params: (time, string or number) the date.
 
      Returns: string, empty when there is no date.
 */}}
 {{- $date := "" -}}
 {{- with . -}}
-  {{- if and (eq (printf "%T" .) "string") (findRE `^\d{4}-\d{2}-\d{2}$` .) -}}
-    {{- $date = . -}}
+  {{- $raw := printf "%v" . -}}
+  {{- if findRE `^\d{4}(-\d{2}){0,2}$` $raw -}}
+    {{- $date = $raw -}}
   {{- else -}}
     {{- with try (time.AsTime .) -}}
       {{- if not .Err -}}

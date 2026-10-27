@@ -1,0 +1,17 @@
+{{/* GetCountryName
+     The name of a country in the language of the page: "DE" gives
+     "Allemagne" on a French page, "Germany" on an English one, capitalized
+     like the name of a language — the CLDR writes the World "world" in
+     English. The names come from the CLDR, see func/GetDisplayNames.html;
+     a code it has no name for comes back as it is.
+
+     Params: (string) an ISO 3166-1 alpha-2 code, e.g. "DE", or a region of
+             the CLDR, "001" for the World.
+
+     Returns: string, the name.
+*/}}
+{{- $code := upper (printf "%v" .) -}}
+{{- $locale := (partial "func/GetLanguage.html").locale -}}
+{{- $names := partialCached "func/GetDisplayNames.html" (dict "type" "territories" "locale" $locale) "territories" $locale -}}
+
+{{- return (strings.FirstUpper (index $names $code | default $code)) -}}

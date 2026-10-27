@@ -1,0 +1,29 @@
+{{/* GetItemFlags
+     How commons/items.html wants an item rendered in the list being printed.
+
+     The flags are kept on the page being rendered and name the item they
+     belong to. Setting them on the listed page instead leaks them into every
+     other list showing it: that page is shared by all of them, and pages
+     render in parallel, so which list wins changes from one build to the
+     next. The flags are part of the cache key of the item partial, so a
+     cached item only ever depends on values its key holds, which is what
+     makes reading the rendered page back from a cached partial safe here.
+
+     Params: (page) the listed page.
+
+     Returns: dict
+       - lazy (boolean) false for the first items of a list above the fold
+       - large (boolean) the list shows large media
+       - scrollsnap (boolean) the list scrolls horizontally below a breakpoint
+       - block (string|false) the type of the block showing the list, false
+         outside a block (an item under the h2 of a block may take an h3)
+     Outside a list, the defaults: lazy, neither large nor scrollsnap, no block.
+*/}}
+{{- $flags := dict "lazy" true "large" false "scrollsnap" false "block" false -}}
+{{- with page.Store.Get "item" -}}
+  {{- if eq .page $ -}}
+    {{- $flags = dict "lazy" .lazy "large" .large "scrollsnap" .scrollsnap "block" .block -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $flags -}}

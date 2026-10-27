@@ -135,8 +135,9 @@ link:
 more: Read more
 navigation:
   close: Close
-  dropdown: Open submenu
+  dropdown: 'Open{{ with .Title }} {{ . }}{{ end }} submenu'
   home: '{{ .Title }}, go to home'
+  language: Choose another language
   main: Main navigation
   menu: Menu
 newsletter:
