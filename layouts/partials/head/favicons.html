@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{{ printf `%s/favicon-16x16.png` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.ico" $staticDirFavicon) -}}
-  <link rel="shortcut " type="image/ico" href="{{ printf `%s/favicon.ico` $dirFavicon }}">
+  <link rel="icon" type="image/x-icon" sizes="32x32" href="{{ printf `%s/favicon.ico` $dirFavicon }}">
 {{ end -}}
 {{- if os.FileExists (printf "%s/favicon.png" $staticDirFavicon) -}}
   <link rel="icon" type="image/png" href="{{ printf `%s/favicon.png` $dirFavicon }}">
@@ -26,9 +26,6 @@
 {{- if os.FileExists (printf "%s/site.webmanifest" $staticDir) -}}
   <link rel="manifest" href="/site.webmanifest">
 {{ end -}}
-{{- $colorPrimary := hugo.Data.seo.color | default "#000000" -}}
-{{- if os.FileExists (printf "%s/safari-pinned-tab.svg" $staticDirFavicon) -}}
-  <link rel="mask-icon" href="{{ printf `%s/safari-pinned-tab.svg` $dirFavicon }}" color="{{ $colorPrimary }}">
+{{- with hugo.Data.seo.color -}}
+  <meta name="theme-color" content="{{ . }}">
 {{ end -}}
-<meta name="msapplication-TileColor" content="{{ $colorPrimary }}">
-<meta name="theme-color" content="{{ $colorPrimary }}">
