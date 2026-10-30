@@ -2,6 +2,13 @@
   {{- $picture_class := "hero-cover" -}}
   {{- $cover := site.Params.hero.cover.desktop -}}
   {{- $mobile := site.Params.hero.cover.mobile -}}
+  {{/* The home hero can be taller (--hero-home-height of the design system): optional crops of its own */}}
+  {{- if page.IsHome -}}
+    {{- with site.Params.hero.cover.home -}}
+      {{- $cover = .desktop | default $cover -}}
+      {{- $mobile = .mobile | default $mobile -}}
+    {{- end -}}
+  {{- end -}}
   {{- $sizes := "100vw" -}}
   {{- if .darken -}}
     {{- $picture_class = printf "%s hero-cover-darken" $picture_class -}}

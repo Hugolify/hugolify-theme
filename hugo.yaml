@@ -140,6 +140,9 @@ params:
     cover:
       desktop: '1600x400'
       mobile: '360x400'
+      # home: # optional crops of the home hero, when it is taller (--hero-home-height)
+      #   desktop: '1600x800'
+      #   mobile: '360x480'
     desktop: '416x'
     mobile: '300x'
     sizes: calc(100vw - 3.5rem), calc(50vw - 3.5rem)
