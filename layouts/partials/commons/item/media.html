@@ -15,9 +15,6 @@
     {{- if $flags.scrollsnap -}}
       {{- $mobile = (index site.Params .Type).thumbnail.scrollsnap | default site.Params.thumbnail.scrollsnap -}}
     {{- end -}}
-    {{- if $flags.large -}}
-      {{- $desktop = (index site.Params .Type).thumbnail.desktop_large | default site.Params.thumbnail.desktop_large -}}
-    {{- end -}}
     {{- $sizes = (index site.Params .Type).thumbnail.sizes | default $sizes -}}
   {{- end -}}
 
@@ -71,5 +68,4 @@
   {{/*  Reset scratch variables  */}}
   {{- .Scratch.Delete "lazy" -}}
   {{- .Scratch.Delete "scrollsnap" -}}
-  {{- .Scratch.Delete "large" -}}
 {{ end -}}

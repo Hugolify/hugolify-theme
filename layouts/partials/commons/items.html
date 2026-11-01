@@ -1,5 +1,4 @@
 {{- $pages := . -}}
-{{- $large := false -}}
 {{- $abovethefold := false -}}
 {{- $groupbyyear := false -}}
 {{- $scrollsnap := false -}}
@@ -8,7 +7,6 @@
 {{- $block := false -}}
 {{- if reflect.IsMap . -}}
   {{- $pages = .pages -}}
-  {{- $large = .large -}}
   {{- $abovethefold = .abovethefold -}}
   {{- $groupbyyear = .groupbyyear -}}
   {{- $scrollsnap = .scrollsnap | default false -}}
@@ -37,7 +35,7 @@
       {{- $section = "pages" -}}
       {{- $partial = "pages/item.html" -}}
     {{- end -}}
-    <div class="items {{ $section }} {{- if $large}} {{ $section }}-large{{ end }} {{- $scrollsnapclass }}" {{- partial "func/SetSearchIgnore.html" . }}>
+    <div class="items {{ $section }} {{- $scrollsnapclass }}" {{- partial "func/SetSearchIgnore.html" . }}>
       {{- /* The flags of each item are kept on the page being rendered, see
              func/GetItemFlags.html. A list nested in an item puts back the
              flags of that item once done. */ -}}
@@ -56,7 +54,6 @@
         {{- $flags := dict
           "page" .
           "lazy" (not (and $abovethefold (lt $index $abovethefoldLimit)))
-          "large" (cond $large true false)
           "scrollsnap" (cond $scrollsnapclass true false)
           "block" $block
         -}}
@@ -65,17 +62,15 @@
                there, and cleared once the item is rendered. Goes away in the
                next major. */ -}}
         {{- .Scratch.Set "lazy" $flags.lazy -}}
-        {{- .Scratch.Set "large" $flags.large -}}
         {{- .Scratch.Set "scrollsnap" $flags.scrollsnap -}}
         <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
           {{- $cacheKey := .RelPermalink -}}
           {{- with .File -}}
             {{- $cacheKey = .UniqueID -}}
           {{- end -}}
-          {{ partialCached $partial . $cacheKey $flags.large $flags.lazy $flags.scrollsnap $flags.block }}
+          {{ partialCached $partial . $cacheKey $flags.lazy $flags.scrollsnap $flags.block }}
         </div>
         {{- .Scratch.Delete "lazy" -}}
-        {{- .Scratch.Delete "large" -}}
         {{- .Scratch.Delete "scrollsnap" -}}
       {{ end -}}
       {{- page.Store.Set "item" $outer -}}
