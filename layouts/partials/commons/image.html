@@ -60,6 +60,7 @@
 
 {{- $crop_ratio := false -}}
 {{- $crop_ratio_mobile := false -}}
+{{- $art_direction := false -}}
 {{- if $responsive -}}
   {{/* Responsive mode bypasses art-direction sizes and lets the browser handle DPR (no 2x/3x files).
        A cropped target size is preserved by deriving its height/width ratio, applied per srcset width.
@@ -73,9 +74,11 @@
       {{- $crop_ratio = div (float $ch) (float $cw) -}}
     {{- end -}}
   {{- end -}}
-  {{/* A distinct mobile source is art-direction: it gets its own target ratio, taken from the
-       mobile crop size when there is one, else the mobile file keeps its own ratio. */}}
-  {{- if and .src_mobile $mobile_size (partial "func/isCrop.html" $mobile_size) -}}
+  {{/* Art-direction: a distinct mobile source, or a mobile crop of another ratio than the desktop one
+       (e.g. the hero cover, wide on desktop and tall on mobile). It gets its own target ratio, taken
+       from the mobile crop size when there is one, else the mobile file keeps its own ratio. Ratios
+       within 10% are the same crop rounded to whole pixels, not art-direction. */}}
+  {{- if and $mobile_size (partial "func/isCrop.html" $mobile_size) -}}
     {{- $p := split $mobile_size "x" -}}
     {{- $cw := int (index $p 0) -}}
     {{- $ch := int (index $p 1) -}}
@@ -83,6 +86,7 @@
       {{- $crop_ratio_mobile = div (float $ch) (float $cw) -}}
     {{- end -}}
   {{- end -}}
+  {{- $art_direction = or .src_mobile (and $crop_ratio $crop_ratio_mobile (gt (math.Abs (sub (div $crop_ratio_mobile $crop_ratio) 1)) 0.1)) -}}
   {{- $desktop_size = false -}}
   {{- $mobile_size = false -}}
   {{- if not $sizes -}}
@@ -116,11 +120,11 @@
     "crop_ratio" $crop_ratio
 }}
 {{- $imageParams := partial "func/GetImageParams.html" $imageRenderParams -}}
-{{/* Responsive mode ignores `file_mobile` (the default/art-direction mode consumes it through
-     `mobile_size`), so a distinct mobile source gets its own srcset here, served under the mobile
-     media query only. */}}
+{{/* Responsive mode ignores `file_mobile` and `mobile_size` (the default/art-direction mode consumes
+     them), so an art-directed mobile image gets its own srcset here, served under the mobile media
+     query only. */}}
 {{- $imageParamsMobile := false -}}
-{{- if and $responsive .src_mobile -}}
+{{- if and $responsive $art_direction -}}
   {{- $imageParamsMobile = partial "func/GetImageParams.html" (merge $imageRenderParams (dict "file" $file_mobile "crop_ratio" $crop_ratio_mobile)) -}}
 {{- end -}}
 {{- $domParams := dict "alt" $alt "lazy" $lazy "class" $class -}}
