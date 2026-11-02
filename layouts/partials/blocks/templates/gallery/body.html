@@ -6,9 +6,12 @@
 {{- $layout := .ui.layout | default "grid" -}}
 {{- $defaultRatio := site.Params.blocks.gallery.image.ratio | default 1 -}}
 {{- $ratio := cond .ui.ratio .ui.ratio $defaultRatio -}}
+{{/* Crop anchor of the thumbnails, an image's own `crop` still wins. */}}
+{{- $crop := site.Params.blocks.gallery.image.crop | default false -}}
 
 {{- $context := merge . (dict
   "column" $column
+  "crop" $crop
   "gallery" $id
   "grid" $grid
   "images" .gallery

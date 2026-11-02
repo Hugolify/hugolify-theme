@@ -1,12 +1,20 @@
 {{/* UI */}}
 {{- $ui := partial "func/GetBlockUI" (merge (dict "type" "figure") .) -}}
 
-{{/* Image: the block's full grid width on desktop, edge-to-edge (full-bleed) on mobile. */}}
-{{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" 1 "grid" $ui.grid "gridMobile" "full") -}}
+{{/* Image: the block's full grid width on desktop, edge-to-edge (full-bleed) on mobile. Cropped to
+     the ratio (width / height) when one is set, the entry `ui.ratio` over
+     params.blocks.figure.image.ratio, else the image keeps its own. The crop anchor is the image's
+     own `crop`, else params.blocks.figure.image.crop, else the site default. */}}
+{{- $ratio := site.Params.blocks.figure.image.ratio | default false -}}
+{{- with $ui.ratio }}{{ $ratio = . }}{{ end -}}
+{{- $crop := site.Params.blocks.figure.image.crop | default false -}}
+{{- with .figure }}{{ with .crop }}{{ $crop = . }}{{ end }}{{ end -}}
+{{- $size := partial "func/GetBlockImageSize.html" (dict "columnDesktop" 1 "grid" $ui.grid "gridMobile" "full" "ratio" $ratio) -}}
 {{- $lazy := partial "func/isLazyImage" (dict "first" .first) -}}
 
 {{/* Context */}}
 {{- $context := merge . .figure (dict
+  "crop" $crop
   "desktop" $size.desktop
   "mobile" $size.mobile
   "lazy" $lazy

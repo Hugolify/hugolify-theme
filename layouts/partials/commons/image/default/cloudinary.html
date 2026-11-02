@@ -4,8 +4,10 @@
 {{- $file_mobile := .file_mobile -}}
 {{- $desktop_size := .desktop_size -}}
 {{- $mobile_size := .mobile_size -}}
-{{/*  crop: Check if a real cloundinary param */}}
-{{- $crop := cond (hasPrefix (lower .crop) "g_") (lower .crop) "g_auto" -}}
+{{/*  crop: a real Cloudinary gravity (g_*), "center" for g_center (the anchor every provider
+      shares), else g_auto. */}}
+{{- $crop := lower .crop -}}
+{{- $crop = cond (hasPrefix $crop "g_") $crop (cond (eq $crop "center") "g_center" "g_auto") -}}
 {{- $quality := site.Params.image.quality | default "auto:eco" -}}
 
 {{/*  Return params  */}}

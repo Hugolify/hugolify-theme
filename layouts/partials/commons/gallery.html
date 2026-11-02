@@ -3,6 +3,7 @@
 {{- $images := .images | default false -}}
 {{- $isFirst := .first | default false -}}
 {{- $ratio := .ratio | default 1 -}}
+{{- $crop := .crop | default false -}}
 
 {{/*  get scrollsnap  */}}
 {{- $scrollsnap := false -}}
@@ -36,6 +37,7 @@
       <div {{- partial "func/SetParallax.html" (dict "element" "item") }}>
         {{ partial "commons/image-lightbox" (dict
             "image" .
+            "crop" $crop
             "desktop" $desktop
             "mobile" $mobile
             "lazy" $lazy

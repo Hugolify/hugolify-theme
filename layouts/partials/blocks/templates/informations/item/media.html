@@ -15,6 +15,7 @@
 {{- $desktop := cond (eq $class "media-logo") .desktopLogo .desktop -}}
 {{- $mobile := .mobile -}}
 {{- $ratio := .ratio -}}
+{{- $crop := .crop -}}
 
 {{- if $class -}}
 <div class="media {{ $class }}" {{- if ne $class `media-icon` }}{{ with $ratio }} style="--media-ratio:{{ . }};"{{ end }}{{ end }}>
@@ -28,6 +29,7 @@
       {{ partial "commons/image.html" (dict
         "src" .src
         "alt" .alt
+        "crop" (.crop | default $crop)
         "desktop" $desktop
         "mobile" $mobile
         ) }}

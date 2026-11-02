@@ -11,7 +11,10 @@
 {{- end }}
 {{- $sizeImage := partial "func/GetBlockImageSize.html" (dict "columnDesktop" $column "grid" .ui.grid "ratio" $ratio) -}}
 {{- $sizeLogo := partial "func/GetBlockImageSize.html" (dict "columnDesktop" $column "grid" .ui.grid) -}}
+{{/* Crop anchor of the real images, an image's own `crop` still wins. */}}
+{{- $crop := site.Params.blocks.informations.image.crop | default false -}}
 {{- $media := dict
+  "crop" $crop
   "desktop" $sizeImage.desktop
   "desktopLogo" $sizeLogo.desktop
   "mobile" (site.Params.image.scrollsnap | default false)

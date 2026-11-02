@@ -3,12 +3,15 @@
 {{- $src := .image -}}
 {{- $alt := false -}}
 {{- $legend := false -}}
+{{- $crop := .crop | default false -}}
 
 {{- with $src -}}
   {{- if isset . "src" -}}
     {{- $src = .src -}}
     {{- $alt = .alt -}}
     {{- $legend = .legend -}}
+    {{/* The image's own crop anchor wins over the caller's. */}}
+    {{- with .crop }}{{ $crop = . }}{{ end -}}
   {{- end -}}
 {{- end -}}
 
@@ -31,6 +34,7 @@
     {{ partial "commons/figure.html" (dict
       "src" $src
       "alt" $alt
+      "crop" $crop
       "lazy" $lazy
       "desktop" .desktop
       "mobile" .mobile
