@@ -124,6 +124,8 @@ header:
     main: Contenu principal
     menu: Navigation principale
     search: Recherche
+heading:
+  anchor: 'Lien vers cette section : {{ .Title }}'
 home: Accueil
 image:
   one: Image

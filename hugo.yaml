@@ -84,6 +84,8 @@ params:
     ajax: false # Set true to enable ajax form
     netlify: true # Set false to disable Netlify Forms
     action: false # Replace by action URL from https://fabform.io/, https://formspree.io/, https://kwesforms.com/ …
+  headings:
+    anchor: false # Set true to wrap every Markdown heading text in an anchor link
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'
