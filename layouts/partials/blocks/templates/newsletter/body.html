@@ -30,7 +30,8 @@
         {{ partial "commons/form/label.html" $args }}
       </div>
     {{- end }}
-    {{- /* Filled by the newsletter script with the provider's answer, which adds alert-success or alert-danger */}}
+    {{- /* Filled by the newsletter script with the provider's answer, which adds alert-success or alert-danger,
+           and turns the role into alert on an error (RGAA 7.5.2) */}}
     <div class="alert js-newsletter-message" role="status" tabindex="-1" hidden></div>
   </form>
 {{ end -}}

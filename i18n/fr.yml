@@ -92,16 +92,16 @@ filters:
 form:
   company: Société
   email: Email
-  error: 'Erreur : Il y a un problème'
+  error: 'Une erreur est survenue, merci de réessayer.'
   firstname: Prénom
   hint:
     accept: 'Formats acceptés : {{ . }}'
-    email: 'Example : email@domaine.com'
+    email: 'Exemple : email@domaine.com'
     firstname: Antoine
     lastname: Dupont
     pattern: 'Format attendu : {{ . }}'
-    tel: 'Example : +33 6 12 34 56 78'
-    url: 'Example : https://www.domaine.com'
+    tel: 'Exemple : +33 6 12 34 56 78'
+    url: 'Exemple : https://www.domaine.com'
   lastname: Nom de famille
   message: Message
   name: Nom

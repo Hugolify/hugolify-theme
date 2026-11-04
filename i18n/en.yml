@@ -92,7 +92,7 @@ filters:
 form:
   company: Company
   email: Email
-  error: 'Error: something wrong'
+  error: 'Something went wrong, please try again.'
   firstname: Firstname
   hint:
     accept: 'Accepted formats: {{ . }}'

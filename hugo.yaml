@@ -81,7 +81,7 @@ params:
       centered: true
       size: fullscreen
   form:
-    ajax: false # Set true to enable ajax form
+    ajax: false # Set true to submit without leaving the page (loads the form script of the styling module)
     netlify: true # Set false to disable Netlify Forms
     action: false # Replace by action URL from https://fabform.io/, https://formspree.io/, https://kwesforms.com/ …
   logo:

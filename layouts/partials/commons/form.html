@@ -10,16 +10,21 @@
   {{- $ajax = true -}}
 {{- end -}}
 {{- $requiredField := false -}}
+{{- range .items }}
+  {{- if .required }}{{ $requiredField = true }}{{ end -}}
+{{- end -}}
 
 <form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}" {{- partial "func/SetSearchIgnore.html" . }}>
-
-  {{- with $ajax }}
-  <p class="message js-form-message" role="alert"></p>
-  {{ end -}}
 
   {{- if site.Params.form.netlify -}}
   <div class="d-none"><input name="bot-field" /></div>
   {{- end -}}
+
+  {{- if $requiredField }}
+  {{- /* The meaning of the asterisk comes before its first use, visually and in
+         the source order (RGAA 11.10, glossary "Indication de champ obligatoire") */}}
+  <p class="required">{{ i18n "form.required" }}</p>
+  {{- end }}
 
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
@@ -54,13 +59,18 @@
         <p id="help-{{ $id }}" class="help">{{ $help }}</p>
       {{ end -}}
     {{- if ne .type "hidden" }}</div>{{ end }}
-    {{- if .required }}{{ $requiredField = true }}{{ end -}}
   {{ end -}}
 
+  {{- if $ajax }}
+  {{- /* Filled by the form script (params.form.ajax) with the answer, which adds
+         alert-success or alert-danger. Right above the submit button, so an
+         error shows where the visitor is; on success the fields are hidden.
+         The script moves the focus to it: for RGAA it is then a change of
+         context started by the submit button (7.4), not a status message (7.5). */}}
+  <p class="alert message js-form-message" role="status" tabindex="-1" hidden></p>
+  {{- end }}
+
   <div class="actions">
-    {{- if $requiredField }}
-    <p class="required">{{ i18n "form.required" }}</p>
-    {{- end }}
     <button type="submit" class="btn">{{ partial "func/PrepareHTML.html" .submit | default "Submit" }}</button>
     {{- with .legal }}
     {{ partial "commons/text.html" (dict "text" . "class" "legal") }}
