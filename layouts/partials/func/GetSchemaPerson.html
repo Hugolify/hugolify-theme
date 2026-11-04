@@ -15,6 +15,12 @@
      and the languages they work in, the codes the CMS stores under
      `languages`, as knowsLanguage.
 
+     Their education, a list of entries the CMS stores under `education`
+     (title, school, year, category), as hasCredential — one credential per
+     entry with a title, recognized by its school — and alumniOf, each school
+     once. A line of plain text names neither a degree nor a school apart:
+     it is left out.
+
      A member of the team attached to no office works for the organization
      behind the site, referenced by @id: commons/schema.html puts it on every
      page, func/GetSchemaOrganization.html builds it. A place kept in data
@@ -84,6 +90,45 @@
     -}}
   {{- end -}}
   {{- $node = merge $node (partial "func/GetSchemaContact.html" $contact) -}}
+
+  {{- $credentials := slice -}}
+  {{- $schools := slice -}}
+  {{- $schoolNames := slice -}}
+  {{- range $entry := $person.Params.education -}}
+    {{- if reflect.IsMap $entry -}}
+      {{- $school := false -}}
+      {{- with $entry.school -}}
+        {{- $name := partial "func/PrepareData.html" . -}}
+        {{- $school = dict "@type" "EducationalOrganization" "name" $name -}}
+        {{- if not (in $schoolNames $name) -}}
+          {{- $schoolNames = $schoolNames | append $name -}}
+          {{- $schools = $schools | append $school -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with $entry.title -}}
+        {{- $credential := dict
+          "@type" "EducationalOccupationalCredential"
+          "name" (partial "func/PrepareData.html" .)
+        -}}
+        {{- with $entry.category -}}
+          {{- $credential = merge $credential (dict "credentialCategory" .) -}}
+        {{- end -}}
+        {{- with $school -}}
+          {{- $credential = merge $credential (dict "recognizedBy" .) -}}
+        {{- end -}}
+        {{- with $entry.year -}}
+          {{- $credential = merge $credential (dict "dateCreated" (string .)) -}}
+        {{- end -}}
+        {{- $credentials = $credentials | append $credential -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $credentials -}}
+    {{- $node = merge $node (dict "hasCredential" .) -}}
+  {{- end -}}
+  {{- with $schools -}}
+    {{- $node = merge $node (dict "alumniOf" .) -}}
+  {{- end -}}
 
   {{- /* Only a member of the team works for the organization: an author with
          no page in the persons section may well be a guest. */ -}}
