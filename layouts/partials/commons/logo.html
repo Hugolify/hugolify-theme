@@ -1,16 +1,17 @@
 {{- $logo := .logo | default "" -}}
 {{- $lazy := .lazy | default false -}}
 {{- $file := printf "static%s" $logo -}}
+{{- $exists := and $logo (os.FileExists $file) -}}
 {{- $home := i18n "navigation.home" (dict "Title" site.Title) -}}
-<a class="logo" href="{{ site.Home.Permalink }}" aria-label="{{ $home }}">
-  {{- if os.FileExists $file }}
+{{/* The image alt names the link; aria-label only covers the text fallback. */}}
+<a class="logo" href="{{ site.Home.Permalink }}"{{ if not $exists }} aria-label="{{ $home }}"{{ end }}>
+  {{- if $exists }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
-    <img 
+    <img
       {{ if $lazy }}loading="lazy" decoding="async"{{ else }}fetchpriority="high"{{ end }}
-      src="{{ .logo }}" 
-      alt="" 
-      role="presentation" 
-      height="{{ index $fileDimensions 1 }}" 
+      src="{{ .logo }}"
+      alt="{{ $home }}"
+      height="{{ index $fileDimensions 1 }}"
       width="{{ index $fileDimensions 0 }}">
   {{ else }}
     {{- site.Title -}}
