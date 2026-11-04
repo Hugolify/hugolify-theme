@@ -2,18 +2,19 @@
 {{- $lazy := .lazy | default false -}}
 {{- $file := printf "static%s" $logo -}}
 {{- $exists := and $logo (os.FileExists $file) -}}
-{{- $home := i18n "navigation.home" (dict "Title" site.Title) -}}
-{{/* The image alt names the link; aria-label only covers the text fallback. */}}
-<a class="logo" href="{{ site.Home.Permalink }}"{{ if not $exists }} aria-label="{{ $home }}"{{ end }}>
+{{- $name := partial "func/PrepareData.html" (partial "func/GetSeoData.html" "title" | default site.Title) -}}
+{{/* The link is named by what the logo shows: the site name, as image alt or as text.
+     The title only adds where it leads, without repeating the name. */}}
+<a class="logo" href="{{ site.Home.Permalink }}" title="{{ i18n "navigation.home" }}">
   {{- if $exists }}
     {{- $fileDimensions := partial "func/GetImageDimensions" (dict "file" $file) -}}
     <img
       {{ if $lazy }}loading="lazy" decoding="async"{{ else }}fetchpriority="high"{{ end }}
       src="{{ .logo }}"
-      alt="{{ $home }}"
+      alt="{{ $name }}"
       height="{{ index $fileDimensions 1 }}"
       width="{{ index $fileDimensions 0 }}">
   {{ else }}
-    {{- site.Title -}}
+    {{- $name -}}
   {{ end -}}
 </a>

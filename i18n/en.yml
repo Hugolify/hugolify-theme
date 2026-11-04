@@ -136,7 +136,7 @@ more: Read more
 navigation:
   close: Close
   dropdown: 'Open{{ with .Title }} {{ . }}{{ end }} submenu'
-  home: '{{ .Title }}, go to home'
+  home: Go to home
   language: Choose another language
   main: Main navigation
   menu: Menu
