@@ -1,0 +1,15 @@
+{{/* GetCloudinarySize
+     A size as Cloudinary transformations: "600x400" -> w_600, h_400; "600x" -> w_600.
+
+     Param: the size (string, "WxH").
+     Returns: slice, e.g. (slice "w_600" "h_400")
+*/}}
+{{- $params := slice -}}
+{{- $size := split . "x" -}}
+{{- with index $size 0 -}}
+  {{- $params = $params | append (printf "w_%s" .) -}}
+{{- end -}}
+{{- with index $size 1 -}}
+  {{- $params = $params | append (printf "h_%s" .) -}}
+{{- end -}}
+{{- return $params -}}

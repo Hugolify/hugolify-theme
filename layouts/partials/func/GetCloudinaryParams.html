@@ -1,0 +1,26 @@
+{{/* GetCloudinaryParams
+     A Cloudinary URL split around /upload/, the transformations going in between
+     (<path>/upload/<transformations>/<file>), and what every variant shares:
+     - base: f_auto (AVIF/WebP/original negotiated per browser) and the quality
+       (image.quality, auto:eco by default)
+     - gravity: the crop anchor, a real Cloudinary gravity (g_*), "center" for g_center
+       (the anchor every provider shares), else g_auto
+     An SVG is told by its extension.
+
+     Param: dict { file (URL), crop (anchor, may be empty) }
+     Returns: dict { path (ends with /upload/), file, is_svg, base (slice), gravity }
+*/}}
+{{- $parts := split .file "/upload/" -}}
+{{- $crop := lower .crop -}}
+{{- $gravity := cond (hasPrefix $crop "g_") $crop (cond (eq $crop "center") "g_center" "g_auto") -}}
+{{- $base := slice "f_auto" -}}
+{{- with site.Params.image.quality | default "auto:eco" -}}
+  {{- $base = $base | append (printf "q_%s" .) -}}
+{{- end -}}
+{{- return dict
+  "path" (print (index $parts 0) "/upload/")
+  "file" (index $parts 1)
+  "is_svg" (strings.HasSuffix (lower .file) ".svg")
+  "base" $base
+  "gravity" $gravity
+  -}}

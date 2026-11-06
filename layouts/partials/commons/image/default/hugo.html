@@ -20,7 +20,6 @@
 {{- $crop := .crop -}}
 {{- $filter := .filter -}}
 {{- $hint := .hint -}}
-{{- $process := "resize" -}}
 
 {{/*  Get ressource  */}}
 {{- $image := false -}}
@@ -63,21 +62,7 @@
     {{/*  Return desktop image  */}}
     {{- if $desktop_size -}}
 
-      {{/* If crop process */}}
-      {{- if partial "func/isCrop.html" $desktop_size -}}
-        {{- $process = "fill" -}}
-        {{- if $crop -}}
-          {{- $process = (printf "%s %s" $process $crop) -}}
-        {{- end -}}
-      {{- end -}}
-      {{/*  If specific filter */}}
-      {{- if $filter -}}
-        {{- $process = (printf "%s %s" $process $filter) -}}
-      {{- end -}}
-      {{/*  If specific hint */}}
-      {{- if $hint -}}
-        {{- $process = (printf "%s %s" $process $hint) -}}
-      {{- end -}}
+      {{- $process := partial "func/GetHugoProcess.html" (dict "fill" (partial "func/isCrop.html" $desktop_size) "crop" $crop "filter" $filter "hint" $hint) -}}
       {{- $image_desktop = $image.Process (printf "%s %s" $process $desktop_size) -}}
       {{- $image_desktop_webp = $image.Process (printf "%s %s webp" $process $desktop_size) -}}
       {{/*  If desktop retina  */}}
@@ -93,14 +78,8 @@
 
     {{- else -}}
 
-      {{/*  If specific filter */}}
-      {{- if $filter -}}
-        {{- $process = (printf "%s %s" $process $filter) -}}
-      {{- end -}}
-      {{/*  If specific hint */}}
-      {{- if $hint -}}
-        {{- $process = (printf "%s %s" $process $hint) -}}
-      {{- end -}}
+      {{/*  No size: the source size, never cropped  */}}
+      {{- $process := partial "func/GetHugoProcess.html" (dict "filter" $filter "hint" $hint) -}}
       {{- $image_width = $image.Width -}}
       {{- $image_height = $image.Height -}}
       {{- $image_desktop = $image.RelPermalink -}}
@@ -112,22 +91,8 @@
     {{/*  Return mobile image  */}}
     {{- if $mobile_size -}}
 
-      {{- $process = "resize" -}}
-      {{- if partial "func/isCrop.html" $mobile_size -}}
-        {{- $process = "fill" -}}
-        {{- if $crop -}}
-          {{- $process = (printf "%s %s" $process $crop) -}}
-        {{- end -}}
-      {{- end -}}
-      {{/*  If specific filter */}}
-      {{- if $filter -}}
-        {{- $process = (printf "%s %s" $process $filter) -}}
-      {{- end -}}
-      {{/*  If specific hint */}}
-      {{- if $hint -}}
-        {{- $process = (printf "%s %s" $process $hint) -}}
-      {{- end -}}
-      {{- $image_mobile = $image_sm.Process (printf "%s %s" $process $mobile_size) -}}
+      {{- $process := partial "func/GetHugoProcess.html" (dict "fill" (partial "func/isCrop.html" $mobile_size) "crop" $crop "filter" $filter "hint" $hint) -}}
+      {{- $image_mobile =$image_sm.Process (printf "%s %s" $process $mobile_size) -}}
       {{- $image_mobile_2x = $image_sm.Process (printf "%s %s" $process $mobile_size_2x) -}}
       {{- $image_mobile_3x = $image_sm.Process (printf "%s %s" $process $mobile_size_3x) -}}
       {{- $image_mobile_webp = $image_sm.Process (printf "%s %s webp" $process $mobile_size) -}}

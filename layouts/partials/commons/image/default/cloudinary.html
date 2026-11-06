@@ -12,15 +12,14 @@
 */}}
 {{/*  Get params  */}}
 {{- $is_desktop_retina := site.Params.image.retina.desktop | default true -}}
-{{- $file := .file -}}
-{{- $file_mobile := .file_mobile -}}
 {{- $desktop_size := .desktop_size -}}
 {{- $mobile_size := .mobile_size -}}
-{{/*  crop: a real Cloudinary gravity (g_*), "center" for g_center (the anchor every provider
-      shares), else g_auto. */}}
-{{- $crop := lower .crop -}}
-{{- $crop = cond (hasPrefix $crop "g_") $crop (cond (eq $crop "center") "g_center" "g_auto") -}}
-{{- $quality := site.Params.image.quality | default "auto:eco" -}}
+
+{{/*  <path>/upload/<transformations>/<file>, f_auto + quality, crop gravity  */}}
+{{- $cloudinary := partial "func/GetCloudinaryParams.html" (dict "file" .file "crop" .crop) -}}
+{{- $pathFile := $cloudinary.path -}}
+{{- $imageFile := $cloudinary.file -}}
+{{- $crop := $cloudinary.gravity -}}
 
 {{/*  Return params  */}}
 {{- $image_desktop := .file -}}
@@ -28,126 +27,42 @@
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
 {{- $image_mobile_3x := false -}}
-{{- $image_width := false -}}
-{{- $image_height := false -}}
 
-{{/*  Cloudinary path  */}}
-{{- $path := split $file "/upload/" -}}
-{{- $pathFile := print (index $path 0) "/upload/" -}}
-{{- $imageFile := index $path 1 -}}
-
-{{/*  Get image dataset  */}}
-{{- $data := false -}}
-{{- $url := print $pathFile "fl_getinfo/" $imageFile -}}
-{{- if strings.HasSuffix $file "svg" }}
-  {{- $url = print $pathFile "fl_getinfo/f_png/" $imageFile -}}
-{{- end -}}
-{{- with try (resources.GetRemote ($url)) -}}
-  {{- with .Err -}}
-    {{- errorf "Error, GetRemote: %s" . -}}
-  {{- else with .Value -}}
-    {{- $data = . | transform.Unmarshal -}}
-    {{- with $data.input -}}
-      {{- $image_width = index . "width" -}}
-      {{- $image_height = index . "height" -}}
-    {{- end -}}
-  {{- else -}}
-    {{- warnf "Error, unable to retrieve remote resource for: %s" $file -}}
-  {{- end -}}
-{{- end -}}
+{{/*  Intrinsic size, an SVG read as a PNG  */}}
+{{- $info := cond $cloudinary.is_svg "fl_getinfo/f_png/" "fl_getinfo/" -}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile $info $imageFile) "provider" "cloudinary" "strict" true) -}}
+{{- $image_width := $size.width -}}
+{{- $image_height := $size.height -}}
 
 {{/*  Process if not a SVG image  */}}
-{{- if not (strings.HasSuffix $file "svg") }}
+{{- if not $cloudinary.is_svg }}
 
-  {{- with $quality }}
-    {{- $quality = printf "q_%s" $quality -}}
-  {{- end -}}
-
-  {{/*  Return desktop image  */}}
+  {{/*  Return desktop image, with the size of the transformed variant  */}}
   {{- with $desktop_size -}}
-    {{/*  f_auto: Cloudinary negotiates AVIF/WebP/original per browser via the Accept header. */}}
-    {{- $params := slice "f_auto" -}}
-
-    {{- with $quality }}
-      {{ $params = $params | append . }}
-    {{ end }}
-
-    {{- $desktop_size_array := split $desktop_size "x" -}}
-    {{- $desktop_size_width := index $desktop_size_array 0 | default false -}}
-    {{- $desktop_size_height := index $desktop_size_array 1 | default false -}}
-    {{- with $desktop_size_width }}
-      {{- $params = $params | append (printf "w_%s" .) -}}
-    {{ end }}
-    {{ with $desktop_size_height }}
-      {{- $params = $params | append (printf "h_%s" .) -}}
-    {{ end }}
-
+    {{- $params := $cloudinary.base | append (partial "func/GetCloudinarySize.html" .) -}}
     {{- if partial "func/isCrop" . -}}
-      {{- $params =  $params | append "c_fill" -}}
-      {{- with $crop -}}
-        {{- $params =  $params | append . -}}
-      {{- end -}}
+      {{- $params = $params | append "c_fill" | append $crop -}}
     {{- end -}}
-
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
-
     {{/*  Desktop retina: a dpr_2.0 variant; the format stays negotiated by f_auto.  */}}
     {{- if $is_desktop_retina -}}
       {{- $image_desktop_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params ",")) $imageFile -}}
     {{- end -}}
-
-    {{/*  Get modificated image dataset  */}}
-    {{- $url = print $pathFile (delimit $params ",") ",fl_getinfo/" $imageFile -}}
-    {{- if strings.HasSuffix $file "svg" }}
-      {{- $url = print $pathFile (delimit $params ",") "fl_getinfo/f_png/" $imageFile -}}
-    {{- end -}}
-    {{- with try (resources.GetRemote $url) -}}
-      {{- with .Err -}}
-        {{- errorf "Error, GetRemote: %s" . -}}
-      {{- else with .Value -}}
-        {{- $data = . | transform.Unmarshal -}}
-        {{- with $data.output -}}
-          {{- $image_width = index . "width" -}}
-          {{- $image_height = index . "height" -}}
-        {{- end -}}
-      {{- else -}}
-        {{- warnf "Error, unable to retrieve remote resource for: %s" $file -}}
-      {{- end -}}
-    {{- end -}}
-
+    {{- $size = partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile (delimit $params ",") ",fl_getinfo/" $imageFile) "provider" "cloudinary" "node" "output" "strict" true) -}}
+    {{- with $size.width }}{{ $image_width = . }}{{ end -}}
+    {{- with $size.height }}{{ $image_height = . }}{{ end -}}
   {{- end -}}
 
-  {{/*  Return mobile image  */}}
+  {{/*  Return mobile image, 1x/2x/3x as dpr variants  */}}
   {{- with $mobile_size -}}
-    {{/*  f_auto: format negotiated by the CDN; the dpr variants below carry it through. */}}
-    {{- $params := slice "f_auto" -}}
-    {{- $params_1x := slice -}}
-
-    {{- with $quality }}
-      {{ $params = $params | append . }}
-    {{ end }}
-
+    {{- $params := $cloudinary.base -}}
     {{- if partial "func/isCrop" . -}}
-      {{- $params =  $params | append "c_fill" -}}
-      {{- with $crop -}}
-        {{- $params =  $params | append . -}}
-      {{- end -}}
+      {{- $params = $params | append "c_fill" | append $crop -}}
     {{- end -}}
-
-    {{- $params_1x = $params -}}
-    {{- $mobile_size_array := split . "x" -}}
-    {{- $mobile_size_width := index $mobile_size_array 0 | default false -}}
-    {{- $mobile_size_height := index $mobile_size_array 1 | default false -}}
-    {{- with $mobile_size_width }}
-      {{- $params_1x = $params_1x | append (printf "w_%s" .) -}}
-    {{ end }}
-    {{ with $mobile_size_height }}
-      {{- $params_1x = $params_1x | append (printf "h_%s" .) -}}
-    {{ end }}
-
-    {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params_1x ",") $imageFile -}}
-    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params_1x ",")) $imageFile -}}
-    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (print "dpr_3.0," (delimit $params_1x ",")) $imageFile -}}
+    {{- $params = $params | append (partial "func/GetCloudinarySize.html" .) -}}
+    {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
+    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params ",")) $imageFile -}}
+    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (print "dpr_3.0," (delimit $params ",")) $imageFile -}}
   {{- end -}}
 
 {{- end -}}
@@ -161,4 +76,3 @@
   "image_width" $image_width
   "image_height" $image_height
   -}}
-

@@ -11,23 +11,20 @@
       an SVG is served as-is.
 */}}
 {{/*  Get params  */}}
-{{- $file := .file -}}
-{{- $file_mobile := .file_mobile -}}
 {{- $desktop_size := .desktop_size -}}
 {{- $mobile_size := .mobile_size -}}
 {{- $mobile_size_2x := .mobile_size_2x -}}
 {{- $mobile_size_3x := .mobile_size_3x -}}
 {{- $crop := lower .crop -}}
-{{- $quality := site.Params.image.quality | default "normal" -}}
+{{- $quality := printf "-/quality/%s/" (site.Params.image.quality | default "normal") -}}
 
-{{/*  SVG told by its extension, read before the file name is stripped below  */}}
-{{- $is_svg := strings.HasSuffix (lower $file) ".svg" -}}
-
-{{/*  Strip filename from Uploadcare URL if present (e.g., /UUID/filename.ext -> /UUID/)  */}}
-{{- $stripFilenamePattern := `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` -}}
-{{- $file = replaceRE $stripFilenamePattern "$1/" $file -}}
-{{- if $file_mobile -}}
-  {{- $file_mobile = replaceRE $stripFilenamePattern "$1/" $file_mobile -}}
+{{/*  File name stripped for the transformations, SVG told by its extension  */}}
+{{- $uploadcare := partial "func/GetUploadcareFile.html" .file -}}
+{{- $file := $uploadcare.file -}}
+{{- $is_svg := $uploadcare.is_svg -}}
+{{- $file_mobile := .file_mobile -}}
+{{- with $file_mobile -}}
+  {{- $file_mobile = (partial "func/GetUploadcareFile.html" .).file -}}
 {{- end -}}
 
 {{/*  Return params  */}}
@@ -35,71 +32,29 @@
 {{- $image_mobile := false -}}
 {{- $image_mobile_2x := false -}}
 {{- $image_mobile_3x := false -}}
-{{- $image_width := false -}}
-{{- $image_height := false -}}
 
-{{/*  Get image dataset  */}}
-{{- $url := printf "%s-/json/" $file }}
-{{- with try (resources.GetRemote $url) -}}
-  {{- with .Err -}}
-    {{ errorf "%s" . }}
-  {{- else with .Value -}}
-    {{- $data := . | transform.Unmarshal -}}
-    {{- with $data -}}
-      {{- $image_width = index . "width" -}}
-      {{- $image_height = index . "height" -}}
-      {{/*  An URL without file name (/UUID/) has no extension: the format reported by Uploadcare tells  */}}
-      {{- with index . "format" -}}
-        {{- $is_svg = or $is_svg (eq (lower .) "svg") -}}
-      {{- end -}}
-    {{- end -}}
-  {{- else -}}
-    {{ errorf "Unable to get remote resource: %s" $url }}
-  {{- end -}}
-{{- end -}}
+{{/*  Intrinsic size. An URL without file name (/UUID/) has no extension: the format reported by Uploadcare tells  */}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (printf "%s-/json/" $file) "provider" "uploadcare" "strict" true) -}}
+{{- $image_width := $size.width -}}
+{{- $image_height := $size.height -}}
+{{- $is_svg = or $is_svg (eq $size.format "svg") -}}
 
 {{/*  Process if not a SVG image  */}}
 {{- if not $is_svg }}
 
-  {{- $quality := printf "-/quality/%s/" $quality -}}
-
-  {{/*  Return desktop image  */}}
+  {{/*  Return desktop image, with the size of the resized variant  */}}
   {{- with $desktop_size -}}
-    {{- $params :=  printf "-/resize/%s/%s" . $quality -}}
-    {{- if partial "func/isCrop" . -}}
-      {{- $params =  printf "-/scale_crop/%s/%s/%s" . $crop $quality -}}
-    {{- end -}}
-    {{- $image_desktop = printf "%s%s" $file $params -}}
-    {{/*  Get modificated image dataset  */}}
-    {{- $url = printf "%s-/resize/%s/-/json/" $file . }}
-    {{- with try (resources.GetRemote $url) -}}
-      {{- with .Err -}}
-        {{- errorf "Error, GetRemote: %s" . -}}
-      {{- else with .Value -}}
-        {{- $data := . | transform.Unmarshal -}}
-        {{- with $data -}}
-          {{- $image_width = index . "width" -}}
-          {{- $image_height = index . "height" -}}
-        {{- end -}}
-      {{- else -}}
-        {{- errorf "Error, unable to retrieve remote resource for: %s" $file -}}
-      {{- end -}}
-    {{- end -}}
+    {{- $image_desktop = printf "%s%s" $file (partial "func/GetUploadcareResize.html" (dict "size" . "crop" $crop "quality" $quality)) -}}
+    {{- $size = partial "func/GetRemoteImageSize.html" (dict "url" (printf "%s-/resize/%s/-/json/" $file .) "provider" "uploadcare" "strict" true) -}}
+    {{- with $size.width }}{{ $image_width = . }}{{ end -}}
+    {{- with $size.height }}{{ $image_height = . }}{{ end -}}
   {{- end -}}
 
-  {{/*  Return mobile image  */}}
+  {{/*  Return mobile image, 1x/2x/3x  */}}
   {{- if $mobile_size -}}
-    {{- $params :=  printf "-/resize/%s/%s" $mobile_size $quality -}}
-    {{- $params_2x :=  printf "-/resize/%s/%s" $mobile_size_2x $quality -}}
-    {{- $params_3x :=  printf "-/resize/%s/%s" $mobile_size_3x $quality -}}
-    {{- if partial "func/isCrop" $mobile_size -}}
-      {{- $params =  printf "-/scale_crop/%s/%s/%s" $mobile_size $crop $quality -}}
-      {{- $params_2x =  printf "-/scale_crop/%s/%s/%s" $mobile_size_2x $crop $quality -}}
-      {{- $params_3x =  printf "-/scale_crop/%s/%s/%s" $mobile_size_3x $crop $quality -}}
-    {{- end -}}
-    {{- $image_mobile = printf "%s%s" $file_mobile $params -}}
-    {{- $image_mobile_2x = printf "%s%s" $file_mobile $params_2x -}}
-    {{- $image_mobile_3x = printf "%s%s" $file_mobile $params_3x -}}
+    {{- $image_mobile = printf "%s%s" $file_mobile (partial "func/GetUploadcareResize.html" (dict "size" $mobile_size "crop" $crop "quality" $quality)) -}}
+    {{- $image_mobile_2x = printf "%s%s" $file_mobile (partial "func/GetUploadcareResize.html" (dict "size" $mobile_size_2x "crop" $crop "quality" $quality)) -}}
+    {{- $image_mobile_3x = printf "%s%s" $file_mobile (partial "func/GetUploadcareResize.html" (dict "size" $mobile_size_3x "crop" $crop "quality" $quality)) -}}
   {{- end -}}
 
 {{- end -}}

@@ -1,24 +1,36 @@
 {{/*  Fetch intrinsic image dimensions from a remote provider's JSON endpoint.
-      Shared by the responsive (srcset) Cloudinary/Uploadcare partials.
+      Shared by the Cloudinary/Uploadcare partials, default and responsive.
 
       @param  url       (string) JSON endpoint to fetch.
       @param  provider  (string) "cloudinary" | "uploadcare".
+      @param  node      (string) Cloudinary only: "input" (the source, default) or "output"
+                        (the transformed variant). Uploadcare exposes the size at the top level.
+      @param  strict    (bool) a request error stops the build (errorf) instead of a warning.
+                        A missing file (404) is always a warning.
       @return dict { width, height, format } — false when unavailable
               (format: lowercased, e.g. "svg", as reported by Uploadcare).
 */}}
 {{- $url := .url -}}
 {{- $provider := .provider -}}
+{{- $node_name := .node | default "input" -}}
+{{- $strict := .strict | default false -}}
 {{- $width := false -}}
 {{- $height := false -}}
 {{- $format := false -}}
 
 {{- with try (resources.GetRemote $url) -}}
   {{- with .Err -}}
-    {{- warnf "GetRemoteImageSize: %s" . -}}
+    {{- if $strict -}}
+      {{- errorf "GetRemoteImageSize: %s" . -}}
+    {{- else -}}
+      {{- warnf "GetRemoteImageSize: %s" . -}}
+    {{- end -}}
   {{- else with .Value -}}
     {{- $data := . | transform.Unmarshal -}}
-    {{/*  Cloudinary nests the original size under `input`; Uploadcare exposes it at the top level. */}}
-    {{- $node := cond (eq $provider "cloudinary") $data.input $data -}}
+    {{- $node := $data -}}
+    {{- if eq $provider "cloudinary" -}}
+      {{- $node = index $data $node_name -}}
+    {{- end -}}
     {{- with $node -}}
       {{- $width = index . "width" -}}
       {{- $height = index . "height" -}}

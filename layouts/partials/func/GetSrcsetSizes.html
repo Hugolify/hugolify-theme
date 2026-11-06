@@ -1,0 +1,43 @@
+{{/* GetSrcsetSizes
+     The variants of a responsive image (srcset width descriptors).
+     The widths: the caller's `widths`, else the ladder of the provider, image.srcset_widths_hugo for
+     Hugo (every width is a file built locally, so a lean ladder), image.srcset_widths for a CDN
+     (transformations on the fly, so a dense one). Widths larger than the source are skipped (no
+     upscaling), all are kept when its width is unknown.
+     A CDN source narrower than the whole ladder keeps its own width, else no variant would be left.
+     Hugo builds that fallback itself, outside the srcset.
+     With a crop ratio (h/w), each variant gets the height of that ratio.
+
+     Param: dict { widths, max (source width, false when unknown), crop_ratio, provider }
+     Returns: slice of dict { width, height (false without crop_ratio) }
+*/}}
+{{- $widths := .widths -}}
+{{- if not $widths -}}
+  {{- if eq .provider "hugo" -}}
+    {{- $widths = site.Params.image.srcset_widths_hugo | default site.Params.image.srcset_widths | default (slice 400 800 1200 1600) -}}
+  {{- else -}}
+    {{- $widths = site.Params.image.srcset_widths | default (slice 320 480 640 768 960 1280 1600 1920) -}}
+  {{- end -}}
+{{- end -}}
+{{- $max := .max -}}
+{{- $crop_ratio := .crop_ratio -}}
+
+{{- $steps := slice -}}
+{{- range $widths -}}
+  {{- if or (not $max) (le (int .) (int $max)) -}}
+    {{- $steps = $steps | append (int .) -}}
+  {{- end -}}
+{{- end -}}
+{{- if and (not $steps) $max (ne .provider "hugo") -}}
+  {{- $steps = slice (int $max) -}}
+{{- end -}}
+
+{{- $sizes := slice -}}
+{{- range $w := $steps -}}
+  {{- $h := false -}}
+  {{- with $crop_ratio -}}
+    {{- $h = int (math.Round (mul (float $w) .)) -}}
+  {{- end -}}
+  {{- $sizes = $sizes | append (dict "width" $w "height" $h) -}}
+{{- end -}}
+{{- return $sizes -}}

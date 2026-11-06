@@ -1,0 +1,12 @@
+{{/* GetUploadcareResize
+     The Uploadcare operations for a fixed size: -/scale_crop/ when the size is a crop (WxH, with the
+     alignment), else -/resize/, followed by the quality operation.
+
+     Param: dict { size ("WxH", "Wx"…), crop (alignment), quality (e.g. "-/quality/normal/") }
+     Returns: string, e.g. "-/scale_crop/600x400/center/-/quality/normal/"
+*/}}
+{{- $params := printf "-/resize/%s/%s" .size .quality -}}
+{{- if partial "func/isCrop" .size -}}
+  {{- $params = printf "-/scale_crop/%s/%s/%s" .size .crop .quality -}}
+{{- end -}}
+{{- return $params -}}

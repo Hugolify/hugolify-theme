@@ -1,39 +1,36 @@
-{{ $image := .image }}
-{{ $size := .size }}
-{{ $type := .type | default "" }}
-{{ $image_src := false }}
+{{/* GetImageResizeSrc
+     The URL of an image resized to a size, in a given format, whatever its provider. Used by the
+     lightbox (commons/image-lightbox), whose fallback and srcset are built from it.
+     - Uploadcare: -/resize/ then -/format/, appended to /UUID/ (the file name stripped, else 404)
+     - Cloudinary: w_/h_ then f_ between /upload/ and the file
+     - Hugo: the asset resized, the format as a Resize option
 
-{{ with $image }}
-  {{ if or (in . "ucarecd.net") (in . "ucarecdn.com") }}
-    {{ $image_src =  printf "%s-/resize/%s/" . $size }}
-    {{ if ne $type "" }}
-      {{ $image_src =  printf "%s-/format/%s/" $image_src $type }}
-    {{ end }}
-  {{ else if in . "cloudinary.com" }}
-    {{ $params := slice }}
-    {{ $path := split . "/upload/" }}
-    {{ $pathFile := print (index $path 0) "/upload/" }}
-    {{ $imageFile := index $path 1 }}
-    {{ $size_array := split $size "x" }}
-    {{ $size_width := index $size_array 0 | default false }}
-    {{ $size_height := index $size_array 1 | default false }}
-    {{ with $size_width }}
-      {{ $params = $params | append (printf "w_%s" .) }}
-    {{ end }}
-    {{ with $size_height }}
-      {{ $params = $params | append (printf "h_%s" .) }}
-    {{ end }}
-    {{ if ne $type "" }}
-      {{ $params = $params | append (printf "f_%s" $type) }}
-    {{ end }}
-    {{ $image_src = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile }}
-  {{ else }}
-    {{ $ressource := resources.GetMatch . }}
-    {{ with $ressource }}
-      {{ $resize := printf "%s %s" $size $type }}
-      {{ $image_src = (.Resize $resize).RelPermalink }}
-    {{ end }}
-  {{ end }}
-{{ end }}
+     Param: dict { image (URL or asset path), size ("WxH", "Wx"), type (format, e.g. "webp", optional) }
+     Returns: string, false when the asset is not found
+*/}}
+{{- $size := .size -}}
+{{- $type := .type | default "" -}}
+{{- $image_src := false -}}
 
-{{ return $image_src }}
+{{- with .image -}}
+  {{- if or (in . "ucarecd.net") (in . "ucarecdn.com") -}}
+    {{- $file := (partial "func/GetUploadcareFile.html" .).file -}}
+    {{- $image_src = printf "%s-/resize/%s/" $file $size -}}
+    {{- with $type -}}
+      {{- $image_src = printf "%s-/format/%s/" $image_src . -}}
+    {{- end -}}
+  {{- else if in . "cloudinary.com" -}}
+    {{- $cloudinary := partial "func/GetCloudinaryParams.html" (dict "file" .) -}}
+    {{- $params := partial "func/GetCloudinarySize.html" $size -}}
+    {{- with $type -}}
+      {{- $params = $params | append (printf "f_%s" .) -}}
+    {{- end -}}
+    {{- $image_src = printf "%s%s/%s" $cloudinary.path (delimit $params ",") $cloudinary.file -}}
+  {{- else -}}
+    {{- with resources.GetMatch . -}}
+      {{- $image_src = (.Resize (printf "%s %s" $size $type)).RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $image_src -}}

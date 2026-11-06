@@ -8,23 +8,15 @@
       Transformations are generated on the fly (no build cost), so a dense ladder is fine.
       Retina is handled by the browser via DPR; variants larger than the source are skipped.
 */}}
-{{- $file := .file -}}
 {{- $quality := site.Params.image.quality | default "normal" -}}
 {{/*  crop alignment (lowercased); crop_ratio (h/w) enables cropped variants via scale_crop. */}}
 {{- $crop := lower (.crop | default "center") -}}
 {{- $crop_ratio := .crop_ratio -}}
-{{/*  Width ladder: explicit caller widths, else the dense CDN ladder. */}}
-{{- $widths := .widths -}}
-{{- if not $widths -}}
-  {{- $widths = site.Params.image.srcset_widths | default (slice 320 480 640 768 960 1280 1600 1920) -}}
-{{- end -}}
 
-{{/*  SVG told by its extension, read before the file name is stripped below */}}
-{{- $is_svg := strings.HasSuffix (lower $file) ".svg" -}}
-
-{{/*  Strip filename from Uploadcare URL if present (/UUID/file.ext -> /UUID/). */}}
-{{- $stripFilenamePattern := `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` -}}
-{{- $file = replaceRE $stripFilenamePattern "$1/" $file -}}
+{{/*  File name stripped for the transformations, SVG told by its extension  */}}
+{{- $uploadcare := partial "func/GetUploadcareFile.html" .file -}}
+{{- $file := $uploadcare.file -}}
+{{- $is_svg := $uploadcare.is_svg -}}
 
 {{- $image_desktop := $file -}}
 {{- $image_width := false -}}
@@ -44,24 +36,16 @@
   {{/*  format/auto: Uploadcare negotiates AVIF/WebP/original per browser via the Accept header,
         so a single srcset suffices — no hand-built webp/avif <source> needed. */}}
   {{- $q := printf "-/format/auto/-/quality/%s/" $quality -}}
-  {{/*  Widths larger than the source are skipped. A source narrower than the whole ladder
-        keeps its own width, else no variant is left and the <img> gets src="false". */}}
-  {{- $steps := slice -}}
-  {{- range $widths -}}
-    {{- if or (not $image_width) (le (int .) (int $image_width)) -}}
-      {{- $steps = $steps | append (int .) -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if not $steps -}}
-    {{- $steps = slice (int $image_width) -}}
-  {{- end -}}
+  {{/*  The ladder, capped by the source width (see func/GetSrcsetSizes)  */}}
+  {{- $sizes := partial "func/GetSrcsetSizes.html" (dict "widths" .widths "max" $image_width "crop_ratio" $crop_ratio "provider" "uploadcare") -}}
   {{- $fallback := false -}}
   {{- $fallback_w := false -}}
   {{- $fallback_h := false -}}
-  {{- range $w := $steps -}}
+  {{- range $sizes -}}
+    {{- $w := .width -}}
+    {{- $h := .height -}}
     {{- if $crop_ratio -}}
-      {{/*  Crop: derive height from the requested ratio, scale_crop to w×h with the chosen alignment. */}}
-      {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
+      {{/*  Crop: scale_crop to w×h with the chosen alignment. */}}
       {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
       {{- $fallback = printf "%s-/scale_crop/%dx%d/%s/%s" $file $w $h $crop $q -}}
       {{- $fallback_w = $w -}}

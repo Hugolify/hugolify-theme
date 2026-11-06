@@ -12,11 +12,6 @@
 {{- $file := .file -}}
 {{- $filter := .filter -}}
 {{- $hint := .hint -}}
-{{/*  Width ladder: explicit caller widths, else the lean Hugo ladder (every width is a file built locally). */}}
-{{- $widths := .widths -}}
-{{- if not $widths -}}
-  {{- $widths = site.Params.image.srcset_widths_hugo | default site.Params.image.srcset_widths | default (slice 400 800 1200 1600) -}}
-{{- end -}}
 
 {{- $image_desktop := false -}}
 {{- $image_width := false -}}
@@ -43,33 +38,30 @@
     {{- $crop := .crop -}}
     {{- $crop_ratio := .crop_ratio -}}
     {{/*  Crop mode (fill + anchor) keeps the requested aspect ratio at every width; otherwise plain resize. */}}
-    {{- $proc := cond $crop_ratio "fill" "resize" -}}
-    {{- if and $crop_ratio $crop -}}{{- $proc = printf "%s %s" $proc $crop -}}{{- end -}}
-    {{- if $filter -}}{{- $proc = printf "%s %s" $proc $filter -}}{{- end -}}
-    {{- if $hint -}}{{- $proc = printf "%s %s" $proc $hint -}}{{- end -}}
+    {{- $proc := partial "func/GetHugoProcess.html" (dict "fill" $crop_ratio "crop" $crop "filter" $filter "hint" $hint) -}}
     {{/*  AVIF encoding is available since Hugo v0.162.0; quality follows the imaging.avif config. */}}
     {{- $supports_avif := ge hugo.Version "0.162.0" -}}
     {{/*  Widest variant the source can yield without upscaling: a crop is also bounded by the source height,
           otherwise Hugo stretches the crop box to the requested size and the image gets distorted. */}}
     {{- $max_width := $image.Width -}}
     {{- if $crop_ratio -}}{{- $max_width = int (math.Min $image.Width (math.Floor (div (float $image.Height) $crop_ratio))) -}}{{- end -}}
+    {{/*  The ladder, capped by $max_width (see func/GetSrcsetSizes)  */}}
+    {{- $sizes := partial "func/GetSrcsetSizes.html" (dict "widths" .widths "max" $max_width "crop_ratio" $crop_ratio "provider" "hugo") -}}
     {{- $fallback := false -}}
-    {{- range $w := $widths -}}
-      {{- $w = int $w -}}
-      {{- if le $w $max_width -}}
-        {{/*  Crop derives the height from the requested ratio; resize keeps the source ratio. */}}
-        {{- $spec := printf "%dx" $w -}}
-        {{- if $crop_ratio -}}{{- $spec = printf "%dx%d" $w (int (math.Round (mul (float $w) $crop_ratio))) -}}{{- end -}}
-        {{- $r := $image.Process (printf "%s %s" $proc $spec) -}}
-        {{- $rw := $image.Process (printf "%s %s webp" $proc $spec) -}}
-        {{- $srcset = $srcset | append (printf "%s %dw" $r.RelPermalink $w) -}}
-        {{- $srcset_webp = $srcset_webp | append (printf "%s %dw" $rw.RelPermalink $w) -}}
-        {{- if $supports_avif -}}
-          {{- $ra := $image.Process (printf "%s %s avif" $proc $spec) -}}
-          {{- $srcset_avif = $srcset_avif | append (printf "%s %dw" $ra.RelPermalink $w) -}}
-        {{- end -}}
-        {{- $fallback = $r -}}
+    {{- range $sizes -}}
+      {{- $w := .width -}}
+      {{/*  Crop derives the height from the requested ratio; resize keeps the source ratio. */}}
+      {{- $spec := printf "%dx" $w -}}
+      {{- with .height -}}{{- $spec = printf "%dx%d" $w . -}}{{- end -}}
+      {{- $r := $image.Process (printf "%s %s" $proc $spec) -}}
+      {{- $rw := $image.Process (printf "%s %s webp" $proc $spec) -}}
+      {{- $srcset = $srcset | append (printf "%s %dw" $r.RelPermalink $w) -}}
+      {{- $srcset_webp = $srcset_webp | append (printf "%s %dw" $rw.RelPermalink $w) -}}
+      {{- if $supports_avif -}}
+        {{- $ra := $image.Process (printf "%s %s avif" $proc $spec) -}}
+        {{- $srcset_avif = $srcset_avif | append (printf "%s %dw" $ra.RelPermalink $w) -}}
       {{- end -}}
+      {{- $fallback = $r -}}
     {{- end -}}
     {{/*  Fallback <img src>: largest variant that fits, else one variant at the widest undistorted width. */}}
     {{- if not $fallback -}}

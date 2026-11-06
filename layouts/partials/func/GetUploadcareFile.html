@@ -1,0 +1,12 @@
+{{/* GetUploadcareFile
+     An Uploadcare URL ready for transformations, which are appended to /UUID/: the file name is
+     stripped (/UUID/file.ext -> /UUID/). An SVG is told by its extension, read before the strip.
+     An URL without file name (/UUID/) has no extension: the caller checks the format reported by
+     -/json/ (see func/GetRemoteImageSize).
+
+     Param: the URL (string).
+     Returns: dict { file, is_svg }
+*/}}
+{{- $is_svg := strings.HasSuffix (lower .) ".svg" -}}
+{{- $file := replaceRE `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` "$1/" . -}}
+{{- return dict "file" $file "is_svg" $is_svg -}}

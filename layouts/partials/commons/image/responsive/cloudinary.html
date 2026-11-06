@@ -9,61 +9,43 @@
       c_limit prevents upscaling; retina is handled by the browser via DPR.
 */}}
 {{- $file := .file -}}
-{{- $quality := site.Params.image.quality | default "auto:eco" -}}
-{{/*  crop: a real Cloudinary gravity (g_*), "center" for g_center (the anchor every provider
-      shares), else g_auto. crop_ratio (h/w) enables cropped variants. */}}
-{{- $crop := lower .crop -}}
-{{- $crop = cond (hasPrefix $crop "g_") $crop (cond (eq $crop "center") "g_center" "g_auto") -}}
+{{/*  crop_ratio (h/w) enables cropped variants. */}}
 {{- $crop_ratio := .crop_ratio -}}
-{{/*  Width ladder: explicit caller widths, else the dense CDN ladder. */}}
-{{- $widths := .widths -}}
-{{- if not $widths -}}
-  {{- $widths = site.Params.image.srcset_widths | default (slice 320 480 640 768 960 1280 1600 1920) -}}
-{{- end -}}
+
+{{/*  <path>/upload/<transformations>/<file>, f_auto + quality, crop gravity  */}}
+{{- $cloudinary := partial "func/GetCloudinaryParams.html" (dict "file" $file "crop" .crop) -}}
+{{- $pathFile := $cloudinary.path -}}
+{{- $imageFile := $cloudinary.file -}}
+{{- $crop := $cloudinary.gravity -}}
 
 {{- $image_desktop := $file -}}
 {{- $image_width := false -}}
 {{- $image_height := false -}}
 {{- $srcset := slice -}}
 
-{{/*  Cloudinary path  */}}
-{{- $path := split $file "/upload/" -}}
-{{- $pathFile := print (index $path 0) "/upload/" -}}
-{{- $imageFile := index $path 1 -}}
-
-{{- if not (strings.HasSuffix $file "svg") -}}
+{{- if not $cloudinary.is_svg -}}
 
   {{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio. */}}
   {{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile "fl_getinfo/" $imageFile) "provider" "cloudinary") -}}
   {{- $image_width = $size.width -}}
   {{- $image_height = $size.height -}}
 
-  {{- with $quality }}{{- $quality = printf "q_%s" $quality -}}{{- end -}}
   {{/*  f_auto: Cloudinary negotiates AVIF/WebP/original per browser via the Accept header,
         so a single srcset suffices — no hand-built webp/avif <source> needed. */}}
-  {{- $base := slice "f_auto" -}}
-  {{- with $quality }}{{- $base = $base | append . -}}{{- end -}}
+  {{- $base := $cloudinary.base -}}
 
-  {{/*  Widths larger than the source are skipped. When the intrinsic size is unknown, every width
-        is kept (c_limit / c_fill avoid upscaling server-side). A source narrower than the whole
-        ladder keeps its own width, else no variant is left and the <img> gets src="false". */}}
-  {{- $steps := slice -}}
-  {{- range $widths -}}
-    {{- if or (not $image_width) (le (int .) (int $image_width)) -}}
-      {{- $steps = $steps | append (int .) -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if not $steps -}}
-    {{- $steps = slice (int $image_width) -}}
-  {{- end -}}
+  {{/*  The ladder, capped by the source width (see func/GetSrcsetSizes). When the intrinsic size
+        is unknown, every width is kept (c_limit / c_fill avoid upscaling server-side). */}}
+  {{- $sizes := partial "func/GetSrcsetSizes.html" (dict "widths" .widths "max" $image_width "crop_ratio" $crop_ratio "provider" "cloudinary") -}}
   {{- $fallback := false -}}
   {{- $fallback_w := false -}}
   {{- $fallback_h := false -}}
-  {{- range $w := $steps -}}
+  {{- range $sizes -}}
+    {{- $w := .width -}}
+    {{- $h := .height -}}
     {{- $p := $base -}}
     {{- if $crop_ratio -}}
-      {{/*  Crop: derive height from the requested ratio, fill to w×h with the chosen gravity. */}}
-      {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
+      {{/*  Crop: fill to w×h with the chosen gravity. */}}
       {{- $p = $p | append (printf "w_%d,h_%d,c_fill,%s" $w $h $crop) -}}
       {{- $fallback_w = $w -}}
       {{- $fallback_h = $h -}}

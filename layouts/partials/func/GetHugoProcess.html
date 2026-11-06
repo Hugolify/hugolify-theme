@@ -1,0 +1,18 @@
+{{/* GetHugoProcess
+     The Hugo image processing spec, without the size: "resize" or "fill", the crop anchor (fill
+     only), the resampling filter and the hint, e.g. "fill Center Lanczos picture".
+
+     Param: dict { fill (truthy for a crop), crop (anchor), filter, hint }
+     Returns: string
+*/}}
+{{- $process := cond (not (not .fill)) "fill" "resize" -}}
+{{- if and .fill .crop -}}
+  {{- $process = printf "%s %s" $process .crop -}}
+{{- end -}}
+{{- with .filter -}}
+  {{- $process = printf "%s %s" $process . -}}
+{{- end -}}
+{{- with .hint -}}
+  {{- $process = printf "%s %s" $process . -}}
+{{- end -}}
+{{- return $process -}}
