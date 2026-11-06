@@ -1,0 +1,69 @@
+{{/*  Default image (fixed sizes, art direction) — Lorem Picsum.
+
+      Used by commons/image.html when the responsive mode is off: no `sizes` nor `widths` given, and
+      an eager image (lazy: false, e.g. the hero), a distinct mobile source (src_mobile) or a small
+      image whose requested width is below image.responsive_min_width (320 by default).
+      Each requested size (desktop, mobile) gives its own file, retina comes as 2x/3x density
+      variants, the mobile one is served under (max-width: 576px).
+      The srcset + sizes variant (browser picks the width) is in ../responsive/.
+
+      Lorem Picsum: stock photos hotlinked by Sveltia CMS (picsum.photos/id/…), sized by their URL
+      (func/GetPicsumSrc), in WebP; retina as files twice and three times as large, the desktop one
+      with image.retina.desktop. Picsum always cuts around the center, the crop anchor is ignored.
+*/}}
+{{/*  Get params  */}}
+{{- $is_desktop_retina := site.Params.image.retina.desktop | default true -}}
+{{- $desktop_size := .desktop_size -}}
+{{- $mobile_size := .mobile_size -}}
+
+{{- $picsum := partial "func/GetPicsumParams.html" .file -}}
+{{/*  The mobile source: its own file with src_mobile (art direction), else the desktop one  */}}
+{{- $picsum_mobile := $picsum -}}
+{{- with .file_mobile -}}
+  {{- $picsum_mobile = partial "func/GetPicsumParams.html" . -}}
+{{- end -}}
+
+{{/*  Return params  */}}
+{{- $image_desktop := .file -}}
+{{- $image_desktop_2x := false -}}
+{{- $image_mobile := false -}}
+{{- $image_mobile_2x := false -}}
+{{- $image_mobile_3x := false -}}
+{{- $image_width := $picsum.width -}}
+{{- $image_height := $picsum.height -}}
+
+{{/*  Without /id/<id>/ (a random picture), the URL is served as it is  */}}
+{{- if $picsum.base -}}
+
+  {{/*  Return desktop image, with its size  */}}
+  {{- with $desktop_size -}}
+    {{- $size := partial "func/GetPicsumSize.html" (dict "picsum" $picsum "size" .) -}}
+    {{- $image_desktop = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum "width" $size.width "height" $size.height) -}}
+    {{- if $is_desktop_retina -}}
+      {{- $image_desktop_2x = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum "width" (mul $size.width 2) "height" (mul $size.height 2)) -}}
+    {{- end -}}
+    {{- $image_width = $size.width -}}
+    {{- $image_height = $size.height -}}
+  {{- end -}}
+
+  {{/*  Return mobile image, 1x/2x/3x  */}}
+  {{- with $mobile_size -}}
+    {{- if $picsum_mobile.base -}}
+      {{- $size := partial "func/GetPicsumSize.html" (dict "picsum" $picsum_mobile "size" .) -}}
+      {{- $image_mobile = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum_mobile "width" $size.width "height" $size.height) -}}
+      {{- $image_mobile_2x = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum_mobile "width" (mul $size.width 2) "height" (mul $size.height 2)) -}}
+      {{- $image_mobile_3x = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum_mobile "width" (mul $size.width 3) "height" (mul $size.height 3)) -}}
+    {{- end -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_desktop_2x" $image_desktop_2x
+  "image_mobile" $image_mobile
+  "image_mobile_2x" $image_mobile_2x
+  "image_mobile_3x" $image_mobile_3x
+  "image_width" $image_width
+  "image_height" $image_height
+  -}}

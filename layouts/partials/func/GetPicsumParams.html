@@ -1,0 +1,28 @@
+{{/* GetPicsumParams
+     A Lorem Picsum URL ready for variants, as inserted by the stock photos of Sveltia CMS
+     (hotlinked, e.g. https://picsum.photos/id/10/1920/1280.webp, always cut to 3:2):
+     - base: https://picsum.photos/id/<id>, the size and format going after it (func/GetPicsumSrc)
+     - width / height: the size of the source, read from /id/<id>/info, else the size in the URL
+     An URL without /id/<id>/ (a random picture) has no base: the caller serves it as it is.
+
+     Param: the URL (string).
+     Returns: dict { base (false without an id), width, height }
+*/}}
+{{- $base := false -}}
+{{- $width := false -}}
+{{- $height := false -}}
+{{- with findRESubmatch `^(https?://picsum\.photos/id/[^/]+)(?:/(\d+)(?:/(\d+))?)?` . 1 -}}
+  {{- $match := index . 0 -}}
+  {{- $base = index $match 1 -}}
+  {{/*  The size of the source, else the one of the URL (a square without height)  */}}
+  {{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $base "/info") "provider" "picsum") -}}
+  {{- $width = $size.width -}}
+  {{- $height = $size.height -}}
+  {{- if not (and $width $height) -}}
+    {{- with index $match 2 -}}
+      {{- $width = int . -}}
+      {{- $height = int (index $match 3 | default .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "base" $base "width" $width "height" $height -}}

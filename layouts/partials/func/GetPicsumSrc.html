@@ -1,0 +1,16 @@
+{{/* GetPicsumSrc
+     The URL of a Lorem Picsum variant: <base>/<width>/<height>.<format>. Picsum always cuts the
+     picture to the exact size around its center (no anchor): without a height, the one of the
+     source ratio is used, so the picture is resized and not cropped. Picsum does not negotiate
+     the format: WebP by default.
+
+     Param: dict { picsum (func/GetPicsumParams), width, height, format ("webp" by default, "jpg") }
+     Returns: string
+*/}}
+{{- $picsum := .picsum -}}
+{{- $width := int .width -}}
+{{- $height := int (.height | default 0) -}}
+{{- if and (not $height) $picsum.width $picsum.height -}}
+  {{- $height = int (math.Round (div (mul (float $width) $picsum.height) $picsum.width)) -}}
+{{- end -}}
+{{- return printf "%s/%d/%d.%s" $picsum.base $width ($height | default $width) (.format | default "webp") -}}

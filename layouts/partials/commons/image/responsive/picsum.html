@@ -1,0 +1,56 @@
+{{/*  Responsive image (srcset width descriptors) — Lorem Picsum.
+
+      Used by commons/image.html when the caller gives `sizes` or `widths`, and by default for a
+      lazy image: one srcset of widths (w descriptors) plus `sizes` ("auto" when lazy), the browser
+      picks the file for the rendered width and the screen density.
+      The fixed-size variant (eager, src_mobile, small images) is in ../default/.
+
+      Lorem Picsum: stock photos hotlinked by Sveltia CMS (picsum.photos/id/…), sized by their URL
+      (func/GetPicsumSrc), in WebP. Picsum always cuts around the center, the crop anchor is ignored.
+*/}}
+{{/*  crop_ratio (h/w) enables cropped variants. */}}
+{{- $crop_ratio := .crop_ratio -}}
+{{- $picsum := partial "func/GetPicsumParams.html" .file -}}
+
+{{- $image_desktop := .file -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+{{- $srcset := slice -}}
+
+{{/*  Without /id/<id>/ (a random picture), the URL is served as it is  */}}
+{{- if $picsum.base -}}
+
+  {{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio. */}}
+  {{- $image_width = $picsum.width -}}
+  {{- $image_height = $picsum.height -}}
+
+  {{/*  The ladder, capped by the source width (see func/GetSrcsetSizes)  */}}
+  {{- $sizes := partial "func/GetSrcsetSizes.html" (dict "widths" .widths "max" $image_width "crop_ratio" $crop_ratio "provider" "picsum") -}}
+  {{- $fallback := false -}}
+  {{- $fallback_w := false -}}
+  {{- $fallback_h := false -}}
+  {{- range $sizes -}}
+    {{- $src := partial "func/GetPicsumSrc.html" (dict "picsum" $picsum "width" .width "height" .height) -}}
+    {{- $srcset = $srcset | append (printf "%s %dw" $src .width) -}}
+    {{- $fallback = $src -}}
+    {{- $fallback_w = .width -}}
+    {{- $fallback_h = .height -}}
+  {{- end -}}
+  {{/*  Not `default`: it takes a boolean, false included, as a set value */}}
+  {{- with $fallback -}}
+    {{- $image_desktop = . -}}
+  {{- end -}}
+  {{/*  For a crop, the <img> dimensions are the fallback variant's computed crop size. */}}
+  {{- if $crop_ratio -}}
+    {{- $image_width = $fallback_w -}}
+    {{- $image_height = $fallback_h -}}
+  {{- end -}}
+
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_width" $image_width
+  "image_height" $image_height
+  "srcset" $srcset
+  -}}

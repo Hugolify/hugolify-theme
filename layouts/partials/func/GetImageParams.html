@@ -12,6 +12,9 @@
   {{- else if in . "images.unsplash.com" -}}
     {{/*  Unsplash stock photos, hotlinked by Sveltia CMS, transformed by Imgix  */}}
     {{- $provider = "unsplash" -}}
+  {{- else if in . "picsum.photos" -}}
+    {{/*  Lorem Picsum stock photos, hotlinked by Sveltia CMS, sized by their URL  */}}
+    {{- $provider = "picsum" -}}
   {{- end -}}
   {{/*  Pick the strategy folder: responsive (srcset + sizes) or default (art-direction + DPR). */}}
   {{- $mode := cond $responsive "responsive" "default" -}}

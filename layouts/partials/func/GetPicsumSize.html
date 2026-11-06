@@ -1,0 +1,28 @@
+{{/* GetPicsumSize
+     The size of a fixed Lorem Picsum variant: the crop box for a crop ("600x400"), else the source
+     resized to the width ("600x") or the height ("x400"), its ratio kept and never upscaled.
+     Without the size of the source, a resize gets a square.
+
+     Param: dict { picsum (func/GetPicsumParams), size ("WxH", "Wx", "xH") }
+     Returns: dict { width, height } (int)
+*/}}
+{{- $picsum := .picsum -}}
+{{- $parts := split .size "x" -}}
+{{- $w := int (index $parts 0 | default 0) -}}
+{{- $h := int (index $parts 1 | default 0) -}}
+{{- if not (partial "func/isCrop" .size) -}}
+  {{- with and $picsum.width $picsum.height -}}
+    {{- $ratio := div (float $picsum.height) $picsum.width -}}
+    {{- if $w -}}
+      {{- $w = int (math.Min $w $picsum.width) -}}
+      {{- $h = int (math.Round (mul (float $w) $ratio)) -}}
+    {{- else -}}
+      {{- $h = int (math.Min $h $picsum.height) -}}
+      {{- $w = int (math.Round (div (float $h) $ratio)) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $w = $w | default $h -}}
+    {{- $h = $w -}}
+  {{- end -}}
+{{- end -}}
+{{- return dict "width" $w "height" $h -}}

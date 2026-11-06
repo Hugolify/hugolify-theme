@@ -4,6 +4,7 @@
      - Uploadcare: -/resize/ then -/format/, appended to /UUID/ (the file name stripped, else 404)
      - Cloudinary: w_/h_ then f_ between /upload/ and the file
      - Unsplash: Imgix w/h, fit=max then fm (auto=format without a type)
+     - Lorem Picsum: /<width>/<height>.<type> (JPEG without a type), the source ratio kept
      - Hugo: the asset resized, the format as a Resize option
 
      Param: dict { image (URL or asset path), size ("WxH", "Wx"), type (format, e.g. "webp", optional) }
@@ -35,6 +36,13 @@
       "height" (int (index $parts 1 | default 0))
       "format" $type
     ) -}}
+  {{- else if in . "picsum.photos" -}}
+    {{- $picsum := partial "func/GetPicsumParams.html" . -}}
+    {{- $image_src = . -}}
+    {{- with $picsum.base -}}
+      {{- $resize := partial "func/GetPicsumSize.html" (dict "picsum" $picsum "size" $size) -}}
+      {{- $image_src = partial "func/GetPicsumSrc.html" (dict "picsum" $picsum "width" $resize.width "height" $resize.height "format" ($type | default "jpg")) -}}
+    {{- end -}}
   {{- else -}}
     {{- with resources.GetMatch . -}}
       {{- $image_src = (.Resize (printf "%s %s" $size $type)).RelPermalink -}}
