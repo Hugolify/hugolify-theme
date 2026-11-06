@@ -20,6 +20,11 @@
 {{- $pathFile := $cloudinary.path -}}
 {{- $imageFile := $cloudinary.file -}}
 {{- $crop := $cloudinary.gravity -}}
+{{/*  The mobile source: its own file with src_mobile (art direction), else the desktop one  */}}
+{{- $cloudinary_mobile := $cloudinary -}}
+{{- with .file_mobile -}}
+  {{- $cloudinary_mobile = partial "func/GetCloudinaryParams.html" (dict "file" . "crop" $.crop) -}}
+{{- end -}}
 
 {{/*  Return params  */}}
 {{- $image_desktop := .file -}}
@@ -60,9 +65,9 @@
       {{- $params = $params | append "c_fill" | append $crop -}}
     {{- end -}}
     {{- $params = $params | append (partial "func/GetCloudinarySize.html" .) -}}
-    {{- $image_mobile = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
-    {{- $image_mobile_2x = printf "%s%s/%s" $pathFile (print "dpr_2.0," (delimit $params ",")) $imageFile -}}
-    {{- $image_mobile_3x = printf "%s%s/%s" $pathFile (print "dpr_3.0," (delimit $params ",")) $imageFile -}}
+    {{- $image_mobile = printf "%s%s/%s" $cloudinary_mobile.path (delimit $params ",") $cloudinary_mobile.file -}}
+    {{- $image_mobile_2x = printf "%s%s/%s" $cloudinary_mobile.path (print "dpr_2.0," (delimit $params ",")) $cloudinary_mobile.file -}}
+    {{- $image_mobile_3x = printf "%s%s/%s" $cloudinary_mobile.path (print "dpr_3.0," (delimit $params ",")) $cloudinary_mobile.file -}}
   {{- end -}}
 
 {{- end -}}
