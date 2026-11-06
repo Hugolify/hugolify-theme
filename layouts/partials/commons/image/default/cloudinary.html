@@ -1,3 +1,15 @@
+{{/*  Default image (fixed sizes, art direction) — Cloudinary.
+
+      Used by commons/image.html when the responsive mode is off: no `sizes` nor `widths` given, and
+      an eager image (lazy: false, e.g. the hero), a distinct mobile source (src_mobile) or a small
+      image whose requested width is below image.responsive_min_width (320 by default).
+      Each requested size (desktop, mobile) gives its own file, retina comes as 2x/3x density
+      variants, the mobile one is served under (max-width: 576px).
+      The srcset + sizes variant (browser picks the width) is in ../responsive/.
+
+      Cloudinary: transformations on the fly, f_auto negotiates the format;
+      desktop retina as a dpr_2.0 variant (image.retina.desktop).
+*/}}
 {{/*  Get params  */}}
 {{- $is_desktop_retina := site.Params.image.retina.desktop | default true -}}
 {{- $file := .file -}}

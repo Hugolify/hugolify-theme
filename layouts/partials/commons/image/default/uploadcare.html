@@ -1,3 +1,15 @@
+{{/*  Default image (fixed sizes, art direction) — Uploadcare.
+
+      Used by commons/image.html when the responsive mode is off: no `sizes` nor `widths` given, and
+      an eager image (lazy: false, e.g. the hero), a distinct mobile source (src_mobile) or a small
+      image whose requested width is below image.responsive_min_width (320 by default).
+      Each requested size (desktop, mobile) gives its own file, retina comes as 2x/3x density
+      variants, the mobile one is served under (max-width: 576px).
+      The srcset + sizes variant (browser picks the width) is in ../responsive/.
+
+      Uploadcare: transformations on the fly; one desktop size, the mobile one in 1x/2x/3x;
+      an SVG is served as-is.
+*/}}
 {{/*  Get params  */}}
 {{- $file := .file -}}
 {{- $file_mobile := .file_mobile -}}

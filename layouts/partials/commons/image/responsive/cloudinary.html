@@ -1,5 +1,10 @@
 {{/*  Responsive image (srcset width descriptors) — Cloudinary.
 
+      Used by commons/image.html when the caller gives `sizes` or `widths`, and by default for a
+      lazy image: one srcset of widths (w descriptors) plus `sizes` ("auto" when lazy), the browser
+      picks the file for the rendered width and the screen density.
+      The fixed-size variant (eager, src_mobile, small images) is in ../default/.
+
       Transformations are generated on the fly (no build cost), so a dense ladder is fine.
       c_limit prevents upscaling; retina is handled by the browser via DPR.
 */}}
