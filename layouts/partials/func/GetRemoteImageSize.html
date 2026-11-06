@@ -3,12 +3,14 @@
 
       @param  url       (string) JSON endpoint to fetch.
       @param  provider  (string) "cloudinary" | "uploadcare".
-      @return dict { width, height } — both false when unavailable.
+      @return dict { width, height, format } — false when unavailable
+              (format: lowercased, e.g. "svg", as reported by Uploadcare).
 */}}
 {{- $url := .url -}}
 {{- $provider := .provider -}}
 {{- $width := false -}}
 {{- $height := false -}}
+{{- $format := false -}}
 
 {{- with try (resources.GetRemote $url) -}}
   {{- with .Err -}}
@@ -20,10 +22,13 @@
     {{- with $node -}}
       {{- $width = index . "width" -}}
       {{- $height = index . "height" -}}
+      {{- with index . "format" -}}
+        {{- $format = lower . -}}
+      {{- end -}}
     {{- end -}}
   {{- else -}}
     {{- warnf "GetRemoteImageSize: unable to retrieve remote resource: %s" $url -}}
   {{- end -}}
 {{- end -}}
 
-{{- return dict "width" $width "height" $height -}}
+{{- return dict "width" $width "height" $height "format" $format -}}

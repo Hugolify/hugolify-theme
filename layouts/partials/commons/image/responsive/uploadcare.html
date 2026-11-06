@@ -14,6 +14,9 @@
   {{- $widths = site.Params.image.srcset_widths | default (slice 320 480 640 768 960 1280 1600 1920) -}}
 {{- end -}}
 
+{{/*  SVG told by its extension, read before the file name is stripped below */}}
+{{- $is_svg := strings.HasSuffix (lower $file) ".svg" -}}
+
 {{/*  Strip filename from Uploadcare URL if present (/UUID/file.ext -> /UUID/). */}}
 {{- $stripFilenamePattern := `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` -}}
 {{- $file = replaceRE $stripFilenamePattern "$1/" $file -}}
@@ -23,12 +26,15 @@
 {{- $image_height := false -}}
 {{- $srcset := slice -}}
 
-{{- if not (strings.HasSuffix $file "svg") -}}
+{{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio, an SVG's too (no CLS). */}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (printf "%s-/json/" $file) "provider" "uploadcare") -}}
+{{- $image_width = $size.width -}}
+{{- $image_height = $size.height -}}
+{{/*  An URL without file name (/UUID/) has no extension: the format reported by Uploadcare tells */}}
+{{- $is_svg = or $is_svg (eq $size.format "svg") -}}
 
-  {{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio. */}}
-  {{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (printf "%s-/json/" $file) "provider" "uploadcare") -}}
-  {{- $image_width = $size.width -}}
-  {{- $image_height = $size.height -}}
+{{/*  SVG is resolution-independent: served as-is, no srcset nor transformation. */}}
+{{- if not $is_svg -}}
 
   {{/*  format/auto: Uploadcare negotiates AVIF/WebP/original per browser via the Accept header,
         so a single srcset suffices — no hand-built webp/avif <source> needed. */}}

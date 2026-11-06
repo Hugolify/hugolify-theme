@@ -8,6 +8,9 @@
 {{- $crop := lower .crop -}}
 {{- $quality := site.Params.image.quality | default "normal" -}}
 
+{{/*  SVG told by its extension, read before the file name is stripped below  */}}
+{{- $is_svg := strings.HasSuffix (lower $file) ".svg" -}}
+
 {{/*  Strip filename from Uploadcare URL if present (e.g., /UUID/filename.ext -> /UUID/)  */}}
 {{- $stripFilenamePattern := `(/[a-f0-9-]+)/[^/]+\.[a-zA-Z]+/?$` -}}
 {{- $file = replaceRE $stripFilenamePattern "$1/" $file -}}
@@ -33,6 +36,10 @@
     {{- with $data -}}
       {{- $image_width = index . "width" -}}
       {{- $image_height = index . "height" -}}
+      {{/*  An URL without file name (/UUID/) has no extension: the format reported by Uploadcare tells  */}}
+      {{- with index . "format" -}}
+        {{- $is_svg = or $is_svg (eq (lower .) "svg") -}}
+      {{- end -}}
     {{- end -}}
   {{- else -}}
     {{ errorf "Unable to get remote resource: %s" $url }}
@@ -40,7 +47,7 @@
 {{- end -}}
 
 {{/*  Process if not a SVG image  */}}
-{{- if not (strings.HasSuffix $file "svg") }}
+{{- if not $is_svg }}
 
   {{- $quality := printf "-/quality/%s/" $quality -}}
 
