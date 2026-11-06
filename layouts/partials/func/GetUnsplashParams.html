@@ -1,0 +1,54 @@
+{{/* GetUnsplashParams
+     An Unsplash URL (images.unsplash.com, served by Imgix) ready for transformations, as inserted
+     by the stock photos of Sveltia CMS (hotlinked, e.g. …/photo-123?ixid=…&w=1080):
+     - base: the URL without its query
+     - query: the parameters kept from the source, ixid (Unsplash tracking, to be kept), ixlib and
+       cs (compact sRGB profile); size, format and crop are set per variant (func/GetUnsplashSrc)
+     - crop: the crop anchor as an Imgix `crop` value, from the anchors of the other providers:
+       faces (…face…), entropy (smart, auto, entropy), top/bottom/left/right (also north/south/
+       west/east), else empty for the center (the Imgix default)
+     - quality: image.quality when a number (the other providers take keywords), else 75
+
+     Param: dict { file (URL), crop (anchor, may be empty) }
+     Returns: dict { base, query, crop, quality }
+*/}}
+{{- $url := urls.Parse .file -}}
+{{- $values := $url.Query -}}
+{{- $query := dict -}}
+{{- range $key := slice "ixid" "ixlib" "cs" -}}
+  {{- with index $values $key -}}
+    {{- $query = merge $query (dict $key (index . 0)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $anchor := lower (.crop | default "") -}}
+{{- $crop := "" -}}
+{{- if in $anchor "face" -}}
+  {{- $crop = "faces" -}}
+{{- else if or (in $anchor "smart") (in $anchor "auto") (in $anchor "entropy") -}}
+  {{- $crop = "entropy" -}}
+{{- else -}}
+  {{- $sides := slice -}}
+  {{- range $side, $words := dict "top" (slice "top" "north") "bottom" (slice "bottom" "south") "left" (slice "left" "west") "right" (slice "right" "east") -}}
+    {{- range $words -}}
+      {{- if and (in $anchor .) (not (in $sides $side)) -}}
+        {{- $sides = $sides | append $side -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $crop = delimit $sides "," -}}
+{{- end -}}
+
+{{- $quality := 75 -}}
+{{- with site.Params.image.quality -}}
+  {{- if in (slice "int" "int64" "float64") (printf "%T" .) -}}
+    {{- $quality = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return dict
+  "base" (printf "%s://%s%s" $url.Scheme $url.Host $url.Path)
+  "query" $query
+  "crop" $crop
+  "quality" $quality
+  -}}

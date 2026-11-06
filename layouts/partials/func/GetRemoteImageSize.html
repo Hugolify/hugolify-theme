@@ -2,9 +2,10 @@
       Shared by the Cloudinary/Uploadcare partials, default and responsive.
 
       @param  url       (string) JSON endpoint to fetch.
-      @param  provider  (string) "cloudinary" | "uploadcare".
+      @param  provider  (string) "cloudinary" | "uploadcare" | "unsplash".
       @param  node      (string) Cloudinary only: "input" (the source, default) or "output"
-                        (the transformed variant). Uploadcare exposes the size at the top level.
+                        (the transformed variant). Uploadcare exposes the size at the top level,
+                        Unsplash (Imgix fm=json) as PixelWidth / PixelHeight.
       @param  strict    (bool) a request error stops the build (errorf) instead of a warning.
                         A missing file (404) is always a warning.
       @return dict { width, height, format } — false when unavailable
@@ -31,9 +32,10 @@
     {{- if eq $provider "cloudinary" -}}
       {{- $node = index $data $node_name -}}
     {{- end -}}
+    {{- $keys := cond (eq $provider "unsplash") (slice "PixelWidth" "PixelHeight") (slice "width" "height") -}}
     {{- with $node -}}
-      {{- $width = index . "width" -}}
-      {{- $height = index . "height" -}}
+      {{- $width = index . (index $keys 0) -}}
+      {{- $height = index . (index $keys 1) -}}
       {{- with index . "format" -}}
         {{- $format = lower . -}}
       {{- end -}}

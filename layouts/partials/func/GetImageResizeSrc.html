@@ -3,6 +3,7 @@
      lightbox (commons/image-lightbox), whose fallback and srcset are built from it.
      - Uploadcare: -/resize/ then -/format/, appended to /UUID/ (the file name stripped, else 404)
      - Cloudinary: w_/h_ then f_ between /upload/ and the file
+     - Unsplash: Imgix w/h, fit=max then fm (auto=format without a type)
      - Hugo: the asset resized, the format as a Resize option
 
      Param: dict { image (URL or asset path), size ("WxH", "Wx"), type (format, e.g. "webp", optional) }
@@ -26,6 +27,14 @@
       {{- $params = $params | append (printf "f_%s" .) -}}
     {{- end -}}
     {{- $image_src = printf "%s%s/%s" $cloudinary.path (delimit $params ",") $cloudinary.file -}}
+  {{- else if in . "images.unsplash.com" -}}
+    {{- $parts := split $size "x" -}}
+    {{- $image_src = partial "func/GetUnsplashSrc.html" (dict
+      "unsplash" (partial "func/GetUnsplashParams.html" (dict "file" .))
+      "width" (int (index $parts 0 | default 0))
+      "height" (int (index $parts 1 | default 0))
+      "format" $type
+    ) -}}
   {{- else -}}
     {{- with resources.GetMatch . -}}
       {{- $image_src = (.Resize (printf "%s %s" $size $type)).RelPermalink -}}

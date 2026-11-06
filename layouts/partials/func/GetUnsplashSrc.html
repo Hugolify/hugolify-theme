@@ -1,0 +1,40 @@
+{{/* GetUnsplashSrc
+     The URL of an Unsplash (Imgix) variant: the parameters kept from the source (ixid…), then
+     - w / h, with fit=crop and the anchor for a crop, else fit=max (no upscaling, ratio kept)
+     - the format: fm=<format> when given, else auto=format (AVIF/WebP negotiated per browser)
+     - q, and dpr for a retina density (2, 3)
+     With `json`, the metadata of the source instead (fm=json: PixelWidth, PixelHeight).
+
+     Param: dict { unsplash (func/GetUnsplashParams), width, height, crop (bool), dpr, format, json (bool) }
+     Returns: string
+*/}}
+{{- $unsplash := .unsplash -}}
+{{- $params := $unsplash.query -}}
+{{- if .json -}}
+  {{- $params = merge $params (dict "fm" "json") -}}
+{{- else -}}
+  {{- with .width -}}
+    {{- $params = merge $params (dict "w" .) -}}
+  {{- end -}}
+  {{- with .height -}}
+    {{- $params = merge $params (dict "h" .) -}}
+  {{- end -}}
+  {{- if .crop -}}
+    {{- $params = merge $params (dict "fit" "crop") -}}
+    {{- with $unsplash.crop -}}
+      {{- $params = merge $params (dict "crop" .) -}}
+    {{- end -}}
+  {{- else -}}
+    {{- $params = merge $params (dict "fit" "max") -}}
+  {{- end -}}
+  {{- with .format -}}
+    {{- $params = merge $params (dict "fm" .) -}}
+  {{- else -}}
+    {{- $params = merge $params (dict "auto" "format") -}}
+  {{- end -}}
+  {{- $params = merge $params (dict "q" $unsplash.quality) -}}
+  {{- with .dpr -}}
+    {{- $params = merge $params (dict "dpr" .) -}}
+  {{- end -}}
+{{- end -}}
+{{- return printf "%s?%s" $unsplash.base (querify $params) -}}

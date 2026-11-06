@@ -1,0 +1,55 @@
+{{/*  Responsive image (srcset width descriptors) — Unsplash.
+
+      Used by commons/image.html when the caller gives `sizes` or `widths`, and by default for a
+      lazy image: one srcset of widths (w descriptors) plus `sizes` ("auto" when lazy), the browser
+      picks the file for the rendered width and the screen density.
+      The fixed-size variant (eager, src_mobile, small images) is in ../default/.
+
+      Unsplash: stock photos hotlinked by Sveltia CMS (images.unsplash.com), transformed on the fly
+      by Imgix (func/GetUnsplashSrc), so a dense ladder is fine. auto=format negotiates AVIF/WebP;
+      fit=max prevents upscaling, variants larger than the source are skipped anyway.
+*/}}
+{{/*  crop_ratio (h/w) enables cropped variants (fit=crop with the anchor). */}}
+{{- $crop_ratio := .crop_ratio -}}
+
+{{/*  The URL without its size and format parameters, the anchor as an Imgix crop  */}}
+{{- $unsplash := partial "func/GetUnsplashParams.html" (dict "file" .file "crop" .crop) -}}
+
+{{- $image_desktop := .file -}}
+{{- $image_width := false -}}
+{{- $image_height := false -}}
+{{- $srcset := slice -}}
+
+{{/*  Intrinsic size (fm=json): caps the ladder and feeds the <img> aspect ratio. */}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (partial "func/GetUnsplashSrc.html" (dict "unsplash" $unsplash "json" true)) "provider" "unsplash") -}}
+{{- $image_width = $size.width -}}
+{{- $image_height = $size.height -}}
+
+{{/*  The ladder, capped by the source width (see func/GetSrcsetSizes)  */}}
+{{- $sizes := partial "func/GetSrcsetSizes.html" (dict "widths" .widths "max" $image_width "crop_ratio" $crop_ratio "provider" "unsplash") -}}
+{{- $fallback := false -}}
+{{- $fallback_w := false -}}
+{{- $fallback_h := false -}}
+{{- range $sizes -}}
+  {{- $src := partial "func/GetUnsplashSrc.html" (dict "unsplash" $unsplash "width" .width "height" .height "crop" $crop_ratio) -}}
+  {{- $srcset = $srcset | append (printf "%s %dw" $src .width) -}}
+  {{- $fallback = $src -}}
+  {{- $fallback_w = .width -}}
+  {{- $fallback_h = .height -}}
+{{- end -}}
+{{/*  Not `default`: it takes a boolean, false included, as a set value */}}
+{{- with $fallback -}}
+  {{- $image_desktop = . -}}
+{{- end -}}
+{{/*  For a crop, the <img> dimensions are the fallback variant's computed crop size. */}}
+{{- if $crop_ratio -}}
+  {{- $image_width = $fallback_w -}}
+  {{- $image_height = $fallback_h -}}
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_width" $image_width
+  "image_height" $image_height
+  "srcset" $srcset
+  -}}

@@ -1,0 +1,89 @@
+{{/*  Default image (fixed sizes, art direction) — Unsplash.
+
+      Used by commons/image.html when the responsive mode is off: no `sizes` nor `widths` given, and
+      an eager image (lazy: false, e.g. the hero), a distinct mobile source (src_mobile) or a small
+      image whose requested width is below image.responsive_min_width (320 by default).
+      Each requested size (desktop, mobile) gives its own file, retina comes as 2x/3x density
+      variants, the mobile one is served under (max-width: 576px).
+      The srcset + sizes variant (browser picks the width) is in ../responsive/.
+
+      Unsplash: stock photos hotlinked by Sveltia CMS (images.unsplash.com), transformed on the fly
+      by Imgix (func/GetUnsplashSrc), auto=format negotiates the format; retina as dpr=2 / dpr=3
+      variants, the desktop one with image.retina.desktop.
+*/}}
+{{/*  Get params  */}}
+{{- $is_desktop_retina := site.Params.image.retina.desktop | default true -}}
+{{- $desktop_size := .desktop_size -}}
+{{- $mobile_size := .mobile_size -}}
+
+{{/*  The URL without its size and format parameters, the anchor as an Imgix crop  */}}
+{{- $unsplash := partial "func/GetUnsplashParams.html" (dict "file" .file "crop" .crop) -}}
+{{/*  The mobile source: its own file with src_mobile (art direction), else the desktop one  */}}
+{{- $unsplash_mobile := $unsplash -}}
+{{- with .file_mobile -}}
+  {{- $unsplash_mobile = partial "func/GetUnsplashParams.html" (dict "file" . "crop" $.crop) -}}
+{{- end -}}
+
+{{/*  Return params  */}}
+{{- $image_desktop := .file -}}
+{{- $image_desktop_2x := false -}}
+{{- $image_mobile := false -}}
+{{- $image_mobile_2x := false -}}
+{{- $image_mobile_3x := false -}}
+
+{{/*  Intrinsic size (fm=json)  */}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (partial "func/GetUnsplashSrc.html" (dict "unsplash" $unsplash "json" true)) "provider" "unsplash" "strict" true) -}}
+{{- $image_width := $size.width -}}
+{{- $image_height := $size.height -}}
+
+{{/*  Return desktop image, with the size of the variant  */}}
+{{- with $desktop_size -}}
+  {{- $crop := partial "func/isCrop" . -}}
+  {{- $parts := split . "x" -}}
+  {{- $w := int (index $parts 0 | default 0) -}}
+  {{- $h := int (index $parts 1 | default 0) -}}
+  {{- $variant := dict "unsplash" $unsplash "width" $w "height" $h "crop" $crop -}}
+  {{- $image_desktop = partial "func/GetUnsplashSrc.html" $variant -}}
+  {{- if $is_desktop_retina -}}
+    {{- $image_desktop_2x = partial "func/GetUnsplashSrc.html" (merge $variant (dict "dpr" 2)) -}}
+  {{- end -}}
+  {{/*  The size Imgix returns: the crop box, else the source fitted in w×h (fit=max, no upscaling)  */}}
+  {{- if $crop -}}
+    {{- $image_width = $w -}}
+    {{- $image_height = $h -}}
+  {{- else if and $image_width $image_height -}}
+    {{- $scale := 1.0 -}}
+    {{- with $w -}}
+      {{- $scale = math.Min $scale (div (float .) $image_width) -}}
+    {{- end -}}
+    {{- with $h -}}
+      {{- $scale = math.Min $scale (div (float .) $image_height) -}}
+    {{- end -}}
+    {{- $image_width = int (math.Round (mul $image_width $scale)) -}}
+    {{- $image_height = int (math.Round (mul $image_height $scale)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*  Return mobile image, 1x/2x/3x as dpr variants  */}}
+{{- with $mobile_size -}}
+  {{- $parts := split . "x" -}}
+  {{- $variant := dict
+    "unsplash" $unsplash_mobile
+    "width" (int (index $parts 0 | default 0))
+    "height" (int (index $parts 1 | default 0))
+    "crop" (partial "func/isCrop" .)
+  -}}
+  {{- $image_mobile = partial "func/GetUnsplashSrc.html" $variant -}}
+  {{- $image_mobile_2x = partial "func/GetUnsplashSrc.html" (merge $variant (dict "dpr" 2)) -}}
+  {{- $image_mobile_3x = partial "func/GetUnsplashSrc.html" (merge $variant (dict "dpr" 3)) -}}
+{{- end -}}
+
+{{- return dict
+  "image_desktop" $image_desktop
+  "image_desktop_2x" $image_desktop_2x
+  "image_mobile" $image_mobile
+  "image_mobile_2x" $image_mobile_2x
+  "image_mobile_3x" $image_mobile_3x
+  "image_width" $image_width
+  "image_height" $image_height
+  -}}
