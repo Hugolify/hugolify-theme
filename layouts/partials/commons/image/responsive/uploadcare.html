@@ -33,26 +33,37 @@
   {{/*  format/auto: Uploadcare negotiates AVIF/WebP/original per browser via the Accept header,
         so a single srcset suffices — no hand-built webp/avif <source> needed. */}}
   {{- $q := printf "-/format/auto/-/quality/%s/" $quality -}}
+  {{/*  Widths larger than the source are skipped. A source narrower than the whole ladder
+        keeps its own width, else no variant is left and the <img> gets src="false". */}}
+  {{- $steps := slice -}}
+  {{- range $widths -}}
+    {{- if or (not $image_width) (le (int .) (int $image_width)) -}}
+      {{- $steps = $steps | append (int .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $steps -}}
+    {{- $steps = slice (int $image_width) -}}
+  {{- end -}}
   {{- $fallback := false -}}
   {{- $fallback_w := false -}}
   {{- $fallback_h := false -}}
-  {{- range $w := $widths -}}
-    {{- $w = int $w -}}
-    {{- if or (not $image_width) (le $w (int $image_width)) -}}
-      {{- if $crop_ratio -}}
-        {{/*  Crop: derive height from the requested ratio, scale_crop to w×h with the chosen alignment. */}}
-        {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
-        {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
-        {{- $fallback = printf "%s-/scale_crop/%dx%d/%s/%s" $file $w $h $crop $q -}}
-        {{- $fallback_w = $w -}}
-        {{- $fallback_h = $h -}}
-      {{- else -}}
-        {{- $srcset = $srcset | append (printf "%s-/resize/%dx/%s %dw" $file $w $q $w) -}}
-        {{- $fallback = printf "%s-/resize/%dx/%s" $file $w $q -}}
-      {{- end -}}
+  {{- range $w := $steps -}}
+    {{- if $crop_ratio -}}
+      {{/*  Crop: derive height from the requested ratio, scale_crop to w×h with the chosen alignment. */}}
+      {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
+      {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
+      {{- $fallback = printf "%s-/scale_crop/%dx%d/%s/%s" $file $w $h $crop $q -}}
+      {{- $fallback_w = $w -}}
+      {{- $fallback_h = $h -}}
+    {{- else -}}
+      {{- $srcset = $srcset | append (printf "%s-/resize/%dx/%s %dw" $file $w $q $w) -}}
+      {{- $fallback = printf "%s-/resize/%dx/%s" $file $w $q -}}
     {{- end -}}
   {{- end -}}
-  {{- $image_desktop = $fallback | default $file -}}
+  {{/*  Not `default`: it takes a boolean, false included, as a set value */}}
+  {{- with $fallback -}}
+    {{- $image_desktop = . -}}
+  {{- end -}}
   {{/*  For a crop, the <img> dimensions are the fallback variant's computed crop size. */}}
   {{- if $crop_ratio -}}
     {{- $image_width = $fallback_w -}}

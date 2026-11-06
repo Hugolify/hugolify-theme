@@ -39,28 +39,39 @@
   {{- $base := slice "f_auto" -}}
   {{- with $quality }}{{- $base = $base | append . -}}{{- end -}}
 
+  {{/*  Widths larger than the source are skipped. When the intrinsic size is unknown, every width
+        is kept (c_limit / c_fill avoid upscaling server-side). A source narrower than the whole
+        ladder keeps its own width, else no variant is left and the <img> gets src="false". */}}
+  {{- $steps := slice -}}
+  {{- range $widths -}}
+    {{- if or (not $image_width) (le (int .) (int $image_width)) -}}
+      {{- $steps = $steps | append (int .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $steps -}}
+    {{- $steps = slice (int $image_width) -}}
+  {{- end -}}
   {{- $fallback := false -}}
   {{- $fallback_w := false -}}
   {{- $fallback_h := false -}}
-  {{- range $w := $widths -}}
-    {{- $w = int $w -}}
-    {{/*  When the intrinsic size is unknown, keep the width (c_limit / c_fill avoid upscaling server-side). */}}
-    {{- if or (not $image_width) (le $w (int $image_width)) -}}
-      {{- $p := $base -}}
-      {{- if $crop_ratio -}}
-        {{/*  Crop: derive height from the requested ratio, fill to w×h with the chosen gravity. */}}
-        {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
-        {{- $p = $p | append (printf "w_%d,h_%d,c_fill,%s" $w $h $crop) -}}
-        {{- $fallback_w = $w -}}
-        {{- $fallback_h = $h -}}
-      {{- else -}}
-        {{- $p = $p | append (printf "w_%d,c_limit" $w) -}}
-      {{- end -}}
-      {{- $srcset = $srcset | append (printf "%s%s/%s %dw" $pathFile (delimit $p ",") $imageFile $w) -}}
-      {{- $fallback = printf "%s%s/%s" $pathFile (delimit $p ",") $imageFile -}}
+  {{- range $w := $steps -}}
+    {{- $p := $base -}}
+    {{- if $crop_ratio -}}
+      {{/*  Crop: derive height from the requested ratio, fill to w×h with the chosen gravity. */}}
+      {{- $h := int (math.Round (mul (float $w) $crop_ratio)) -}}
+      {{- $p = $p | append (printf "w_%d,h_%d,c_fill,%s" $w $h $crop) -}}
+      {{- $fallback_w = $w -}}
+      {{- $fallback_h = $h -}}
+    {{- else -}}
+      {{- $p = $p | append (printf "w_%d,c_limit" $w) -}}
     {{- end -}}
+    {{- $srcset = $srcset | append (printf "%s%s/%s %dw" $pathFile (delimit $p ",") $imageFile $w) -}}
+    {{- $fallback = printf "%s%s/%s" $pathFile (delimit $p ",") $imageFile -}}
   {{- end -}}
-  {{- $image_desktop = $fallback | default $file -}}
+  {{/*  Not `default`: it takes a boolean, false included, as a set value */}}
+  {{- with $fallback -}}
+    {{- $image_desktop = . -}}
+  {{- end -}}
   {{/*  For a crop, the <img> dimensions are the fallback variant's computed crop size. */}}
   {{- if $crop_ratio -}}
     {{- $image_width = $fallback_w -}}
