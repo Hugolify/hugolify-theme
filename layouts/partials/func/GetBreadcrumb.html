@@ -41,7 +41,7 @@
       {{- $current = $next -}}
     {{- else -}}
       {{- /* A page with no parent that is no section still starts from home. */ -}}
-      {{- if not $current.IsNode -}}
+      {{- if $current.IsPage -}}
         {{- $steps = slice (dict "page" site.Home "active" false) | append $steps -}}
       {{- end -}}
       {{- break -}}
