@@ -82,8 +82,9 @@ params:
       size: fullscreen
   form:
     ajax: false # Set true to submit without leaving the page (loads the form script of the styling module)
-    netlify: true # Set false to disable Netlify Forms
-    action: false # Replace by action URL from https://fabform.io/, https://formspree.io/, https://kwesforms.com/ …
+    netlify: true # Set false to disable Netlify Forms (a form block with its own action never uses it)
+    action: false # Replace by action URL from https://fabform.io/, https://formspree.io/, https://kwesforms.com/ … (a form block's action overrides it)
+    rows: 5 # Number of visible lines of the text areas
   logo:
     header: '/assets/images/logo.svg'
     footer: '/assets/images/logo.svg'

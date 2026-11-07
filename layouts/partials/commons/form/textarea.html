@@ -1,13 +1,16 @@
+{{- /* A textarea has no type or value attribute: its value is its content. The
+       HTML parser drops the line break right after the start tag. */ -}}
 <textarea
   {{ with .id }}id="{{ . }}"{{ end }}
   {{ with .name }}name="{{ . }}"{{ end }}
-  rows="5"
-  {{ with .type }}type="{{ . }}"{{ end }}
-  {{ with .value }}value="{{ . }}"{{ end }}
+  rows="{{ site.Params.form.rows | default 5 }}"
+  {{ if .condHelp }}aria-describedby="help-{{ .id }}"{{ end }}
   {{ with .autocomplete }}autocomplete="{{ . }}"{{ end }}
   {{ with .placeholder }}placeholder="{{ . }}"{{ end }}
+  {{ with .maxlength }}maxlength="{{ . }}"{{ end }}
   {{ if .required }}required{{ end }}
   {{ if .disabled }}disabled{{ end }}
   {{ if .readonly }}readonly{{ end }}
   >
+{{- .value -}}
 </textarea>

@@ -15,7 +15,7 @@
       <button class="btn" type="submit">{{ $submit }}</button>
     </div>
     {{- /* `name` and `value` are the provider's own (Brevo: OPT_IN / 1, Mailchimp: gdpr[ID] / Y),
-           so they go out as written, unlike the form block that anchorizes its names */ -}}
+           so they go out as written, as in the form block */ -}}
     {{- range $i, $checkbox := .checkboxes }}
       {{- $args := dict
         "id" (printf "newsletter-form-%d-checkbox-%d" $index $i)

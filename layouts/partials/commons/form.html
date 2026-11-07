@@ -1,9 +1,11 @@
 {{- $idForm := printf "form-%s" (.index | string) -}}
-{{- $action := false -}}
-{{- if site.Params.form.netlify -}}
-  {{- $action = `netlify netlify-honeypot="bot-field"` -}}
-{{- else if site.Params.form.action -}}
-  {{- $action = printf `action="%s"` site.Params.form.action -}}
+{{- /* Where the form posts: the block's own action first, so that each form can
+       go to its own endpoint (Brevo, Formspree…), then Netlify Forms, then the
+       site's action (params.form) */ -}}
+{{- $action := .action | default false -}}
+{{- $netlify := and site.Params.form.netlify (not $action) -}}
+{{- if not (or $action $netlify) -}}
+  {{- $action = site.Params.form.action | default false -}}
 {{- end -}}
 {{- $ajax := false -}}
 {{- if site.Params.form.ajax -}}
@@ -14,11 +16,17 @@
   {{- if .required }}{{ $requiredField = true }}{{ end -}}
 {{- end -}}
 
-<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} {{ . | safeHTMLAttr }}{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}" {{- partial "func/SetSearchIgnore.html" . }}>
+<form class="form {{- with $ajax }} js-form{{ end }}" {{- with $action }} action="{{ . }}"{{ end }} {{- if $netlify }} netlify netlify-honeypot="bot-field"{{ end }} enctype="multipart/form-data" method="POST" name="{{ .name | default $idForm }}" id="{{ $idForm }}" {{- partial "func/SetSearchIgnore.html" . }}>
 
-  {{- if site.Params.form.netlify -}}
+  {{- if $netlify -}}
   <div class="d-none"><input name="bot-field" /></div>
   {{- end -}}
+
+  {{- /* Sent with the fields, as the endpoint asks (Brevo: locale, the
+         email_address_check honeypot…) */}}
+  {{- range .hiddens }}
+  <input type="hidden" name="{{ .name }}" value="{{ .value }}">
+  {{- end }}
 
   {{- if $requiredField }}
   {{- /* The meaning of the asterisk comes before its first use, visually and in
@@ -28,7 +36,9 @@
 
   {{- range $index, $items := .items }}
     {{- $id := print $idForm "-" (.type | string) "-"  ($index | string) -}}
-    {{- $name := anchorize .name | default (anchorize .label) | default $id -}}
+    {{- /* The name goes out as written, as the endpoint expects it (Brevo: NOM,
+           EMAIL…); only the fallback on the label is slugified */ -}}
+    {{- $name := .name | default (anchorize .label) | default $id -}}
     {{- $help := "" -}}
     {{- if or (eq .type "tel") (eq .type "email") (eq .type "url") -}}
       {{- $help = i18n (print "form.hint." .type) -}}
