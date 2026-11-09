@@ -1,0 +1,38 @@
+{{/* GetSchemaImageSrc
+     The URL of an image for the JSON-LD: image, thumbnailUrl.
+
+     The source is not published as is: the CMS keeps the original, often
+     several thousand pixels wide, and a crawler fetches the file it is given.
+     It goes through the image pipeline at params.schema.image.size, as
+     head/seo.html does for og:image, so every provider resizes it its own way
+     — WebP when the pipeline gives one, and for a Hugo asset a file actually
+     published, where its source would be a 404. An SVG keeps its source, and
+     so does a file served from static/, which is not a resource: it is
+     supplied ready to publish. The URL is made absolute against the site when
+     it is not already.
+
+     Modules call it behind templates.Exists: a site may update a module
+     before the theme, and falls back to the source then.
+
+     Param: (string) the source, the src of an image object.
+
+     Returns: string, an absolute URL — "" without a source.
+*/}}
+{{- $url := "" -}}
+{{- with . -}}
+  {{- $url = . -}}
+  {{- with partial "func/GetImageParams.html" (dict
+    "file" .
+    "desktop_size" (site.Params.schema.image.size | default "1200x")
+  ) -}}
+    {{- with or .image_desktop_webp .image_desktop -}}
+      {{- $url = . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if hasPrefix $url "//" -}}
+    {{- $url = printf "https:%s" $url -}}
+  {{- else if not (hasPrefix $url "http") -}}
+    {{- $url = absURL $url -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

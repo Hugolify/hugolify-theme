@@ -5,7 +5,7 @@
     "headline": {{ partial "func/PrepareData.html" .Title }},
     
   {{- with .Params.image }}
-    "image": {{ .src | absURL }},
+    "image": {{ partial "func/GetSchemaImageSrc.html" .src }},
   {{- end -}}
 
   {{- with .Date }}

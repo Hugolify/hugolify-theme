@@ -120,7 +120,14 @@ params:
     image:
       size: '1200x630'
       crop: smart
-  
+
+  # Images of the JSON-LD (image, thumbnailUrl), resized by the image pipeline rather than
+  # published as uploaded: 1200px wide is what Google asks for its large previews. A width
+  # only, never a crop: a portrait stays a portrait.
+  schema:
+    image:
+      size: '1200x'
+
   # Images
   hero:
     cover: '1600x400'
