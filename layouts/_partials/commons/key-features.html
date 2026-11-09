@@ -1,0 +1,23 @@
+{{- with .Params.keyfeatures }}
+  <div class="keyfeatures">
+    <ul>
+      {{- range . }}
+        <li>
+          {{- with .icon -}}
+            {{- if templates.Exists "_partials/icon.html" -}}
+              {{ partial "icon.html" . }}
+            {{- end -}}
+          {{- end -}}
+          <div>
+            {{- if .title }}
+            <b>{{ partial "func/PrepareHTML.html" .title }}</b>{{ if .text }}<br>{{ end }}
+            {{ end -}}
+            {{- with .text }}
+            <span>{{ partial "func/PrepareHTML.html" . }}</span>
+            {{ end -}}
+          </div>
+        </li>
+      {{ end -}}
+    </ul>
+  </div>
+{{ end -}}

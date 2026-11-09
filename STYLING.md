@@ -15,7 +15,7 @@ hugolify-theme contains **no SASS or CSS**. All styling is delegated to an exter
 
 ## How it works
 
-Hugo merges `assets/` from all active modules. `partials/head/css.html` auto-detects the active styling module in this order:
+Hugo merges `assets/` from all active modules. `layouts/_partials/head/css.html` auto-detects the active styling module in this order:
 
 1. `assets/sass/main.sass` → SASS indented syntax pipeline
 2. `assets/sass/main.scss` → SCSS syntax pipeline

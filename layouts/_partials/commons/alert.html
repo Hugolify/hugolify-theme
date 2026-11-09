@@ -1,0 +1,47 @@
+{{/*
+
+  @context
+    text   (string or markdown)
+    state  (string)
+    title  (string) optional
+    icon   (string) optional
+
+  @example - Go Template
+    {{ partial "commons/alert.html" (dict "text" "Some text" "state" "info") }}
+
+  @documentation - Bootstrap
+    https://getbootstrap.com/docs/5.3/components/alerts/
+
+*/}}
+{{- with . }}
+  {{- $class := "alert" }}
+  {{- with .state }}
+    {{- $class = print $class " alert-" . }}
+  {{- end }}
+  {{- $text := .text | default false }}
+  {{- $title := .title | default false }}
+  {{/* Start empty and only ever assign a real icon: callers pass `false` when they have none,
+       and that value used to survive as far as the output. */}}
+  {{- $icon := "" }}
+  {{- with .icon }}
+    {{- if templates.Exists "_partials/icon.html" }}
+      {{- $icon = printf "%s " (partial "icon.html" .) }}
+    {{- end }}
+  {{- end }}
+  {{- if $text }}
+    <div class="{{ $class }}">
+      {{- with $title }}
+        <p class="alert-heading">{{ $icon | safeHTML -}} {{ partial "func/PrepareHTML.html" . }}</p>
+      {{- else }}
+        {{ $icon | safeHTML }}
+      {{- end }}
+      {{- with $text }}
+        {{- if in (string .) "\n" }}
+          {{ . }}
+        {{- else }}
+          <p>{{ . | markdownify }}</p>
+        {{- end }}
+      {{- end }}
+    </div>
+  {{- end }}
+{{- end }}

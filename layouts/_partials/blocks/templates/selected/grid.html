@@ -1,0 +1,10 @@
+{{- $abovethefold := cond .first true false -}}
+{{- $scrollsnap := .ui.scrollsnap | default true -}}
+{{- $partial := printf "%s/items.html" .section -}}
+{{- $partial = cond (templates.Exists (printf "_partials/%s" $partial)) $partial "commons/items.html" -}}
+{{ partial $partial (dict
+  "pages" .items
+  "scrollsnap" $scrollsnap
+  "abovethefold" $abovethefold
+  "block" .type
+  ) }}
