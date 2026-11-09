@@ -1,0 +1,36 @@
+{{/* GetSchemaDays
+     Turn a number of days, or a range of them, into the QuantitativeValue a
+     ServicePeriod takes as its duration: the time an order is handled, the
+     time a parcel travels, see func/GetSchemaShippingService.html.
+
+     Typed the way a headcount is, see func/GetSchemaOrganization.html: 2
+     gives a value, 1-3 a minValue and a maxValue — Google reads either a
+     value or a maxValue, never both. Whole days, zero included: an order can
+     leave the same day. Anything else is dropped rather than published.
+
+     Params: (string or number) the days, e.g. 2 or "1-3".
+
+     Returns: map, the QuantitativeValue — or false without days.
+*/}}
+{{- $node := false -}}
+{{- $days := replace (printf "%v" (. | default "")) " " "" -}}
+{{- if findRE `^[0-9]+(-[0-9]+)?$` $days -}}
+  {{- /* int reads a leading zero as octal: trimmed, 08 stays 8 */ -}}
+  {{- $bounds := slice -}}
+  {{- range split $days "-" -}}
+    {{- $bounds = $bounds | append (int (strings.TrimLeft "0" . | default "0")) -}}
+  {{- end -}}
+  {{- $node = dict "@type" "QuantitativeValue" "unitCode" "DAY" -}}
+  {{- if eq (len $bounds) 1 -}}
+    {{- $node = merge $node (dict "value" (index $bounds 0)) -}}
+  {{- else -}}
+    {{- $min := index $bounds 0 -}}
+    {{- $max := index $bounds 1 -}}
+    {{- if le $min $max -}}
+      {{- $node = merge $node (dict "minValue" $min "maxValue" $max) -}}
+    {{- else -}}
+      {{- $node = false -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $node -}}

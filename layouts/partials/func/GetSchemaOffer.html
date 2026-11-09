@@ -1,37 +1,63 @@
 {{/* GetSchemaOffer
      Convert an offer object into a schema.org Offer.
-
      Reads the shapes the CMS writes for a product (admin/fields/offer.yml:
-     price, discount, hide_price) and for a real estate listing
+     price, discount, hide_price, price_valid_until, availability,
+     availability_starts, condition) and for a real estate listing
      (admin/fields/realestates_offer.yml: price, sold, hide_price). A discount,
      an amount or a percentage, is applied the way the page applies it,
      through func/GetDiscountedPrice.html, and the price before it goes along
      as the strikethrough price Google shows next to the sale one. A price the
      editor hid stays hidden: the offer is still published, without a price.
 
+     The availability is the one the editor picked, an ItemAvailability of
+     func/GetSchemaEnumerations.html; without one, SoldOut for an offer marked
+     sold, InStock otherwise — what every offer said before the choice came
+     in. A pre-order, a pre-sale or a back order gives the day the product
+     becomes available as availabilityStarts. The condition is published only
+     when picked: an item is no more new by default than a brand is the
+     site's, and a second-hand shop would claim it is.
+
+     The last day of the price, a sale's end, goes along with it as
+     priceValidUntil — until that day has passed: Google drops a product
+     snippet whose price has expired, and a static site only learns it has at
+     its next build.
+
      Params: {map}
        offer    (map) the offer object.
        url      (string) the page the offer is made on.
        function (string) "sell" (default) or "lease", for a rental.
        seller   (map) optional, the seller node, compact.
-
      Returns: map, the Offer node — or false without an offer object.
 */}}
 {{- $node := false -}}
-
 {{- with .offer -}}
-  {{- $offer := . -}}
+  {{- $enums := partial "func/GetSchemaEnumerations.html" -}}
   {{- $function := cond (eq $.function "lease") "LeaseOut" "Sell" -}}
   {{- $currency := site.Params.currency | default "EUR" -}}
+
+  {{- $availability := cond (.sold | default false) "SoldOut" "InStock" -}}
+  {{- with .availability -}}
+    {{- if in $enums.availability . -}}{{- $availability = . -}}{{- end -}}
+  {{- end -}}
 
   {{- $node = dict
     "@type" "Offer"
     "businessFunction" (printf "http://purl.org/goodrelations/v1#%s" $function)
-    "availability" (cond (.sold | default false) "https://schema.org/SoldOut" "https://schema.org/InStock")
+    "availability" (printf "https://schema.org/%s" $availability)
   -}}
+  {{- if in $enums.starts $availability -}}
+    {{- with partial "func/GetSchemaDate.html" .availability_starts -}}
+      {{- $node = merge $node (dict "availabilityStarts" .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with .condition -}}
+    {{- if in $enums.condition . -}}
+      {{- $node = merge $node (dict "itemCondition" (printf "https://schema.org/%s" .)) -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- with $.url -}}{{- $node = merge $node (dict "url" .) -}}{{- end -}}
   {{- with $.seller -}}{{- $node = merge $node (dict "seller" .) -}}{{- end -}}
-
   {{- if and .price (not .hide_price) -}}
     {{- $price := float .price -}}
     {{- $realPrice := partial "func/GetDiscountedPrice.html" (dict "price" $price "discount" (.discount | default false)) -}}
@@ -45,7 +71,14 @@
         "priceCurrency" $currency
       )) -}}
     {{- end -}}
+    {{- /* A day, not a time: the date of the price is compared as text,
+           which ISO 8601 sorts the way the calendar does. */ -}}
+    {{- with partial "func/GetSchemaDate.html" .price_valid_until -}}
+      {{- $day := substr . 0 10 -}}
+      {{- if ge $day (now.Format "2006-01-02") -}}
+        {{- $node = merge $node (dict "priceValidUntil" $day) -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{- return $node -}}

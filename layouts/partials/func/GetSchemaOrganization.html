@@ -37,6 +37,10 @@
          same_as:               # its pages elsewhere — a directory, a ranking,
            - url: https://…     # an encyclopedia — the social profiles being
                                 # those of the social menu
+       return_policy: …         # a shop's return policy, see
+                                # func/GetSchemaReturnPolicy.html
+       shipping: …              # its shipping, see
+                                # func/GetSchemaShippingService.html
 
      The head office lends its address, coordinates and contact — a page of the
      places section or an entry of data/places alike, resolved the way a
@@ -277,6 +281,17 @@
     {{- end -}}
     {{- with partial "func/GetOrganizationData.html" "tax_id" -}}
       {{- $organization = merge $organization (dict "taxID" (partial "func/PrepareData.html" (string .))) -}}
+    {{- end -}}
+
+    {{- /* The return and shipping policies of a shop, said once for every
+           product it offers rather than on each offer: Google reads them on
+           the organization, on a single page — this full node, published on
+           the home page only. An office has none of its own. */ -}}
+    {{- with partial "func/GetSchemaReturnPolicy.html" (partial "func/GetSchemaData.html" "return_policy") -}}
+      {{- $organization = merge $organization (dict "hasMerchantReturnPolicy" .) -}}
+    {{- end -}}
+    {{- with partial "func/GetSchemaShippingService.html" (partial "func/GetSchemaData.html" "shipping") -}}
+      {{- $organization = merge $organization (dict "hasShippingService" .) -}}
     {{- end -}}
 
     {{- /* The languages it works in: the codes data/organization.yml lists,

@@ -8,6 +8,17 @@ address:
   country: Pays
   direction: Comment y aller ?
   street: Rue
+availability:
+  BackOrder: En réapprovisionnement
+  Discontinued: Plus commercialisé
+  InStock: En stock
+  LimitedAvailability: Stock limité
+  MadeToOrder: Fabriqué à la commande
+  OutOfStock: Rupture de stock
+  PreOrder: En précommande
+  PreSale: En prévente
+  SoldOut: Épuisé
+  starts: disponible le
 back: Retour
 breadcrumb: fil d’Ariane
 carousel:
@@ -177,6 +188,7 @@ photo:
   one: Photo
   other: Photos
 previous: Précédent
+price_valid_until: Prix valable jusqu’au
 reading_time:
   one: Une minute de lecture
   other: '{{.}} minutes de lecture'

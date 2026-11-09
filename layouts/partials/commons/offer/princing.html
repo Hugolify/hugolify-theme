@@ -1,7 +1,15 @@
 {{- if not .sold }}
   {{ if .price }}
     {{ partial "commons/price" . }}
+    {{- /* The last day of the price, until it has passed, as the structured
+           data publishes it: see func/GetSchemaOffer.html. */}}
+    {{- with partial "func/GetSchemaDate.html" .price_valid_until }}
+      {{- if ge (substr . 0 10) (now.Format "2006-01-02") }}
+        <p class="price-valid-until">{{ i18n "price_valid_until" }} {{ partial "commons/time" (dict "date" (time.AsTime .) "format" ":date_long" "sort" false) }}</p>
+      {{- end }}
+    {{- end }}
   {{ end }}
+  {{ partial "commons/offer/availability" . }}
 {{ else }}
   <p class="pricing">{{ i18n "products.sold" 1 }}</p>
 {{ end -}}

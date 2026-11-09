@@ -1,0 +1,89 @@
+{{/* GetSchemaShippingService
+     Build the ShippingService of the organization from data/schema.yml
+     (Config → Structured data). Published on its full node, on the home page
+     only — the single page Google asks for — as hasShippingService, it is the
+     shipping every product of the site is offered with, said once rather
+     than on each. See func/GetSchemaOrganization.html.
+
+       shipping:
+         handling: 0-1          # days before an order leaves, see
+                                # func/GetSchemaDays.html
+         rates:                 # one per destination and price
+           - countries: [FR]    # where it ships, ISO 3166-1 alpha-2 codes;
+                                # none, anywhere
+             price: 6.9         # what it costs, 0 when it is free
+             free_above: 100    # free from this order amount on
+             transit: 2-4       # days on the way
+
+     A rate needs a price, zero included: free shipping is a rate. A threshold
+     splits it into two conditions — up to the cent below it at its price,
+     free from it on — which is how Google writes a free shipping offer.
+     Without a single rate there is no service: Google requires its
+     conditions. The amounts are in site.Params.currency.
+
+     Params: (map) the shipping entry of data/schema.yml.
+
+     Returns: map, the ShippingService node — or false.
+*/}}
+{{- $node := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $currency := site.Params.currency | default "EUR" -}}
+  {{- $conditions := slice -}}
+
+  {{- range .rates | default slice -}}
+    {{- if reflect.IsMap . -}}
+      {{- /* Read with index: a price of 0 is a price, which `with` would
+             drop. The CMS leaves an empty number as an empty string. */ -}}
+      {{- $price := index . "price" -}}
+      {{- if and (ne $price nil) (ne (printf "%v" $price) "") -}}
+        {{- $price = float $price -}}
+        {{- $base := dict "@type" "ShippingConditions" -}}
+
+        {{- $codes := slice -}}
+        {{- $regions := slice -}}
+        {{- range partial "func/GetSchemaValues.html" .countries -}}
+          {{- $code := upper . -}}
+          {{- if and (findRE `^[A-Z]{2}$` $code) (not (in $codes $code)) -}}
+            {{- $codes = $codes | append $code -}}
+            {{- $regions = $regions | append (dict "@type" "DefinedRegion" "addressCountry" $code) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with $regions -}}
+          {{- $base = merge $base (dict "shippingDestination" (cond (eq (len .) 1) (index . 0) .)) -}}
+        {{- end -}}
+
+        {{- with partial "func/GetSchemaDays.html" .transit -}}
+          {{- $base = merge $base (dict "transitTime" (dict "@type" "ServicePeriod" "duration" .)) -}}
+        {{- end -}}
+
+        {{- $rate := dict "@type" "MonetaryAmount" "value" $price "currency" $currency -}}
+        {{- $threshold := float (.free_above | default 0) -}}
+        {{- if and (gt $price 0.0) (gt $threshold 0.0) -}}
+          {{- $below := div (math.Round (mul (sub $threshold 0.01) 100)) 100 -}}
+          {{- $conditions = $conditions | append (merge $base (dict
+            "orderValue" (dict "@type" "MonetaryAmount" "minValue" 0 "maxValue" $below "currency" $currency)
+            "shippingRate" $rate
+          )) -}}
+          {{- $conditions = $conditions | append (merge $base (dict
+            "orderValue" (dict "@type" "MonetaryAmount" "minValue" $threshold "currency" $currency)
+            "shippingRate" (dict "@type" "MonetaryAmount" "value" 0 "currency" $currency)
+          )) -}}
+        {{- else -}}
+          {{- $conditions = $conditions | append (merge $base (dict "shippingRate" $rate)) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $conditions -}}
+    {{- $node = dict
+      "@type" "ShippingService"
+      "@id" (printf "%s#shipping" site.BaseURL)
+      "shippingConditions" .
+    -}}
+    {{- with partial "func/GetSchemaDays.html" $.handling -}}
+      {{- $node = merge $node (dict "handlingTime" (dict "@type" "ServicePeriod" "duration" .)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $node -}}

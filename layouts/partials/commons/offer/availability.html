@@ -1,0 +1,20 @@
+{{/* The availability of an offer, shown when the editor picked one — In stock
+     included — with the day a pre-order, a pre-sale or a back order becomes
+     available. What the structured data says, func/GetSchemaOffer.html,
+     from the same values: Google asks for markup that matches the page. An
+     offer with no availability picked shows nothing, as before. */}}
+{{- $enums := partial "func/GetSchemaEnumerations.html" -}}
+{{- with .availability -}}
+  {{- if in $enums.availability . -}}
+    {{- $starts := false -}}
+    {{- if in $enums.starts . -}}
+      {{- with partial "func/GetSchemaDate.html" $.availability_starts -}}
+        {{- $starts = time.AsTime . -}}
+      {{- end -}}
+    {{- end }}
+    <p class="availability">
+      {{- i18n (printf "availability.%s" .) -}}
+      {{- with $starts }}, {{ i18n "availability.starts" }} {{ partial "commons/time" (dict "date" . "format" ":date_long" "sort" false) }}{{ end -}}
+    </p>
+  {{- end -}}
+{{- end -}}

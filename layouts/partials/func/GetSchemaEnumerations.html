@@ -1,0 +1,62 @@
+{{/* GetSchemaEnumerations
+     The schema.org enumeration members an offer, a return policy can name,
+     stored as typed — InStock, NewCondition… — and published as their URL,
+     https://schema.org/InStock.
+
+     Canonical list, shared with hugolify-admin so the selects and the
+     templates that read them cannot drift apart, as func/GetSchemaTypes.html
+     does for the types. A value missing from its list is dropped rather than
+     published: Google reads these members only. Listed in select order.
+
+     Returns: map
+       availability    (slice of string) ItemAvailability of an offer
+       condition       (slice of string) OfferItemCondition of an offer
+       return_category (slice of string) MerchantReturnEnumeration of a return
+                                         policy
+       return_fees     (slice of string) ReturnFeesEnumeration
+       return_method   (slice of string) ReturnMethodEnumeration
+       refund_type     (slice of string) RefundTypeEnumeration
+       starts          (slice of string) the availabilities that take a date,
+                                         availabilityStarts: when a product
+                                         ordered now becomes available
+*/}}
+{{- return (dict
+  "availability" (slice
+    "InStock"
+    "LimitedAvailability"
+    "MadeToOrder"
+    "PreOrder"
+    "PreSale"
+    "BackOrder"
+    "OutOfStock"
+    "SoldOut"
+    "Discontinued"
+  )
+  "starts" (slice "PreOrder" "PreSale" "BackOrder")
+  "condition" (slice
+    "NewCondition"
+    "RefurbishedCondition"
+    "UsedCondition"
+    "DamagedCondition"
+  )
+  "return_category" (slice
+    "MerchantReturnFiniteReturnWindow"
+    "MerchantReturnUnlimitedWindow"
+    "MerchantReturnNotPermitted"
+  )
+  "return_fees" (slice
+    "FreeReturn"
+    "ReturnFeesCustomerResponsibility"
+    "ReturnShippingFees"
+  )
+  "return_method" (slice
+    "ReturnByMail"
+    "ReturnInStore"
+    "ReturnAtKiosk"
+  )
+  "refund_type" (slice
+    "FullRefund"
+    "ExchangeRefund"
+    "StoreCreditRefund"
+  )
+) -}}

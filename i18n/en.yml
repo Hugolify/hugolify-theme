@@ -8,6 +8,17 @@ address:
   country: Country
   direction: How to go?
   street: Street
+availability:
+  BackOrder: On back order
+  Discontinued: Discontinued
+  InStock: In stock
+  LimitedAvailability: Limited stock
+  MadeToOrder: Made to order
+  OutOfStock: Out of stock
+  PreOrder: Available for pre-order
+  PreSale: Available for pre-sale
+  SoldOut: Sold out
+  starts: available on
 back: Back
 breadcrumb: Breadcrumb
 carousel:
@@ -177,6 +188,7 @@ photo:
   one: Photo
   other: Photos
 previous: Previous
+price_valid_until: Price valid until
 reading_time:
   one: One minute to read
   other: '{{.}} minutes to read'

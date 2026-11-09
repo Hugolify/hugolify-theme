@@ -1,0 +1,114 @@
+{{/* GetSchemaReturnPolicy
+     Build the MerchantReturnPolicy of the organization from data/schema.yml
+     (Config → Structured data). Published on its full node, on the home page
+     only — the single page Google asks for — as hasMerchantReturnPolicy, it
+     applies to every product the site offers, with nothing to repeat on each.
+     See func/GetSchemaOrganization.html.
+
+       return_policy:
+         category: MerchantReturnFiniteReturnWindow
+                               # or MerchantReturnUnlimitedWindow,
+                               # MerchantReturnNotPermitted
+         countries: [FR, BE]   # where it applies, ISO 3166-1 alpha-2 codes
+         days: 30              # the return window, a finite one only
+         fees: ReturnShippingFees
+                               # or FreeReturn,
+                               # ReturnFeesCustomerResponsibility
+         fees_amount: 6.9      # what a return costs, ReturnShippingFees only
+         methods: [ReturnByMail]
+                               # and/or ReturnInStore, ReturnAtKiosk
+         refund: FullRefund    # or ExchangeRefund, StoreCreditRefund
+         url: /cgv/            # the page that describes it
+
+     Google takes the policy itself — a category and the countries it applies
+     in, the days of a finite window — or the link to the page describing it;
+     both together read best. Half a policy is left out rather than published
+     wrong: a category with no country, a finite window with no days, return
+     shipping fees with no amount. A policy refusing returns says nothing of
+     fees, methods or refunds. The values are those of
+     func/GetSchemaEnumerations.html, the amount in site.Params.currency.
+
+     Params: (map) the return_policy entry of data/schema.yml.
+
+     Returns: map, the MerchantReturnPolicy node — or false.
+*/}}
+{{- $node := false -}}
+{{- if reflect.IsMap . -}}
+  {{- $enums := partial "func/GetSchemaEnumerations.html" -}}
+  {{- $currency := site.Params.currency | default "EUR" -}}
+  {{- $policy := dict -}}
+
+  {{- $countries := slice -}}
+  {{- range partial "func/GetSchemaValues.html" .countries -}}
+    {{- $code := upper . -}}
+    {{- if and (findRE `^[A-Z]{2}$` $code) (not (in $countries $code)) -}}
+      {{- $countries = $countries | append $code -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $category := "" -}}
+  {{- with .category -}}
+    {{- if in $enums.return_category . -}}{{- $category = . -}}{{- end -}}
+  {{- end -}}
+  {{- $days := 0 -}}
+  {{- with .days -}}{{- $days = int . -}}{{- end -}}
+  {{- $finite := eq $category "MerchantReturnFiniteReturnWindow" -}}
+
+  {{- if and $category $countries (or (not $finite) (gt $days 0)) -}}
+    {{- $policy = dict
+      "applicableCountry" (cond (eq (len $countries) 1) (index $countries 0) $countries)
+      "returnPolicyCategory" (printf "https://schema.org/%s" $category)
+    -}}
+    {{- if $finite -}}
+      {{- $policy = merge $policy (dict "merchantReturnDays" $days) -}}
+    {{- end -}}
+
+    {{- if ne $category "MerchantReturnNotPermitted" -}}
+      {{- with .fees -}}
+        {{- if eq . "ReturnShippingFees" -}}
+          {{- $amount := float ($.fees_amount | default 0) -}}
+          {{- if gt $amount 0.0 -}}
+            {{- $policy = merge $policy (dict
+              "returnFees" "https://schema.org/ReturnShippingFees"
+              "returnShippingFeesAmount" (dict
+                "@type" "MonetaryAmount"
+                "value" $amount
+                "currency" $currency
+              )
+            ) -}}
+          {{- end -}}
+        {{- else if in $enums.return_fees . -}}
+          {{- $policy = merge $policy (dict "returnFees" (printf "https://schema.org/%s" .)) -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- $methods := slice -}}
+      {{- range partial "func/GetSchemaValues.html" .methods -}}
+        {{- if in $enums.return_method . -}}
+          {{- $methods = $methods | append (printf "https://schema.org/%s" .) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with $methods -}}
+        {{- $policy = merge $policy (dict "returnMethod" (cond (eq (len .) 1) (index . 0) .)) -}}
+      {{- end -}}
+
+      {{- with .refund -}}
+        {{- if in $enums.refund_type . -}}
+          {{- $policy = merge $policy (dict "refundType" (printf "https://schema.org/%s" .)) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with .url -}}
+    {{- $policy = merge $policy (dict "merchantReturnLink" (absURL .)) -}}
+  {{- end -}}
+
+  {{- with $policy -}}
+    {{- $node = merge (dict
+      "@type" "MerchantReturnPolicy"
+      "@id" (printf "%s#return-policy" site.BaseURL)
+    ) . -}}
+  {{- end -}}
+{{- end -}}
+{{- return $node -}}
