@@ -1,4 +1,5 @@
 <figure class="quote" {{- partial "func/SetParallax.html" (dict "element" "quote") }}>
+  {{ partial "commons/rating.html" .rating }}
   {{ partial "commons/quote/quote.html" . }}
   {{ partial "commons/quote/author.html" . }}
 </figure>

@@ -189,6 +189,7 @@ photo:
   other: Photos
 previous: Précédent
 price_valid_until: Prix valable jusqu’au
+rating: 'Note : {{ .Value }} sur {{ .Max }}'
 reading_time:
   one: Une minute de lecture
   other: '{{.}} minutes de lecture'

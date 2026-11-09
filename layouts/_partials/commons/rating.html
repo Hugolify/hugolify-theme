@@ -1,0 +1,27 @@
+{{- /*
+  Star rating out of 5 — a float is welcome (4.5, 4.8…).
+
+  Usage:
+    {{ partial "commons/rating.html" .rating }}
+
+  Each star carries its own fill (0 to 100%) in --rating-fill, so 4.8 gives
+  four full stars and one at 80%: the styling module paints the glyph with it.
+  The value is read out by screen readers only, the stars are hidden from them.
+  Needs hugolify-theme-icons (Lucide "star"), like every icon in the theme.
+*/ -}}
+{{- with . -}}
+  {{- $max := 5 -}}
+  {{- $rating := math.Min $max (math.Max 0 (float .)) -}}
+  {{- $precision := cond (eq $rating (math.Floor $rating)) 0 1 -}}
+  <div class="rating">
+    {{- if templates.Exists "_partials/icon.html" -}}
+      {{- range $i := $max }}
+        {{- $fill := math.Min 1 (math.Max 0 (sub $rating $i)) }}
+        <span class="rating-star" style="--rating-fill: {{ math.Round (mul $fill 100) }}%">
+          {{- partial "icon.html" "star" -}}
+        </span>
+      {{- end }}
+    {{- end }}
+    <span class="visually-hidden">{{ i18n "rating" (dict "Value" (lang.FormatNumber $precision $rating) "Max" $max) }}</span>
+  </div>
+{{- end -}}

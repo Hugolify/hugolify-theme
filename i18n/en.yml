@@ -189,6 +189,7 @@ photo:
   other: Photos
 previous: Previous
 price_valid_until: Price valid until
+rating: 'Rating: {{ .Value }} out of {{ .Max }}'
 reading_time:
   one: One minute to read
   other: '{{.}} minutes to read'
