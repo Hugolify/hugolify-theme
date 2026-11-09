@@ -3,10 +3,15 @@
 
      Reads the shape the CMS writes for every image on the site (see
      admin/fields/image.yml): a source, an alternative text and a credit. The
-     source is published as is when it is already absolute — a CDN URL — and
-     made absolute against the site otherwise. The alternative text becomes
-     the caption, and the credit, written in Markdown in the CMS, its plain
-     text creditText.
+     source is not published as is: the CMS keeps the original, often several
+     thousand pixels wide, and a crawler fetches the file it is given. It goes
+     through the image pipeline at params.schema.image.size, as head/seo.html
+     does for og:image, so every provider resizes it its own way — WebP for a
+     Hugo asset, whose source is not even published. An SVG keeps its source,
+     and so does a file served from static/, which is not a resource: it is
+     supplied ready to publish. The URL is made absolute against the site when
+     it is not already. The alternative text becomes the caption, and the
+     credit, written in Markdown in the CMS, its plain text creditText.
 
      Params: {map} an image object — src, alt, credit — or (string) a bare
              source, the shape data/seo.yml and seo.image use.
@@ -27,6 +32,14 @@
 {{- $image := false -}}
 {{- with $src -}}
   {{- $url := . -}}
+  {{- with partial "func/GetImageParams.html" (dict
+    "file" .
+    "desktop_size" (site.Params.schema.image.size | default "1200x")
+  ) -}}
+    {{- with or .image_desktop_webp .image_desktop -}}
+      {{- $url = . -}}
+    {{- end -}}
+  {{- end -}}
   {{- if hasPrefix $url "//" -}}
     {{- $url = printf "https:%s" $url -}}
   {{- else if not (hasPrefix $url "http") -}}

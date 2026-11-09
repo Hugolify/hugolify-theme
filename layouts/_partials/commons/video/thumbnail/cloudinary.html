@@ -1,5 +1,7 @@
 {{/* A frame of a video Cloudinary hosts, see func/GetVideoThumbnail.html:
-     the URL of the video with .jpg for an extension, the middle frame.
+     the URL of the video with .jpg for an extension, the middle frame. Drawn
+     at the size of the video, it is resized as any image of the JSON-LD, see
+     func/GetSchemaImage.html.
 
      Params: {map}
        url  (string) the absolute URL of the video
@@ -10,7 +12,7 @@
 {{- $frame := "" -}}
 
 {{- if findRE `^https://res\.cloudinary\.com/[^/]+/video/upload/` .url -}}
-  {{- $frame = printf "%s.jpg" (replaceRE `\.[A-Za-z0-9]+$` "" .url) -}}
+  {{- $frame = (partial "func/GetSchemaImage.html" (printf "%s.jpg" (replaceRE `\.[A-Za-z0-9]+$` "" .url))).url -}}
 {{- end -}}
 
 {{- return $frame -}}

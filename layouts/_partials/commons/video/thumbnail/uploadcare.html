@@ -1,7 +1,8 @@
 {{/* A frame of a video Uploadcare hosts, see func/GetVideoThumbnail.html,
      drawn on the fly by videoframe: the middle one, as Cloudinary picks it,
      or the one at 1s when the duration is unknown — a time past the end is
-     an error. preview scales a large video down and never a small one up.
+     an error. Drawn at the size of the video, it is resized as any image of
+     the JSON-LD, see func/GetSchemaImage.html.
 
      Params: {map}
        url      (string) the absolute URL of the video
@@ -14,7 +15,7 @@
 
 {{- with findRE `^https://[^/]*(ucarecdn\.com|ucarecd\.net)/[0-9a-f-]{36}/` .url 1 -}}
   {{- $seconds := $.seconds | default 0 -}}
-  {{- $frame = printf "%svideoframe/%ds/-/preview/1280x1280/-/format/jpeg/" (index . 0) (cond (gt $seconds 0) (div $seconds 2) 1) -}}
+  {{- $frame = (partial "func/GetSchemaImage.html" (printf "%svideoframe/%ds/" (index . 0) (cond (gt $seconds 0) (div $seconds 2) 1))).url -}}
 {{- end -}}
 
 {{- return $frame -}}
