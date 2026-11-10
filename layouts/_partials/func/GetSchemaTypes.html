@@ -11,10 +11,6 @@
      organization here, because a business is something one works for, and
      so are its subtypes.
 
-     The organization branch covers the trades the Hugolify flavours are built
-     for: a law firm or a notary (Lawyerify), a clinic (Medicalify), a real
-     estate agency (Realestatify).
-
      The organizations descending from LocalBusiness are places as well, and
      only they take the properties of a place — geo above all: an Organization
      or a Corporation has an address, not coordinates.
@@ -22,6 +18,19 @@
      A page of any section can also be an article, by its schema.type — set
      for a whole section by a cascade — see pages/schema-single.html. Those
      types are no choice for a place, and stay out of `all`.
+
+     The lists below stay generic. The types of a trade — a law firm, a clinic,
+     a plumber — come from the theme of that trade (Lawyerify, Medicalify,
+     Handify…), through an optional hook, func/GetSchemaTypesTheme.html. It
+     returns a map with any of the keys below, each one a slice of types
+     appended to the generic list of the same key; `all` is computed here. A
+     LocalBusiness subtype goes under both `organization` and `local_business`:
+
+       {{- $localBusiness := slice "HomeAndConstructionBusiness" "Plumber" -}}
+       {{- return (dict
+         "organization"   $localBusiness
+         "local_business" $localBusiness
+       ) -}}
 
      Returns: map
        organization   (slice of string)
@@ -31,50 +40,46 @@
        all            (slice of string) organization and place, in select
                                         order
 */}}
-{{- $organization := slice
-  "Organization"
-  "Corporation"
-  "LocalBusiness"
-  "ProfessionalService"
-  "LegalService"
-  "Notary"
-  "MedicalOrganization"
-  "MedicalClinic"
-  "RealEstateAgent"
-  "EducationalOrganization"
-  "NGO"
+{{- $types := dict
+  "organization" (slice
+    "Organization"
+    "Corporation"
+    "LocalBusiness"
+    "ProfessionalService"
+    "EducationalOrganization"
+    "NGO"
+  )
+  "place" (slice
+    "Place"
+    "LandmarksOrHistoricalBuildings"
+    "TouristAttraction"
+    "CivicStructure"
+    "Accommodation"
+    "Residence"
+  )
+  "local_business" (slice
+    "LocalBusiness"
+    "ProfessionalService"
+  )
+  "article" (slice
+    "Article"
+    "BlogPosting"
+    "NewsArticle"
+    "TechArticle"
+    "ScholarlyArticle"
+  )
 -}}
 
-{{- $place := slice
-  "Place"
-  "LandmarksOrHistoricalBuildings"
-  "TouristAttraction"
-  "CivicStructure"
-  "Accommodation"
-  "Residence"
--}}
+{{- /* The types of the trade, from its theme. A key this partial does not
+       return is ignored. */ -}}
+{{- if templates.Exists "_partials/func/GetSchemaTypesTheme.html" -}}
+  {{- range $key, $more := partial "func/GetSchemaTypesTheme.html" -}}
+    {{- with index $types $key -}}
+      {{- $types = merge $types (dict $key (. | append $more | uniq)) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
-{{- $localBusiness := slice
-  "LocalBusiness"
-  "ProfessionalService"
-  "LegalService"
-  "Notary"
-  "MedicalClinic"
-  "RealEstateAgent"
--}}
-
-{{- $article := slice
-  "Article"
-  "BlogPosting"
-  "NewsArticle"
-  "TechArticle"
-  "ScholarlyArticle"
--}}
-
-{{- return (dict
-  "organization" $organization
-  "place" $place
-  "local_business" $localBusiness
-  "article" $article
-  "all" ($organization | append $place)
-) -}}
+{{- return (merge $types (dict
+  "all" ($types.organization | append $types.place)
+)) -}}
