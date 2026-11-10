@@ -6,7 +6,9 @@
 {{- $crop := .crop | default false -}}
 
 {{- with $src -}}
-  {{- if isset . "src" -}}
+  {{- /* An image object, or a bare source: a gallery filled through the
+         admin's gallery_simple field holds plain URLs. */ -}}
+  {{- if reflect.IsMap . -}}
     {{- $src = .src -}}
     {{- $alt = .alt -}}
     {{- $legend = .legend -}}

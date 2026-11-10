@@ -1,0 +1,47 @@
+{{/* GetSchemaImages
+     Every image of a page as schema.org ImageObjects, for the image property
+     of the node the page stands for: its featured image first, then the
+     images a module keeps in a list beside it.
+
+     That list is named after the component showing it, and keeps its name:
+     images (projects, publications, products) are figures set full or half
+     width, see commons/images.html; a gallery (realestates) is a grid opening
+     a lightbox, see commons/gallery.html. Their items are image objects (src,
+     alt, credit, legend), or bare sources in a gallery filled through the
+     admin's gallery_simple field: func/GetSchemaImage.html reads both.
+
+     The featured image carries the @id func/GetSchemaWebPage.html gives the
+     primary image of the page, so both copies merge back into one. An image
+     of the list repeating one already there is left out.
+
+     Params: {map}
+       page   (page)  the page.
+       images (slice) optional, the list of images: image objects or bare
+                      sources. A single one is read as a list of one.
+
+     Returns: slice of ImageObject nodes, empty when the page has none.
+*/}}
+{{- $page := .page -}}
+{{- $list := .images | default slice -}}
+{{- if not (reflect.IsSlice $list) -}}
+  {{- $list = slice $list -}}
+{{- end -}}
+
+{{- $images := slice -}}
+{{- $urls := slice -}}
+
+{{- with partial "func/GetSchemaImage.html" $page.Params.image -}}
+  {{- $images = $images | append (merge . (dict "@id" (printf "%s#primaryimage" $page.Permalink))) -}}
+  {{- $urls = $urls | append .url -}}
+{{- end -}}
+
+{{- range $list -}}
+  {{- with partial "func/GetSchemaImage.html" . -}}
+    {{- if not (in $urls .url) -}}
+      {{- $images = $images | append . -}}
+      {{- $urls = $urls | append .url -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $images -}}
