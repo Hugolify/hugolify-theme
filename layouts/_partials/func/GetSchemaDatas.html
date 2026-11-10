@@ -1,0 +1,57 @@
+{{/* GetSchemaDatas
+     The rows of a page's datas, the title and text pairs it lists as facts
+     (see commons/datas.html), shaped for a schema.org property.
+
+     Which property depends on the node the page stands for. A Product, an
+     Offer or a Place takes each row as a PropertyValue under
+     additionalProperty: a product's spec sheet. A CreativeWork has no such
+     property: it takes the rows as one line under creditText, the credits a
+     project lists (client, agency, director…).
+
+     A row missing its title or its text is left out, and so are datas kept
+     in another shape, such as a map of keys.
+
+     Params: {map}
+       datas  (slice) the rows, maps with a title and a text.
+       format (string) optional
+                       "property" (default) a PropertyValue per row, for
+                                  additionalProperty.
+                       "text"     the rows as one line, "title: text" joined
+                                  by semicolons, for creditText.
+
+     Returns: slice of PropertyValue nodes, or string with "text"; empty
+              without a complete row.
+*/}}
+{{- $format := .format | default "property" -}}
+
+{{- $rows := slice -}}
+{{- if reflect.IsSlice .datas -}}
+  {{- range .datas -}}
+    {{- if reflect.IsMap . -}}
+      {{- $name := partial "func/PrepareData.html" (string (.title | default "")) -}}
+      {{- $value := partial "func/PrepareData.html" (string (.text | default "")) -}}
+      {{- if and $name $value -}}
+        {{- $rows = $rows | append (dict "name" $name "value" $value) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $result := slice -}}
+{{- if eq $format "text" -}}
+  {{- $lines := slice -}}
+  {{- range $rows -}}
+    {{- $lines = $lines | append (printf "%s: %s" .name .value) -}}
+  {{- end -}}
+  {{- $result = delimit $lines "; " -}}
+{{- else -}}
+  {{- range $rows -}}
+    {{- $result = $result | append (dict
+      "@type" "PropertyValue"
+      "name" .name
+      "value" .value
+    ) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $result -}}

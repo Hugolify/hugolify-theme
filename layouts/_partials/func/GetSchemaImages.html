@@ -3,12 +3,12 @@
      of the node the page stands for: its featured image first, then the
      images a module keeps in a list beside it.
 
-     That list is named after the component showing it, and keeps its name:
-     images (projects, publications, products) are figures set full or half
-     width, see commons/images.html; a gallery (realestates) is a grid opening
-     a lightbox, see commons/gallery.html. Their items are image objects (src,
-     alt, credit, legend), or bare sources in a gallery filled through the
-     admin's gallery_simple field: func/GetSchemaImage.html reads both.
+     Every module keeps that list under `images`, whatever shows it: figures
+     set full or half width (commons/images.html), or the realestates grid
+     opening a lightbox (commons/gallery.html), whose older listings still
+     hold it under `gallery`. Its items are image objects (src, alt, credit,
+     legend), or bare sources where the admin's gallery_simple field filled
+     them: func/GetSchemaImage.html reads both.
 
      The featured image carries the @id func/GetSchemaWebPage.html gives the
      primary image of the page, so both copies merge back into one. An image
