@@ -8,8 +8,9 @@
   four full stars and one at 80%: the styling module paints the glyph with it.
   The value is read out by screen readers only, the stars are hidden from them.
   Needs hugolify-theme-icons, like every icon in the theme. The glyph is
-  "star-fill", the module's solid take on Lucide's "star": the icon is painted
-  as a mask, so an outline glyph would only let the fill through its stroke.
+  "solid:star", Lucide's "star" filled in at build time: the icon is painted
+  as a mask, so the outline glyph alone would only let the fill through its
+  stroke.
 */ -}}
 {{- with . -}}
   {{- $max := 5 -}}
@@ -20,7 +21,7 @@
       {{- range $i := $max }}
         {{- $fill := math.Min 1 (math.Max 0 (sub $rating $i)) }}
         <span class="rating-star" style="--rating-fill: {{ math.Round (mul $fill 100) }}%">
-          {{- partial "icon.html" "star-fill" -}}
+          {{- partial "icon.html" "solid:star" -}}
         </span>
       {{- end }}
     {{- end }}
