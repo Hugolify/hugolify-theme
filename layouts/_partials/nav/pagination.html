@@ -74,15 +74,17 @@
 
       <!-- Output page numbers. -->
       {{- if eq ($.Scratch.Get "page_number_flag") true -}}
-        {{- $class := slice "item" -}}
+        {{- $isCurrent := eq . $paginator -}}
+        {{- $class := slice "number" -}}
         {{- if or (eq .PageNumber (sub $paginator.PageNumber 1)) (eq .PageNumber (add $paginator.PageNumber 1)) -}}
-          {{- $class = $class | append "item-adjacent" -}}
+          {{- $class = $class | append "adjacent" -}}
         {{- end -}}
-        {{- if eq . $paginator -}}
+        {{- if $isCurrent -}}
           {{- $class = $class | append "active" -}}
         {{- end -}}
         <li {{- with $class }} class="{{ delimit . ` ` }}" {{- end -}} >
-          <a href="{{ .URL }}" title="{{ i18n "pagination.page" (dict "Number" .PageNumber) }}">
+          <a href="{{ .URL }}" title="{{ i18n "pagination.page" (dict "Number" .PageNumber) }}"
+            {{- if $isCurrent }} aria-current="page"{{ end }}>
             {{- .PageNumber -}}
           </a>
         </li>
