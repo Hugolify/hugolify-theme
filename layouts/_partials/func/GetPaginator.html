@@ -1,6 +1,8 @@
 {{/* GetPaginator
      The pager of a list, sized by params.<type>.pagerSize when its type sets
-     one, by the site-wide pagination.pagerSize otherwise.
+     one, by the site-wide pagination.pagerSize otherwise. A term lists the
+     pages of another type (the persons of an expertise, the posts of a
+     category…): without a size of its own, it takes the size of their type.
 
      Hugo builds the pager of a page once, on the first call: every later call,
      nav/pagination.html among them, gets that same pager back whatever it asks
@@ -26,6 +28,11 @@
 {{- /* The site-wide size cannot be read from a template: Hugo applies it
        itself when no size is passed. */ -}}
 {{- $size := (index site.Params $page.Type).pagerSize -}}
+{{- if and (not $size) (eq $page.Kind "term") -}}
+  {{- range first 1 $page.Pages -}}
+    {{- $size = (index site.Params .Type).pagerSize -}}
+  {{- end -}}
+{{- end -}}
 {{- $pager := false -}}
 {{- if and $hasPages $size -}}
   {{- $pager = $page.Paginate $pages $size -}}
