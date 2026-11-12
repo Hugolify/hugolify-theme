@@ -3,7 +3,7 @@
   {{- $parallax := .parallax | default false -}}
   {{- $parallax = cond $parallax (partial "func/SetParallax.html" (dict "element" "figure")) "" -}}
   {{- if .screenshot }}
-    <div class="screenshot" {{- $animation }} {{- $parallax }}>
+    <div class="screenshot" {{- safeHTMLAttr $animation }} {{- safeHTMLAttr $parallax }}>
       <span></span>
   {{ end }}
   <figure {{- with .figure_class }} class="{{.}}"{{ end }} {{- if not .screenshot }}{{ safeHTMLAttr $animation }} {{- safeHTMLAttr $parallax }}{{ end }}>
