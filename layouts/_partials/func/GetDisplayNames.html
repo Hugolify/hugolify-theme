@@ -18,10 +18,11 @@
 
      Returns: map, the names by code; empty when no file could be read.
 */}}
-{{- /* Bumping it updates the names. Check then that func/GetCountryCodes.html
-       and func/GetLanguageCodes.html still match the codes of the release,
-       minus those outside ISO — the CLDR names the European Union, Kosovo
-       or the Canary Islands too. */ -}}
+{{- /* Bumping it updates the names. Check then that the codes the CMS
+       offers, listed by hugolify-admin (admin/func/GetCountryCodes.html and
+       admin/func/GetLanguageCodes.html), still have a name in the release:
+       the ISO ones only — the CLDR names the European Union, Kosovo or the
+       Canary Islands too. */ -}}
 {{- $version := "49.0.0" -}}
 {{- $mirrors := slice "https://cdn.jsdelivr.net/npm" "https://unpkg.com" -}}
 {{- $type := .type -}}
