@@ -17,7 +17,9 @@
 */}}
 
 {{- /* Get arguments. */}}
-{{- $text := .Inner | strings.TrimSpace | .Page.RenderString }}
+{{- /* Render as block so a single paragraph keeps its <p>: inline rendering strips it,
+       and the partial then outputs the HTML unwrapped as soon as a nested shortcode adds a newline. */}}
+{{- $text := .Inner | strings.TrimSpace | .Page.RenderString (dict "display" "block") }}
 {{- $state := or (.Get "state") "" }}
 {{- $title := or (.Get "title") false }}
 {{- $icon := or (.Get "icon") false }}
