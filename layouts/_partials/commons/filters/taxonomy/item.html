@@ -33,7 +33,8 @@
     {{- end }}
     <div>
   {{- end }}
-  <a href="{{ .url }}" {{- if .active }} class="active"{{ end }}>
+  {{/* aria-current tells a screen reader which term is open, as the nav does */}}
+  <a href="{{ .url }}" {{- if .active }} class="active" aria-current="page"{{ end }}>
     {{- $title }}
   </a>
   {{- if $isMiniCard }}
