@@ -1,5 +1,6 @@
 {{/*
-  Lists the terms of a taxonomy as filters
+  Lists the terms of a taxonomy as filters: the pinned ones first, then by
+  title. Persons come as on the persons page.
 
   - tax (string) required, the taxonomy name
   - current (page) the page being rendered, its term is flagged active
@@ -31,14 +32,48 @@
     {{- $nTaxs := $the_tax | len }}
     {{- $i18n := printf "%s.title" $tax }}
     {{- $terms := slice }}
-    {{- range $taxonomy_term, $taxonomy := . }}
+    {{- $persons := slice }}
+    {{- range . }}
       {{- $page := partial "func/GetRealContext" .Page -}}
-      {{- $terms = $terms | append (dict
+      {{/* Sorted on the title item.html shows: a term with no content of its
+           own shows its key, humanized */}}
+      {{- $title := $page.Title }}
+      {{- if not $page.File }}{{ $title = humanize $title }}{{ end }}
+      {{/* The weight is read on the term itself (a category, a statute): the
+           one of the page a term stands for only orders it among its siblings,
+           like the position of a sub-expertise. */}}
+      {{- $term := dict
         "page" $page
         "url" .Page.Permalink
         "active" (and (ne $currentURL "") (or (eq $currentURL .Page.RelPermalink) (eq $currentURL $page.RelPermalink)))
         "mini_card" $isMiniCard
-      ) }}
+        "key" (printf "%010d-%s" (cond (gt .Page.Weight 0) .Page.Weight 9999999999) $title)
+      }}
+      {{- if eq $page.Section "persons" }}
+        {{- $persons = $persons | append $term }}
+      {{- else }}
+        {{- $terms = $terms | append $term }}
+      {{- end }}
+    {{- end }}
+    {{/* Ranging over the taxonomy gives the terms by their key, byte by byte: a
+         slug, not the title, and the accented ones last. sort compares in the
+         collation of the language. */}}
+    {{- $terms = sort $terms "key" }}
+    {{/* Persons by statute, the pinned ones first, then by lastname */}}
+    {{- with $persons }}
+      {{- $pages := slice }}
+      {{- range sort . "key" }}
+        {{- $pages = $pages | append .page }}
+      {{- end }}
+      {{- $ranks := newScratch }}
+      {{- range $rank, $person := partial "func/GetPersonsOrderByStatutes.html" $pages }}
+        {{- $ranks.Set $person.Path $rank }}
+      {{- end }}
+      {{- $ranked := slice }}
+      {{- range . }}
+        {{- $ranked = $ranked | append (merge . (dict "key" (printf "%05d" ($ranks.Get .page.Path)))) }}
+      {{- end }}
+      {{- $terms = sort $ranked "key" | append $terms }}
     {{- end }}
     {{- $shown := $terms }}
     {{- $folded := slice }}
