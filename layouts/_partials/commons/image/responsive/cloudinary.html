@@ -23,12 +23,13 @@
 {{- $image_height := false -}}
 {{- $srcset := slice -}}
 
-{{- if not $cloudinary.is_svg -}}
+{{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio, an SVG read as a PNG. */}}
+{{- $info := cond $cloudinary.is_svg "fl_getinfo/f_png/" "fl_getinfo/" -}}
+{{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile $info $imageFile) "provider" "cloudinary") -}}
+{{- $image_width = $size.width -}}
+{{- $image_height = $size.height -}}
 
-  {{/*  Intrinsic size: caps the ladder and feeds the <img> aspect ratio. */}}
-  {{- $size := partial "func/GetRemoteImageSize.html" (dict "url" (print $pathFile "fl_getinfo/" $imageFile) "provider" "cloudinary") -}}
-  {{- $image_width = $size.width -}}
-  {{- $image_height = $size.height -}}
+{{- if not $cloudinary.is_svg -}}
 
   {{/*  f_auto: Cloudinary negotiates AVIF/WebP/original per browser via the Accept header,
         so a single srcset suffices — no hand-built webp/avif <source> needed. */}}
