@@ -1,7 +1,7 @@
 <div class="content">
   <ol>
     {{- $pages := where site.Sections ".Params.isPage" "!=" true -}}
-    {{- range $pages }}
+    {{- range $pages.ByTitle }}
       {{- if and (ne .Type "admin") (ne .Type "sitemap") }}
         <li>
           <a href="#{{ .Type }}">{{ partial "func/PrepareHTML.html" .Title }}</a>
