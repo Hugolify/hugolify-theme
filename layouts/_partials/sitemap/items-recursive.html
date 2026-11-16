@@ -1,4 +1,6 @@
-{{- if . -}}
+{{- /* A page that is not rendered (build.render never) has no permalink and
+       nothing to link to: left out, like in sitemap.xml. */ -}}
+{{- with where . "Permalink" "!=" "" -}}
   <ul>
     {{- range .ByTitle }}
       <li>
