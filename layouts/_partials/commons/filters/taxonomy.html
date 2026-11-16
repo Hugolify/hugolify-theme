@@ -9,6 +9,9 @@
     asked for, site.Params.filters.more.enable being false by default: the
     whole list is rendered otherwise.
   - mini_card (boolean) shows the avatar of each term
+  - nested (boolean) lists the terms picked in a nested collection, whose key
+    holds the path of their page ("parent/child", a sub-expertise). True by
+    default, false keeps the top level only.
 */}}
 
 {{- $current := .current | default false }}
@@ -19,6 +22,8 @@
 {{- with $current }}{{ $currentURL = .RelPermalink | default "" }}{{ end }}
 {{- $tax := .tax | default false }}
 {{- $isMiniCard := .mini_card | default false }}
+{{- $nested := true }}
+{{- if isset . "nested" }}{{ $nested = .nested }}{{ end }}
 {{- $isTags := strings.Contains $tax "_tags" }}
 {{/* The fold is a <details> dressed by .filters-more, which comes with
      hugolify-theme-design-system, hence the param rather than a plain count.
@@ -33,8 +38,13 @@
     {{- $i18n := printf "%s.title" $tax }}
     {{- $terms := slice }}
     {{- $persons := slice }}
-    {{- range . }}
-      {{- $page := partial "func/GetRealContext" .Page -}}
+    {{- range $key, $entry := . }}
+      {{- if or $nested (not (strings.Contains $key "/")) }}
+      {{/* The term page is looked up by its key: .Page of the entry is the
+           term of the first page listed, and a page holding both "parent" and
+           "parent/child" hands back "parent/child" for both (Hugo 0.165). */}}
+      {{- $termPage := site.GetPage (printf "/%s/%s" $tax $key) | default $entry.Page }}
+      {{- $page := partial "func/GetRealContext" $termPage -}}
       {{/* Sorted on the title item.html shows: a term with no content of its
            own shows its key, humanized */}}
       {{- $title := $page.Title }}
@@ -44,15 +54,16 @@
            like the position of a sub-expertise. */}}
       {{- $term := dict
         "page" $page
-        "url" .Page.Permalink
-        "active" (and (ne $currentURL "") (or (eq $currentURL .Page.RelPermalink) (eq $currentURL $page.RelPermalink)))
+        "url" $termPage.Permalink
+        "active" (and (ne $currentURL "") (or (eq $currentURL $termPage.RelPermalink) (eq $currentURL $page.RelPermalink)))
         "mini_card" $isMiniCard
-        "key" (printf "%010d-%s" (cond (gt .Page.Weight 0) .Page.Weight 9999999999) $title)
+        "key" (printf "%010d-%s" (cond (gt $termPage.Weight 0) $termPage.Weight 9999999999) $title)
       }}
       {{- if eq $page.Section "persons" }}
         {{- $persons = $persons | append $term }}
       {{- else }}
         {{- $terms = $terms | append $term }}
+      {{- end }}
       {{- end }}
     {{- end }}
     {{/* Ranging over the taxonomy gives the terms by their key, byte by byte: a
