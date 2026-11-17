@@ -1,8 +1,25 @@
 {{- /* Marks the regions Pagefind indexes. Once one page carries the attribute,
        Pagefind skips every page without it, which is how pages hidden from
-       robots (noIndex) stay out of the search too. */ -}}
+       robots (noIndex) stay out of the search too.
+
+       Past the first page, a paginated list only repeats the heading of the
+       first one: it stays out, or a term listing 30 pages of posts would take
+       30 results. nav/pagination.html stores the pager once the first page is
+       rendered: asking for it before would build it ahead of the list.
+
+       Taxonomies and terms only list other pages, under a heading a few words
+       long, which Pagefind ranks high for being short. Their text gets the
+       lowest weight Pagefind keeps (it rounds to twelfths), so a search for a
+       lawyer or an expertise lands on its own page before the lists naming it. */ -}}
 {{- $attr := "" -}}
-{{- if and site.Params.search.enable (ne .Params.noIndex true) -}}
+{{- $paged := false -}}
+{{- with .Store.Get "paginator" -}}
+  {{- $paged = gt $.Paginator.PageNumber 1 -}}
+{{- end -}}
+{{- if and site.Params.search.enable (ne .Params.noIndex true) (not $paged) -}}
   {{- $attr = " data-pagefind-body" -}}
+  {{- if in (slice "taxonomy" "term") .Kind -}}
+    {{- $attr = print $attr ` data-pagefind-weight="0.1"` -}}
+  {{- end -}}
 {{- end -}}
 {{- return ($attr | safeHTMLAttr) -}}
