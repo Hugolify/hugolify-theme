@@ -24,6 +24,11 @@
   {{- $pages = .pages -}}
   {{- $hasPages = isset . "pages" -}}
 {{- end -}}
+{{- /* A term on a nested taxonomy repeats the pages of its child terms. */ -}}
+{{- if and (not $hasPages) (eq $page.Kind "term") -}}
+  {{- $pages = partialCached "func/GetTermPages.html" $page $page -}}
+  {{- $hasPages = true -}}
+{{- end -}}
 
 {{- /* The site-wide size cannot be read from a template: Hugo applies it
        itself when no size is passed. */ -}}

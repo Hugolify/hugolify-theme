@@ -1,0 +1,22 @@
+{{/* GetTermPages
+     The pages of a term, each listed once.
+
+     On a nested taxonomy, Hugo also lists in a parent term the pages of its
+     child terms, once per child term: a page tagged "parent", "parent/a" and
+     "parent/b" shows up three times, and a page tagged "parent/a" only shows
+     up too. Only the pages that carry the term itself are kept.
+
+     Params: (page) the term
+     Returns: the pages, in the order of term.Pages
+*/}}
+{{- $term := . -}}
+{{- $pages := slice -}}
+{{- range uniq .Pages -}}
+  {{- $page := . -}}
+  {{- range .GetTerms $term.Data.Plural -}}
+    {{- if eq .Path $term.Path -}}
+      {{- $pages = $pages | append $page -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $pages -}}

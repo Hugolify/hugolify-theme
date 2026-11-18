@@ -8,8 +8,12 @@
 {{ if (findRE "^(\\*hugolib\\.Page|.*hugolib\\.pageState)" $type) }}
   {{/* Add context to $pagination */}}
   {{ $pagination = $persons }}
-  {{/* Add pages to $persons */}}
-  {{ $persons = $persons.Pages }}
+  {{/* Add pages to $persons, a term without the repeats of its child terms */}}
+  {{ if eq $persons.Kind "term" }}
+    {{ $persons = partialCached "func/GetTermPages.html" $persons $persons }}
+  {{ else }}
+    {{ $persons = $persons.Pages }}
+  {{ end }}
 {{ end }}
 
 {{ $pages := slice }}
