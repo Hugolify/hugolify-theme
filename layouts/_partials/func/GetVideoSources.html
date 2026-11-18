@@ -1,8 +1,12 @@
 {{/* GetVideoSources
-     The sources of a video, compressed by the CDN that hosts them: no wider
-     than video.desktop (1920 px by default), and a copy no wider than
-     video.mobile (720 px) for mobiles, which commons/video.html plays below
-     768 px (see video.js).
+     The sources of a video, compressed by the CDN that hosts them at two
+     sizes, given as the images' ("WxH"): desktop, and mobile for the copy
+     commons/video.html plays below 768 px (see video.js). A width alone
+     ("720x") is the largest one served; a width and a height ("480x640") a
+     crop around the centre, for a box whose shape the video does not have —
+     a cover, portrait on mobiles. The caller gives them (hero.cover.video,
+     blocks.pushes.video), else video.desktop and video.mobile: 1920 and 720
+     px wide by default.
 
      One partial per CDN in commons/video/source/, named after it, as for the
      thumbnails (see func/GetVideoThumbnail.html): it recognises the URLs of
@@ -18,12 +22,24 @@
      video.js plays the mobile sources first, so a webm copy of the desktop
      video beside a chosen mp4 would play instead of it.
 
-     Params: the video (map: webm, mp4, webm_mobile, mp4_mobile…)
+     Params: the video (map: webm, mp4, webm_mobile, mp4_mobile…), and
+       desktop  (string) optional, the size of the desktop sources
+       mobile   (string) optional, the size of the mobile ones
      Returns: map, the same video, its sources rewritten
 */}}
 {{- $video := . -}}
-{{- $desktopWidth := int (site.Params.video.desktop | default 1920) -}}
-{{- $mobileWidth := int (site.Params.video.mobile | default 720) -}}
+
+{{/* The sizes, a bare width (1920) read as one ("1920x") */}}
+{{- $params := site.Params.video | default dict -}}
+{{- $sizes := dict -}}
+{{- range $device, $default := dict "desktop" "1920x" "mobile" "720x" -}}
+  {{- $size := printf "%v" (index $video $device | default (index $params $device) | default $default) -}}
+  {{- if not (strings.Contains $size "x") -}}
+    {{- $size = printf "%sx" $size -}}
+  {{- end -}}
+  {{- $sizes = merge $sizes (dict $device $size) -}}
+{{- end -}}
+
 {{- $hasMobile := or $video.webm_mobile $video.mp4_mobile -}}
 
 {{/* Each source to compress, read before any rewrite */}}
@@ -33,12 +49,12 @@
   {{- $sources = $sources | append (dict
     "key" $mobile
     "url" (index $video (cond $hasMobile $mobile $format))
-    "width" $mobileWidth
+    "size" $sizes.mobile
   ) -}}
   {{- $sources = $sources | append (dict
     "key" $format
     "url" (index $video $format)
-    "width" $desktopWidth
+    "size" $sizes.desktop
   ) -}}
 {{- end -}}
 

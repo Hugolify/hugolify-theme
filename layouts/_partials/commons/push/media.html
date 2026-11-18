@@ -8,7 +8,10 @@
 
 <div class="media">
   {{- with $video -}}
-    {{- partial "commons/video.html" (merge . (dict "lazy" $.lazy)) -}}
+    {{/* Sizes of its own: a crop for a media box of another shape than the
+          video, see func/GetVideoSources.html */}}
+    {{- $sizes := site.Params.blocks.pushes.video | default dict -}}
+    {{- partial "commons/video.html" (merge . (dict "lazy" $.lazy "desktop" $sizes.desktop "mobile" $sizes.mobile)) -}}
   {{- else -}}
     {{- partial "commons/image.html" (merge $.image (dict "desktop" $.desktop "mobile" $.mobile "lazy" $.lazy)) -}}
   {{- end -}}

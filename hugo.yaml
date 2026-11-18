@@ -172,11 +172,14 @@ params:
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
   # Videos a CDN hosts as uploaded, resized and compressed on the fly (see
-  # func/GetVideoSources.html): the largest width of the desktop source, and of
-  # the mobile copy played below 768px. Never enlarged past the uploaded size.
+  # func/GetVideoSources.html): desktop, and mobile for the copy played below
+  # 768px, sizes as the images'. 'Wx' is the largest width, never enlarged past
+  # the uploaded one; 'WxH' a crop around the centre. A cover, whose box has
+  # another shape than the video, can get sizes of its own, e.g. a portrait crop
+  # on mobile: hero.cover.video and blocks.pushes.video (mobile: '480x640').
   video:
-    desktop: 1920
-    mobile: 720
+    desktop: '1920x'
+    mobile: '720x'
   # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
   # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
   # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).

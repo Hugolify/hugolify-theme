@@ -4,8 +4,11 @@
     {{- if .darken -}}
       {{- $media_class = printf "%s hero-cover-darken" $media_class -}}
     {{- end -}}
+    {{/* Sizes of its own: a crop for the shape of the cover, see
+          func/GetVideoSources.html */}}
+    {{- $sizes := site.Params.hero.cover.video | default dict -}}
     <div class="{{ $media_class }}">
-      {{ partial "commons/video.html" . }}
+      {{ partial "commons/video.html" (merge . (dict "desktop" $sizes.desktop "mobile" $sizes.mobile)) }}
     </div>
   {{- end }}
 {{- end }}
