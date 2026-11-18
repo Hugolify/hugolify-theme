@@ -171,6 +171,12 @@ params:
     # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
+  # Videos a CDN hosts as uploaded, resized and compressed on the fly (see
+  # func/GetVideoSources.html): the largest width of the desktop source, and of
+  # the mobile copy played below 768px. Never enlarged past the uploaded size.
+  video:
+    desktop: 1920
+    mobile: 720
   # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
   # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
   # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).

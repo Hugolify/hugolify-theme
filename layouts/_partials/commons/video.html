@@ -27,6 +27,11 @@
     {{- end }}
   {{ end -}}
 
+  {{/*  Sources, compressed by the CDN that hosts them, see
+        func/GetVideoSources.html. The VideoObject below keeps the files as
+        uploaded.  */}}
+  {{- $sources := partial "func/GetVideoSources.html" . -}}
+
   {{/*  Video wrapper */}}
   <div class="video">
 
@@ -38,16 +43,16 @@
     {{- if not $lazy }} preload="metadata"{{ end }}
     {{- range $args }} {{ . | safeHTMLAttr }}{{ end }}
     {{- $animation }}{{ $parallax }}>
-    {{- with .webm_mobile }}
+    {{- with $sources.webm_mobile }}
       <source data-src_mobile="{{ . }}" type="video/webm" />
     {{- end }}
-    {{- with .mp4_mobile }}
+    {{- with $sources.mp4_mobile }}
       <source data-src_mobile="{{ . }}" type="video/mp4" />
     {{- end }}
-    {{- with .webm }}
+    {{- with $sources.webm }}
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/webm" />
     {{- end }}
-    {{- with .mp4 }}
+    {{- with $sources.mp4 }}
       <source {{ if $lazy }}data-{{ end }}src="{{ . }}" type="video/mp4" />
     {{- end }}
   </video>

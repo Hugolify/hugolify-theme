@@ -1,0 +1,20 @@
+{{/* A video Cloudinary hosts, see func/GetVideoSources.html, compressed on
+     the fly: c_limit to the width, which never enlarges a smaller video,
+     q_auto for the compression. Only the file as uploaded — nothing between
+     /upload/ and its version, e.g. /video/upload/v1795009477/file.webm: a URL
+     that carries transformations already is the editor's choice.
+
+     Params: {map}
+       url    (string) the absolute URL of the video
+       width  (int) the largest width to serve
+
+     Returns: string, the URL of the compressed copy — "" for a video
+     Cloudinary does not host, or whose URL carries transformations.
+*/}}
+{{- $src := "" -}}
+
+{{- if findRE `^https://res\.cloudinary\.com/[^/]+/video/upload/v\d+/` .url -}}
+  {{- $src = replace .url "/upload/" (printf "/upload/c_limit,w_%d,q_auto/" .width) 1 -}}
+{{- end -}}
+
+{{- return $src -}}
