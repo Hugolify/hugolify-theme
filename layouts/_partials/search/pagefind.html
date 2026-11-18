@@ -5,7 +5,10 @@
   {{- $uniqueID := add (page.Store.Get "pagefind" | default 0) 1 }}
   {{- page.Store.Set "pagefind" $uniqueID }}
 
-  <script src="/pagefind/pagefind-ui.js"></script>
+  {{/* Deferred: rendered in the header, a blocking script held back the parsing
+       of the whole page. Deferred scripts run before DOMContentLoaded, so
+       PagefindUI is defined when the listener below creates the form. */}}
+  <script src="/pagefind/pagefind-ui.js" defer></script>
   <div id="search-{{ $uniqueID }}" class="search"></div>
   <script>
     window.addEventListener('DOMContentLoaded', (event) => {
