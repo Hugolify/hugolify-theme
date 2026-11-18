@@ -1,5 +1,6 @@
 {{- $layout := .ui.layout | default false -}}
-{{- if eq $layout "carousel" }}
+{{/* A carousel needs two slides: a lone testimonial falls back to the grid */}}
+{{- if and (eq $layout "carousel") (gt (len .items) 1) }}
   {{ partial "blocks/templates/testimonials/carousel.html" . }}
 {{- else if eq $layout "list" }}
   {{ partial "blocks/templates/testimonials/list.html" . }}

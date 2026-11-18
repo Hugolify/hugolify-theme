@@ -1,5 +1,6 @@
 {{- $layout := .ui.layout | default false -}}
-{{ if eq $layout "carousel" }}
+{{/* A carousel needs two slides: a lone logo falls back to the grid */}}
+{{ if and (eq $layout "carousel") (gt (len .items) 1) }}
   {{ partial "blocks/templates/logos/carousel.html" . }}
 {{ else }}
   {{ partial "blocks/templates/logos/grid.html" . }}

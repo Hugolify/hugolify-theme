@@ -20,7 +20,8 @@
 )}}
 
 {{- with .gallery }}
-  {{- if eq $layout "carousel" }}
+  {{/* A carousel needs two slides: a lone image falls back to the grid */}}
+  {{- if and (eq $layout "carousel") (gt (len .) 1) }}
     {{ partial "blocks/templates/gallery/carousel.html" $context }}
   {{- else }}
     {{ partial "blocks/templates/gallery/grid.html" $context }}

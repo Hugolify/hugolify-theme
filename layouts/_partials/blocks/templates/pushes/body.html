@@ -9,7 +9,8 @@
 {{- end }}
 {{- $scrollsnap := partial "func/SetScrollsnap.html" (dict "scrollsnap" .ui.scrollsnap "context" (printf "blocks.%s" .type)) -}}
 {{- $params := index (slice (dict "tag" $tag "column" $column "scrollsnapclass" $scrollsnap)) 0 -}}
-{{- if eq $layout "carousel" }}
+{{/* A carousel needs two slides: a lone push falls back to the grid */}}
+{{- if and (eq $layout "carousel") (gt (len .items) 1) }}
   {{ partial "blocks/templates/pushes/carousel.html" (dict "context" . "params" $params) }}
 {{- else -}}
   {{ partial "blocks/templates/pushes/grid.html" (dict "context" . "params" $params) }}
