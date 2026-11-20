@@ -1,6 +1,6 @@
 {{- /*
-  Wraps vCard properties into a `contact-info.vcf` resource, published next to
-  the page, e.g. /team/jane-doe/contact-info.vcf
+  Wraps vCard properties into a `.vcf` resource named after the page slug and
+  published next to the page, e.g. /team/jane-doe/jane-doe.vcf
 
   Callers build the properties of their own content type — see
   `persons/vcard.html` and `places/vcard.html` — and escape each value with
@@ -23,8 +23,17 @@
 {{- $lines = $lines | append (printf "URL:%s" $page.Permalink) -}}
 {{- $lines = $lines | append "END:VCARD" -}}
 
-{{- /* Publish next to the page, without the baseURL sub-path. */ -}}
+{{- /*
+  Publish next to the page, without the baseURL sub-path, and name the file
+  after the page slug so the download carries the person or place name.
+  Falls back to `contact-info` when the page has no slug (home page).
+*/ -}}
 {{- $base := (urls.Parse site.BaseURL).Path | strings.TrimSuffix "/" -}}
-{{- $target := printf "%scontact-info.vcf" (strings.TrimPrefix $base $page.RelPermalink) -}}
+{{- $dir := strings.TrimPrefix $base $page.RelPermalink -}}
+{{- $name := path.Base $dir -}}
+{{- if in (slice "/" ".") $name -}}
+  {{- $name = "contact-info" -}}
+{{- end -}}
+{{- $target := printf "%s%s.vcf" $dir $name -}}
 
 {{- return resources.FromString $target (printf "%s\r\n" (delimit $lines "\r\n")) -}}
