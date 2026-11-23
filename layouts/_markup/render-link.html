@@ -1,0 +1,107 @@
+{{- /*
+  Markdown link render hook: opens external http(s) links in a new tab with
+  a translated title, mirroring the blank_link shortcode rendering, and
+  appends Lucide icons to mailto: and tel: links.
+
+  External links get no icon from this hook: the design system already
+  appends one in CSS — a[target="_blank"]::after in css/base/link.css
+  (see https://www.hugolify.io/docs/shortcodes/blank_link/) — so every
+  new-tab link, shortcode or hook, is decorated the same way and no
+  double icon can appear. mailto: and tel: links have no target="_blank",
+  so an opt-in icon is emitted for them only.
+
+  Internal destinations keep Hugo's embedded render hook resolution — page,
+  then page resource, then global resource — so relative links and page
+  bundles keep working on multilingual single-host sites. With the feature
+  disabled, the output is identical to the embedded render hook.
+
+  @params (site.Params.links)
+    external:
+      enable  (bool)         open absolute http(s) links in a new tab — default false
+      domains (list)         hostnames to treat as internal in addition to
+                             the site hosts, e.g. ["www.example.com"]
+    mailto:
+      icon    (string|bool)  Lucide slug appended to mailto: links
+                             (e.g. "mail-pen") — default false
+    tel:
+      icon    (string|bool)  Lucide slug appended to tel: links
+                             (e.g. "phone-call") — default false
+
+  @context
+    Destination (string)         link destination
+    Text        (template.HTML)  link description
+    Title       (string)         optional link title
+    PlainText   (string)         link description as plain text
+    PageInner   (page)           page used to resolve internal destinations
+
+  @example - Markdown
+    [Some text](https://example.com)          -> external, new tab (icon: native CSS)
+    [Some text](/posts/some-post/)            -> internal, unchanged
+    [Some text](mailto:hi@example.com)        -> optional icon, no new tab
+    [Some text](tel:+33123456789)             -> optional icon, no new tab
+    [Some text](https://example.com "Title")  -> external, author title kept
+*/ -}}
+{{- /* Configuration. */ -}}
+{{- $links := site.Params.links | default dict -}}
+{{- $external := $links.external | default dict -}}
+{{- $enable := $external.enable | default false -}}
+{{- $domains := $external.domains | default slice -}}
+{{- $mailto := $links.mailto | default dict -}}
+{{- $mailtoIcon := $mailto.icon | default false -}}
+{{- $tel := $links.tel | default dict -}}
+{{- $telIcon := $tel.icon | default false -}}
+
+{{- /* Resolve the destination like Hugo's embedded link render hook. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $href := $u.String -}}
+{{- if strings.HasPrefix $u.String "#" -}}
+  {{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
+{{- else if and $href (not $u.IsAbs) -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path -}}
+  {{- with or ($.PageInner.GetPage $path) ($.PageInner.Resources.Get $path) (resources.Get $path) -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.RawQuery -}}
+      {{- $href = printf "%s?%s" $href . -}}
+    {{- end -}}
+    {{- with $u.Fragment -}}
+      {{- $href = printf "%s#%s" $href . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* External detection: http(s) only, site hosts excluded. */ -}}
+{{- $isExternal := and $enable (or (eq $u.Scheme "http") (eq $u.Scheme "https")) -}}
+{{- if $isExternal -}}
+  {{- $internalHosts := slice -}}
+  {{- range $site := hugo.Sites -}}
+    {{- with $site.BaseURL | urls.Parse -}}
+      {{- $internalHosts = union $internalHosts (slice .Hostname) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $domains -}}
+    {{- $internalHosts = union $internalHosts (apply . "lower" ".") -}}
+  {{- end -}}
+  {{- $isExternal = not (in $internalHosts (lower $u.Hostname)) -}}
+{{- end -}}
+
+{{- /* Icons: mailto and tel — external links are already decorated by the
+       design system CSS (a[target="_blank"]::after); requires the icon
+       partial (hugolify-theme-icons), silently skipped otherwise. */ -}}
+{{- $icon := false -}}
+{{- if eq $u.Scheme "mailto" -}}
+  {{- $icon = $mailtoIcon -}}
+{{- else if eq $u.Scheme "tel" -}}
+  {{- $icon = $telIcon -}}
+{{- end -}}
+{{- if and $icon (not (templates.Exists "partials/icon.html")) -}}
+  {{- $icon = false -}}
+{{- end -}}
+
+{{- /* An author-provided title wins; external links without one get the
+       translated external-link title of the blank_link shortcode. */ -}}
+{{- $title := .Title -}}
+{{- if and $isExternal (not $title) -}}
+  {{- $title = i18n "link.blank_aria" (dict "Title" .PlainText) -}}
+{{- end -}}
+<a href="{{ $href | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}{{ if $isExternal }} target="_blank" rel="noreferrer noopener"{{ end }}>{{ with .Text }}{{ . }}{{ end }}{{ with $icon }} <span class="link-icon">{{ partial "icon" . }}</span>{{ end }}</a>
+{{- /**/ -}}
