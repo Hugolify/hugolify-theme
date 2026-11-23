@@ -7,16 +7,21 @@
 
   The vCard comes from an optional hook, `{type}/contact/vcard.html`, provided by
   the module owning the content type of the page: it returns the vCard resource,
-  or false.
+  or false. The hook is only asked for the page's own contact details: a page
+  also renders this list in the cards of other pages (the persons of a place,
+  the places of a person), which must not get the vCard of the page.
 
   @context {map} . The contact object.
 */ -}}
 {{- if or .phone .fax .email }}
+{{- $contact := . }}
 {{- $vcard := false }}
 {{- with page }}
-  {{- $hook := printf "%s/contact/vcard.html" .Type }}
-  {{- if templates.Exists (printf "_partials/%s" $hook) }}
-    {{- $vcard = partial $hook . }}
+  {{- if eq $contact .Params.contact }}
+    {{- $hook := printf "%s/contact/vcard.html" .Type }}
+    {{- if templates.Exists (printf "_partials/%s" $hook) }}
+      {{- $vcard = partial $hook . }}
+    {{- end }}
   {{- end }}
 {{- end }}
 <ul class="contact-list">
