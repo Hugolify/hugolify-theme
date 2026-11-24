@@ -5,37 +5,74 @@
   {{- $uniqueID := add (page.Store.Get "pagefind" | default 0) 1 }}
   {{- page.Store.Set "pagefind" $uniqueID }}
 
-  {{/* Deferred: rendered in the header, a blocking script held back the parsing
-       of the whole page. Deferred scripts run before DOMContentLoaded, so
-       PagefindUI is defined when the listener below creates the form. */}}
-  <script src="/pagefind/pagefind-ui.js" defer></script>
+  {{/* Pagefind UI is loaded on first use, not with the page: inside a dialog —
+       the header search, on every page — once the dialog opens; anywhere else
+       (search page, search block, raw layout) right away. Fetched with the
+       page, its script (126 KB, 29 KB compressed) and the form it builds took
+       part in every page load for a panel most visits never open, and
+       Lighthouse counts both in its LCP and Speed Index estimates. */}}
   <div id="search-{{ $uniqueID }}" class="search"></div>
   <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
+    (() => {
       const element = document.getElementById("search-" + {{ $uniqueID }});
-      new PagefindUI({
-        element: element,
-        showEmptyFilters: {{ site.Params.search.showEmptyFilters | default true }},
-        showImages: {{ site.Params.search.showImages | default true }},
-        showSubResults: {{ site.Params.search.showSubResults | default true }}
+      const dialog = element.closest("dialog");
+
+      // One request, whatever the number of forms on the page
+      const load = () => {
+        window.hugolifyPagefindUI = window.hugolifyPagefindUI || new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = "/pagefind/pagefind-ui.js";
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.append(script);
+        });
+        return window.hugolifyPagefindUI;
+      };
+
+      const init = () => load().then(() => {
+        new PagefindUI({
+          element: element,
+          showEmptyFilters: {{ site.Params.search.showEmptyFilters | default true }},
+          showImages: {{ site.Params.search.showImages | default true }},
+          showSubResults: {{ site.Params.search.showSubResults | default true }}
+        });
+
+        // Pagefind UI renders its own markup: align it with the design system
+        const enhance = () => {
+          element.querySelectorAll(".pagefind-ui__search-input:not([type=search])").forEach((input) => {
+            input.type = "search";
+          });
+          // Pagefind sets neither id nor name: browsers flag the field as non autofillable
+          element.querySelectorAll(".pagefind-ui__search-input:not([name])").forEach((input) => {
+            input.name = "q";
+          });
+          element.querySelectorAll(".pagefind-ui__button:not(.btn)").forEach((button) => {
+            button.classList.add("btn");
+          });
+        };
+        enhance();
+        // "Load more" button is created and destroyed on each search
+        new MutationObserver(enhance).observe(element, { childList: true, subtree: true });
+
+        // The dialog opened before the form existed, so the design system
+        // (features/search.js, on dialog:shown) found no input to focus.
+        if (dialog && dialog.open) {
+          const input = element.querySelector("input");
+          if (input) input.focus();
+        }
       });
 
-      // Pagefind UI renders its own markup: align it with the design system
-      const enhance = () => {
-        element.querySelectorAll(".pagefind-ui__search-input:not([type=search])").forEach((input) => {
-          input.type = "search";
-        });
-        // Pagefind sets neither id nor name: browsers flag the field as non autofillable
-        element.querySelectorAll(".pagefind-ui__search-input:not([name])").forEach((input) => {
-          input.name = "q";
-        });
-        element.querySelectorAll(".pagefind-ui__button:not(.btn)").forEach((button) => {
-          button.classList.add("btn");
-        });
-      };
-      enhance();
-      // "Load more" button is created and destroyed on each search
-      new MutationObserver(enhance).observe(element, { childList: true, subtree: true });
-    });
+      if (!dialog || dialog.open) {
+        init();
+        return;
+      }
+      // Every way in sets [open]: the invoker command as well as showModal()
+      const observer = new MutationObserver(() => {
+        if (!dialog.open) return;
+        observer.disconnect();
+        init();
+      });
+      observer.observe(dialog, { attributeFilter: ["open"] });
+    })();
   </script>
 {{- end }}
