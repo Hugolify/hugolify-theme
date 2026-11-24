@@ -25,6 +25,10 @@
         element.querySelectorAll(".pagefind-ui__search-input:not([type=search])").forEach((input) => {
           input.type = "search";
         });
+        // Pagefind sets neither id nor name: browsers flag the field as non autofillable
+        element.querySelectorAll(".pagefind-ui__search-input:not([name])").forEach((input) => {
+          input.name = "q";
+        });
         element.querySelectorAll(".pagefind-ui__button:not(.btn)").forEach((button) => {
           button.classList.add("btn");
         });
