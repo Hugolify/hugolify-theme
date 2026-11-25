@@ -1,0 +1,30 @@
+{{/* GetLlmsPages
+     A page and the pages under it, as the text /llms-full.txt appends to its
+     body (see commons/llms.html): for each page, its title, its URL, its
+     description and its Markdown source, shortcodes left unrendered. Not
+     .Plain, which flattens headings and code blocks onto one line and keeps
+     HTML entities.
+
+     Pages follow the sidebar (nav/sidebarmenu.html): .Pages in its default
+     order, weight then date, each section before its children. A page with
+     no content of its own, such as a section whose prose lives in an
+     overview page, gives only its children; so does a page the sitemap
+     leaves out (noIndex, sitemap.disable).
+
+     Params: (page) a section, or any page.
+
+     Returns: string
+*/}}
+{{- $text := "" -}}
+{{- $body := strings.TrimSpace .RawContent -}}
+{{- if and $body (ne .Params.noIndex true) (not .Sitemap.Disable) -}}
+  {{- $text = printf "\n\n---\n\n# %s\n\nSource: %s\n" .Title .Permalink -}}
+  {{- with strings.TrimSpace .Description -}}
+    {{- $text = printf "%s\n%s\n" $text . -}}
+  {{- end -}}
+  {{- $text = printf "%s\n%s" $text $body -}}
+{{- end -}}
+{{- range .Pages -}}
+  {{- $text = print $text (partial "func/GetLlmsPages.html" .) -}}
+{{- end -}}
+{{- return $text -}}

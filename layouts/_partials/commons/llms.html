@@ -5,15 +5,33 @@
      look for it whatever the language. A resource rather than an output
      format: the text is edited in the CMS and stands for no page of the site,
      so the site has nothing to turn on. Not translated, see
-     func/GetUntranslatedData.html. No data file, or a body left empty,
-     publishes no file.
+     func/GetUntranslatedData.html.
+
+     data/llms-full.yml can also name `sections`: the pages of each one follow
+     the body, as their Markdown source, so the full text of a documentation
+     keeps in step with its pages without being written twice. They are the
+     pages of the default language, see func/GetLlmsPages.html.
+
+     No data file, or a file left empty, publishes no file.
 
      Called on the home page of each language, from baseof.html: the
-     same body gives the same resource, published once.
+     same text gives the same resource, published once.
 */}}
 {{- range slice "llms" "llms-full" -}}
   {{- $file := . -}}
-  {{- with (partialCached "func/GetUntranslatedData.html" $file $file).body | strings.TrimSpace -}}
+  {{- $data := partialCached "func/GetUntranslatedData.html" $file $file -}}
+  {{- $text := $data.body | strings.TrimSpace -}}
+  {{- if eq $file "llms-full" -}}
+    {{- $sections := $data.sections | default slice -}}
+    {{- /* Tina CMS writes a single select as a string */ -}}
+    {{- if not (reflect.IsSlice $sections) }}{{ $sections = slice $sections }}{{ end -}}
+    {{- range $sections -}}
+      {{- with (index hugo.Sites 0).GetPage (printf "/%s" (strings.TrimPrefix "/" .)) -}}
+        {{- $text = print $text (partialCached "func/GetLlmsPages.html" . .Path) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $text | strings.TrimSpace -}}
     {{- (resources.FromString (printf "%s.txt" $file) (printf "%s\n" .)).Publish -}}
   {{- end -}}
 {{- end -}}
