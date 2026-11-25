@@ -176,10 +176,11 @@ params:
     # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
-  # Avatars: the round pictures (picture_class avatar) of persons, authors and quote authors, and
-  # the small images of awards, expertises or taxonomy terms shown the same way. crop is their
-  # anchor, as image.crop (func/GetCropAnchor): faces keeps the face in the circle (smart on Hugo,
-  # which has no face detection); top was the fixed value before.
+  # Avatars: the round portraits (picture_class avatar) of persons, authors and quote authors, the
+  # person filters included (mini_card of commons/filters/taxonomy). crop is their anchor, as
+  # image.crop (func/GetCropAnchor): faces keeps the face in the circle (smart on Hugo, which has
+  # no face detection); top was the fixed value before. The round images of awards or expertises
+  # are no portraits: they keep image.crop.
   avatar:
     crop: faces
   # Videos a CDN hosts as uploaded, resized and compressed on the fly (see
