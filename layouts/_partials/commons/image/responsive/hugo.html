@@ -35,7 +35,7 @@
 
   {{- else -}}
 
-    {{- $crop := .crop -}}
+    {{- $crop := partial "func/GetCropAnchor.html" (dict "crop" .crop "provider" "hugo") -}}
     {{- $crop_ratio := .crop_ratio -}}
     {{/*  Crop mode (fill + anchor) keeps the requested aspect ratio at every width; otherwise plain resize. */}}
     {{- $proc := partial "func/GetHugoProcess.html" (dict "fill" $crop_ratio "crop" $crop "filter" $filter "hint" $hint) -}}

@@ -16,7 +16,9 @@
 {{- $cloudinary := partial "func/GetCloudinaryParams.html" (dict "file" $file "crop" .crop) -}}
 {{- $pathFile := $cloudinary.path -}}
 {{- $imageFile := $cloudinary.file -}}
-{{- $crop := $cloudinary.gravity -}}
+{{/*  The fill, with the gravity when there is one  */}}
+{{- $fill := "c_fill" -}}
+{{- with $cloudinary.gravity }}{{ $fill = printf "c_fill,%s" . }}{{ end -}}
 
 {{- $image_desktop := $file -}}
 {{- $image_width := false -}}
@@ -47,7 +49,7 @@
     {{- $p := $base -}}
     {{- if $crop_ratio -}}
       {{/*  Crop: fill to w×h with the chosen gravity. */}}
-      {{- $p = $p | append (printf "w_%d,h_%d,c_fill,%s" $w $h $crop) -}}
+      {{- $p = $p | append (printf "w_%d,h_%d,%s" $w $h $fill) -}}
       {{- $fallback_w = $w -}}
       {{- $fallback_h = $h -}}
     {{- else -}}

@@ -150,6 +150,11 @@ params:
     back:
       enable: false # Set true to enable back button
   image:
+    # Crop anchor of the filled images, when neither the image nor its block (blocks.<type>.image.crop)
+    # sets one. A Hugo anchor (smart, center, top… bottomright) or faces, translated for each provider
+    # by func/GetCropAnchor (smart: g_auto on Cloudinary, entropy on Unsplash); a provider's own value
+    # (smart_faces, g_auto:face, 30p,70p) also works.
+    crop: smart
     xlarge: '1600x'
     xsmall: '50x50'
     desktop: '856x'
@@ -171,6 +176,12 @@ params:
     # Max-width breakpoints (px) between tiers for a shorthand `sizes` CSV. "100vw, 50vw, 25vw" →
     # mobile (≤576) 100vw, tablet (≤1024) 50vw, desktop 25vw.
     sizes_breakpoints: [576, 1024]
+  # Avatars: the round pictures (picture_class avatar) of persons, authors and quote authors, and
+  # the small images of awards, expertises or taxonomy terms shown the same way. crop is their
+  # anchor, as image.crop (func/GetCropAnchor): faces keeps the face in the circle (smart on Hugo,
+  # which has no face detection); top was the fixed value before.
+  avatar:
+    crop: faces
   # Videos a CDN hosts as uploaded, resized and compressed on the fly (see
   # func/GetVideoSources.html): desktop, and mobile for the copy played below
   # 768px, sizes as the images'. 'Wx' is the largest width, never enlarged past
@@ -181,8 +192,8 @@ params:
     desktop: '1920x'
     mobile: '720x'
   # Social card built for og:image / twitter:image. 1200x630 (1.91:1) is the frame both
-  # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor (Hugo
-  # anchor, Cloudinary gravity or Uploadcare offset depending on the provider).
+  # Open Graph and Twitter summary_large_image crop to; crop is the fill anchor, as
+  # image.crop (translated for each provider by func/GetCropAnchor).
   seo:
     image:
       size: '1200x630'

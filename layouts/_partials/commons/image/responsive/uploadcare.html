@@ -9,8 +9,11 @@
       Retina is handled by the browser via DPR; variants larger than the source are skipped.
 */}}
 {{- $quality := site.Params.image.quality | default "normal" -}}
-{{/*  crop alignment (lowercased); crop_ratio (h/w) enables cropped variants via scale_crop. */}}
-{{- $crop := lower (.crop | default "center") -}}
+{{/*  crop alignment in Uploadcare's terms (func/GetCropAnchor) as an URL segment ("smart/"),
+      empty without one: Uploadcare then crops around the center.
+      crop_ratio (h/w) enables cropped variants via scale_crop. */}}
+{{- $crop := "" -}}
+{{- with partial "func/GetCropAnchor.html" (dict "crop" .crop "provider" "uploadcare") }}{{ $crop = printf "%s/" . }}{{ end -}}
 {{- $crop_ratio := .crop_ratio -}}
 
 {{/*  File name stripped for the transformations, SVG told by its extension  */}}
@@ -46,8 +49,8 @@
     {{- $h := .height -}}
     {{- if $crop_ratio -}}
       {{/*  Crop: scale_crop to w×h with the chosen alignment. */}}
-      {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s/%s %dw" $file $w $h $crop $q $w) -}}
-      {{- $fallback = printf "%s-/scale_crop/%dx%d/%s/%s" $file $w $h $crop $q -}}
+      {{- $srcset = $srcset | append (printf "%s-/scale_crop/%dx%d/%s%s %dw" $file $w $h $crop $q $w) -}}
+      {{- $fallback = printf "%s-/scale_crop/%dx%d/%s%s" $file $w $h $crop $q -}}
       {{- $fallback_w = $w -}}
       {{- $fallback_h = $h -}}
     {{- else -}}

@@ -15,7 +15,8 @@
 {{- $mobile_size := .mobile_size -}}
 {{- $mobile_size_2x := .mobile_size_2x -}}
 {{- $mobile_size_3x := .mobile_size_3x -}}
-{{- $crop := lower .crop -}}
+{{/*  Crop alignment in Uploadcare's terms (func/GetCropAnchor), empty without one  */}}
+{{- $crop := partial "func/GetCropAnchor.html" (dict "crop" .crop "provider" "uploadcare") -}}
 {{- $quality := printf "-/quality/%s/" (site.Params.image.quality | default "normal") -}}
 
 {{/*  File name stripped for the transformations, SVG told by its extension  */}}

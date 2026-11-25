@@ -4,9 +4,8 @@
      - base: the URL without its query
      - query: the parameters kept from the source, ixid (Unsplash tracking, to be kept), ixlib and
        cs (compact sRGB profile); size, format and crop are set per variant (func/GetUnsplashSrc)
-     - crop: the crop anchor as an Imgix `crop` value, from the anchors of the other providers:
-       faces (…face…), entropy (smart, auto, entropy), top/bottom/left/right (also north/south/
-       west/east), else empty for the center (the Imgix default)
+     - crop: the crop anchor as an Imgix `crop` value (func/GetCropAnchor), empty for the center
+       (the Imgix default)
      - quality: image.quality when a number (the other providers take keywords), else 75
 
      Param: dict { file (URL), crop (anchor, may be empty) }
@@ -21,23 +20,7 @@
   {{- end -}}
 {{- end -}}
 
-{{- $anchor := lower (.crop | default "") -}}
-{{- $crop := "" -}}
-{{- if in $anchor "face" -}}
-  {{- $crop = "faces" -}}
-{{- else if or (in $anchor "smart") (in $anchor "auto") (in $anchor "entropy") -}}
-  {{- $crop = "entropy" -}}
-{{- else -}}
-  {{- $sides := slice -}}
-  {{- range $side, $words := dict "top" (slice "top" "north") "bottom" (slice "bottom" "south") "left" (slice "left" "west") "right" (slice "right" "east") -}}
-    {{- range $words -}}
-      {{- if and (in $anchor .) (not (in $sides $side)) -}}
-        {{- $sides = $sides | append $side -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-  {{- $crop = delimit $sides "," -}}
-{{- end -}}
+{{- $crop := partial "func/GetCropAnchor.html" (dict "crop" .crop "provider" "unsplash") -}}
 
 {{- $quality := 75 -}}
 {{- with site.Params.image.quality -}}

@@ -4,7 +4,7 @@
         {{- $desktop := site.Params.image.xsmall | default false -}}
         {{- $mobile := site.Params.image.xsmall | default false -}}
         {{- if .src}}
-          {{- $args := merge . (dict "crop" "Top" "desktop" $desktop "mobile" $mobile) }}
+          {{- $args := merge . (dict "crop" site.Params.avatar.crop "desktop" $desktop "mobile" $mobile) }}
           {{- partial "commons/image.html" $args -}}
         {{ end -}}
       {{ end -}}

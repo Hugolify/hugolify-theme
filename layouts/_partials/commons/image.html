@@ -29,7 +29,12 @@
 {{- $desktop_size_2x := false -}}
 {{- $mobile_size_2x := false -}}
 {{- $mobile_size_3x := false -}}
-{{- $crop := .crop | default site.Params.image.crop -}}
+{{/* Crop anchor: the image's own, else the site default (image.crop), else empty for the provider's
+     default. `with`, not `default`: `default` takes a bool as set, and the blocks without an anchor
+     of their own pass `crop: false`, which would skip the site default and reach the CDN URL. */}}
+{{- $crop := "" -}}
+{{- with site.Params.image.crop }}{{ $crop = . }}{{ end -}}
+{{- with .crop }}{{ $crop = . }}{{ end -}}
 {{- $file := .src -}}
 {{- $file_mobile := .src_mobile | default $file -}}
 {{- if .static -}}

@@ -31,7 +31,7 @@
           "src" .src
           "desktop" $size
           "picture_class" "avatar"
-          "crop" "top"
+          "crop" site.Params.avatar.crop
         ) }}
       {{- else }}
         {{- $initials := substr .Title 0 1 }}

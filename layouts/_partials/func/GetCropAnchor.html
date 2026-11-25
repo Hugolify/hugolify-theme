@@ -1,0 +1,96 @@
+{{/* GetCropAnchor
+     The crop anchor in the terms of an image provider, so that one value (image.crop,
+     blocks.<type>.image.crop, <type>.image.crop or an image's own `crop`) works whatever the CDN.
+
+     The anchors are Hugo's, in any case, plus faces:
+
+       anchor       hugo         uploadcare    cloudinary     unsplash (Imgix)
+       smart        smart        smart         g_auto         entropy
+       faces        smart        smart_faces   g_auto:face    faces
+       center       center       center        g_center       (empty, its default)
+       top          top          top           g_north        top
+       topleft      topleft      0p,0p         g_north_west   top,left
+       …            (the same for topright, left, right, bottomleft, bottom, bottomright)
+
+     Hugo reads its anchors in any case; they are given lowercased, as the configs write them, since
+     the name of a processed image hashes the spec as written ("Center" would regenerate them all).
+
+     A provider's own value goes through as is on that provider: Uploadcare smart_* and offsets
+     (30p,70p), Cloudinary g_*, Imgix edges, entropy, faces, focalpoint. On another provider it
+     is read as the nearest anchor: words with face → faces, smart / auto / entropy → smart,
+     top / north, bottom / south, left / west, right / east → the side or corner. Anything else
+     (an offset off Uploadcare) gives no anchor.
+
+     Picsum always cuts around the center: no anchor.
+
+     Param: dict { crop (anchor, may be empty or false), provider (hugo, uploadcare, cloudinary,
+            unsplash, picsum) }
+     Returns: string, empty without an anchor: the provider's own default then applies.
+*/}}
+{{- $value := "" -}}
+{{- $provider := .provider -}}
+{{/*  `with`, not `default`: `default` takes a bool as set, a `false` means no anchor  */}}
+{{- with .crop -}}
+  {{- $raw := lower (printf "%v" .) -}}
+
+  {{/*  The provider's own value  */}}
+  {{- $native := false -}}
+  {{- if eq $provider "uploadcare" -}}
+    {{- $native = or (hasPrefix $raw "smart") (findRE `^\d+(\.\d+)?(p|px)?,\d+(\.\d+)?(p|px)?$` $raw) -}}
+  {{- else if eq $provider "cloudinary" -}}
+    {{- $native = hasPrefix $raw "g_" -}}
+  {{- else if eq $provider "unsplash" -}}
+    {{- $native = in (slice "edges" "entropy" "faces" "focalpoint") $raw -}}
+  {{- end -}}
+
+  {{- if $native -}}
+    {{- $value = $raw -}}
+  {{- else -}}
+    {{/*  The anchor it stands for  */}}
+    {{- $anchor := "" -}}
+    {{- if in $raw "face" -}}
+      {{- $anchor = "faces" -}}
+    {{- else if or (in $raw "smart") (in $raw "auto") (in $raw "entropy") -}}
+      {{- $anchor = "smart" -}}
+    {{- else -}}
+      {{- $vertical := "" -}}
+      {{- if or (in $raw "top") (in $raw "north") }}{{ $vertical = "top" }}{{ end -}}
+      {{- if or (in $raw "bottom") (in $raw "south") }}{{ $vertical = "bottom" }}{{ end -}}
+      {{- $horizontal := "" -}}
+      {{- if or (in $raw "left") (in $raw "west") }}{{ $horizontal = "left" }}{{ end -}}
+      {{- if or (in $raw "right") (in $raw "east") }}{{ $horizontal = "right" }}{{ end -}}
+      {{- $anchor = print $vertical $horizontal -}}
+      {{- if and (not $anchor) (or (in $raw "center") (in $raw "centre")) -}}
+        {{- $anchor = "center" -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{/*  In the provider's terms  */}}
+    {{- $anchors := dict
+      "hugo" (dict
+        "smart" "smart" "faces" "smart" "center" "center"
+        "top" "top" "bottom" "bottom" "left" "left" "right" "right"
+        "topleft" "topleft" "topright" "topright" "bottomleft" "bottomleft" "bottomright" "bottomright")
+      "uploadcare" (dict
+        "smart" "smart" "faces" "smart_faces" "center" "center"
+        "top" "top" "bottom" "bottom" "left" "left" "right" "right"
+        "topleft" "0p,0p" "topright" "100p,0p" "bottomleft" "0p,100p" "bottomright" "100p,100p")
+      "cloudinary" (dict
+        "smart" "g_auto" "faces" "g_auto:face" "center" "g_center"
+        "top" "g_north" "bottom" "g_south" "left" "g_west" "right" "g_east"
+        "topleft" "g_north_west" "topright" "g_north_east" "bottomleft" "g_south_west" "bottomright" "g_south_east")
+      "unsplash" (dict
+        "smart" "entropy" "faces" "faces"
+        "top" "top" "bottom" "bottom" "left" "left" "right" "right"
+        "topleft" "top,left" "topright" "top,right" "bottomleft" "bottom,left" "bottomright" "bottom,right")
+    -}}
+    {{- with $anchor -}}
+      {{- with index $anchors $provider -}}
+        {{- with index . $anchor -}}
+          {{- $value = . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $value -}}

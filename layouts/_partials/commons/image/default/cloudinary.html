@@ -46,7 +46,8 @@
   {{- with $desktop_size -}}
     {{- $params := $cloudinary.base | append (partial "func/GetCloudinarySize.html" .) -}}
     {{- if partial "func/isCrop" . -}}
-      {{- $params = $params | append "c_fill" | append $crop -}}
+      {{- $params = $params | append "c_fill" -}}
+      {{- with $crop }}{{ $params = $params | append . }}{{ end -}}
     {{- end -}}
     {{- $image_desktop = printf "%s%s/%s" $pathFile (delimit $params ",") $imageFile -}}
     {{/*  Desktop retina: a dpr_2.0 variant; the format stays negotiated by f_auto.  */}}
@@ -62,7 +63,8 @@
   {{- with $mobile_size -}}
     {{- $params := $cloudinary.base -}}
     {{- if partial "func/isCrop" . -}}
-      {{- $params = $params | append "c_fill" | append $crop -}}
+      {{- $params = $params | append "c_fill" -}}
+      {{- with $crop }}{{ $params = $params | append . }}{{ end -}}
     {{- end -}}
     {{- $params = $params | append (partial "func/GetCloudinarySize.html" .) -}}
     {{- $image_mobile = printf "%s%s/%s" $cloudinary_mobile.path (delimit $params ",") $cloudinary_mobile.file -}}

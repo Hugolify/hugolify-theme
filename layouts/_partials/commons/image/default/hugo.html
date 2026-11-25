@@ -17,7 +17,7 @@
 {{- $mobile_size := .mobile_size -}}
 {{- $mobile_size_2x := .mobile_size_2x -}}
 {{- $mobile_size_3x := .mobile_size_3x -}}
-{{- $crop := .crop -}}
+{{- $crop := partial "func/GetCropAnchor.html" (dict "crop" .crop "provider" "hugo") -}}
 {{- $filter := .filter -}}
 {{- $hint := .hint -}}
 
