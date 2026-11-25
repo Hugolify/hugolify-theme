@@ -4,8 +4,8 @@
 
   Callers build the properties of their own content type — see
   `persons/vcard.html` and `places/vcard.html` — and escape each value with
-  `func/EscapeVCard.html`. The envelope, the `URL` property and the target path
-  are handled here.
+  `func/EscapeVCard.html`. The envelope, a missing `N`, the `URL` property and
+  the target path are handled here.
 
   @param  {page}      page        The page the vCard belongs to.
   @param  {slice}     properties  The vCard properties, e.g. "FN:Jane Doe".
@@ -17,9 +17,27 @@
 */ -}}
 
 {{- $page := .page -}}
+{{- $properties := .properties -}}
+
+{{- /*
+  vCard 3.0 requires the structured name N beside FN (RFC 2426, section 5).
+  A caller without one (a place, a person with no first and last names) gets
+  its formatted name as the family name, which address books then show as the
+  name of the card. FN is already escaped, and its escaping also suits an N
+  component.
+*/ -}}
+{{- $hasName := false -}}
+{{- $formatted := "" -}}
+{{- range $properties -}}
+  {{- if or (hasPrefix . "N:") (hasPrefix . "N;") }}{{ $hasName = true }}{{ end -}}
+  {{- if hasPrefix . "FN:" }}{{ $formatted = strings.TrimPrefix "FN:" . }}{{ end -}}
+{{- end -}}
 
 {{- $lines := slice "BEGIN:VCARD" "VERSION:3.0" -}}
-{{- $lines = $lines | append .properties -}}
+{{- if not $hasName -}}
+  {{- $lines = $lines | append (printf "N:%s;;;;" $formatted) -}}
+{{- end -}}
+{{- $lines = $lines | append $properties -}}
 {{- $lines = $lines | append (printf "URL:%s" $page.Permalink) -}}
 {{- $lines = $lines | append "END:VCARD" -}}
 
