@@ -1,4 +1,7 @@
-<header class="hero">
+{{- /* No front matter behind this hero: it takes the site's hero defaults
+       (params.hero.ui, e.g. its theme), as the other heroes do */ -}}
+{{- $class := partial "func/GetHeroClasses" (dict "ui" site.Params.hero.ui) -}}
+<header class="{{ $class }}">
   <div class="container">
     <div class="row">
       <div class="hero-content">
