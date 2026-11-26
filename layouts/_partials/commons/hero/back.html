@@ -1,8 +1,19 @@
-{{- /* Only display the back link on pages nested below a section, not on the home page nor on top level pages */}}
-{{- $nested := false -}}
-{{- with .Parent -}}
-  {{- $nested = not .IsHome -}}
+{{- /* commons/hero/back.html
+     The hero's link back to the parent page, when params.hero.back.enable is
+     set. Only on pages nested below a section, not on the home page nor on
+     top level pages, and never towards a parent without a page of its own
+     (a headless section).
+
+     It points at the parent's permalink rather than "../": a dated
+     permalink (/2026/my-post/) or a folder without _index.md would send it
+     to a page that does not exist.
+
+     Context: the hero params, to which commons/hero.html adds the page's
+     Parent, or a page (the module heroes drawn by hand) */ -}}
+{{- if site.Params.hero.back.enable -}}
+  {{- with .Parent -}}
+    {{- if and (not .IsHome) .RelPermalink }}
+  {{ partialCached "commons/back.html" . .RelPermalink }}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
-{{- if and site.Params.hero.back.enable $nested }}
-  {{ partialCached "commons/back.html" . }}
-{{- end }}

@@ -1,1 +1,4 @@
-<a class="back" href="../" {{- partial "func/SetSearchIgnore.html" . }}>{{ i18n "back" }}</a>
+{{- /* commons/back.html
+     A link back to the page given as context, labelled by the "back"
+     translation. Context: the page to go back to */ -}}
+<a class="back" href="{{ .RelPermalink }}" {{- partial "func/SetSearchIgnore.html" . }}>{{ i18n "back" }}</a>
