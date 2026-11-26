@@ -6,8 +6,10 @@
 {{- if and (not (reflect.IsMap .)) (ne . page) -}}
   {{- $searchAttr = partial "func/SetSearchIgnore.html" . -}}
 {{- end -}}
-{{- /* Expose the page kind in the hero context, which is rebound to .Params.hero */ -}}
-{{- with merge (.Params.hero | default dict) (dict "Parent" .Parent) -}}
+{{- /* The hero params come from func/GetHero: the front matter's, completed
+       by the hero.fallback and hero.ui site params. Expose the page kind in
+       the hero context, which is rebound to those params. */ -}}
+{{- with merge (partial "func/GetHero" .) (dict "Parent" .Parent) -}}
   {{- if or .title .text -}}
     {{- $class := partial "func/GetHeroClasses" . -}}
     <header class="{{ $class }}" {{- $searchAttr }} {{- partial "func/SetAnim.html" (dict "element" "hero") }}>

@@ -1,0 +1,55 @@
+{{/* GetHero
+     The hero a page opens on: commons/hero.html draws it, func/HasHero reads
+     it to tell the headings whether the hero already carries the h1.
+
+     It starts from the front matter's hero (a hero left empty by a CMS comes
+     as `hero: null`), then two site params step in:
+     - hero.fallback.enable: a hero without a title gets the page's own, its
+       description as text and its image where the hero has none, so every
+       page opens on a hero. hero.fallback.image places that image with the
+       keys of hero > image (background, darken)
+     - hero.ui: defaults of the hero's ui (theme, align…) for what the front
+       matter leaves empty
+
+     Context: a page, or a map built by the caller for the page being rendered
+     Returns: the hero params map, empty when there is none */}}
+{{- $hero := .Params.hero | default dict -}}
+
+{{- $fallback := site.Params.hero.fallback | default dict -}}
+{{- if and $fallback.enable (not $hero.title) -}}
+  {{- /* A taxonomy term only carries a key, the title it deserves is the one of
+         the page it stands for, as in commons/heading.html. GetRealContext
+         reads a map as its own arguments, so a map context keeps its title. */ -}}
+  {{- $title := .Title -}}
+  {{- if not (reflect.IsMap .) -}}
+    {{- $title = (partial "func/GetRealContext.html" .).Title -}}
+  {{- end -}}
+  {{- $fill := dict "title" $title -}}
+  {{- if not $hero.text -}}
+    {{- $fill = merge $fill (dict "text" .Description) -}}
+  {{- end -}}
+  {{- if not ($hero.image | default dict).src -}}
+    {{- with .Params.image -}}
+      {{- if and (reflect.IsMap .) .src -}}
+        {{- $fill = merge $fill (dict "image" (merge . ($fallback.image | default dict))) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $hero = merge $hero $fill -}}
+{{- end -}}
+
+{{- /* A CMS saves a cleared select as '': empty counts as unset */ -}}
+{{- if $hero -}}
+  {{- $ui := $hero.ui | default dict -}}
+  {{- $defaults := dict -}}
+  {{- range $key, $value := site.Params.hero.ui -}}
+    {{- if and $value (not (index $ui $key)) -}}
+      {{- $defaults = merge $defaults (dict $key $value) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $defaults -}}
+    {{- $hero = merge $hero (dict "ui" (merge $ui .)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $hero -}}

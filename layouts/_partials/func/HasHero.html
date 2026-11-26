@@ -1,10 +1,12 @@
-{{/* A hero left empty by a CMS comes as `hero: null`: `with` skips it, where
-     `isset` on it warns. */}}
-{{ $hasHero := false }}
-{{ with .Params.hero }}
-    {{ with .title }}
-        {{ $hasHero = true }}
-    {{ end }}
-{{ end }}
+{{/* HasHero
+     Whether the page opens on a hero that carries its title: the headings
+     render the h1 only when there is none. It reads func/GetHero, so it holds
+     for whatever hero the theme draws.
 
-{{ return $hasHero }}
+     Context: a page, or a map built by the caller
+     Returns: bool */}}
+{{- $hasHero := false -}}
+{{- with (partial "func/GetHero" .).title -}}
+  {{- $hasHero = true -}}
+{{- end -}}
+{{- return $hasHero -}}

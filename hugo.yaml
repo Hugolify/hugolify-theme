@@ -149,6 +149,18 @@ params:
     sizes: calc(100vw - 3.5rem), calc(50vw - 3.5rem)
     back:
       enable: false # Set true to enable back button
+    # The hero of the pages whose front matter has none (or no title): built from the page's
+    # title, description and image, it carries the h1 in place of the in-page heading
+    fallback:
+      enable: false # Set true to open every page on a hero
+      # How the page's image sits in that hero, with the keys of hero > image in the front matter
+      image:
+        background: false # Set true to lay it behind the text, as a cover
+        darken: false # Set true to darken that cover, the text then turns light
+    # Defaults of each hero's ui (theme, align, vertical_align, darken), for what its front matter
+    # (hero > ui) leaves empty
+    ui:
+      theme: '' # e.g. dark
   image:
     # Crop anchor of the filled images, when neither the image nor its block (blocks.<type>.image.crop)
     # sets one. A Hugo anchor (smart, center, top… bottomright) or faces, translated for each provider
